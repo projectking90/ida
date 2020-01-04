@@ -1,0 +1,79 @@
+create table code_ingredient_alpha(	-- 식자재 대분류 코드
+	ia_code	number(10)	-- 식자재대분류코드
+	, ia_name	varchar2(100)	not null	-- 식자재대분류명
+	, primary key(ia_code)
+);
+
+select
+	*
+from
+	code_ingredient_alpha;
+	
+create table code_ingredient_beta(	-- 식자재 소분류 코드
+	ib_code	number(10)	-- 식자재소분류코드
+	, ib_name	varchar2(100)	not null	-- 식자재소분류명
+	, primary key(ib_code)
+);
+
+select
+	*
+from
+	code_ingredient_beta;
+	
+create table code_allergie(	-- 알레르기 코드
+	a_code	number(10)	-- 알레르기코드
+	, a_name	varchar2(100)	not null	-- 알레르기명
+	, primary key(a_code)
+);
+
+select
+	*
+from
+	code_allergie;
+
+
+create table ingredient(	-- 식자재
+	i_no	number(10)	-- 식자재번호
+	, s_no	number(10)	-- 가게번호
+	, ia_code	number(10)	-- 식자재대분류코드
+	, ib_code	number(10)	-- 식자재소분류코드
+	, a_code	number(10)	-- 알레르기코드
+	, i_name	varchar2(100)	not null	-- 이름
+	, i_price	number(10)	not null	-- 가격
+	, quantity	number(10)	not null	-- 수량
+	, reg_date	date	default sysdate	-- 등록일
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(i_no)
+	, foreign key(s_no) references store(s_no)
+	, foreign key(ia_code) references code_ingredient_alpha(ia_code)
+	, foreign key(ib_code) references code_ingredient_beta(ib_code)
+	, foreign key(a_code) references code_allergie(a_code)
+);
+
+select
+	*
+from
+	ingredient;
+	
+create table ingredient_record(	-- 식자재_기록
+	i_no	number(10)	-- 식자재번호
+	, s_no	number(10)	-- 가게번호
+	, ia_code	number(10)	-- 식자재대분류코드
+	, ib_code	number(10)	-- 식자재소분류코드
+	, a_code	number(10)	-- 알레르기코드
+	, i_name	varchar2(100)	not null	-- 이름
+	, i_price	number(10)	not null	-- 가격
+	, quantity	number(10)	not null	-- 수량
+	, reg_date	date	default sysdate	-- 등록일
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(i_no)
+	, foreign key(s_no) references store(s_no)
+	, foreign key(ia_code) references code_ingredient_alpha(ia_code)
+	, foreign key(ib_code) references code_ingredient_beta(ib_code)
+	, foreign key(a_code) references code_allergie(a_code)
+);
+
+select
+	*
+from
+	ingredient;

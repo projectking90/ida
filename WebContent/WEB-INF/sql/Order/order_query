@@ -1,0 +1,29 @@
+create table order_info(	-- 주문
+	oi_no	number(10)	-- 주문번호
+	, c_no	number(10)	-- 고객번호
+	, s_no	number(10)	-- 가게번호
+	, order_time	date	default sysdate	-- 주문시간
+	, pickup_time	date	-- 픽업시간
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(oi_no)
+	, foreign key(c_no) references customer(c_no)
+	, foreign key(s_no) references store(s_no)
+);
+
+select
+	*
+from
+	order_info;
+
+create table order_menu(	-- 주문_메뉴
+	oi_no	number(10)	-- 주문번호
+	, mi_no	number(10)	-- 메뉴번호
+	, quantity	number(10)	not null	--수량
+	, foreign key(oi_no) references order_info(oi_no)
+	, foreign key(mi_no) references menu_info(mi_no)
+);
+
+select
+	*
+from
+	order_menu;

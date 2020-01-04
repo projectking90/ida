@@ -1,0 +1,56 @@
+create table code_menu_alpha(	-- 메뉴_대분류
+	ma_code	number(10)	-- 메뉴대분류코드
+	, ma_name	varchar2(100)	not null	-- 메뉴대분류명
+	, primary key(ma_code)
+);
+
+select
+	*
+from
+	code_menu_alpha;
+	
+create table code_menu_beta(	-- 메뉴_소분류
+	mb_code	number(10)	-- 메뉴소분류코드
+	, mb_name	varchar2(100)	not null	-- 메뉴소분류명
+	, primary key(mb_code)
+);
+
+select
+	*
+from
+	code_menu_beta;
+	
+create table menu_info(	-- 메뉴
+	mi_no	number(10)	-- 메뉴번호
+	, ma_code	number(10)	-- 메뉴대분류코드
+	, mb_code	number(10)	-- 메뉴소분류코드
+	, s_no	number(10)	-- 가게번호
+	, mi_name	varchar2(100)	not null	-- 메뉴이름
+	, price	number(10)	not null	-- 가격
+	, mi_comment	varchar2(1000)	-- 설명
+	, reg_date	date	default sysdate	-- 등록일
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(mi_no)
+	, foreign key(ma_code) references code_menu_alpha(ma_code)
+	, foreign key(mb_code) references code_menu_beta(mb_code)
+	, foreign key(s_no) references store(s_no)
+);
+
+select
+	*
+from
+	menu_info;
+	
+create table menu_ingredient(	-- 메뉴_식자재
+	s_no	number(10)	-- 가게번호
+	, i_no	number(10)	-- 식자재번호
+	, mi_no	number(10)	-- 메뉴번호
+	, foreign key(s_no) references store(s_no)
+	, foreign key(i_no) references ingredient(i_no)
+	, foreign key(mi_no) references menu_info(mi_no)
+);
+
+select
+	*
+from
+	menu_ingredient;

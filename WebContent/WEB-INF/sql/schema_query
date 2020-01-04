@@ -1,0 +1,18 @@
+create user ida identified by ida0213;
+grant connect, resource, dba to ida;
+
+drop table menu_ingredient;
+drop table stock_record;
+drop table ingredient_record;
+drop table order_menu;
+drop table order_info;
+drop table menu_info;
+drop table stock;
+drop table ingredient;
+drop table code_menu_beta;
+drop table code_menu_alpha;
+drop table code_allergie;
+drop table code_ingredient_beta;
+drop table code_ingredient_alpha;
+drop table customer;
+drop table store;

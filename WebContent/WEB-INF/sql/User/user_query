@@ -1,0 +1,30 @@
+create table customer(	-- 고객
+	c_no	number(10)	-- 고객번호
+	, c_phone	varchar2(15)	not null	-- 핸드폰
+	, gender	varchar2(1)	not null check(gender in('1', '2'))	-- 성별
+	, age	varchar2(2)	not null check(age in('10', '20', '30', '40', '50', '60'))	-- 나이대
+	, primary key(c_no)
+);
+
+select
+	*
+from
+	customer;
+	
+create table store(	-- 가게
+	s_no	number(10)	-- 가게번호
+	, s_id	varchar2(100)	not null unique	-- 아이디
+	, pwd	varchar2(256)	not null	-- 비밀번호
+	, s_name	varchar2(100)	not null	-- 사업자명
+	, s_reg_num	varchar2(20)	not null	-- 사업자등록번호
+	, s_phone	varchar2(15)	not null	-- 핸드폰
+	, email	varchar2(100)	not null	-- 이메일
+	, reg_date	date	default sysdate	-- 등록일
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(s_no)
+);
+
+select
+	*
+from
+	store;
