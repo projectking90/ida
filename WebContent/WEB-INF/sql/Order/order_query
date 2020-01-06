@@ -1,15 +1,16 @@
 create table order_info(	-- 주문
 	oi_no	number(10)	-- 주문번호
-	, c_no	number(10)	-- 고객번호
 	, s_no	number(10)	-- 가게번호
+	, c_phone	varchar2(15)	not null	-- 핸드폰
+	, gender	varchar2(1)	not null check(gender in('1', '2'))	-- 성별
+	, age	varchar2(2)	not null check(age in('10', '20', '30', '40', '50', '60'))	-- 나이대
 	, order_time	date	default sysdate	-- 주문시간
 	, pickup_time	date	-- 픽업시간
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(oi_no)
-	, foreign key(c_no) references customer(c_no)
 	, foreign key(s_no) references store(s_no)
 );
-
+	
 select
 	*
 from

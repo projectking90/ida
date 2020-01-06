@@ -4,6 +4,8 @@
  */
 package system.ida.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,11 +41,13 @@ public class UserController {
 	 * @return mav : /login.ida에 맵핑되는 jsp 파일
 	 */
 	@RequestMapping(value="/login_form.ida")
-	public ModelAndView goLoginForm() {
+	public ModelAndView goLoginForm(
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "login_form");
 		
 		try {
+			mav.setViewName(path + "login_form");
+			session.setAttribute("s_id", "abc123");
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goLoginForm 에러발생>");
 			System.out.println(e.getMessage());

@@ -1,39 +1,46 @@
 /*
-create user ida identified by ida0213;
-grant connect, resource, dba to ida;
+	create user ida identified by ida0213;
+	grant connect, resource, dba to ida;
 */
 
 /*
-drop table menu_ingredient;
-drop table stock_record;
-drop table ingredient_record;
-drop table order_menu;
-drop table order_info;
-drop table menu_info;
-drop table stock;
-drop table ingredient;
-drop table code_menu_beta;
-drop table code_menu_alpha;
-drop table code_allergie;
-drop table code_ingredient_beta;
-drop table code_ingredient_alpha;
-drop table customer;
-drop table store;
+	drop table share_ingredient_record;
+	drop table share_ingredient;
+	drop table menu_ingredient;
+	drop table stock_record;
+	drop table ingredient_record;
+	drop table ingredient_allergie;
+	drop table order_menu;
+	drop table order_info;
+	drop table menu_info;
+	drop table stock;
+	drop table ingredient;
+	drop table code_menu_beta;
+	drop table code_menu_alpha;
+	drop table code_allergie;
+	drop table code_ingredient_origin;
+	drop table code_ingredient_beta;
+	drop table code_ingredient_alpha;
+	drop table manager;
+	drop table store;
+	drop table code_addr;
 */
 
-create table customer(	-- 고객
-	c_no	number(10)	-- 고객번호
-	, c_phone	varchar2(15)	not null	-- 핸드폰
-	, gender	varchar2(1)	not null check(gender in('1', '2'))	-- 성별
-	, age	varchar2(2)	not null check(age in('10', '20', '30', '40', '50', '60'))	-- 나이대
-	, primary key(c_no)
+create table code_addr(	-- 주소
+	addr_code	number(10)	-- 주소코드
+	, city	varchar2(100)	not null	-- 시
+	, gun	varchar2(100)	default ' '	-- 군
+	, gu	varchar2(100)	default ' '	-- 구
+	, dong	varchar2(100)	not null	-- 동
+	, ri	varchar2(100)	default ' '	-- 리
+	, primary key(addr_code)
 );
 
 select
 	*
 from
-	customer;
-	
+	code_addr;
+		
 create table store(	-- 가게
 	s_no	number(10)	-- 가게번호
 	, s_id	varchar2(100)	not null unique	-- 아이디
@@ -42,15 +49,32 @@ create table store(	-- 가게
 	, s_reg_num	varchar2(20)	not null	-- 사업자등록번호
 	, s_phone	varchar2(15)	not null	-- 핸드폰
 	, email	varchar2(100)	not null	-- 이메일
+	, addr_code	number(10)	not null	-- 주소코드
 	, reg_date	date	default sysdate	-- 등록일
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(s_no)
+	, foreign key(addr_code) references code_addr(addr_code)
+);
+select
+	*
+from
+	store;
+	
+create table manager(	-- 관리자
+	m_no	number(10)	-- 가게번호
+	, m_id	varchar2(100)	not null unique	-- 아이디
+	, pwd	varchar2(256)	not null	-- 비밀번호
+	, m_name	varchar2(100)	not null	-- 사업자명
+	, email	varchar2(100)	not null	-- 이메일
+	, reg_date	date	default sysdate	-- 등록일
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(m_no)
 );
 
 select
 	*
 from
-	store;
+	manager;
 	
 create table code_ingredient_alpha(	-- 식자재 대분류 코드
 	ia_code	number(10)	-- 식자재대분류코드
@@ -74,6 +98,17 @@ select
 from
 	code_ingredient_beta;
 	
+create table code_ingredient_origin(	-- 원산지
+	io_code	number(8)	-- 원산지 코드
+	, io_name	varchar2(50)	not null unique	-- 원산지 명
+	, primary key(io_code)
+);
+	
+select
+	*
+from
+	code_ingredient_origin;
+	
 create table code_allergie(	-- 알레르기 코드
 	a_code	number(10)	-- 알레르기코드
 	, a_name	varchar2(100)	not null	-- 알레르기명
@@ -85,58 +120,59 @@ select
 from
 	code_allergie;
 
-
 create table ingredient(	-- 식자재
 	i_no	number(10)	-- 식자재번호
 	, s_no	number(10)	-- 가게번호
 	, ia_code	number(10)	-- 식자재대분류코드
 	, ib_code	number(10)	-- 식자재소분류코드
-	, a_code	number(10)	-- 알레르기코드
+	, io_code	number(10)	-- 식자재원산지코드
 	, i_name	varchar2(100)	not null	-- 이름
+	, i_size	varchar2(100)	not null	-- 규격
 	, i_price	number(10)	not null	-- 가격
-	, quantity	number(10)	not null	-- 수량
 	, reg_date	date	default sysdate	-- 등록일
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(i_no)
 	, foreign key(s_no) references store(s_no)
 	, foreign key(ia_code) references code_ingredient_alpha(ia_code)
 	, foreign key(ib_code) references code_ingredient_beta(ib_code)
-	, foreign key(a_code) references code_allergie(a_code)
+	, foreign key(io_code) references code_ingredient_origin(io_code)
 );
 
 select
 	*
 from
 	ingredient;
+
+create table ingredient_allergie(	-- 식자재_알레르기
+	i_no	number(10)	-- 식자재번호
+	, a_code	number(10)	-- 알레르기코드
+	, foreign key(i_no) references ingredient(i_no)
+	, foreign key(a_code) references code_allergie(a_code)
+);
+
+select
+	*
+from
+	ingredient_allergie;
 	
 create table ingredient_record(	-- 식자재_기록
 	i_no	number(10)	-- 식자재번호
-	, s_no	number(10)	-- 가게번호
-	, ia_code	number(10)	-- 식자재대분류코드
-	, ib_code	number(10)	-- 식자재소분류코드
-	, a_code	number(10)	-- 알레르기코드
-	, i_name	varchar2(100)	not null	-- 이름
 	, i_price	number(10)	not null	-- 가격
-	, quantity	number(10)	not null	-- 수량
 	, reg_date	date	default sysdate	-- 등록일
-	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
-	, primary key(i_no)
-	, foreign key(s_no) references store(s_no)
-	, foreign key(ia_code) references code_ingredient_alpha(ia_code)
-	, foreign key(ib_code) references code_ingredient_beta(ib_code)
-	, foreign key(a_code) references code_allergie(a_code)
+	, foreign key(i_no) references ingredient(i_no)
 );
 
 select
 	*
 from
-	ingredient;
+	ingredient_record;
 	
 create table stock(	-- 재고
 	st_no	number(10)	-- 재고번호
 	, i_no	number(10)	-- 식자재번호
 	, quantity	number(10)	not null	-- 수량
 	, st_state	varchar2(1)	not null check(st_state in('t', 'f'))	-- 재고상태
+	, reg_date	date	default sysdate	-- 등록일
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(st_no)
 	, foreign key(i_no) references ingredient(i_no)
@@ -149,12 +185,9 @@ from
 
 create table stock_record(	-- 재고_기록
 	st_no	number(10)	-- 재고번호
-	, i_no	number(10)	-- 식자재번호
 	, quantity	number(10)	not null	-- 수량
-	, st_state	varchar2(1)	not null check(st_state in('t', 'f'))	-- 재고상태
-	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
-	, primary key(st_no)
-	, foreign key(i_no) references ingredient(i_no)
+	, reg_date	date	default sysdate	-- 등록일
+	, foreign key(st_no) references stock(st_no)
 );
 
 select
@@ -206,12 +239,10 @@ from
 	menu_info;
 	
 create table menu_ingredient(	-- 메뉴_식자재
-	s_no	number(10)	-- 가게번호
+	mi_no	number(10)	-- 메뉴번호
 	, i_no	number(10)	-- 식자재번호
-	, mi_no	number(10)	-- 메뉴번호
-	, foreign key(s_no) references store(s_no)
-	, foreign key(i_no) references ingredient(i_no)
 	, foreign key(mi_no) references menu_info(mi_no)
+	, foreign key(i_no) references ingredient(i_no)
 );
 
 select
@@ -221,13 +252,14 @@ from
 	
 create table order_info(	-- 주문
 	oi_no	number(10)	-- 주문번호
-	, c_no	number(10)	-- 고객번호
 	, s_no	number(10)	-- 가게번호
+	, c_phone	varchar2(15)	not null	-- 핸드폰
+	, gender	varchar2(1)	not null check(gender in('1', '2'))	-- 성별
+	, age	varchar2(2)	not null check(age in('10', '20', '30', '40', '50', '60'))	-- 나이대
 	, order_time	date	default sysdate	-- 주문시간
 	, pickup_time	date	-- 픽업시간
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(oi_no)
-	, foreign key(c_no) references customer(c_no)
 	, foreign key(s_no) references store(s_no)
 );
 
@@ -248,3 +280,36 @@ select
 	*
 from
 	order_menu;
+	
+create table share_ingredient(	-- 인근 매장 발주
+	si_no	number(10)	-- 인근매장발주번호
+	, st_no	number(10)	-- 재고번호
+	, si_quantity	number(10)	-- 수량
+	, sr_state	varchar2(1)	not null check(sr_state in('i', 'o'))	-- 점입출상태
+	, deal	varchar2(1000)	-- 조건
+	, si_state	varchar2(1)	default 'n' check(si_state in('n', 'y'))	-- 거래상태
+	, is_del	varchar2(1)	default 'F'  check(is_del in('F', 'T'))	-- 삭제여부
+	, reg_date	date	default sysdate	-- 등록일
+	, primary key(si_no)
+	, foreign key(st_no) references stock(st_no)
+);
+
+select
+	*
+from
+	share_ingredient;
+
+create table share_ingredient_record(	-- 인근 매장 발주 기록
+	si_no	number(10)	-- 인근매장발주번호
+	, s_no	number(10)	-- 신청한가게번호
+	, sir_state	varchar2(1)	default 'n' check(sir_state in('n', 'y'))	-- 거래상태
+	, is_del	varchar2(1)	default 'F'  check(is_del in('F', 'T'))	-- 삭제여부
+	, reg_date	date	default sysdate	-- 등록일
+	, foreign key(si_no) references share_ingredient(si_no)
+	, foreign key(s_no) references store(s_no)
+);
+
+select
+	*
+from
+	share_ingredient_record;

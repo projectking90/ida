@@ -42,12 +42,10 @@ from
 	menu_info;
 	
 create table menu_ingredient(	-- 메뉴_식자재
-	s_no	number(10)	-- 가게번호
+	mi_no	number(10)	-- 메뉴번호
 	, i_no	number(10)	-- 식자재번호
-	, mi_no	number(10)	-- 메뉴번호
-	, foreign key(s_no) references store(s_no)
-	, foreign key(i_no) references ingredient(i_no)
 	, foreign key(mi_no) references menu_info(mi_no)
+	, foreign key(i_no) references ingredient(i_no)
 );
 
 select

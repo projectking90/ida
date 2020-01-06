@@ -26,7 +26,7 @@ public class Aes256 {
 	 */
 	private String iv;
 	private Key keySpec;	// 16자리 이상의 키값을 입력하여 객체를 생성
-	final static String key = "komos20200213onm";	// 암/복호화를 위한 16자리 이상의 키값
+	final static String key = "komos20200213ida";	// 암/복호화를 위한 16자리 이상의 키값
 
 	/**
 	 * 생성자 선언

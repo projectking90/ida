@@ -3,6 +3,7 @@ create table stock(	-- 재고
 	, i_no	number(10)	-- 식자재번호
 	, quantity	number(10)	not null	-- 수량
 	, st_state	varchar2(1)	not null check(st_state in('t', 'f'))	-- 재고상태
+	, reg_date	date	default sysdate	-- 등록일
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(st_no)
 	, foreign key(i_no) references ingredient(i_no)
@@ -15,12 +16,9 @@ from
 
 create table stock_record(	-- 재고_기록
 	st_no	number(10)	-- 재고번호
-	, i_no	number(10)	-- 식자재번호
 	, quantity	number(10)	not null	-- 수량
-	, st_state	varchar2(1)	not null check(st_state in('t', 'f'))	-- 재고상태
-	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
-	, primary key(st_no)
-	, foreign key(i_no) references ingredient(i_no)
+	, reg_date	date	default sysdate	-- 등록일
+	, foreign key(st_no) references stock(st_no)
 );
 
 select
