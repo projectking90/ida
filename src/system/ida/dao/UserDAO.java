@@ -4,6 +4,9 @@
  */
 package system.ida.dao;
 
+import system.ida.dto.UserDTO;
+import system.ida.dto.UserUpdateDTO;
+
 /**
  * UserDAO 인터페이스
  * DAO 클래스를 사용하기 위해 정의한 인터페이스
@@ -18,4 +21,12 @@ public interface UserDAO {
 	/**
 	 * 메소드 선언
 	 */
+	int getLoginCnt(UserDTO userDTO);	// 사용자가 입력한 로그인 정보의 존재 개수를 가져옴
+	int getLoginCnt(UserUpdateDTO user_updateDTO);	// 사용자가 입력한 로그인 정보의 존재 개수를 가져옴
+	int getIdCnt(UserDTO userDTO);	// 아이디 존재 여부를 확인
+	int getAddrCode(UserDTO userDTO);	// 주소 코드를 가져옴
+	int getAddrCode(UserUpdateDTO user_updateDTO);	// 주소 코드를 가져옴
+	int insertRegUser(UserDTO userDTO);	// 사용자 회원가입
+	UserUpdateDTO getUserInfo(String s_id);	// 사용자 정보를 가져옴
+	int updateUserInfo(UserUpdateDTO user_updateDTO);	// 회원정보를 수정
 }

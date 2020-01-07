@@ -4,11 +4,15 @@
  */
 package system.ida.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.IngredientDAO;
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.IngredientSearchDTO;
 
 /**
  * IngredientServiceImpl 클래스
@@ -27,4 +31,9 @@ public class IngredientServiceImpl implements IngredientService {
 	/**
 	 * 메소드 선언
 	 */
+	@Override
+	public List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO) {
+	 List<IngredientDTO> ingredient_list = this.ingredientDAO.getIngredientList(ingredient_SearchDTO);
+		return ingredient_list;
+	}
 }

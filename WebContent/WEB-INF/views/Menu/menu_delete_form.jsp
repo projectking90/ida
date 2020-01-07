@@ -42,6 +42,39 @@
 		<script src="${cr}/resources/Menu/js/demo/datatables-demo.js"></script>
 		<script>
 			function menu_delete_reg_btn() {
+				var trArr = new Array();
+				$(".menu_list_tr").each(function(index){
+					if($(this).find("[name='delete_menu']").prop("checked")==true){
+						trArr.push($(this).find("[name='delete_menu']").val());
+						if(trArr[index]==""){
+							trArr[index].splice(index, 1);
+						}
+						alert($(this).find("[name='delete_menu']").val());
+					}
+				});
+
+				$.ajax({
+					// 접속할 서버 쪽 url 주소 설정
+					url : "/ida/menu_delete.ida"
+					// 전송 방법 설정
+					, type : "post"
+					// 서버로 보낼 파라미터명과 파라미터값을 설정
+					, data : "trArr=" + trArr
+					// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
+					// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
+					, success : function(delete_result){
+						if(delete_result>=1){
+							alert("삭제 성공하였습니다.");
+							location.replace("${cr}/menu_form.ida");
+						}else{
+							alert("삭제 실패하였습니다. 관리자에게 문의해주시기 바랍니다.");
+						}
+					}
+					// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
+					,error : function(){
+						alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
+					}
+				});
 			}
 		</script>
 	</head>
@@ -70,6 +103,7 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
+							<form name="deleteMenuForm" method="post" action="/ida/menu_delete.ida">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<tr>
@@ -77,34 +111,23 @@
 										<td align=center resize=3><b>메뉴 번호</b></td>
 										<td align=center><b>대분류</b></td>
 										<td align=center><b>소분류</b></td>
-										<td align=center><b>가게번호</b></td>
 										<td align=center><b>메뉴이름</b></td>
 										<td align=center><b>가격</b></td>
 										<td align=center><b>설명</b></td>
 									</tr>
-									<tr>
-										<td border="0"><input type="checkbox"
-											name="delete_checked" value="4000001"></td>
-										<td align=center><b>4000001</b></td>
-										<td align=center><b>대분류1</b></td>
-										<td align=center><b>소분류1</b></td>
-										<td align=center><b>양파</b></td>
-										<td align=center><b>136</b></td>
-										<td align=center><b>T</b></td>
-										<td align=center><b>2019-12-23(월)</b></td>
-									</tr>
-									<tr>
-										<td border="0"><input type="checkbox"
-											name="delete_checked" value="4000002"></td>
-										<td align=center><b>4000002</b></td>
-										<td align=center><b>대분류2</b></td>
-										<td align=center><b>소분류2</b></td>
-										<td align=center><b>당근</b></td>
-										<td align=center><b>150</b></td>
-										<td align=center><b>T</b></td>
-										<td align=center><b>2019-12-23(월)</b></td>
-									</tr>
+									<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
+									<tr class="menu_list_tr">
+										<td border="0" align=center><input type="checkbox"
+											name="delete_menu" value="${menu.mi_no}">
+										<td align=center>${menu.mi_no}
+										<td align=center>${menu.ma_code}
+										<td align=center>${menu.mb_code}
+										<td align=center>${menu.mi_name}
+										<td align=center>${menu.price}
+										<td align=center>${menu.mi_comment}
+									</c:forEach>
 								</table>
+							</form>
 							</div>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
@@ -122,7 +145,7 @@
 				<footer class="sticky-footer">
 					<div class="container my-auto">
 						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
+							<span>Copyright © IDA 2019</span>
 						</div>
 					</div>
 				</footer>

@@ -41,10 +41,39 @@
 		<script src="${cr}/resources/Menu/js/demo/datatables-demo.js"></script>
 		<script>
 			function insert_menu_reg_btn() {
+				if(is_empty("[name=insertMenuForm] [name=mi_name]")){
+					alert("메뉴명을 입력해주시기 바랍니다.");
+					$("[name=m_name]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=price]")){
+					alert("가격을 입력해주시기 바랍니다.");
+					$("[name=price]").focus();
+					return;
+				}
+	
+				$.ajax({
+					url : "/ida/menu_insert.ida"
+					, type : "post"
+					,data : $("[name=insertMenuForm]").serialize()
+					,success : function(insert_result){
+						if(insert_result==1){
+							alert("메뉴 등록 성공하였습니다.");
+							location.replace('${cr}/menu_form.ida');
+						}else{
+							alert("메뉴 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
+						}
+					}
+					,error : function(){
+						alert("서버 접속을 실패하였습니다.");
+					}
+	
+				});
 			}
 			
 			$(document).ready(function(){
 				$(".update").click(function(){
+					document.updateMenu.submit();
 					location.replace("${cr}/menu_update_form.ida");
 				});
 				
@@ -87,31 +116,24 @@
 											<td align=center resize=3><b>메뉴 번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
-											<td align=center><b>가게번호</b></td>
 											<td align=center><b>메뉴이름</b></td>
 											<td align=center><b>가격</b></td>
 											<td align=center><b>설명</b></td>
+											<td align=center><b>등록일</b></td>
+											
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td align=center><b>4000001</b></td>
-											<td align=center><b>대분류1</b></td>
-											<td align=center><b>소분류1</b></td>
-											<td align=center><b>양파</b></td>
-											<td align=center><b>136</b></td>
-											<td align=center><b>T</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-										</tr>
-										<tr>
-											<td align=center><b>4000002</b></td>
-											<td align=center><b>대분류2</b></td>
-											<td align=center><b>소분류2</b></td>
-											<td align=center><b>당근</b></td>
-											<td align=center><b>150</b></td>
-											<td align=center><b>T</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-										</tr>
+										<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${menu.mi_no}
+												<td align=center>${menu.ma_code}
+												<td align=center>${menu.mb_code}
+												<td align=center>${menu.mi_name}
+												<td align=center>${menu.price}
+												<td align=center>${menu.mi_comment}
+												<td align=center>${menu.reg_date}
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -130,28 +152,44 @@
 							</span>
 						</div>
 						<div class="card-body">
+							<form name="insertMenuForm" method="post" action="/ida/menu_insert.ida">
 							<table class="table table-bordered" id="dataTable" width="100%"
 								cellspacing="0">
 								<!--select option 으로 바꿀 예정-->
 								<tr>
 									<th>대분류
-									<th><input type="text" name="ca_code">
+									<th>
+										<select name="ma_code">
+											<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList" varStatus="loopTagStatus">
+												<option value="${ma_nameList.ma_name}">${ma_nameList.ma_name}</option>
+											</c:forEach>
+										</select>
 								<tr>
 									<th>소분류
-									<th><input type="text" name="cb_code">
+									<th>
+										<select name="mb_code">
+											<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList" varStatus="loopTagStatus">
+												<option value="${mb_nameList.mb_name}">${mb_nameList.mb_name}</option>
+											</c:forEach>
+										</select>
 								<tr>
-									<th>가게번호
-									<th><input type="text" name="i_name">
+									<th>식자재
+									<th>
+									<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+										<form:checkboxes path="i_name" items="${ingredient_listDTO.i_nameList}" itemLabel="i_name" itemValue="i_name" />
+									</form:form>
 								<tr>
 									<th>메뉴이름
-									<th><input type="text" name="quantity">
+									<th><input type="text" name="mi_name">
 								<tr>
 									<th>가격
-									<th><input type="text" name="후라이스">
+									<th><input type="text" name="price">
 								<tr>
 									<th>설명
-									<th><input type="text" name="purchase_price">
+									<th><input type="text" name="mi_comment">
+										<input type="hidden" name="s_id" value="${sessionScope.s_id}">
 							</table>
+							</form>
 						</div>
 					</div>
 					<p class="small text-center text-muted my-5">
@@ -165,14 +203,12 @@
 				<footer class="sticky-footer">
 					<div class="container my-auto">
 						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
+							<span>Copyright © IDA 2019</span>
 						</div>
 					</div>
 				</footer>
-	
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
@@ -203,5 +239,8 @@
 				</div>
 			</div>
 		</div>
+		<form name="updateMenu" method="post" action="/ida/menu_update_form.ida">
+			<input type="hidden" name="menu_list" values="${menu_list}">
+		</form>
 	</body>
 </html>

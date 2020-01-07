@@ -74,56 +74,100 @@
 								cellspacing="0">
 								<tr>
 									<td align=center resize=3><b>식자재 번호</b></td>
+									<td align=center><b>가게번호</b></td>
 									<td align=center><b>대분류</b></td>
 									<td align=center><b>소분류</b></td>
+									<td align=center><b>원산지</b></td>
 									<td align=center><b>식자재명</b></td>
-									<td align=center><b>식자재수량</b></td>
-									<td align=center><b>삭제여부</b></td>
-									<td align=center><b>날짜</b></td>
+									<td align=center><b>규격</b></td>
 									<td align=center><b>매입가격</b></td>
-									<td align=center><b>알레르기코드</b></td>
+									<td align=center><b>등록일</b></td>
+									<td align=center><b>삭제여부</b></td>
 								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000001"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류1"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류1"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="양파"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="136"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=4 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-									<td align=center><b><input type="text"
-											name="purchase_price" size=9 value="1000"></b></td>
-									<td align=center><b><input type="text"
-											name="sell_price" size=9 value="1500"></b></td>
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000002"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류2"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류2"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="당근"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="150"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=1 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-									<td align=center><b><input type="text"
-											name="purchase_price" size=9 value="1500"></b></td>
-									<td align=center><b><input type="text"
-											name="sell_price" size=9 value="2100"></b></td>
-								</tr>
-							</table>
+		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
+			<tbody>
+				<tr>
+					<td align=center>${ingredient.i_no}</b></td>
+					<td align=center>${ingredient.s_no}</b></td>
+					<td align=center><b>
+										<select name="ia_code" id="ia_code" value="${ingredient.ia_code}">
+											<option value="title" selected="selected">-선택-</option>
+											<option value="1">과일/채소</option>
+											<option value="2">농/수산물</option>
+											<option value="3">정육</option>
+											<option value="4">가공식품</option>
+											<option value="5">공산품</option>
+											<option value="6">카페/음료</option>
+										</select><b></td>
+					<td align=center><b>
+										<select name="ib_code" id="ib_code" value="${ingredient.ib_code}">
+											<option value="title" selected="selected">-선택-</option>
+											<option value="1">김치</option>
+											<option value="2">신선채소</option>
+											<option value="3">냉동채소</option>
+											<option value="4">오징어/낙지/쭈꾸미</option>
+											<option value="5">새우/꽃게</option>
+											<option value="6">냉동패류</option>
+											<option value="7">초밥재료</option>
+											<option value="8">기타냉동수산</option>
+											<option value="9">냉장계육</option>
+											<option value="10">냉동계육</option>
+											<option value="11">돈육/우육</option>
+											<option value="12">파우더/염지제</option>
+											<option value="13">사과/배</option>
+											<option value="14">한라봉/감귤</option>
+											<option value="15">감/홍시</option>
+											<option value="16">키위/참다래</option>
+											<option value="17">토마토</option>
+											<option value="18">포도</option>
+											<option value="19">메론/수박</option>
+											<option value="20">딸기/베리류</option>
+											<option value="21">자몽/레몬</option>
+											<option value="22">냉동과일</option>
+											<option value="23">소스/양념류</option>
+											<option value="24">통조림/기름</option>
+											<option value="25">면/떡/베이커리</option>
+											<option value="26">탕/찜/죽/면/용기</option>
+											<option value="27">포장/박스</option>
+											<option value="28">종이/비닐봉투</option>
+											<option value="29">수저/젓가락</option>
+											<option value="30">캔</option>
+											<option value="31">페트</option>
+											<option value="32">팩</option>
+											<option value="33">커피원두</option>
+											<option value="34">병</option>
+											<option value="35">디저트</option>
+										</select><b></td>
+					<td align=center>
+										<select name="io_code" id="io_code" value="${ingredient.io_code}">
+											<option value="title" selected="selected">-선택-</option>
+											<option value="1">국내산</option>
+											<option value="2">뉴질랜드산</option>
+											<option value="3">모리타니아산</option>
+											<option value="4">미국산</option>
+											<option value="5">베트남산</option>
+											<option value="6">브라질산</option>
+											<option value="7">중국산</option>
+											<option value="8">외국산</option>
+											<option value="9">칠레산</option>
+											<option value="10">캐나다산</option>
+											<option value="11">태국산</option>
+											<option value="12">페루산</option>
+											<option value="13">필리핀산</option>
+										</select><b></td>
+					<td align=center>
+					<b><input type="text" name="i_name" value="${ingredient.i_name}"
+											size=10></b></td>
+					<td align=center>
+					<b><input type="text" name="i_size" value="${ingredient.i_size}"
+											size=10></b></td>
+					<td align=center>${ingredient.i_price}</b></td>
+					<td align=center>${ingredient.reg_date}</b></td>
+					<td align=center>${ingredient.is_del}</b></td>
+				</tr>
+			</tbody>
+		</c:forEach>
+	</table>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>

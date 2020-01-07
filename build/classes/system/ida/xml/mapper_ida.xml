@@ -3,4 +3,53 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.IdaDAO">
+	<!-- 시 목록을 가져오는 select 태그 -->
+	<select id="getCityList" resultType="system.ida.dto.AddrDTO">
+		select
+			city	as "CITY"
+		from
+			code_city_name
+		order by
+			1
+	</select>
+	
+	<!-- 군 목록을 가져오는 select 태그 -->
+	<select id="getGunList" parameterType="system.ida.dto.AddrDTO" resultType="system.ida.dto.AddrDTO">
+		select
+			gun	as "GUN"
+		from
+			code_gun_name
+		where
+			city = #{city}
+		order by
+			1
+	</select>
+	
+	<!-- 구 목록을 가져오는 select 태그 -->
+	<select id="getGuList" parameterType="system.ida.dto.AddrDTO" resultType="system.ida.dto.AddrDTO">
+		select
+			gu	as "GU"
+		from
+			code_gu_name
+		where
+			gun = #{gun}
+		order by
+			1
+	</select>
+	
+	<!-- 동 목록을 가져오는 select 태그 -->
+	<select id="getDongList" parameterType="system.ida.dto.AddrDTO" resultType="system.ida.dto.AddrDTO">
+		select
+			dong	as "DONG"
+		from
+			code_dong_name
+		where
+			city = #{city}
+			and gun = #{gun}
+			<if test="gu!=null and gu.length()>0">
+				and gu = #{gu}
+			</if>
+		order by
+			1
+	</select>
 </mapper>

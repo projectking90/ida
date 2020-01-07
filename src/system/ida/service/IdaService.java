@@ -4,6 +4,10 @@
  */
 package system.ida.service;
 
+import java.util.List;
+
+import system.ida.dto.AddrDTO;
+
 /**
  * IdaService 인터페이스
  * 서비스 클래스를 사용하기 위해 정의한 인터페이스
@@ -11,10 +15,10 @@ package system.ida.service;
  */
 public interface IdaService {
 	/**
-	 * 속성변수 선언
-	 */
-
-	/**
 	 * 메소드 선언
 	 */
+	List<AddrDTO> getCityList();	// 시 목록을 가져옴
+	List<AddrDTO> getGunList(AddrDTO addrDTO);	// 군 목록을 가져옴
+	List<AddrDTO> getGuList(AddrDTO addrDTO);	// 구 목록을 가져옴
+	List<AddrDTO> getDongList(AddrDTO addrDTO);	// 동 목록을 가져옴
 }

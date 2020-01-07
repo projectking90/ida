@@ -4,11 +4,15 @@
  */
 package system.ida.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.IngredientSearchDTO;
 import system.ida.service.IngredientService;
 
 /**
@@ -35,11 +39,15 @@ public class IngredientController {
 	 * @return mav : /ingredient_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
 	 */
 	@RequestMapping(value="/ingredient_form.ida")
-	public ModelAndView goIngredientForm() {
+	public ModelAndView goIngredientForm(
+			IngredientSearchDTO ingredient_searchDTO) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_form");
 		
 		try {
+			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
+			
+			mav.addObject("ingredient_list",ingredient_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -54,11 +62,15 @@ public class IngredientController {
 	 * @return mav : /ingredient_update_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
 	 */
 	@RequestMapping(value="/ingredient_update_form.ida")
-	public ModelAndView goIngredientUpdateForm() {
+	public ModelAndView goIngredientUpdateForm(
+			IngredientSearchDTO ingredient_searchDTO) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_update_form");
 		
 		try {
+			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
+			
+			mav.addObject("ingredient_list",ingredient_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientUpdateForm 에러발생>");
 			System.out.println(e.getMessage());

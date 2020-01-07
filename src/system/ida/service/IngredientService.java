@@ -4,6 +4,11 @@
  */
 package system.ida.service;
 
+import java.util.List;
+
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.IngredientSearchDTO;
+
 /**
  * IngredientService 인터페이스
  * 서비스 클래스를 사용하기 위해 정의한 인터페이스
@@ -17,4 +22,5 @@ public interface IngredientService {
 	/**
 	 * 메소드 선언
 	 */
+	List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO);	// 식자재리스트를 가져옴
 }

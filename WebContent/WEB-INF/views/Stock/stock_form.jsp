@@ -31,6 +31,45 @@
 		<link href="${cr}/resources/Stock/css/sb-admin.css" rel="stylesheet">
 
 		<script>
+			function insert_stock_reg_btn(){
+				if($("[name=quantity]").val()==""){
+					alert("수량을 입력해주시기 바랍니다.");
+					return;
+				}
+
+				var check_num = /^[0-9]*$/;
+				var not_num = /^(0)[0-9]{1,}$/;
+				
+				if(check_num.test($("[name=quantity]").val())==false || not_num.test($("[name=quantity]").val())==true){
+					alert("0 이상의 정수로만 입력해주시기 바랍니다.");
+					return;
+				}
+				alert($("[name=insert_stock_form]").serialize());
+				
+				$.ajax({
+					url:"/ida/insert_stock_reg.ida"
+					,type:"post"
+					,data:$("[name=insert_stock_form]").serialize()
+					,success:function(stock_reg_cnt){
+						//alert(stock_reg_cnt);
+						if(stock_reg_cnt==1){
+							alert("재고가 등록되었습니다.");
+							location.replace("/ida/stock_form.ida");
+						}else if(stock_reg_cnt==-1){
+							alert("재고가 등록되지 않았습니다. 관리자에게 문의해주시기 바랍니다.");
+						}else if(stock_reg_cnt==-2){
+							alert("이미 등록된 재고입니다.");
+						}else if(stock_reg_cnt==-3){
+							alert("재고가 등록되었습니다.");
+							location.replace("/ida/stock_form.ida");
+						}
+					}
+					,error:function(){
+						alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
+					}
+				});
+			}
+			
 			function stock_update_btn(){
 				location.replace("${cr}/stock_update_form.ida");
 			}
@@ -59,8 +98,8 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
 							<span name=stock_form style='float:right'>
-								<input type="button" value="재고 수정" onClick='stock_update_btn();'>
-								<input type="button" value="재고 삭제" onClick='stock_delete_btn();'>
+								<input type="button" class="btn btn-primary" value="재고 수정" onClick='stock_update_btn();'>
+								<input type="button" class="btn btn-danger"value="재고 삭제" onClick='stock_delete_btn();'>
 							</span>
 						</div>
 						<div class="card-body">
@@ -69,40 +108,34 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<td align=center resize=3><b>재고 번호</b></td>
+											<td align=center resize=10><b>재고번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
+											<td align=center><b>원산지</b></td>
 											<td align=center><b>식자재명</b></td>
+											<td align=center><b>규격</b></td>
 											<td align=center><b>재고수량</b></td>
-											<td align=center><b>사용여부</b></td>
+											<td align=center><b>상태</b></td>
 											<td align=center><b>날짜</b></td>
-											<td align=center><b>매입가격</b></td>
-											<td align=center><b>판매가격</b></td>
+											<td align=center><b>가격</b></td>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td align=center><b>4000001</b></td>
-											<td align=center><b>대분류1</b></td>
-											<td align=center><b>소분류1</b></td>
-											<td align=center><b>양파</b></td>
-											<td align=center><b>136</b></td>
-											<td align=center><b>T</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-											<td align=center><b>1000</b></td>
-											<td align=center><b>1500</b></td>
-										</tr>
-										<tr>
-											<td align=center><b>4000002</b></td>
-											<td align=center><b>대분류2</b></td>
-											<td align=center><b>소분류2</b></td>
-											<td align=center><b>당근</b></td>
-											<td align=center><b>150</b></td>
-											<td align=center><b>T</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-											<td align=center><b>1500</b></td>
-											<td align=center><b>2100</b></td>
-										</tr>
+										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
+											<tr style="cursor:pointer">
+												<td align=center>${loopTagStatus.index+1}
+													<input type="hidden" name="st_no" value="${stock.st_no}">
+												<td align=center>${stock.ia_name}
+												<td align=center>${stock.ib_name}
+												<td align=center>${stock.io_name}
+												<td align=center>${stock.i_name}
+												<td align=center>${stock.i_size}
+												<td align=center>${stock.quantity}
+												<td align=center>${stock.st_state}
+												<td align=center>${stock.reg_date}
+												<td align=center>${stock.i_price}
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -112,44 +145,41 @@
 					</div>
 	
 					<!--추가-->
-					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fas fa-table"></i> 재고 추가 <span name=stock_insert_form
-								style='float: right'> <input type='button' value='재고 추가'
-								onClick='insert_stock_reg_btn();'>
-							</span>
+					<form name="insert_stock_form">
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fas fa-table"></i> 재고 추가 <span name=stock_insert_form
+									style='float: right'> 
+									<input type='button' class="btn btn-success" value='재고 추가' onClick='insert_stock_reg_btn();'>
+								</span>
+							<br>
+							</div>
+							<div class="card-body">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<!--select option 으로 바꿀 예정-->
+									<!-- 추가 : 식자재명, 재고상태, 수량 -->
+									<tr>
+										<th>식자재명
+										<th>
+											<select name="i_no" class="i_no">
+												<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
+													<option value="${ingredient.i_no}">${ingredient.i_name}
+												</c:forEach>
+											</select>
+									<tr>
+										<th>재고수량
+										<th><input type="text" name="quantity" class="quantity">
+									<tr>
+										<th>상태
+										<th>
+											<select name="st_state" class="st_state">
+													<option value='t'>t
+													<option value='f'>f
+											</select>
+								</table>
+							</div>
 						</div>
-						<div class="card-body">
-							<table class="table table-bordered" id="dataTable" width="100%"
-								cellspacing="0">
-								<!--select option 으로 바꿀 예정-->
-								<tr>
-									<th>대분류
-									<th><input type="text" name="ca_code">
-								<tr>
-									<th>소분류
-									<th><input type="text" name="cb_code">
-								<tr>
-									<th>식자재명
-									<th><input type="text" name="i_name">
-								<tr>
-									<th>재고수량
-									<th><input type="text" name="quantity">
-								<tr>
-									<th>사용여부
-									<th><select name="st_state">
-											<option value='t'>T
-											<option value='f'>F
-									</select>
-								<tr>
-									<th>매입가격
-									<th><input type="text" name="purchase_price">
-								<tr>
-									<th>판매가격
-									<th><input type="text" name="sell_price">
-							</table>
-						</div>
-					</div>
+					</form>
 					<p class="small text-center text-muted my-5">
 						<em>More table examples coming soon...</em>
 					</p>

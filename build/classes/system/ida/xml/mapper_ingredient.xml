@@ -3,4 +3,20 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.IngredientDAO">
+	<!-- 가게에 등록된 식자재 목록을 가져오는 select 태그 -->
+	<select id="getIngredientList" parameterType="system.ida.dto.IngredientSearchDTO" resultType="system.ida.dto.IngredientDTO">
+			select
+				i_no||'' 		as "i_no"
+				,s_no 			as "s_no"
+				,ia_code 		as "ia_code"
+				,ib_code 		as "ib_code"
+				,io_code	 	as "io_code"
+				,i_name 		as "i_name"
+				,i_size 		as "i_size"
+				,i_price		 	as "i_price"
+				,to_char(reg_date,'YYYY-MM-DD') "reg_date" 
+				,is_del			as "is_del"
+			from ingredient 
+			where  is_del = 'F'
+	</select>
 </mapper>

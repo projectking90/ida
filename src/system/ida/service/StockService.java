@@ -4,6 +4,13 @@
  */
 package system.ida.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.StockDTO;
+import system.ida.dto.StockInsertDTO;
+
 /**
  * StockService 인터페이스
  * 서비스 클래스를 사용하기 위해 정의한 인터페이스
@@ -17,4 +24,9 @@ public interface StockService {
 	/**
 	 * 메소드 선언
 	 */
+	List<StockDTO> getStockList();	// 전체 재고 목록 가져오기
+	List<IngredientDTO> getIngredientList();	// 식자재 목록 가져오기
+	int insertStock(StockDTO stockDTO);	// 재고 추가
+	int updateStock(ArrayList<String> stock_update);	// 재고 수정
+	int deleteStock(ArrayList<String> stock_delete);	// 재고 삭제
 }

@@ -210,6 +210,7 @@ function is_valid_pattern(selector, regExpObj){
 		return regExpObj.test(value);	// 입력양식의 value값이 패턴에서 벗어나면 false 리턴, 아니면 true 리턴
 	} catch(ex){
 		alert("is_valid_pattern(" + selector + ", ~) 메소드 호출 시 예외발생!");
+		alert(ex.message);
 		return "";
 	}
 	

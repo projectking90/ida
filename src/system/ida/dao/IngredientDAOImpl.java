@@ -4,9 +4,14 @@
  */
 package system.ida.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.IngredientSearchDTO;
 
 /**
  * IngredientDAOImpl 클래스
@@ -24,4 +29,13 @@ public class IngredientDAOImpl implements IngredientDAO {
 	/**
 	 * 메소드 선언
 	 */
+	@Override
+	public List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO) {
+		List<IngredientDTO> ingredient_list = this.sqlSession.selectList(
+				sqlSessionPath+"getIngredientList"
+				,ingredient_SearchDTO
+		);
+
+		return ingredient_list;
+	}
 }

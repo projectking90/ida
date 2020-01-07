@@ -17,7 +17,8 @@ create table store(	-- 가게
 	s_no	number(10)	-- 가게번호
 	, s_id	varchar2(100)	not null unique	-- 아이디
 	, pwd	varchar2(256)	not null	-- 비밀번호
-	, s_name	varchar2(100)	not null	-- 사업자명
+	, com_name	varchar2(100)	not null	-- 가게명
+	, s_name	varchar2(100)	not null	-- 사업장명
 	, s_reg_num	varchar2(20)	not null	-- 사업자등록번호
 	, s_phone	varchar2(15)	not null	-- 핸드폰
 	, email	varchar2(100)	not null	-- 이메일
@@ -48,3 +49,63 @@ select
 	*
 from
 	manager;
+	
+create view login_store
+as (select
+		s_no
+		, s_id
+		, pwd
+	from
+		store);
+
+select
+	*
+from
+	login_store;
+	
+create view code_city_name
+as (select
+		distinct(city)
+	from
+		code_addr);
+
+select
+	*
+from
+	code_city_name;
+	
+create view code_gun_name
+as (select
+		distinct city
+		, gun
+	from
+		code_addr);
+
+select
+	*
+from
+	code_gun_name;
+	
+create view code_gu_name
+as (select
+		distinct gun
+		, gu
+	from
+		code_addr);
+
+select
+	*
+from
+	code_gu_name;
+	
+create view code_dong_name
+as (select
+		distinct city, gun, gu
+		, dong
+	from
+		code_addr);
+
+select
+	*
+from
+	code_dong_name;

@@ -13,7 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$(".login").click(function(){
-			location.replace("${cr}/order_form.ida");
+			checkLoginForm();
 		});
 		
 		$(".register").click(function(){
@@ -22,38 +22,28 @@
 	});
 	
 	function checkLoginForm(){
-		if(is_empty("[name=admin_id]")){
-			alert("아이디를 입력해주시기 바랍니다.");
-	
-			$('[name=admin_id]').val("");
-			$('[name=admin_id]').focus();
+		if(is_empty("[name=user_info_form] [name=s_id]")){
+			alert("아이디를 입력하세요");
 			return;
 		}
-	
-		if(is_empty("[name=pwd]")){
-			alert("비밀번호를 입력해주시기 바랍니다.");
-			$('[name=pwd]').val("");
-			$('[name=pwd]').focus();
+		
+		if(is_empty("[name=user_info_form] [name=pwd]")){
+			alert("비밀번호를 입력하세요");
 			return;
 		}
-		 
+		
 		$.ajax({
-			url : "/ictProject/loginProc.do"
+			url : "${cr}/login_proc.ida"
 			, type : "post"
-			, data : $("[name=loginForm]").serialize()
-			, success : function(admin_idCnt){
-				if(admin_idCnt==1){
-					location.replace("/ictProject/mainForm.do");
+			, data : $("[name=user_info_form]").serialize()
+			, success : function(loginCnt){
+				if(loginCnt==1){
+					location.replace("${cr}/order_form.ida");
+				} else{
+					alert("아이디 혹은 비밀번호를 잘못 입력하였습니다");
 				}
-				else if(admin_idCnt==0){
-					alert("아이디, 암호 존재하지 않습니다.");
-				}
-				else{
-					alert("서버 오류 발생! 관리자에게 문의해주시기 바랍니다.");
-				}
-			}
-			, error : function(){
-				alert("서버 접속 실패! 관리자에게 문의해주시기 바랍니다.");
+			}, error : function(){
+				alert("서버와 통신 실패");
 			}
 		});
 	}

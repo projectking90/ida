@@ -32,6 +32,43 @@
 			rel="stylesheet">
 		<!-- Custom styles for this template-->
 		<link href="${cr}/resources/Stock/css/sb-admin.css" rel="stylesheet">
+		<script>
+
+			function stock_update_btn(){
+				var trArr = new Array();
+				
+				$(".stock_list_tr").each(function(index){
+					trArr[index] = new Array();
+					trArr[index].push($(this).find("[name='st_no']").val());
+					trArr[index].push($(this).find("[name='quantity']").val());
+					trArr[index].push($(this).find("[name='st_state']").val());
+				});
+	
+				//alert(trArr);
+				$.ajax({
+					// 접속할 서버 쪽 url 주소 설정
+					url : "/ida/stock_update_proc.ida"
+					// 전송 방법 설정
+					, type : "post"
+					// 서버로 보낼 파라미터명과 파라미터값을 설정
+					, data : "trArr=" + trArr
+					// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
+					// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
+					, success : function(stock_update_cnt){						
+						if(stock_update_cnt>=0){
+							alert("수정 성공하였습니다.");
+							location.replace("${cr}/stock_form.ida");
+						}else{
+							alert("수정 실패하였습니다. 관리자에게 문의해주시기 바랍니다.");
+						}
+					}
+					// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
+					,error : function(){
+						alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
+					}
+				});
+			}
+		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -50,71 +87,58 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 재고 수정 <span name=stock_insert_form
-								style='float: right'> <input type='button' value='재고 수정'
-								onClick='update_stock_reg_btn();'>
+							<i class="fas fa-table"></i> 재고 현황
+							<span name=stock_form style='float:right'>
+								<input type="button" class="btn btn-primary" value="재고 수정완료" onClick='stock_update_btn();'>
 							</span>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered" id="dataTable" width="100%"
-								cellspacing="0">
-								<tr>
-									<td align=center resize=3><b>재고 번호</b></td>
-									<td align=center><b>대분류</b></td>
-									<td align=center><b>소분류</b></td>
-									<td align=center><b>식자재명</b></td>
-									<td align=center><b>재고수량</b></td>
-									<td align=center><b>사용여부</b></td>
-									<td align=center><b>날짜</b></td>
-									<td align=center><b>매입가격</b></td>
-									<td align=center><b>판매가격</b></td>
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000001"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류1"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류1"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="양파"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="136"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=4 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-									<td align=center><b><input type="text"
-											name="purchase_price" size=9 value="1000"></b></td>
-									<td align=center><b><input type="text"
-											name="sell_price" size=9 value="1500"></b></td>
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000002"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류2"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류2"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="당근"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="150"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=1 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-									<td align=center><b><input type="text"
-											name="purchase_price" size=9 value="1500"></b></td>
-									<td align=center><b><input type="text"
-											name="sell_price" size=9 value="2100"></b></td>
-								</tr>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+										<tr>
+											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>대분류</b></td>
+											<td align=center><b>소분류</b></td>
+											<td align=center><b>원산지</b></td>
+											<td align=center><b>식자재명</b></td>
+											<td align=center><b>규격</b></td>
+											<td align=center><b>재고수량</b></td>
+											<td align=center><b>상태</b></td>
+											<td align=center><b>날짜</b></td>
+											<td align=center><b>가격</b></td>
+										</tr>
+										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
+											<tr class="stock_list_tr" style="cursor:pointer">
+												<td align=center>${loopTagStatus.index+1}
+													<input type="hidden" name="st_no" value="${stock.st_no}">
+												<td align=center>${stock.ia_name}
+												<td align=center>${stock.ib_name}
+												<td align=center>${stock.io_name}
+												<td align=center>${stock.i_name}
+												<td align=center>${stock.i_size}
+												<td align=center><input type="text" name="quantity" size=6 value="${stock.quantity}">
+												<td align=center>
+													<select name="st_state">
+														<option value="${stock.st_state}">${stock.st_state}
+														<c:if test="${stock.st_state=='t'}">
+															<option value="f">f				
+														</c:if>
+														<c:if test="${stock.st_state=='f'}">
+															<option value="t">t
+														</c:if>
+													</select>
+												<td align=center>${stock.reg_date}
+												<td align=center>${stock.i_price}
+											</tr>
+										</c:forEach>
+								</table>
+							</div>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>
-					</div>
-	
+					</div> 
+
 					<p class="small text-center text-muted my-5">
 						<em>More table examples coming soon...</em>
 					</p>

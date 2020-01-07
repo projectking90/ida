@@ -5,7 +5,7 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/User/register_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -27,12 +27,12 @@
 			<div class="card card-register mx-auto mt-5">
 				<div class="card-header">회원가입</div>
 				<div class="card-body">
-					<form>
+					<form name="register_user_form">
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="ID" required="required"> <label
-									for="inputText">아이디</label>
+								<input type="text" id="inputSId" class="form-control"
+									placeholder="ID" required="required" name="s_id"> <label
+									for="inputSId" >아이디</label>
 							</div>
 						</div>
 	
@@ -41,7 +41,7 @@
 								<div class="col-md-6">
 									<div class="form-label-group">
 										<input type="password" id="inputPassword" class="form-control"
-											placeholder="Password" required="required"> <label
+											placeholder="Password" required="required" name="pwd"> <label
 											for="inputPassword">비밀번호</label>
 									</div>
 								</div>
@@ -57,49 +57,45 @@
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">가게명</label>
+								<input type="text" id="inputStoreName" class="form-control"
+									placeholder="text" required="required" name="com_name"> <label
+									for="inputStoreName">가게명</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">사업자명</label>
+								<input type="text" id="inputSName" class="form-control"
+									placeholder="text" required="required" name="s_name"> <label
+									for="inputSName">사업자명</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">사업자등록번호</label>
+								<input type="text" id="inputSRegNum" class="form-control"
+									placeholder="text" required="required" name="s_reg_num"> <label
+									for="inputSRegNum">사업자등록번호(***-**-*****)</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">핸드폰</label>
+								<input type="text" id="inputSPhone" class="form-control"
+									placeholder="text" required="required" name="s_phone"> <label
+									for="inputSPhone">핸드폰(-뺴고)</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">이메일</label>
+								<input type="text" id="inputEmail" class="form-control"
+									placeholder="text" required="required" name="email"> <label
+									for="inputEmail">이메일</label>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="form-label-group">
-								메뉴 대분류 : <input type="checkbox"> 한식 <input
-									type="checkbox"> 중식 <input type="checkbox"> 일식 <input
-									type="checkbox"> 양식 <input type="checkbox"> 분식 <input
-									type="checkbox"> 패스트푸드 <input type="checkbox">
-								카페
-							</div>
-						</div>
-						<a class="btn btn-primary btn-block" href="login.html">회원가입</a>
+						주소<br>
+						<select name="city"></select>
+						<select name="gun"></select>
+						<select name="gu"></select>
+						<select name="dong"></select>
+						<a class="btn btn-primary btn-block register">회원가입</a>
 					</form>
 				</div>
 			</div>

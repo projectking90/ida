@@ -34,7 +34,6 @@
 	* Titlebar Setting
 	*/
 	function titleBars(){
-
 		$(".navbar").prepend('<a class="navbar-brand mr-1" href="${cr}/order_form.ida">IDA</a>');
 		$(".navbar").append('<button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>');
 		
@@ -42,7 +41,7 @@
 		$(".navbar-nav").append('<li class="nav-item dropdown no-arrow"></li>');
 		$(".navbar-nav").find('li').append('<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-fw"></i></a>');
 		$(".navbar-nav").find('li').append('<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown"></div>');
-		$(".dropdown-menu").append('<a class="dropdown-item" href="#">회원정보변경</a>');
+		$(".dropdown-menu").append('<a class="dropdown-item" href="${cr}/user_info_update_form.ida">회원정보변경</a>');
 		$(".dropdown-menu").append('<div class="dropdown-divider"></div>');
 		$(".dropdown-menu").append('<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>');
 		

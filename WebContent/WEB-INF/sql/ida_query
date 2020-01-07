@@ -45,7 +45,8 @@ create table store(	-- 가게
 	s_no	number(10)	-- 가게번호
 	, s_id	varchar2(100)	not null unique	-- 아이디
 	, pwd	varchar2(256)	not null	-- 비밀번호
-	, s_name	varchar2(100)	not null	-- 사업자명
+	, com_name	varchar2(100)	not null	-- 가게명
+	, s_name	varchar2(100)	not null	-- 사업장명
 	, s_reg_num	varchar2(20)	not null	-- 사업자등록번호
 	, s_phone	varchar2(15)	not null	-- 핸드폰
 	, email	varchar2(100)	not null	-- 이메일
@@ -55,6 +56,7 @@ create table store(	-- 가게
 	, primary key(s_no)
 	, foreign key(addr_code) references code_addr(addr_code)
 );
+
 select
 	*
 from

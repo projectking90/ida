@@ -4,6 +4,11 @@
  */
 package system.ida.dao;
 
+import java.util.List;
+
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.IngredientSearchDTO;
+
 /**
  * IngredientDAO 인터페이스
  * DAO 클래스를 사용하기 위해 정의한 인터페이스
@@ -18,4 +23,5 @@ public interface IngredientDAO {
 	/**
 	 * 메소드 선언
 	 */
+	List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO);
 }

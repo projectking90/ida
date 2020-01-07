@@ -79,40 +79,33 @@
 									<thead>
 										<tr>
 											<td align=center resize=3><b>식자재 번호</b></td>
+											<td align=center><b>가게번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
-											<td align=center><b>식자재명</b></td>
-											<td align=center><b>식자재수량</b></td>
-											<td align=center><b>날짜</b></td>
-											<td align=center><b>매입가격</b></td>
-											<td align=center><b>알레르기코드</b></td>
+											<td align=center><b>원산지</b></td>
+											<td align=center><b>이름</b></td>
+											<td align=center><b>규격</b></td>
+											<td align=center><b>가격</b></td>
+											<td align=center><b>등록일</b></td>
 											<td align=center><b>삭제여부</b></td>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td align=center><b>4000001</b></td>
-											<td align=center><b>대분류1</b></td>
-											<td align=center><b>소분류1</b></td>
-											<td align=center><b>양파</b></td>
-											<td align=center><b>136</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-											<td align=center><b>1000</b></td>
-											<td align=center><b>1500</b></td>
-											<td align=center><b>T</b></td>
-										</tr>
-										<tr>
-											<td align=center><b>4000002</b></td>
-											<td align=center><b>대분류2</b></td>
-											<td align=center><b>소분류2</b></td>
-											<td align=center><b>당근</b></td>
-											<td align=center><b>150</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-											<td align=center><b>1500</b></td>
-											<td align=center><b>2100</b></td>
-											<td align=center><b>T</b></td>
-										</tr>
-									</tbody>
+		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
+			<tbody>
+				<tr>
+					<td align=center>${ingredient.i_no}</b></td>
+					<td align=center>${ingredient.s_no}</b></td>
+					<td align=center>${ingredient.ia_code}</b></td>
+					<td align=center>${ingredient.ib_code}</b></td>
+					<td align=center>${ingredient.io_code}</b></td>
+					<td align=center>${ingredient.i_name}</b></td>
+					<td align=center>${ingredient.i_size}</b></td>
+					<td align=center>${ingredient.i_price}</b></td>
+					<td align=center>${ingredient.reg_date}</b></td>
+					<td align=center>${ingredient.is_del}</b></td>
+				</tr>
+			</tbody>
+		</c:forEach>
 								</table>
 							</div>
 						</div>
@@ -134,10 +127,10 @@
 								<!--select option 으로 바꿀 예정-->
 								<tr>
 									<th>대분류
-									<th><input type="text" name="ca_code">
+									<th><input type="text" name="ia_code">
 								<tr>
 									<th>소분류
-									<th><input type="text" name="cb_code">
+									<th><input type="text" name="ib_code">
 								<tr>
 									<th>식자재명
 									<th><input type="text" name="i_name">

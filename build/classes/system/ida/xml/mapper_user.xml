@@ -3,4 +3,102 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.UserDAO">
+	<!-- 사용자 존재 여부를 가져오는 select 태그 -->
+	<select id="getLoginCnt" parameterType="system.ida.dto.UserDTO" resultType="int">
+		select
+			count(s_no)
+		from
+			login_store
+		where
+			s_id = #{s_id}
+			and pwd = #{pwd}
+	</select>
+	
+	<!-- 아이디 존재 여부를 확인하는 select 태그 -->
+	<select id="getIdCnt" parameterType="system.ida.dto.UserDTO" resultType="int">
+		select
+			count(s_no)
+		from
+			login_store
+		where
+			s_id = #{s_id}
+	</select>
+	
+	<!-- 주소코드를 가져오는 select 태그 -->
+	<select id="getAddrCode" parameterType="system.ida.dto.AddrDTO" resultType="int">
+		select
+			addr_code	as "ADDR_CODE"
+		from
+			code_addr
+		where
+			city = #{city}
+			and gun = #{gun}
+			<if test="gu!=null and gu.length()>0">
+				and gu = #{gu}
+			</if>
+			<if test="dong!=null and dong.length()>0">
+				and dong = #{dong}
+			</if>
+	</select>
+	
+	<!-- 사용자 회원가입하는 insert 태그 -->
+	<insert id="insertRegUser" parameterType="system.ida.dto.UserDTO">
+		insert into store(
+			s_no
+			, s_id
+			, pwd
+			, com_name
+			, s_name
+			, s_reg_num
+			, s_phone
+			, email
+			, addr_code
+		) values(
+			(select nvl(max(s_no), 0) + 1 from store)
+			, #{s_id}
+			, #{pwd}
+			, #{com_name}
+			, #{s_name}
+			, #{s_reg_num}
+			, #{s_phone}
+			, #{email}
+			, ${addr_code}
+		)
+	</insert>
+	
+	<!-- 사용자 정보를 가져오는 select 태그 -->
+	<select id="getUserInfo" parameterType="string" resultType="system.ida.dto.UserUpdateDTO">
+		select
+			s.com_name	as "COM_NAME"
+			, s.s_name	as "S_NAME"
+			, s.s_reg_num	as "S_REG_NUM"
+			, s.s_phone	as "S_PHONE"
+			, s.email	as "EMAIL"
+			, (select ca.city from code_addr ca where ca.addr_code=s.addr_code)	"CITY"
+			, (select ca.gun from code_addr ca where ca.addr_code=s.addr_code)	"GUN"
+			, (select ca.gu from code_addr ca where ca.addr_code=s.addr_code)	"GU"
+			, (select ca.dong from code_addr ca where ca.addr_code=s.addr_code)	"DONG"
+		from
+			store s
+		where
+			s.s_id = #{s_id}
+	</select>
+	
+	<!-- 회원정보를 수정하는 update 태그 -->
+	<update id="updateUserInfo" parameterType="system.ida.dto.UserUpdateDTO">
+		update
+			store
+		set
+			com_name = #{com_name}
+			, s_name = #{s_name}
+			, s_reg_num = #{s_reg_num}
+			, s_phone = #{s_phone}
+			, email = #{email} 
+			, addr_code = #{addr_code}
+			<if test="!pwd.equals('wLn3W6nd568lPQKBtdZ4tA==')">
+				,pwd = #{newPwd}
+			</if>
+		where
+			s_id = #{s_id}
+	</update>
 </mapper>

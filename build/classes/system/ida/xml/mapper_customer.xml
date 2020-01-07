@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그 선언 -->
+<mapper namespace="system.ida.dao.CustomerDAO">
+
+
+	<!-- 가게에 등록된 식자재 목록을 가져오는 select 태그 -->
+	<select id="getCustomerList" parameterType="system.ida.dto.CustomerSearchDTO" resultType="system.ida.dto.CustomerDTO">
+			select
+				oi_no||'' 			as "oi_no"
+				,s_no 				as "s_no"
+				,c_phone 			as "c_phone"
+				,gender 			as "gender"
+				,age 				as "age"
+				,order_time 		as "order_time"
+				,pickup_time 		as "pickup_time"
+				,is_del 			as "is_del"
+			from order_info
+			where is_del = 'F'
+	</select>
+</mapper>

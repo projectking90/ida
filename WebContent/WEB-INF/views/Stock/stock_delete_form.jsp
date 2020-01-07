@@ -32,6 +32,43 @@
 			rel="stylesheet">
 		<!-- Custom styles for this template-->
 		<link href="${cr}/resources/Stock/css/sb-admin.css" rel="stylesheet">
+		<script>
+			function stock_delete_btn(){				
+				var trArr = new Array();
+				$(".stock_list_tr").each(function(index){
+					if($(this).find("[name='delete_stock']").prop("checked")==true){
+						trArr.push($(this).find("[name='delete_stock']").val());
+						if(trArr[index]==""){
+							trArr[index].splice(index, 1);
+						}
+						alert($(this).find("[name='delete_stock']").val());
+					}
+				});
+	
+				$.ajax({
+					// 접속할 서버 쪽 url 주소 설정
+					url : "/ida/stock_delete_proc.ida"
+					// 전송 방법 설정
+					, type : "post"
+					// 서버로 보낼 파라미터명과 파라미터값을 설정
+					, data : "trArr=" + trArr
+					// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
+					// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
+					, success : function(stock_delete_cnt){						
+						if(stock_delete_cnt>=0){
+							alert("삭제 성공하였습니다.");
+							location.replace("${cr}/stock_form.ida");
+						}else{
+							alert("삭제 실패하였습니다. 관리자에게 문의해주시기 바랍니다.");
+						}
+					}
+					// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
+					,error : function(){
+						alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
+					}
+				});
+			}
+		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -50,53 +87,43 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 재고 현황 <span name=stock_form
-								style='float: right'> <input type="button" value="재고 삭제"
-								onClick='stock_delete_reg_btn();'>
+							<i class="fas fa-table"></i> 재고 현황
+							<span name=stock_form style='float:right'>
+								<input type="button" class="btn btn-danger"value="재고 삭제" onClick='stock_delete_btn();'>
 							</span>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
-									<tr>
-										<td align=center resize=1><b>선택</b>
-										<td align=center resize=3><b>재고 번호</b></td>
-										<td align=center><b>대분류</b></td>
-										<td align=center><b>소분류</b></td>
-										<td align=center><b>식자재명</b></td>
-										<td align=center><b>재고수량</b></td>
-										<td align=center><b>사용여부</b></td>
-										<td align=center><b>날짜</b></td>
-										<td align=center><b>매입가격</b></td>
-										<td align=center><b>판매가격</b></td>
-									</tr>
-									<tr>
-										<td border="0"><input type="checkbox"
-											name="delete_checked" value="4000001"></td>
-										<td align=center><b>4000001</b></td>
-										<td align=center><b>대분류1</b></td>
-										<td align=center><b>소분류1</b></td>
-										<td align=center><b>양파</b></td>
-										<td align=center><b>136</b></td>
-										<td align=center><b>T</b></td>
-										<td align=center><b>2019-12-23(월)</b></td>
-										<td align=center><b>1000</b></td>
-										<td align=center><b>1500</b></td>
-									</tr>
-									<tr>
-										<td border="0"><input type="checkbox"
-											name="delete_checked" value="4000002"></td>
-										<td align=center><b>4000002</b></td>
-										<td align=center><b>대분류2</b></td>
-										<td align=center><b>소분류2</b></td>
-										<td align=center><b>당근</b></td>
-										<td align=center><b>150</b></td>
-										<td align=center><b>T</b></td>
-										<td align=center><b>2019-12-23(월)</b></td>
-										<td align=center><b>1500</b></td>
-										<td align=center><b>2100</b></td>
-									</tr>
+										<tr>
+											<td aling=center resize=3></td>
+											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>대분류</b></td>
+											<td align=center><b>소분류</b></td>
+											<td align=center><b>원산지</b></td>
+											<td align=center><b>식자재명</b></td>
+											<td align=center><b>규격</b></td>
+											<td align=center><b>재고수량</b></td>
+											<td align=center><b>상태</b></td>
+											<td align=center><b>날짜</b></td>
+											<td align=center><b>가격</b></td>
+										</tr>
+										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
+											<tr style="cursor:pointer" class="stock_list_tr">
+												<td align=center><input type="checkbox" name="delete_stock" value='${stock.st_no}'>
+												<td align=center>${loopTagStatus.index+1}
+												<td align=center class="ia_name">${stock.ia_name}
+												<td align=center class="ib_name">${stock.ib_name}
+												<td align=center class="io_name">${stock.io_name}
+												<td align=center class="i_name">${stock.i_name}
+												<td align=center class="i_size">${stock.i_size}
+												<td align=center class="quantity">${stock.quantity}
+												<td align=center class="st_state">${stock.st_state}
+												<td align=center class="reg_date">${stock.reg_date}
+												<td align=center class="i_price">${stock.i_price}
+											</tr>
+										</c:forEach>
 								</table>
 							</div>
 						</div>

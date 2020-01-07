@@ -27,12 +27,12 @@
 			<div class="card card-login mx-auto mt-5">
 				<div class="card-header">Login</div>
 				<div class="card-body">
-					<form>
+					<form name="user_info_form">
 						<div class="form-group">
 							<div class="form-label-group">
 								아이디 : <label for="inputtext"></label> <input type="text"
 									id="inputtext" class="form-control" placeholder="ID"
-									required="required" autofocus="autofocus">
+									required="required" autofocus="autofocus" name="s_id">
 	
 							</div>
 						</div>
@@ -40,7 +40,7 @@
 							<div class="form-label-group">
 								비밀번호 : <label for="inputPassword"></label> <input type="password"
 									id="inputPassword" class="form-control" placeholder="Password"
-									required="required">
+									required="required" name="pwd">
 	
 							</div>
 						</div>
@@ -48,8 +48,7 @@
 				</div>
 				<a class="btn btn-primary btn-block login">로그인</a>
 				<div class="text-center">
-					<a class="d-block small mt-3 register">회원가입</a> <a
-						class="d-block small" href="forgot-password.html">아이디/비밀번호 찾기</a>
+					<a class="d-block small mt-3 register">회원가입</a>
 				</div>
 			</div>
 		</div>

@@ -3,4 +3,108 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.StockDAO">
+	<!--검색 : 재고번호, 대분류 ,소분류, 원산지, 식자재명, 규격, 재고수량, 재고상태, 날짜, 가격-->
+	<select id="getStockList" resultType="system.ida.dto.StockDTO">
+		select
+    		st.st_no as "st_no"
+    		,(select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=(select i.ia_code from ingredient i where i.i_no=st.i_no)) as "ia_name"
+    		,(select ib.ib_name from code_ingredient_beta ib where ib.ib_code=(select i.ib_code from ingredient i where i.i_no=st.i_no))  as "ib_name"
+    		,(select io.io_name from code_ingredient_origin io where io.io_code=(select i.io_code from ingredient i where i.i_no=st.i_no))  as "io_name"
+			,(select i.i_name from ingredient i where i.i_no=st.i_no) as "i_name"
+			,(select i.i_size from ingredient i where i.i_no=st.i_no) as "i_size"
+			,st.quantity as "quantity"
+			,st.st_state as "st_state"
+            ,to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi') as "reg_date"
+			,(select i.i_price from ingredient i where i.i_no=st.i_no) as "i_price"
+		from stock st
+		where st.is_del='F'
+	</select>
+		
+	<select id="getIngredientList" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_no "i_no"
+			,i_name "i_name"
+		from ingredient
+	</select>
+	
+	<insert id="insertStock" parameterType="system.ida.dto.StockDTO">
+		insert into stock(
+			st_no
+			,i_no
+			,quantity
+			,st_state
+		) values (
+			(select nvl(max(st_no),0)+1 from stock)
+			,${i_no}
+			,${quantity}
+			,#{st_state}
+		)
+	</insert>
+		
+	<update id="updateStock" parameterType="hashmap">
+		update
+			stock
+		set
+			quantity = ${quantity}
+			,st_state = #{st_state}
+		where
+			st_no = ${st_no}
+	</update>
+			
+	<update id="deleteStock" parameterType="hashmap">
+		update
+			stock
+		set
+			is_del='T'
+			, quantity=0
+		where
+			st_no = ${st_no}
+	</update>
+	
+	<select id="getInsertedStockCnt" parameterType="system.ida.dto.StockDTO" resultType="int">
+		select
+			count(*)
+		from 
+			stock
+	</select>	
+	
+	<select id="getInsertedStockIsDelCnt" parameterType="system.ida.dto.StockDTO" resultType="int">
+		select
+			count(*)
+		from 
+			stock
+		where is_del='T'
+	</select>
+	
+	<update id="getInsertedStockIsDelUp"  parameterType="system.ida.dto.StockDTO">
+		update
+			stock
+		set
+			is_del='F'
+			,st_state = #{st_state}
+			,quantity = ${quantity}
+		where
+			is_del='T'
+			and i_no = ${i_no}
+	</update>
+	
+	<insert id="deleteStockRecord" parameterType="hashmap">
+		insert into stock_record(
+			st_no
+			,quantity
+		) values (
+			${st_no}
+			,0
+		)
+	</insert>
+		
+	<insert id="insertStockRecord" parameterType="system.ida.dto.StockDTO">
+		insert into stock_record(
+			st_no
+			,quantity
+		) values (
+			(select st_no from stock where i_no=${i_no})
+			,${quantity}
+		)
+	</insert>
 </mapper>

@@ -43,6 +43,36 @@
 		<script src="${cr}/resources/Menu/js/demo/datatables-demo.js"></script>
 		<script>
 			function update_menu_reg_btn() {
+				var trArr = new Array();
+				
+				$(".menu_list_tr").each(function(index){
+					trArr[index] = new Array();
+					trArr[index].push($(this).find("[name='mi_no']").val());
+					trArr[index].push($(this).find("[name='ma_code']").val());
+					trArr[index].push($(this).find("[name='mb_code']").val());
+					trArr[index].push($(this).find("[name='mi_name']").val());
+					trArr[index].push($(this).find("[name='price']").val());
+					trArr[index].push($(this).find("[name='mi_comment']").val());
+					trArr[index].push($(this).find("[name='s_id']").val());
+				});
+				
+				$.ajax({
+					url : "/ida/menu_update.ida"
+					, type : "post"
+					,data : "trArr=" + trArr
+					,success : function(update_result){
+						if(update_result>=0){
+							alert("메뉴 수정 성공하였습니다.");
+							location.replace('/ida/menu_form.ida');
+						}else{
+							alert("메뉴 수정 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
+						}
+					}
+					,error : function(){
+						alert("서버 접속을 실패하였습니다.");
+					}
+
+				});
 			}
 		</script>
 	</head>
@@ -70,59 +100,62 @@
 							</span>
 						</div>
 						<div class="card-body">
+							<form name="updateMenuForm" method="post" action="/ida/menu_update.ida">
 							<table class="table table-bordered" id="dataTable" width="100%"
 								cellspacing="0">
-								<tr>
-									<td align=center resize=3><b>메뉴 번호</b></td>
-									<td align=center><b>대분류</b></td>
-									<td align=center><b>소분류</b></td>
-									<td align=center><b>가게번호</b></td>
-									<td align=center><b>메뉴이름</b></td>
-									<td align=center><b>가격</b></td>
-									<td align=center><b>설명</b></td>
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000001"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류1"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류1"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="양파"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="136"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=1 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-	
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000002"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류2"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류2"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="당근"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="150"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=1 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-	
-								</tr>
+									<thead>
+										<tr>
+											<td align=center resize=3><b>메뉴 번호</b></td>
+											<td align=center><b>대분류</b></td>
+											<td align=center><b>소분류</b></td>
+											<td align=center><b>메뉴이름</b></td>
+											<td align=center><b>가격</b></td>
+											<td align=center><b>설명</b></td>
+											<td align=center><b>등록일</b></td>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
+										<tr class="menu_list_tr">
+											<td align=center>${menu.mi_no}
+															<input type="hidden" name="mi_no" value="${menu.mi_no}">
+											<td align=center>
+												<select name="ma_code">
+													<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList" varStatus="loopTagStatus">
+														<option value="${menu.ma_code}"
+														${menu.ma_code == ma_nameList.ma_name ? 'selected="selected"' : '' }
+														>${ma_nameList.ma_name}</option>
+													</c:forEach>
+												</select>
+											<td align=center>
+												<select name="mb_code">
+													<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList" varStatus="loopTagStatus">
+														<option value="${menu.mb_code}" 
+														${menu.mb_code == mb_nameList.mb_name ? 'selected="selected"' : '' }
+														>${mb_nameList.mb_name}</option>
+													</c:forEach>
+												</select>
+											<td align=center>
+												<b><input type="text" name="mi_name" value="${menu.mi_name}"></b>
+											<td align=center>
+												<b><input type="text" name="price" value="${menu.price}"></b>
+											<td align=center>
+												<b><input type="text" name="mi_comment" value="${menu.mi_comment}"></b>
+											<td align=center>${menu.reg_date}
+															<input type="hidden" name="s_id" value="${sessionScope.s_id}">
+										</c:forEach>
+									</tbody>
 							</table>
+							</form>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>
 					</div>
 	
 					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
+						<em>
+						</em>
 					</p>
 	
 				</div>

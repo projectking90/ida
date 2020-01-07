@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/User/user_info_update_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -28,73 +28,72 @@
 			<div class="card card-register mx-auto mt-5">
 				<div class="card-header">회원정보수정</div>
 				<div class="card-body">
-					<form>
+					<form:form name="update_user_form" commandName="user_info">
 						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<div class="form-label-group">
-										<input type="password" id="inputPassword" class="form-control"
-											placeholder="Password" required="required"> <label
-											for="inputPassword">비밀번호</label>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-label-group">
-										<input type="password" id="confirmPassword"
-											class="form-control" placeholder="Confirm password"
-											required="required"> <label for="confirmPassword">비밀번호
-											확인</label>
-									</div>
-								</div>
+							<div class="form-label-group">
+								<form:password path="pwd" id="inputPassword" class="form-control" placeholder="Confirm password" required="required"/>
+								<form:label path="pwd" for="inputPassword">현재 비밀번호</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">가게명</label>
+								<form:password path="newPwd" id="newPassword" class="form-control" placeholder="Confirm password" required="required"/>
+								<form:label path="newPwd" for="newPassword">새로운 비밀번호</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">사업자명</label>
+								<form:password path="confirmPwd" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required"/>
+								<form:label path="confirmPwd" for="confirmPassword">비밀번호 확인</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">사업자등록번호</label>
+								<form:input path="com_name" id="inputStoreName" class="form-control" placeholder="text" required="required"/>
+								<form:label path="com_name" for="inputStoreName">가게명</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">핸드폰</label>
+								<form:input path="s_name" id="inputSName" class="form-control" placeholder="text" required="required"/>
+								<form:label path="s_name" for="inputSName">사업자명</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputText" class="form-control"
-									placeholder="text" required="required"> <label
-									for="inputText">이메일</label>
+								<form:input path="s_reg_num" id="inputSRegNum" class="form-control" placeholder="text" required="required"/>
+								<form:label path="s_reg_num" for="inputSRegNum">사업자등록번호(***-**-*****)</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								메뉴 대분류 : <input type="checkbox"> 한식 <input
-									type="checkbox"> 중식 <input type="checkbox"> 일식 <input
-									type="checkbox"> 양식 <input type="checkbox"> 분식 <input
-									type="checkbox"> 패스트푸드 <input type="checkbox">
-								카페
+								<form:input path="s_phone" id="inputSPhone" class="form-control" placeholder="text" required="required"/>
+								<form:label path="s_phone" for="inputSPhone">핸드폰(-뺴고)</form:label>
 							</div>
 						</div>
-						<a class="btn btn-primary btn-block">변경</a> <a
-							class="btn btn-primary btn-block">취소</a>
-					</form>
+						<div class="form-group">
+							<div class="form-label-group">
+								<form:input path="email" id="inputEmail" class="form-control" placeholder="text" required="required"/>
+								<form:label path="email" for="inputEmail">이메일</form:label>
+							</div>
+						</div>
+						주소<br>
+						<form:select path="city">
+							<form:options items="${user_info.city_list}" itemLabel="city" itemValue="city"/>
+						</form:select>
+						<form:select path="gun">
+							<form:options items="${user_info.gun_list}" itemLabel="gun" itemValue="gun"/>
+						</form:select>
+						<form:select path="gu">
+							<form:options items="${user_info.gu_list}" itemLabel="gu" itemValue="gu"/>
+						</form:select>
+						<form:select path="dong">
+							<form:options items="${user_info.dong_list}" itemLabel="dong" itemValue="dong"/>
+						</form:select>
+						
+						<a class="btn btn-primary btn-block update">회원정보 변경</a>
+						<a class="btn btn-primary btn-block back">이전</a>
+					</form:form>
 				</div>
 			</div>
 		</div>

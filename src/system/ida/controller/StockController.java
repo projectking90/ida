@@ -4,11 +4,20 @@
  */
 package system.ida.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.IngredientDTO;
+import system.ida.dto.StockDTO;
+import system.ida.dto.StockInsertDTO;
 import system.ida.service.StockService;
 
 /**
@@ -48,12 +57,32 @@ public class StockController {
 		mav.setViewName(path + "stock_form");
 		
 		try {
+			List<StockDTO> stock_list = this.stockService.getStockList();
+			List<IngredientDTO> ingredient_list=this.stockService.getIngredientList();
+			mav.addObject("stock_list", stock_list);
+			mav.addObject("ingredient_list", ingredient_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/insert_stock_reg.ida", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public int insertStockReg(
+			StockDTO stockDTO) {
+		int stock_reg_cnt=0;
+		try {
+			stock_reg_cnt=this.stockService.insertStock(stockDTO);
+			
+		}catch(Exception e){
+			System.out.println("<insertStockReg 에러발생>");
+			System.out.println(e.getMessage());
+			stock_reg_cnt=-1;
+		}
+		return stock_reg_cnt;
 	}
 
 	/**
@@ -67,12 +96,32 @@ public class StockController {
 		mav.setViewName(path + "stock_update_form");
 		
 		try {
+			List<StockDTO> stock_list = this.stockService.getStockList();
+			mav.addObject("stock_list", stock_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockUpdateForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/stock_update_proc.ida")
+	@ResponseBody
+	public int tableUpdateProc(
+			@RequestParam(value="trArr") ArrayList<String> stock_update
+	) 
+	{
+		int stock_update_cnt = 0;
+		
+		try {				 
+			stock_update_cnt = this.stockService.updateStock(stock_update);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		
+		return stock_update_cnt;
 	}
 
 	/**
@@ -86,11 +135,34 @@ public class StockController {
 		mav.setViewName(path + "stock_delete_form");
 		
 		try {
+			List<StockDTO> stock_list = this.stockService.getStockList();
+			mav.addObject("stock_list", stock_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockDeleteForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		
 		return mav;
+	}
+	
+	
+	@RequestMapping(value="/stock_delete_proc.ida")
+	@ResponseBody
+	public int stockdeleteProc(
+			@RequestParam(value="trArr") ArrayList<String> stock_delete
+	) 
+	{
+		int stock_update_cnt = 0;
+		for(int index=0; index<stock_delete.size(); index++) {
+			System.out.println(stock_delete.get(index));
+		}
+		try {				 
+			stock_update_cnt = this.stockService.deleteStock(stock_delete);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		
+		return stock_update_cnt;
 	}
 }
