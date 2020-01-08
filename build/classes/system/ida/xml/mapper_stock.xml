@@ -94,7 +94,7 @@
 			,quantity
 		) values (
 			${st_no}
-			,0
+			,(select sum(quantity)*(-1) from stock_record where st_no=${st_no})
 		)
 	</insert>
 		
