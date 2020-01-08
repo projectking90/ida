@@ -10,6 +10,7 @@ import java.util.Map;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
 import system.ida.dto.StockInsertDTO;
+import system.ida.dto.StockSearchDTO;
 
 /**
  * StockDAO 인터페이스
@@ -25,8 +26,8 @@ public interface StockDAO {
 	/**
 	 * 메소드 선언
 	 */
-	List<StockDTO> getStockList();	// 전체 재고 목록 가져오기
-	List<IngredientDTO> getIngredientList();	// 식자재 대분류 목록 가져오기
+	List<StockDTO> getStockList(StockSearchDTO stock_searchDTO);	// 전체 재고 목록 가져오기
+	List<IngredientDTO> getIngredientList(StockSearchDTO stock_searchDTO);	// 식자재 대분류 목록 가져오기
 	int insertStock(StockDTO stockDTO);
 	int updateStock(Map<String, String> trData);
 	int deleteStock(Map<String, String> trData);
@@ -35,4 +36,6 @@ public interface StockDAO {
 	int getInsertedStockIsDelUp(StockDTO stockDTO);	// 등록되었지만 삭제된 재고를 추가할 때 is_del을 'F'로 update하기
 	int deleteStockRecord(Map<String, String> trData);	// stock_record에 delete한 것 넣기
 	int insertStockRecord(StockDTO stockDTO);	// stock_record에 insert한 것 넣기
+	int getInsertedStockQuantityCnt(Map<String, String> trData);	// 추가된 재고의 수량 가져오기
+	int updateStockRecord(Map<String, String> trData);	// 등록되었지만 재고 수량이 수정될 때 기존값-수정된 값을 insert하기
 }

@@ -38,13 +38,13 @@
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:password path="newPwd" id="newPassword" class="form-control" placeholder="Confirm password" required="required"/>
-								<form:label path="newPwd" for="newPassword">새로운 비밀번호</form:label>
+								<form:label path="newPwd" for="newPassword">새로운 비밀번호(필수아님)</form:label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:password path="confirmPwd" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required"/>
-								<form:label path="confirmPwd" for="confirmPassword">비밀번호 확인</form:label>
+								<form:label path="confirmPwd" for="confirmPassword">비밀번호 확인(필수아님)</form:label>
 							</div>
 						</div>
 						<div class="form-group">
@@ -92,7 +92,9 @@
 						</form:select>
 						
 						<a class="btn btn-primary btn-block update">회원정보 변경</a>
-						<a class="btn btn-primary btn-block back">이전</a>
+						<div class="text-center">
+							<a class="d-block mt-3 back">이전</a>
+						</div>
 					</form:form>
 				</div>
 			</div>

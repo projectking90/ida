@@ -38,6 +38,62 @@
 		<!-- Demo scripts for this page-->
 		<script src="${cr}/resources/Ingredient/js/demo/datatables-demo.js"></script>
 		<script>
+			function insert_ing_reg_btn() {
+				if(is_empty("[name=insertMenuForm] [name=ia_name]")){
+					alert("대분류명을 입력해주시기 바랍니다.");
+					$("[name=ia_name]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=ib_name]")){
+					alert("소분류명을 입력해주시기 바랍니다.");
+					$("[name=ib_name]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=i_name]")){
+					alert("식자재명을 입력해주시기 바랍니다.");
+					$("[name=i_name]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=i_size]")){
+					alert("수량을 입력해주시기 바랍니다.");
+					$("[name=i_size]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=i_price]")){
+					alert("소분류명을 입력해주시기 바랍니다.");
+					$("[name=i_price]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=a_name]")){
+					alert("알레르기코드를 입력해주시기 바랍니다.");
+					$("[name=a_name]").focus();
+					return;
+				}
+				if(is_empty("[name=insertMenuForm] [name=is_del]")){
+					alert("삭제여부를 입력해주시기 바랍니다.");
+					$("[name=is_del]").focus();
+					return;
+				}
+	
+				$.ajax({
+					url : "/ida/menu_insert.ida"
+					, type : "post"
+					,data : $("[name=insertMenuForm]").serialize()
+					,success : function(insert_result){
+						if(insert_result==1){
+							alert("메뉴 등록 성공하였습니다.");
+							location.replace('${cr}/menu_form.ida');
+						}else{
+							alert("메뉴 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
+						}
+					}
+					,error : function(){
+						alert("서버 접속을 실패하였습니다.");
+					}
+	
+				});
+			}
+
 			$(document).ready(function(){
 				$(".update").click(function(){
 					location.replace("${cr}/ingredient_update_form.ida");
@@ -67,19 +123,20 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 현황
-							<span name=store_form style='float:right'>
-								<input type="button" class="update" value="식자재 수정">
-								<input type="button" class="delete" value="식자재 삭제">
+							<span name=stock_form style='float:right'>
+								<button type="button" class="btn btn-primary update" value="식자재 수정"> 식자재 수정 </button>
+								<button type="button" class="btn btn-danger delete" value="식자재 삭제"> 식자재 삭제 </button>
 							</span>
+
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
+							<form name="insertIngredientForm" method="post" action="/ida/ingredient_insert.ida">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
 											<td align=center resize=3><b>식자재 번호</b></td>
-											<td align=center><b>가게번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>원산지</b></td>
@@ -87,26 +144,27 @@
 											<td align=center><b>규격</b></td>
 											<td align=center><b>가격</b></td>
 											<td align=center><b>등록일</b></td>
-											<td align=center><b>삭제여부</b></td>
 										</tr>
 									</thead>
-		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
 			<tbody>
+		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
 				<tr>
-					<td align=center>${ingredient.i_no}</b></td>
-					<td align=center>${ingredient.s_no}</b></td>
-					<td align=center>${ingredient.ia_code}</b></td>
-					<td align=center>${ingredient.ib_code}</b></td>
-					<td align=center>${ingredient.io_code}</b></td>
-					<td align=center>${ingredient.i_name}</b></td>
-					<td align=center>${ingredient.i_size}</b></td>
-					<td align=center>${ingredient.i_price}</b></td>
-					<td align=center>${ingredient.reg_date}</b></td>
-					<td align=center>${ingredient.is_del}</b></td>
+				
+					<td align=center>${loopTagStatus.index+1}
+					<input type="hidden" name="i_no" value="${ingredient.i_no}">
+					<input type="hidden" value="${ingredient.s_no}">
+					<td align=center>${ingredient.ia_name}</td>
+					<td align=center>${ingredient.ib_name}</td>
+					<td align=center>${ingredient.io_name}</td>
+					<td align=center>${ingredient.i_name}</td>
+					<td align=center>${ingredient.i_size}</td>
+					<td align=center>${ingredient.i_price}</td>
+					<td align=center>${ingredient.reg_date}</td>
 				</tr>
-			</tbody>
 		</c:forEach>
+			</tbody>
 								</table>
+							</form>
 							</div>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
@@ -117,8 +175,8 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 추가 <span name=store_insert_form
-								style='float: right'> <input type='button' value='식자재 추가'
-								onClick='insert_store_reg_btn();'>
+								style='float: right'> 
+								<button type="button" class="btn btn-success update" value="식자재 추가" onClick="insert_ing_reg_btn();"> 식자재 추가 </button>
 							</span>
 						</div>
 						<div class="card-body">
@@ -180,26 +238,7 @@
 		</a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-						<button class="close" type="button" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">Select "Logout" below if you are ready
-						to end your current session.</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button"
-							data-dismiss="modal">Cancel</button>
-						<a class="btn btn-primary" href="login.html">Logout</a>
-					</div>
-				</div>
-			</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		</div>
 	</body>
 </html>

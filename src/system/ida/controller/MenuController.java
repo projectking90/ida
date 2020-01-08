@@ -7,6 +7,7 @@ package system.ida.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -107,11 +108,17 @@ public class MenuController {
 					, produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public int insertStoreMenu(
-			MenuDTO menuDTO) {
+			MenuDTO menuDTO
+			, HttpServletRequest request) {
 		int insert_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
+		int menu_ingredient_insert = 0;
 		
 		try {
 			insert_result = this.menuService.insertStoreMenu(menuDTO);
+			
+			menu_ingredient_insert = this.menuService.insertMenuIngredient(menuDTO);
+			
+			
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<insertStoreMenu 에러발생>");
 			System.out.println(e.getMessage());
@@ -131,13 +138,17 @@ public class MenuController {
 			MenuSearchDTO menu_searchDTO
 			,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "menu_update_form");
-		String s_id = (String)session.getAttribute("s_id");
-		menu_searchDTO.setS_id(s_id);
-		List<MenuDTO> menu_list = this.menuService.getMenuList(menu_searchDTO);
-		mav.addObject("menu_list", menu_list);
-		mav.addObject("menu_searchDTO", menu_searchDTO);
+		
 		try {
+			mav.setViewName(path + "menu_update_form");
+			
+			String s_id = (String)session.getAttribute("s_id");
+			menu_searchDTO.setS_id(s_id);
+			
+			List<MenuDTO> menu_list = this.menuService.getMenuList(menu_searchDTO);
+			mav.addObject("menu_list", menu_list);
+			mav.addObject("menu_searchDTO", menu_searchDTO);
+			
 			CodeMenuDTO codemenuDTO = new CodeMenuDTO();
 			codemenuDTO.setMa_nameList(this.menuService.getCodeMenuAlpha());
 			codemenuDTO.setMb_nameList(this.menuService.getCodeMenuBeta());

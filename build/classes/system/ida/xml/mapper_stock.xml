@@ -18,13 +18,15 @@
 			,(select i.i_price from ingredient i where i.i_no=st.i_no) as "i_price"
 		from stock st
 		where st.is_del='F'
+			and st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id}))
 	</select>
 		
 	<select id="getIngredientList" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_no "i_no"
 			,i_name "i_name"
-		from ingredient
+		from ingredient i
+		where i.s_no=(select s.s_no from store s where s.s_id=#{s_id})
 	</select>
 	
 	<insert id="insertStock" parameterType="system.ida.dto.StockDTO">
@@ -105,6 +107,24 @@
 		) values (
 			(select st_no from stock where i_no=${i_no})
 			,${quantity}
+		)
+	</insert>
+	
+	<select id="getInsertedStockQuantityCnt" parameterType="hashmap" resultType="int">
+		select 
+			quantity
+		from 
+			stock
+		where st_no=${st_no}
+	</select>
+	
+	<insert id="updateStockRecord" parameterType="hashmap">
+		insert into stock_record(
+			st_no
+			,quantity
+		)values(
+			${st_no}
+			,${change_quantity}
 		)
 	</insert>
 </mapper>

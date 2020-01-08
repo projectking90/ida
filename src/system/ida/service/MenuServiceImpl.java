@@ -136,8 +136,18 @@ public class MenuServiceImpl implements MenuService {
 		int delete_result=0;
 		for(int i=0; i<menu_delete.size(); i++) {
 			trData.put("mi_no", menu_delete.get(i));
-			delete_result += this.menuDAO.deleteStoreMenu(trData);
+			if(this.menuDAO.deleteMenuIngredient(trData)>=0) {
+				delete_result += this.menuDAO.deleteStoreMenu(trData);
+			}
 		}
 		return delete_result;
 	}
+
+	@Override
+	public int insertMenuIngredient(MenuDTO menuDTO) {
+		int menu_ingredient_insert = this.menuDAO.insertMenuIngredient(menuDTO);
+		
+		return menu_ingredient_insert;
+	}
+	
 }

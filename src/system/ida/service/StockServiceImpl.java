@@ -17,6 +17,7 @@ import system.ida.dao.StockDAO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
 import system.ida.dto.StockInsertDTO;
+import system.ida.dto.StockSearchDTO;
 
 /**
  * StockServiceImpl 클래스
@@ -42,8 +43,8 @@ public class StockServiceImpl implements StockService {
 	 * return : List<StockDTO>
 	 */
 	@Override
-	public List<StockDTO> getStockList(){
-		List<StockDTO> stock_list = this.stockDAO.getStockList();
+	public List<StockDTO> getStockList(StockSearchDTO stock_searchDTO){
+		List<StockDTO> stock_list = this.stockDAO.getStockList(stock_searchDTO);
 		return stock_list;
 	}
 	
@@ -54,8 +55,8 @@ public class StockServiceImpl implements StockService {
 	 */
 
 	@Override
-	public List<IngredientDTO> getIngredientList(){
-		List<IngredientDTO> ingredient_list=this.stockDAO.getIngredientList();
+	public List<IngredientDTO> getIngredientList(StockSearchDTO stock_searchDTO){
+		List<IngredientDTO> ingredient_list=this.stockDAO.getIngredientList(stock_searchDTO);
 		return ingredient_list;
 	}
 	
@@ -100,20 +101,34 @@ public class StockServiceImpl implements StockService {
 		return -1;
 	}
 
+	/**
+	 * 재고 수정
+	 * @param stock_update
+	 * @return
+	 */
 	@Override
 	public int updateStock(ArrayList<String> stock_update) {
 		Map<String, String> trData = new HashMap<String, String>();
 		int stock_update_cnt = 0;
-		
+		int stock_inserted_quantity_cnt = 0;
 		for(int i=0; i<stock_update.size(); i++) {
 			if(i%3==0) {
 				trData.put("st_no", stock_update.get(i));
+				int st_no= Integer.parseInt(stock_update.get(i));
+				// 기존 저장된 quantity
+				stock_inserted_quantity_cnt = this.stockDAO.getInsertedStockQuantityCnt(trData);
 			}else if(i%3==1) {
 				trData.put("quantity", stock_update.get(i));
+				int quantity = Integer.parseInt(stock_update.get(i));
+				int change_quantity = quantity-stock_inserted_quantity_cnt; // 입력수량-현재수량 저장할 값
+				if(change_quantity!=0) {
+					trData.put("change_quantity", Integer.toString(change_quantity));
+					int updated_stock_record = this.stockDAO.updateStockRecord(trData); 
+					//System.out.println("i "+i+" quantity "+quantity+" stock_inserted_quantity_cnt "+stock_inserted_quantity_cnt+" change_quantity "+change_quantity);
+				}
 			}else if(i%3==2) {
 				trData.put("st_state", stock_update.get(i));
 				stock_update_cnt += this.stockDAO.updateStock(trData);
-				//System.out.println("stock_update_cnt : "+stock_update_cnt);
 			}
 		}
 		

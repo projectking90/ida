@@ -96,6 +96,9 @@
 						<select name="gu"></select>
 						<select name="dong"></select>
 						<a class="btn btn-primary btn-block register">회원가입</a>
+						<div class="text-center">
+							<a class="d-block mt-3 back">이전</a>
+						</div>
 					</form>
 				</div>
 			</div>

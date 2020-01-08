@@ -4,13 +4,20 @@
  */
 package system.ida.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.Code_ingredientDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.IngredientSearchDTO;
 import system.ida.service.IngredientService;
@@ -40,14 +47,18 @@ public class IngredientController {
 	 */
 	@RequestMapping(value="/ingredient_form.ida")
 	public ModelAndView goIngredientForm(
-			IngredientSearchDTO ingredient_searchDTO) {
+		IngredientSearchDTO ingredient_searchDTO
+		,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_form");
 		
 		try {
+			String s_id =(String)session.getAttribute("s_id");
+			ingredient_searchDTO.setS_id(s_id);
 			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
 			
 			mav.addObject("ingredient_list",ingredient_list);
+			mav.addObject("ingredient_searchDTO",ingredient_searchDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -56,6 +67,36 @@ public class IngredientController {
 		return mav;
 	}
 
+	
+	
+
+	/**
+	 * 식자재 추가 기능 실행시 데이터베이스와 연동 처리할 메소드
+	 * 가상주소 /ingredient_insert.ida로 접근하면 호출
+	 * @param IngredientDTO : 식자재 추가를 위해 사용하는 DTO
+	 * @return insert_result : 식자재 추가 Query 실행 결과
+	 */
+	@RequestMapping(value="/ingredient_insert.ida"
+		, method=RequestMethod.POST
+		, produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public int insertIngredient(
+		IngredientDTO ingredientDTO) {
+		int insert_result =0; 		//데이터베이스 실행 후 결과를 저장
+		
+		try {
+			insert_result = this.ingredientService.insertIngredient(ingredientDTO);
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goIngredientInsertForm 에러발생>");
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		
+		return insert_result;
+	}
+	
+	
+	
 	/**
 	 * 식자재 수정 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드
 	 * 가상주소 /ingredient_update_form.ida로 접근하면 호출
@@ -63,14 +104,21 @@ public class IngredientController {
 	 */
 	@RequestMapping(value="/ingredient_update_form.ida")
 	public ModelAndView goIngredientUpdateForm(
-			IngredientSearchDTO ingredient_searchDTO) {
+			IngredientSearchDTO ingredient_searchDTO
+			,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_update_form");
 		
 		try {
+			String s_id =(String)session.getAttribute("s_id");
+			ingredient_searchDTO.setS_id(s_id);
 			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
-			
 			mav.addObject("ingredient_list",ingredient_list);
+			Code_ingredientDTO code_ingredientDTO = new Code_ingredientDTO();
+			code_ingredientDTO.setIa_nameList(this.ingredientService.getCodeIngAlpha());
+			code_ingredientDTO.setIb_nameList(this.ingredientService.getCodeIngBeta());
+			code_ingredientDTO.setIo_nameList(this.ingredientService.getCodeIngOrigin());
+			mav.addObject(code_ingredientDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientUpdateForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -78,23 +126,86 @@ public class IngredientController {
 		
 		return mav;
 	}
-
+	
+	@RequestMapping(value="/ingredient_update_proc.ida")
+	@ResponseBody
+	public int tableUpdateProc(
+			@RequestParam(value="trArr") ArrayList<String> ingredient_update
+	) 
+	{
+		int ingredient_update_cnt = 0;
+		
+		try {				 
+			ingredient_update_cnt = this.ingredientService.updateIngredient(ingredient_update);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		
+		return ingredient_update_cnt;
+	}
+	
+	
+	
+	
+	
 	/**
 	 * 식자재 삭제 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드
 	 * 가상주소 /ingredient_delete_form.ida로 접근하면 호출
 	 * @return mav : /ingredient_delete_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
 	 */
 	@RequestMapping(value="/ingredient_delete_form.ida")
-	public ModelAndView goIngredientDeleteForm() {
+	public ModelAndView goIngredientDeleteForm(
+		HttpSession session
+		,IngredientSearchDTO ingredient_searchDTO) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_delete_form");
-		
+		 
 		try {
+			String s_id =(String)session.getAttribute("s_id");
+			ingredient_searchDTO.setS_id(s_id);
+			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
+			mav.addObject("ingredient_list",ingredient_list);
+			mav.addObject("ingredient_searchDTO",ingredient_searchDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientDeleteForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		
 		return mav;
+	}
+	
+	/**
+	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
+	 * 가상주소 /ingredeint_delete.onm로 접근하면 호출
+	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
+	 * @return delete_result : 식자제 삭제 Query 실행 결과
+	 */
+	@RequestMapping(value="/ingredeint_delete.ida")
+	@ResponseBody
+	public int deleteIngredient(
+			IngredientDTO ingredientDTO
+			,IngredientSearchDTO ingredient_searchDTO
+			,HttpSession session
+			,@RequestParam(value="trArr") ArrayList<String> ingredient_delete) {
+		int delete_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
+		
+		for(int index=0; index<ingredient_delete.size(); index++) {
+			System.out.println(ingredient_delete.get(index));
+		}
+
+		try {
+			String s_id = (String)session.getAttribute("s_id");
+			ingredient_searchDTO.setS_id(s_id);
+			delete_result = this.ingredientService.deleteIngredient(ingredient_delete);
+			System.out.print("del : " + delete_result);
+			
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<deleteStoreMenu 에러발생>");
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		
+		return delete_result;
 	}
 }

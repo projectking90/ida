@@ -108,12 +108,12 @@
 	}
 	
 	function updateUser(){
-		if(!is_empty("[name=update_user_form] [name=pwd]") || !is_empty("[name=update_user_form] [id=newPwd]") || !is_empty("[name=update_user_form] [id=confirmPassword]")){
-			if(is_empty("[name=update_user_form] [name=pwd]")){
-				alert("현재 비밀번호를 입력하세요");
-				return;
-			}
-			
+		if(is_empty("[name=update_user_form] [name=pwd]")){
+			alert("현재 비밀번호를 입력하세요");
+			return;
+		}
+		
+		if(!is_empty("[name=update_user_form] [id=newPwd]") || !is_empty("[name=update_user_form] [id=confirmPassword]")){
 			if(is_empty("[name=update_user_form] [name=newPwd]")){
 				alert("새로운 비밀번호를 입력하세요");
 				return;

@@ -23,6 +23,7 @@ public class MenuDTO {
 	private String mi_comment;
 	private String reg_date;
 	private String is_del;
+	private String[] i_name;
 
 	
 	/**
@@ -117,5 +118,13 @@ public class MenuDTO {
 	 */
 	public void setS_id(String s_id) {
 		this.s_id = s_id;
+	}
+
+	public String[] getI_name() {
+		return i_name;
+	}
+
+	public void setI_name(String[] i_name) {
+		this.i_name = i_name;
 	}
 }

@@ -217,4 +217,26 @@ public class UserController {
 		
 		return updateCnt;
 	}
+	
+	/**
+	 * 로그아웃 화면을 보여줄 jsp를 보여주는 메소드
+	 * 가상주소 /logout_form.ida로 접근하면 호출
+	 * @param session : HttpSession 객체
+	 * @return mav : /logout_form.ida에 맵핑되는 jsp 파일
+	 */
+	@RequestMapping(value="/logout_form.ida")
+	public ModelAndView goLoginOutForm(
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			session.invalidate();	// session 객체의 수명을 0으로 만듬
+			mav.setViewName(path + "logout_form");
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goLoginOutForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  <display-name>z_spring3</display-name>
+  <display-name>ida</display-name>
 	<!--********************************************************************-->
 	<!--클라이언트가 보내는 문자의 인코딩을 관리하는 객체로 CharacterEncodingFilter 객체를 설정-->
 	<!--	CharacterEncodingFilter 객체가 관리하는 인코딩을 UTF-8 로 지정한다. -->

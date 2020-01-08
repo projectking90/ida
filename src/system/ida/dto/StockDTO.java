@@ -12,6 +12,7 @@ public class StockDTO {
 	private String st_state;
 	private String reg_date;
 	private int i_price;
+	private String s_id;
 	
 	public int getSt_no() {
 		return st_no;
@@ -78,5 +79,11 @@ public class StockDTO {
 	}
 	public void setI_price(int i_price) {
 		this.i_price = i_price;
+	}
+	public String getS_id() {
+		return s_id;
+	}
+	public void setS_id(String s_id) {
+		this.s_id = s_id;
 	}
 }

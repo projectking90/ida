@@ -28,3 +28,15 @@ select
 	*
 from
 	order_menu;
+	
+update order_info
+set order_time = to_date(to_char(pickup_time, 'yyyy')
+	|| '-' || to_char(pickup_time, 'mm')
+	|| '-' || to_char(pickup_time, 'dd')
+	|| ' ' || to_char(pickup_time, 'hh')
+	|| ':' || to_char((case
+							when (to_number(to_char(pickup_time, 'mi')) - 10)<0
+							then (60+(to_number(to_char(pickup_time, 'mi')) - 10))
+							else (to_number(to_char(pickup_time, 'mi')) - 10)
+						end))
+	|| ':' || to_char(pickup_time, 'ss'));

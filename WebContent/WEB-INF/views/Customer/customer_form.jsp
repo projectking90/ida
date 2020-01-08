@@ -70,26 +70,22 @@
 									<thead>
 										<tr>
 											<td align=center resize=3><b>고객 번호</b></td>
-											<td align=center><b>가게번호</b></td>
 											<td align=center><b>핸드폰</b></td>
 											<td align=center><b>성별</b></td>
 											<td align=center><b>나이대</b></td>
 											<td align=center><b>주문시간</b></td>
 											<td align=center><b>픽업시간</b></td>
-											<td align=center><b>삭제여부</b></td>
 										</tr>
 									</thead>
 								<c:forEach items="${customer_list}" var="customer" varStatus="loopTagStatus">
 									<tbody>
 										<tr>
-											<td align=center><b>${customer.oi_no}</b></td>
-											<td align=center><b>${customer.s_no}</b></td>
+											<td align=center><b>${loopTagStatus.index+1}</b></td>
 											<td align=center><b>${customer.c_phone}</b></td>
 											<td align=center><b>${customer.gender}</b></td>
-											<td align=center><b>${customer.age}</b></td>
+											<td align=center><b>${customer.age}대</b></td>
 											<td align=center><b>${customer.order_time}</b></td>
 											<td align=center><b>${customer.pickup_time}</b></td>
-											<td align=center><b>${customer.is_del}</b></td>
 										</tr>
 									</tbody>
 											</c:forEach>
@@ -129,26 +125,7 @@
 		</a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-						<button class="close" type="button" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">Select "Logout" below if you are ready
-						to end your current session.</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button"
-							data-dismiss="modal">Cancel</button>
-						<a class="btn btn-primary" href="login.html">Logout</a>
-					</div>
-				</div>
-			</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		</div>
 	</body>
 </html>

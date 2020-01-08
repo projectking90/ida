@@ -28,6 +28,7 @@
 		$("body").prepend("${sessionScope.s_id}");
 		titleBars();
 		setSidebars();
+		setLogoutFunc();
 	});
 	
 	/**
@@ -57,6 +58,7 @@
 		$(".sidebar").append('<li class="nav-item dropdown menu_side"></li>');
 		$(".sidebar").append('<li class="nav-item dropdown ingredient_side"></li>');
 		$(".sidebar").append('<li class="nav-item dropdown stock_side"></li>');
+		$(".sidebar").append('<li class="nav-item dropdown customer_side"></li>');
 		
 		$(".order_side").append('<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>');
 		$(".order_side").append('<div class="dropdown-menu" aria-labelledby="pagesDropdown"></div>');
@@ -81,6 +83,32 @@
 		$(".stock_side").find('a').append('<i class="fas fa-bars"></i> <span>재고</span>');
 		$(".stock_side").find('div').append('<a class="dropdown-item" href="${cr}/stock_form.ida"><i class="fas fa-fw fa-table"></i>재고관리</a>');
 		$(".stock_side").find('div').append('<a class="dropdown-item" href="charts.html"><i class="fas fa-fw fa-chart-area"></i>재고분석</a>');
+
+		$(".customer_side").append('<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>');
+		$(".customer_side").append('<div class="dropdown-menu" aria-labelledby="pagesDropdown"></div>');
+		$(".customer_side").find('a').append('<i class="fas fa-bars"></i> <span>고객</span>');
+		$(".customer_side").find('div').append('<a class="dropdown-item" href="${cr}/customer_form.ida"><i class="fas fa-fw fa-table"></i>고객관리</a>');
+		$(".customer_side").find('div').append('<a class="dropdown-item" href="charts.html"><i class="fas fa-fw fa-chart-area"></i>고객분석</a>');
+	}
+	
+	/**
+	* Logout Function
+	*/
+	function setLogoutFunc(){
+		$("#logoutModal").prepend('<div class="modal-dialog logout_dialog" role="document"></div>');
+		
+		$(".logout_dialog").append('<div class="modal-content logout_content"></div>');
+		
+		$(".logout_content").append('<div class="modal-header logout_header"></div>');
+		$(".logout_content").append('<div class="modal-body logout_body"></div>');
+		$(".logout_content").append('<div class="modal-footer logout_footer"></div>');
+		
+		$(".logout_header").append('<h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>');
+		$(".logout_header").append('<button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>');
+		
+		$(".logout_body").append('정말로 로그아웃 하시겠습니까?<br>로그아웃 하시면 로그인 페이지로 돌아갑니다.');
+
+		$(".logout_footer").append('<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button> <a class="btn btn-primary" href="${cr}/logout_form.ida">로그아웃</a>');
 	}
 </script>
 <%

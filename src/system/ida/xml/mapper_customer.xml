@@ -3,20 +3,17 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.CustomerDAO">
-
-
-	<!-- 가게에 등록된 식자재 목록을 가져오는 select 태그 -->
+	<!-- 가게에 주문한 고객 목록을 가져오는 select 태그 -->
 	<select id="getCustomerList" parameterType="system.ida.dto.CustomerSearchDTO" resultType="system.ida.dto.CustomerDTO">
 			select
-				oi_no||'' 			as "oi_no"
-				,s_no 				as "s_no"
-				,c_phone 			as "c_phone"
-				,gender 			as "gender"
-				,age 				as "age"
-				,order_time 		as "order_time"
-				,pickup_time 		as "pickup_time"
-				,is_del 			as "is_del"
-			from order_info
+				oi.oi_no	as "oi_no"
+				, (select s_name from store s where oi.s_no=s.s_no)	as "S_NAME"
+				, c_phone	as "c_phone"
+				, (case gender when '1' then '남' else '여' end)	as "GENDER"
+				, age 				as "age"
+				, order_time	as "order_time"
+				, pickup_time	as "pickup_time"
+			from order_info oi
 			where is_del = 'F'
 	</select>
 </mapper>

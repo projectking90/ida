@@ -34,4 +34,5 @@ public interface MenuService {
 	List<IngredientDTO> getIngredientList(String s_id);
 	int updateStoreMenu(ArrayList<String> menu_update);	// 가게 메뉴 수정
 	int deleteStoreMenu(ArrayList<String> menu_delete);	// 가게 메뉴 삭제
+	int insertMenuIngredient(MenuDTO menuDTO);
 }

@@ -103,13 +103,10 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public int updateUserInfo(UserUpdateDTO user_updateDTO) {
-		int updateCnt = 0;
-
-		if(!user_updateDTO.getNewPwd().equals("wLn3W6nd568lPQKBtdZ4tA==")) {
-			updateCnt = this.userDAO.getLoginCnt(user_updateDTO);
-			if(updateCnt==0) {
-				return -1;
-			}
+		int updateCnt = this.userDAO.getLoginCnt(user_updateDTO);
+		
+		if(updateCnt==0) {
+			return -1;
 		}
 		
 		updateCnt = this.userDAO.updateUserInfo(user_updateDTO);

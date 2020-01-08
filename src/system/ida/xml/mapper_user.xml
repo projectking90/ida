@@ -95,7 +95,7 @@
 			, s_phone = #{s_phone}
 			, email = #{email} 
 			, addr_code = #{addr_code}
-			<if test="!pwd.equals('wLn3W6nd568lPQKBtdZ4tA==')">
+			<if test="!newPwd.equals('wLn3W6nd568lPQKBtdZ4tA==')">
 				,pwd = #{newPwd}
 			</if>
 		where

@@ -16,6 +16,10 @@
 			registerUser();
 		});
 		
+		$(".back").click(function(){
+			location.replace("${cr}/login_form.ida");
+		});
+		
 		setCity();
 		
 		$("[name=register_user_form] [name=city]").change(function(){

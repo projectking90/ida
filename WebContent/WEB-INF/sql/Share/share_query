@@ -4,7 +4,7 @@ create table share_ingredient(	-- 인근 매장 발주
 	, si_quantity	number(10)	-- 수량
 	, sr_state	varchar2(1)	not null check(sr_state in('i', 'o'))	-- 점입출상태
 	, deal	varchar2(1000)	-- 조건
-	, si_state	varchar2(1)	default 'n' check(si_state in('n', 'y'))	-- 거래상태
+	, si_state	varchar2(1)	default 'n' check(si_state in('n', 'r', 'y'))	-- 거래상태
 	, is_del	varchar2(1)	default 'F'  check(is_del in('F', 'T'))	-- 삭제여부
 	, reg_date	date	default sysdate	-- 등록일
 	, primary key(si_no)
@@ -19,7 +19,7 @@ from
 create table share_ingredient_record(	-- 인근 매장 발주 기록
 	si_no	number(10)	-- 인근매장발주번호
 	, s_no	number(10)	-- 신청한가게번호
-	, sir_state	varchar2(1)	default 'n' check(sir_state in('n', 'y'))	-- 거래상태
+	, sir_state	varchar2(1)	default 'n' check(sir_state in('n', 'r', 'y'))	-- 거래상태
 	, is_del	varchar2(1)	default 'F'  check(is_del in('F', 'T'))	-- 삭제여부
 	, reg_date	date	default sysdate	-- 등록일
 	, foreign key(si_no) references share_ingredient(si_no)
