@@ -96,15 +96,15 @@
 	}
 	
 	function setDong(){
-		var city = $("[name=update_user_form] [name=city]").val();
+		var city = $("[name=register_user_form] [name=city]").val();
 		var gun = $("[name=register_user_form] [name=gun]").val();
 		var gu = $("[name=register_user_form] [name=gu]").val();
 		var dong = $("[name=register_user_form] [name=dong]");
-
+		
 		$.ajax({
 			url : "${cr}/get_dong.ida"
 			, type : "post"
-			, data : "city=" + city + "gun=" + gun + "&gu=" + gu
+			, data : "city=" + city + "&gun=" + gun + "&gu=" + gu
 			, success : function(dong_list){
 				dong.empty();
 				dong.append("<option></option>");

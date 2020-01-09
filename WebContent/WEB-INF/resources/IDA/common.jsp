@@ -19,7 +19,7 @@
 <!-- JQuery 라이브러리 파일 수입 -->
 <script src="${cr}/resources/IDA/jquery-1.11.0.min.js" type="text/javascript"></script>
 <!-- CSS파일 수입 -->
-<link href="${cr}/resources/IDA/common.css" rel="stylesheet" type="text/css">
+<%-- <link href="${cr}/resources/IDA/common.css" rel="stylesheet" type="text/css"> --%>
 <!-- javascript 파일 수입 -->
 <script src="${cr}/resources/IDA/common.js" type="text/javascript"></script>
 
@@ -52,7 +52,7 @@
 	* Sidebar Setting
 	*/
 	function setSidebars(){
-		$("#wrapper").prepend('<ul class="sidebar navbar-nav"></ul>');
+		$("#wrapper").prepend('<ul class="sidebar navbar-nav toggled"></ul>');
 		
 		$(".sidebar").append('<li class="nav-item dropdown order_side"></li>');
 		$(".sidebar").append('<li class="nav-item dropdown menu_side"></li>');

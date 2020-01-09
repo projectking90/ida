@@ -11,6 +11,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>주문관리</title>
+		<!-- Custom fonts for this template-->
+		<link href="${cr}/resources/Order/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+		<!-- Page level plugin CSS-->
+		<link href="${cr}/resources/Order/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+		<!-- Custom styles for this template-->
+		<link href="${cr}/resources/Order/css/sb-admin.css" rel="stylesheet">
 		<!-- Bootstrap core JavaScript-->
 		<script src="${cr}/resources/Order/jquery/jquery.min.js"></script>
 		<script src="${cr}/resources/Order/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -23,13 +29,6 @@
 		<script src="${cr}/resources/Order/js/sb-admin.min.js"></script>
 		<!-- Demo scripts for this page-->
 		<script src="${cr}/resources/Order/js/demo/datatables-demo.js"></script>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Order/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Order/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Order/css/sb-admin.css" rel="stylesheet">
-
 		<script>
 			$(document).ready(function(){
 				$(".update").click(function(){
@@ -42,7 +41,7 @@
 			});
 		</script>
 	</head>
-	<body id="page-top">
+	<body id="page-top" class="sidebar-toggled">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 		</nav>
 	

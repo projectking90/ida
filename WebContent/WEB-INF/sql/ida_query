@@ -4,6 +4,11 @@
 */
 
 /*
+	drop view login_store;
+	drop view code_city_name;
+	drop view code_gun_name;
+	drop view code_gu_name;
+	drop view code_dong_name;
 	drop table share_ingredient_record;
 	drop table share_ingredient;
 	drop table menu_ingredient;
@@ -77,6 +82,66 @@ select
 	*
 from
 	manager;
+	
+create view login_store
+as (select
+		s_no
+		, s_id
+		, pwd
+	from
+		store);
+
+select
+	*
+from
+	login_store;
+	
+create view code_city_name
+as (select
+		distinct(city)
+	from
+		code_addr);
+
+select
+	*
+from
+	code_city_name;
+	
+create view code_gun_name
+as (select
+		distinct city
+		, gun
+	from
+		code_addr);
+
+select
+	*
+from
+	code_gun_name;
+	
+create view code_gu_name
+as (select
+		distinct gun
+		, gu
+	from
+		code_addr);
+
+select
+	*
+from
+	code_gu_name;
+	
+create view code_dong_name
+as (select
+		distinct city, gun, gu
+		, dong
+	from
+		code_addr);
+
+select
+	*
+from
+	code_dong_name;
 	
 create table code_ingredient_alpha(	-- 식자재 대분류 코드
 	ia_code	number(10)	-- 식자재대분류코드
