@@ -5,14 +5,47 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Manager/login_manager_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>관리자 로그인</title>
 	</head>
-	<body>
-		
+	<body class="bg-dark">
+		<div class="container">
+			<div class="card card-login mx-auto mt-5">
+				<div class="card-header">관리자 로그인</div>
+				<div class="card-body">
+					<form name="manger_info_form">
+						<div class="form-group">
+							<div class="form-label-group">
+								<input type="text"
+									id="inputtext" class="form-control" placeholder="ID"
+									required="required" autofocus="autofocus" name="m_id">
+								<label for="inputtext">아이디</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-label-group">
+								<input type="password"
+									id="inputPassword" class="form-control" placeholder="Password"
+									required="required" name="pwd">
+								<label for="inputPassword">비밀번호</label>
+							</div>
+						</div>
+					</form>
+				</div>
+				<a class="btn btn-primary btn-block login">로그인</a>
+				<div class="text-center">
+					<a class="d-block small mt-3 register">[회원가입]</a>
+				</div>
+				<div class="text-center">
+					<a class="d-block small mt-3 user">[사용자모드]</a>
+				</div><div class="text-center">
+					<a class="d-block small mt-3">&nbsp;</a>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

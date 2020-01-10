@@ -25,30 +25,35 @@
 	<body class="bg-dark">
 		<div class="container">
 			<div class="card card-login mx-auto mt-5">
-				<div class="card-header">Login</div>
+				<div class="card-header">로그인</div>
 				<div class="card-body">
 					<form name="user_info_form">
 						<div class="form-group">
 							<div class="form-label-group">
-								아이디 : <label for="inputtext"></label> <input type="text"
-									id="inputtext" class="form-control" placeholder="ID"
+								<input type="text"
+									id="inputSId" class="form-control" placeholder="ID"
 									required="required" autofocus="autofocus" name="s_id">
-	
+								<label for="inputSId">아이디</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-label-group">
-								비밀번호 : <label for="inputPassword"></label> <input type="password"
+								<input type="password"
 									id="inputPassword" class="form-control" placeholder="Password"
 									required="required" name="pwd">
-	
+								<label for="inputPassword">비밀번호</label>
 							</div>
 						</div>
 					</form>
 				</div>
 				<a class="btn btn-primary btn-block login">로그인</a>
 				<div class="text-center">
-					<a class="d-block small mt-3 register">회원가입</a>
+					<a class="d-block small mt-3 register">[회원가입]</a>
+				</div>
+				<div class="text-center">
+					<a class="d-block small mt-3 manager">[관리자모드]</a>
+				</div><div class="text-center">
+					<a class="d-block small mt-3">&nbsp;</a>
 				</div>
 			</div>
 		</div>

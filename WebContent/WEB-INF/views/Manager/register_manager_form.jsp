@@ -5,34 +5,24 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/register_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Manager/register_manager_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>회원가입</title>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/IDA/fontawesome-free/css/all.min.css"
-			rel="stylesheet" type="text/css">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/IDA/css/sb-admin.css" rel="stylesheet">
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/IDA/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/IDA/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/IDA/jquery-easing/jquery.easing.min.js"></script>
+		<title>관리자 회원가입</title>
 	</head>
 	<body class="bg-dark">
 		<div class="container">
 			<div class="card card-register mx-auto mt-5">
 				<div class="card-header">회원가입</div>
 				<div class="card-body">
-					<form name="register_user_form">
+					<form name="register_manager_form">
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputSId" class="form-control"
-									placeholder="ID" required="required" name="s_id"> <label
-									for="inputSId" >아이디</label>
+								<input type="text" id="inputMId" class="form-control"
+									placeholder="ID" required="required" name="m_id"> <label
+									for="inputMId" >아이디</label>
 							</div>
 						</div>
 	
@@ -55,34 +45,15 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
-								<input type="text" id="inputStoreName" class="form-control"
-									placeholder="text" required="required" name="com_name"> <label
-									for="inputStoreName">가게명</label>
+								<input type="text" id="inputName" class="form-control"
+									placeholder="text" required="required" name="m_name"> <label
+									for="inputName">이름</label>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="form-label-group">
-								<input type="text" id="inputSName" class="form-control"
-									placeholder="text" required="required" name="s_name"> <label
-									for="inputSName">사업자명</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-label-group">
-								<input type="text" id="inputSRegNum" class="form-control"
-									placeholder="text" required="required" name="s_reg_num"> <label
-									for="inputSRegNum">사업자등록번호(***-**-*****)</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-label-group">
-								<input type="text" id="inputSPhone" class="form-control"
-									placeholder="text" required="required" name="s_phone"> <label
-									for="inputSPhone">핸드폰(-없이)</label>
-							</div>
-						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="text" id="inputEmail" class="form-control"
@@ -90,11 +61,7 @@
 									for="inputEmail">이메일</label>
 							</div>
 						</div>
-						주소<br>
-						<select name="city"></select>
-						<select name="gun"></select>
-						<select name="gu"></select>
-						<select name="dong"></select>
+						
 						<a class="btn btn-primary btn-block register">회원가입</a>
 						<div class="text-center">
 							<a class="d-block mt-3 back">이전</a>

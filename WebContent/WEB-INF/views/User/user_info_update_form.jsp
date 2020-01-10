@@ -68,7 +68,7 @@
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:input path="s_phone" id="inputSPhone" class="form-control" placeholder="text" required="required"/>
-								<form:label path="s_phone" for="inputSPhone">핸드폰(-뺴고)</form:label>
+								<form:label path="s_phone" for="inputSPhone">핸드폰(-없이)</form:label>
 							</div>
 						</div>
 						<div class="form-group">

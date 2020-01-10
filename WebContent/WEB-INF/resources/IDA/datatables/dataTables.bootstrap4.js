@@ -50,8 +50,8 @@ $.extend( true, DataTable.defaults, {
 		"<'row'<'col-sm-12'tr>>" +
 		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 	renderer: 'bootstrap'
+	, reponsive: true
 } );
-
 
 /* Default class modification */
 $.extend( DataTable.ext.classes, {

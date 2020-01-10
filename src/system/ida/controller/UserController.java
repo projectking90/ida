@@ -101,7 +101,7 @@ public class UserController {
 	 * @return mav : /register_form.ida에 맵핑되는 jsp 파일
 	 */
 	@RequestMapping(value="/register_form.ida")
-	public ModelAndView goReigsterForm() {
+	public ModelAndView goRegForm() {
 		ModelAndView mav = new ModelAndView();
 		
 		try {
@@ -111,7 +111,7 @@ public class UserController {
 			
 			mav.addObject("city_list", city_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<goReigsterForm 에러발생>");
+			System.out.println("<goRegForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		

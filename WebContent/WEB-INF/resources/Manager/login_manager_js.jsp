@@ -5,7 +5,7 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- css에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/IDA/common.jsp" %>
+<%@ include file="/WEB-INF/resources/IDA/ida_js.jsp" %>
 <!DOCTYPE html>
 <style>
 </style>
@@ -17,17 +17,21 @@
 		});
 		
 		$(".register").click(function(){
-			location.replace("${cr}/register_form.ida");
+			location.replace("${cr}/register_manager_form.ida");
 		});
+		
+		$(".user").click(function(){
+			location.replace("${cr}/login_form.ida");
+		})
 	});
 	
 	function checkLoginForm(){
-		if(is_empty("[name=user_info_form] [name=s_id]")){
+		if(is_empty("[name=manger_info_form] [name=m_id]")){
 			alert("아이디를 입력하세요");
 			return;
 		}
 		
-		if(is_empty("[name=user_info_form] [name=pwd]")){
+		if(is_empty("[name=manger_info_form] [name=pwd]")){
 			alert("비밀번호를 입력하세요");
 			return;
 		}
@@ -35,7 +39,7 @@
 		$.ajax({
 			url : "${cr}/login_proc.ida"
 			, type : "post"
-			, data : $("[name=user_info_form]").serialize()
+			, data : $("[name=manger_info_form]").serialize()
 			, success : function(loginCnt){
 				if(loginCnt==1){
 					location.replace("${cr}/order_form.ida");

@@ -19,6 +19,10 @@
 		$(".register").click(function(){
 			location.replace("${cr}/register_form.ida");
 		});
+		
+		$(".manager").click(function(){
+			location.replace("${cr}/login_manager_form.ida");
+		});
 	});
 	
 	function checkLoginForm(){
