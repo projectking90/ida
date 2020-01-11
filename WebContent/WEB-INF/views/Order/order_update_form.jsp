@@ -3,35 +3,14 @@
 <!-- 이 문서 안의 데이터는 UTF-8방식으로 인코딩한다라고 설정함 -->
 <!-- 현재 이 JSP 페이지는 UTF-8 방식으로 인코딩한다. -->
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Order/order_update_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>재고수정</title>
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/Stock/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/Stock/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/Stock/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Page level plugin JavaScript-->
-		<script src="${cr}/resources/Stock/datatables/jquery.dataTables.js"></script>
-		<script src="${cr}/resources/Stock/datatables/dataTables.bootstrap4.js"></script>
-		<!-- Custom scripts for all pages-->
-		<script src="${cr}/resources/Stock/js/sb-admin.min.js"></script>
-		<!-- Demo scripts for this page-->
-		<script src="${cr}/resources/Stock/js/demo/datatables-demo.js"></script>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Stock/fontawesome-free/css/all.min.css"
-			rel="stylesheet" type="text/css">
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Stock/datatables/dataTables.bootstrap4.css"
-			rel="stylesheet">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Stock/css/sb-admin.css" rel="stylesheet">
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">

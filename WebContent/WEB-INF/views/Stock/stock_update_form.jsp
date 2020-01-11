@@ -3,71 +3,14 @@
 <!-- 이 문서 안의 데이터는 UTF-8방식으로 인코딩한다라고 설정함 -->
 <!-- 현재 이 JSP 페이지는 UTF-8 방식으로 인코딩한다. -->
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Stock/stock_update_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>재고수정</title>
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/Stock/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/Stock/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/Stock/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Page level plugin JavaScript-->
-		<script src="${cr}/resources/Stock/datatables/jquery.dataTables.js"></script>
-		<script src="${cr}/resources/Stock/datatables/dataTables.bootstrap4.js"></script>
-		<!-- Custom scripts for all pages-->
-		<script src="${cr}/resources/Stock/js/sb-admin.min.js"></script>
-		<!-- Demo scripts for this page-->
-		<script src="${cr}/resources/Stock/js/demo/datatables-demo.js"></script>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Stock/fontawesome-free/css/all.min.css"
-			rel="stylesheet" type="text/css">
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Stock/datatables/dataTables.bootstrap4.css"
-			rel="stylesheet">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Stock/css/sb-admin.css" rel="stylesheet">
-		<script>
-			function stock_update_btn(){
-				var trArr = new Array();
-				
-				$(".stock_list_tr").each(function(index){
-					trArr[index] = new Array();
-					trArr[index].push($(this).find("[name='st_no']").val());
-					trArr[index].push($(this).find("[name='quantity']").val());
-					trArr[index].push($(this).find("[name='st_state']").val());
-				});
-	
-				//alert(trArr);
-				$.ajax({
-					// 접속할 서버 쪽 url 주소 설정
-					url : "/ida/stock_update_proc.ida"
-					// 전송 방법 설정
-					, type : "post"
-					// 서버로 보낼 파라미터명과 파라미터값을 설정
-					, data : "trArr=" + trArr
-					// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
-					// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
-					, success : function(stock_update_cnt){						
-						if(stock_update_cnt>=0){
-							alert("수정 성공하였습니다.");
-							location.replace("${cr}/stock_form.ida");
-						}else{
-							alert("수정 실패하였습니다. 관리자에게 문의해주시기 바랍니다.");
-						}
-					}
-					// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
-					,error : function(){
-						alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
-					}
-				});
-			}
-		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -88,7 +31,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
 							<span name=stock_form style='float:right'>
-								<input type="button" class="btn btn-primary" value="재고 수정완료" onClick='stock_update_btn();'>
+								<input type="button" class="btn btn-primary update" value="재고 수정완료">
 							</span>
 						</div>
 						<div class="card-body">

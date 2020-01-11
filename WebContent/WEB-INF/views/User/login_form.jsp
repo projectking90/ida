@@ -11,16 +11,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>로그인</title>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/IDA/fontawesome-free/css/all.min.css"
-			rel="stylesheet" type="text/css">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/IDA/css/sb-admin.css" rel="stylesheet">
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/IDA/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/IDA/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/IDA/jquery-easing/jquery.easing.min.js"></script>
 	</head>
 	<body class="bg-dark">
 		<div class="container">

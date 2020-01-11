@@ -5,105 +5,12 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Ingredient/ingredient_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>식자재 관리</title>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Ingredient/fontawesome-free/css/all.min.css" rel="stylesheet"
-			type="text/css">
-		
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Ingredient/datatables/dataTables.bootstrap4.css"
-			rel="stylesheet">
-		
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Ingredient/css/sb-admin.css" rel="stylesheet">
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/Ingredient/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/Ingredient/bootstrap/js/bootstrap.bundle.min.js"></script>
-		
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/Ingredient/jquery-easing/jquery.easing.min.js"></script>
-		
-		<!-- Page level plugin JavaScript-->
-		<script src="${cr}/resources/Ingredient/datatables/jquery.dataTables.js"></script>
-		<script src="${cr}/resources/Ingredient/datatables/dataTables.bootstrap4.js"></script>
-		
-		<!-- Custom scripts for all pages-->
-		<script src="${cr}/resources/Ingredient/js/sb-admin.min.js"></script>
-		
-		<!-- Demo scripts for this page-->
-		<script src="${cr}/resources/Ingredient/js/demo/datatables-demo.js"></script>
-		<script>
-			function insert_ing_reg_btn() {
-				if(is_empty("[name=insertMenuForm] [name=ia_name]")){
-					alert("대분류명을 입력해주시기 바랍니다.");
-					$("[name=ia_name]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=ib_name]")){
-					alert("소분류명을 입력해주시기 바랍니다.");
-					$("[name=ib_name]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=i_name]")){
-					alert("식자재명을 입력해주시기 바랍니다.");
-					$("[name=i_name]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=i_size]")){
-					alert("수량을 입력해주시기 바랍니다.");
-					$("[name=i_size]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=i_price]")){
-					alert("소분류명을 입력해주시기 바랍니다.");
-					$("[name=i_price]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=a_name]")){
-					alert("알레르기코드를 입력해주시기 바랍니다.");
-					$("[name=a_name]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=is_del]")){
-					alert("삭제여부를 입력해주시기 바랍니다.");
-					$("[name=is_del]").focus();
-					return;
-				}
-	
-				$.ajax({
-					url : "/ida/menu_insert.ida"
-					, type : "post"
-					,data : $("[name=insertMenuForm]").serialize()
-					,success : function(insert_result){
-						if(insert_result==1){
-							alert("메뉴 등록 성공하였습니다.");
-							location.replace('${cr}/menu_form.ida');
-						}else{
-							alert("메뉴 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
-						}
-					}
-					,error : function(){
-						alert("서버 접속을 실패하였습니다.");
-					}
-	
-				});
-			}
-
-			$(document).ready(function(){
-				$(".update").click(function(){
-					location.replace("${cr}/ingredient_update_form.ida");
-				});
-
-				$(".delete").click(function(){
-					location.replace("${cr}/ingredient_delete_form.ida");
-				});
-			});
-		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -146,23 +53,22 @@
 											<td align=center><b>등록일</b></td>
 										</tr>
 									</thead>
-			<tbody>
-		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
-				<tr>
-				
-					<td align=center>${loopTagStatus.index+1}
-					<input type="hidden" name="i_no" value="${ingredient.i_no}">
-					<input type="hidden" value="${ingredient.s_no}">
-					<td align=center>${ingredient.ia_name}</td>
-					<td align=center>${ingredient.ib_name}</td>
-					<td align=center>${ingredient.io_name}</td>
-					<td align=center>${ingredient.i_name}</td>
-					<td align=center>${ingredient.i_size}</td>
-					<td align=center>${ingredient.i_price}</td>
-					<td align=center>${ingredient.reg_date}</td>
-				</tr>
-		</c:forEach>
-			</tbody>
+									<tbody>
+										<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${loopTagStatus.index+1}
+												<input type="hidden" name="i_no" value="${ingredient.i_no}">
+												<input type="hidden" value="${ingredient.s_no}">
+												<td align=center>${ingredient.ia_name}</td>
+												<td align=center>${ingredient.ib_name}</td>
+												<td align=center>${ingredient.io_name}</td>
+												<td align=center>${ingredient.i_name}</td>
+												<td align=center>${ingredient.i_size}</td>
+												<td align=center>${ingredient.i_price}</td>
+												<td align=center>${ingredient.reg_date}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
 								</table>
 							</form>
 							</div>
@@ -176,7 +82,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 추가 <span name=store_insert_form
 								style='float: right'> 
-								<button type="button" class="btn btn-success update" value="식자재 추가" onClick="insert_ing_reg_btn();"> 식자재 추가 </button>
+								<button type="button" class="btn btn-success insert"> 식자재 추가 </button>
 							</span>
 						</div>
 						<div class="card-body">

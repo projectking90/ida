@@ -5,78 +5,12 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp" %>
+<%@ include file="/WEB-INF/resources/Stock/stock_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>재고관리</title>
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/Stock/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/Stock/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/Stock/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Page level plugin JavaScript-->
-		<script src="${cr}/resources/Stock/datatables/jquery.dataTables.js"></script>
-		<script src="${cr}/resources/Stock/datatables/dataTables.bootstrap4.js"></script>
-		<!-- Custom scripts for all pages-->
-		<script src="${cr}/resources/Stock/js/sb-admin.min.js"></script>
-		<!-- Demo scripts for this page-->
-		<script src="${cr}/resources/Stock/js/demo/datatables-demo.js"></script>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Stock/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Stock/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Stock/css/sb-admin.css" rel="stylesheet">
-
-		<script>
-			function insert_stock_reg_btn(){
-				if($("[name=quantity]").val()==""){
-					alert("수량을 입력해주시기 바랍니다.");
-					return;
-				}
-
-				var check_num = /^[0-9]*$/;
-				var not_num = /^(0)[0-9]{1,}$/;
-				
-				if(check_num.test($("[name=quantity]").val())==false || not_num.test($("[name=quantity]").val())==true){
-					alert("0 이상의 정수로만 입력해주시기 바랍니다.");
-					return;
-				}
-				
-				$.ajax({
-					url:"/ida/insert_stock_reg.ida"
-					,type:"post"
-					,data:$("[name=insert_stock_form]").serialize()
-					,success:function(stock_reg_cnt){
-						//alert(stock_reg_cnt);
-						if(stock_reg_cnt==1){
-							alert("재고가 등록되었습니다.");
-							location.replace("/ida/stock_form.ida");
-						}else if(stock_reg_cnt==-1){
-							alert("재고가 등록되지 않았습니다. 관리자에게 문의해주시기 바랍니다.");
-						}else if(stock_reg_cnt==-2){
-							alert("이미 등록된 재고입니다.");
-						}else if(stock_reg_cnt==-3){
-							alert("재고가 등록되었습니다.");
-							location.replace("/ida/stock_form.ida");
-						}
-					}
-					,error:function(){
-						alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
-					}
-				});
-			}
-			
-			function stock_update_btn(){
-				location.replace("${cr}/stock_update_form.ida");
-			}
-			
-			function stock_delete_btn(){
-				location.replace("${cr}/stock_delete_form.ida");
-			}
-		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -97,8 +31,8 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
 							<span name=stock_form style='float:right'>
-								<input type="button" class="btn btn-primary" value="재고 수정" onClick='stock_update_btn();'>
-								<input type="button" class="btn btn-danger"value="재고 삭제" onClick='stock_delete_btn();'>
+								<input type="button" class="btn btn-primary update" value="재고 수정">
+								<input type="button" class="btn btn-danger delete"value="재고 삭제">
 							</span>
 						</div>
 						<div class="card-body">
@@ -149,7 +83,7 @@
 							<div class="card-header">
 								<i class="fas fa-table"></i> 재고 추가 <span name=stock_insert_form
 									style='float: right'> 
-									<input type='button' class="btn btn-success" value='재고 추가' onClick='insert_stock_reg_btn();'>
+									<input type='button' class="btn btn-success insert" value='재고 추가'>
 								</span>
 							<br>
 							</div>

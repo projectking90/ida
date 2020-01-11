@@ -5,40 +5,13 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp" %>
+<%@ include file="/WEB-INF/resources/Customer/customer_js.jsp" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>고객관리</title>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Ingredient/fontawesome-free/css/all.min.css" rel="stylesheet"
-			type="text/css">
-		
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Ingredient/datatables/dataTables.bootstrap4.css"
-			rel="stylesheet">
-		
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Ingredient/css/sb-admin.css" rel="stylesheet">
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/Ingredient/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/Ingredient/bootstrap/js/bootstrap.bundle.min.js"></script>
-		
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/Ingredient/jquery-easing/jquery.easing.min.js"></script>
-		
-		<!-- Page level plugin JavaScript-->
-		<script src="${cr}/resources/Ingredient/datatables/jquery.dataTables.js"></script>
-		<script src="${cr}/resources/Ingredient/datatables/dataTables.bootstrap4.js"></script>
-		
-		<!-- Custom scripts for all pages-->
-		<script src="${cr}/resources/Ingredient/js/sb-admin.min.js"></script>
-		
-		<!-- Demo scripts for this page-->
-		<script src="${cr}/resources/Ingredient/js/demo/datatables-demo.js"></script>
-		</head>
-
+	</head>
 
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">

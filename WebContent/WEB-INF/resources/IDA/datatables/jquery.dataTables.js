@@ -11434,7 +11434,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "검색 데이터가 없습니다.",
 	
 	
 			/**
@@ -11466,7 +11466,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "총 페이지 : _TOTAL_(_START_/_END_)",
 	
 	
 			/**
@@ -11487,7 +11487,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": " 0 중 0 - 총 페이지 0",
+			"sInfoEmpty": "총 페이지 : 0 - 0 중 0",
 	
 	
 			/**

@@ -248,4 +248,48 @@ public class MenuController {
 		
 		return delete_result;
 	}
+	
+	/**
+	 * 메뉴 분석 화면을 보여줄 jsp와 가게에 등록된 메뉴를 검색 조건에 따라 보여주는 메소드
+	 * 가상주소 /menu_analysis_form.ida로 접근하면 호출
+	 * @return mav : /menu_analysis_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 메뉴 리스트
+	 */
+	@RequestMapping(value="/menu_analysis_form.ida")
+	public ModelAndView goMenuAnalysisForm(
+		HttpSession session
+		) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(path + "menu_analysis_form");
+		 
+		try {
+			String s_id =(String)session.getAttribute("s_id");
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goMenuAnalysisForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
+	
+	/**
+	 * 메뉴 분석 - 차트화면을 보여줄 jsp와 가게에 등록된 메뉴를 검색 조건에 따라 차트로 보여주는 메소드
+	 * 가상주소 /menu_analysis_chart_form.ida로 접근하면 호출
+	 * @return mav : /menu_analysis_chart_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 메뉴 차트
+	 */
+	@RequestMapping(value="/menu_analysis_chart_form.ida")
+	public ModelAndView goMenuAnalysisChartForm(
+		HttpSession session
+		) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(path + "menu_analysis_chart_form");
+		 
+		try {
+			String s_id =(String)session.getAttribute("s_id");
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goMenuAnalysisChartForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
 }

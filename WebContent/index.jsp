@@ -5,7 +5,7 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- css에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/IDA/common.jsp" %>
+<%@ include file="/WEB-INF/resources/IDA/ida_js.jsp" %>
 <!DOCTYPE html>
 <html>
 	<head>

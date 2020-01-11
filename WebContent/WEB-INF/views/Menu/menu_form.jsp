@@ -5,83 +5,12 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/User/login_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Menu/menu_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>메뉴 관리</title>
-		
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/Menu/fontawesome-free/css/all.min.css" rel="stylesheet"
-			type="text/css">
-		
-		<!-- Page level plugin CSS-->
-		<link href="${cr}/resources/Menu/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-		
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/Menu/css/sb-admin.css" rel="stylesheet">
-		
-
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/Menu/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/Menu/bootstrap/js/bootstrap.bundle.min.js"></script>
-		
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/Menu/jquery-easing/jquery.easing.min.js"></script>
-		
-		<!-- Page level plugin JavaScript-->
-		<script src="${cr}/resources/Menu/datatables/jquery.dataTables.js"></script>
-		<script src="${cr}/resources/Menu/datatables/dataTables.bootstrap4.js"></script>
-		
-		<!-- Custom scripts for all pages-->
-		<script src="${cr}/resources/Menu/js/sb-admin.min.js"></script>
-		
-		<!-- Demo scripts for this page-->
-		<script src="${cr}/resources/Menu/js/demo/datatables-demo.js"></script>
-		<script>
-			function insert_menu_reg_btn() {
-				if(is_empty("[name=insertMenuForm] [name=mi_name]")){
-					alert("메뉴명을 입력해주시기 바랍니다.");
-					$("[name=m_name]").focus();
-					return;
-				}
-				if(is_empty("[name=insertMenuForm] [name=price]")){
-					alert("가격을 입력해주시기 바랍니다.");
-					$("[name=price]").focus();
-					return;
-				}
-	
-				$.ajax({
-					url : "/ida/menu_insert.ida"
-					, type : "post"
-					,data : $("[name=insertMenuForm]").serialize()
-					,success : function(insert_result){
-						if(insert_result==1){
-							alert("메뉴 등록 성공하였습니다.");
-							location.replace('${cr}/menu_form.ida');
-						}else{
-							alert("메뉴 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
-						}
-					}
-					,error : function(){
-						alert("서버 접속을 실패하였습니다.");
-					}
-	
-				});
-			}
-			
-			$(document).ready(function(){
-				$(".update").click(function(){
-					document.updateMenu.submit();
-					location.replace("${cr}/menu_update_form.ida");
-				});
-				
-				$(".delete").click(function(){
-					location.replace("${cr}/menu_delete_form.ida");
-				});
-			});
-		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -147,8 +76,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 메뉴 추가 <span name=stock_insert_form
 								style='float: right'>
-								<button type="button" class="btn btn-success" value='메뉴 추가'
-									onClick='insert_menu_reg_btn();'>메뉴 추가완료</button>
+								<button type="button" class="btn btn-success insert">메뉴 추가</button>
 							</span>
 						</div>
 						<div class="card-body">
@@ -220,7 +148,7 @@
 		<!-- Logout Modal-->
 		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		</div>
-		<form name="updateMenu" method="post" action="/ida/menu_update_form.ida">
+		<form name="updateMenu" method="post" action="${cr}/menu_update_form.ida">
 			<input type="hidden" name="menu_list" values="${menu_list}">
 		</form>
 	</body>

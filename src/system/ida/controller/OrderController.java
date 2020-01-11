@@ -4,6 +4,8 @@
  */
 package system.ida.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +85,50 @@ public class OrderController {
 			System.out.println(e.getMessage());
 		}
 
+		return mav;
+	}
+	
+	/**
+	 * 주문 분석 화면을 보여줄 jsp와 가게에 등록된 주문을 검색 조건에 따라 보여주는 메소드
+	 * 가상주소 /order_analysis_form.ida로 접근하면 호출
+	 * @return mav : /order_analysis_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 주문 리스트
+	 */
+	@RequestMapping(value="/order_analysis_form.ida")
+	public ModelAndView goOrderAnalysisForm(
+		HttpSession session
+		) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(path + "order_analysis_form");
+		 
+		try {
+			String s_id =(String)session.getAttribute("s_id");
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goOrderAnalysisForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
+	
+	/**
+	 * 주문 분석 - 차트화면을 보여줄 jsp와 가게에 등록된 주문을 검색 조건에 따라 차트로 보여주는 메소드
+	 * 가상주소 /order_analysis_chart_form.ida로 접근하면 호출
+	 * @return mav : /order_analysis_chart_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 주문 차트
+	 */
+	@RequestMapping(value="/order_analysis_chart_form.ida")
+	public ModelAndView goOrderAnalysisChartForm(
+		HttpSession session
+		) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(path + "order_analysis_chart_form");
+		 
+		try {
+			String s_id =(String)session.getAttribute("s_id");
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goOrderAnalysisChartForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
 		return mav;
 	}
 }

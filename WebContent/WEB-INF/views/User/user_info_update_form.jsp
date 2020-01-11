@@ -3,8 +3,7 @@
 <!-- 이 문서 안의 데이터는 UTF-8방식으로 인코딩한다라고 설정함 -->
 <!-- 현재 이 JSP 페이지는 UTF-8 방식으로 인코딩한다. -->
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
 <%@ include file="/WEB-INF/resources/User/user_info_update_js.jsp"%>
 <!DOCTYPE html>
@@ -12,16 +11,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>회원정보 수정</title>
-		<!-- Custom fonts for this template-->
-		<link href="${cr}/resources/IDA/fontawesome-free/css/all.min.css"
-			rel="stylesheet" type="text/css">
-		<!-- Custom styles for this template-->
-		<link href="${cr}/resources/IDA/css/sb-admin.css" rel="stylesheet">
-		<!-- Bootstrap core JavaScript-->
-		<script src="${cr}/resources/IDA/jquery/jquery.min.js"></script>
-		<script src="${cr}/resources/IDA/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="${cr}/resources/IDA/jquery-easing/jquery.easing.min.js"></script>
 	</head>
 	<body class="bg-dark">
 		<div class="container">
