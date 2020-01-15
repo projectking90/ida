@@ -134,12 +134,13 @@ public class MenuServiceImpl implements MenuService {
 	public int deleteStoreMenu(ArrayList<String> menu_delete) {
 		Map<String, String> trData = new HashMap<String, String>();
 		int delete_result=0;
+		
 		for(int i=0; i<menu_delete.size(); i++) {
 			trData.put("mi_no", menu_delete.get(i));
-			if(this.menuDAO.deleteMenuIngredient(trData)>=0) {
-				delete_result += this.menuDAO.deleteStoreMenu(trData);
-			}
+			delete_result += this.menuDAO.deleteStoreMenu(trData);
+			this.menuDAO.deleteMenuIngredient(trData);
 		}
+		
 		return delete_result;
 	}
 
@@ -149,5 +150,4 @@ public class MenuServiceImpl implements MenuService {
 		
 		return menu_ingredient_insert;
 	}
-	
 }

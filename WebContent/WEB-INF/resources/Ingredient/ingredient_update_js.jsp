@@ -12,6 +12,8 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".update").click(function(){
 			update_store_reg("${cr}");
 		});

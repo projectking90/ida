@@ -33,22 +33,6 @@ select
 	*
 from
 	store;
-		
-create table manager(	-- 관리자
-	m_no	number(10)	-- 가게번호
-	, m_id	varchar2(100)	not null unique	-- 아이디
-	, pwd	varchar2(256)	not null	-- 비밀번호
-	, m_name	varchar2(100)	not null	-- 사업자명
-	, email	varchar2(100)	not null	-- 이메일
-	, reg_date	date	default sysdate	-- 등록일
-	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
-	, primary key(m_no)
-);
-
-select
-	*
-from
-	manager;
 	
 create view login_store
 as (select

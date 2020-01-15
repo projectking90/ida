@@ -12,6 +12,12 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable({
+			"language": {
+				"search": "결과 내 검색 : "
+			}
+		});
+		
 		$(".m_chart").click(function(){
 			location.replace("${cr}/menu_analysis_chart_form.ida");
 		});

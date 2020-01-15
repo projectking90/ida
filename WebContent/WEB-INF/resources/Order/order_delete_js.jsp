@@ -11,4 +11,11 @@
 <script src="${cr}/resources/Order/order_delete.js" type="text/javascript"></script>
 
 <script>
+	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
+		$(".delete").click(function(){
+			order_delete_reg("${cr}");
+		});
+	});
 </script>

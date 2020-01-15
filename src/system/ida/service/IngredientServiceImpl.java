@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.IngredientDAO;
+import system.ida.dto.Code_IngredientAllergieDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
 import system.ida.dto.Code_IngredientOriginDTO;
@@ -71,6 +72,15 @@ public class IngredientServiceImpl implements IngredientService {
 	}
 
 	/**
+	 * 식자재 알레르기
+	 */
+	@Override
+	public List<Code_IngredientAllergieDTO> getCodeIngAllergie() {
+		List<Code_IngredientAllergieDTO> a_nameList = this.ingredientDAO.getCodeIngAllergie();
+		return a_nameList;
+	}
+
+	/**
 	 * 식자재 수정
 	 */
 	@Override
@@ -80,20 +90,21 @@ public class IngredientServiceImpl implements IngredientService {
 		int ingredient_update_cnt = 0;
 
 		for (int i = 0; i < ingredient_update.size(); i++) {
-			if (i % 6 == 0) {
+			if (i % 7 == 0) {
 				trData.put("i_no", ingredient_update.get(i));
-			} else if (i % 6 == 1) {
+			} else if (i % 7 == 1) {
 				trData.put("ia_name", ingredient_update.get(i));
-			} else if (i % 6 == 2) {
+			} else if (i % 7 == 2) {
 				trData.put("ib_name", ingredient_update.get(i));
-			} else if (i % 6 == 3) {
+			} else if (i % 7 == 3) {
 				trData.put("io_name", ingredient_update.get(i));
-			} else if (i % 6 == 4) {
+			} else if (i % 7 == 4) {
 				trData.put("i_name", ingredient_update.get(i));
-			} else if (i % 6 == 5) {
+			} else if (i % 7 == 5) {
 				trData.put("i_size", ingredient_update.get(i));
+			} else if (i % 7 == 6) {
+				trData.put("i_price", ingredient_update.get(i));
 				ingredient_update_cnt += this.ingredientDAO.updateIngredient(trData);
-				// System.out.println("stock_update_cnt : "+stock_update_cnt);
 			}
 		}
 

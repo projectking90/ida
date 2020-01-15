@@ -15,7 +15,7 @@ public class IngredientSearchDTO {
 	 */
 	
 	
-	private String keyword1;
+	private String keyword;
 	private String[] date;
 	private int select_page_no=1;
 	private int rowCntPerPage=10;
@@ -28,11 +28,11 @@ public class IngredientSearchDTO {
 	 * 접근자, 설정자 선언
 	 */
 
-	public String getKeyword1() {
-		return keyword1;
+	public String getKeyword() {
+		return keyword;
 	}
-	public void setKeyword1(String keyword1) {
-		this.keyword1 = keyword1;
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 	public String[] getDate() {
 		return date;

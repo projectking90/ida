@@ -1,17 +1,4 @@
-/**
- * 
- */
-$(document).ready(function(){
-	$(".register").click(function(){
-		registerUser();
-	});
-	
-	$(".back").click(function(){
-		location.replace("${cr}/login_manager_form.ida");
-	});
-});
-
-function registerUser(){
+function registerUser(cr){
 	if(is_empty("[name=register_manager_form] [name=m_id]")){
 		alert("아이디를 입력하세요");
 		return;
@@ -47,11 +34,8 @@ function registerUser(){
 		return;
 	}
 	
-	alert($("[name=register_manager_form]").serialize());
-	return;
-	
 	$.ajax({
-		url : "${cr}/register_manager_proc.ida"
+		url : cr + "/register_manager_proc.ida"
 		, type : "post"
 		, data : $("[name=register_manager_form]").serialize()
 		, success : function(regCnt){
@@ -63,7 +47,7 @@ function registerUser(){
 			} else{
 				alert("회원가입에 실패");
 			}
-		}, error : function(){
+		}, error : function(e){
 			alert("서버와 통신 실패");
 		}
 	});

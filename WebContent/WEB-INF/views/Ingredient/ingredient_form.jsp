@@ -21,10 +21,7 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
@@ -38,7 +35,7 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form name="insertIngredientForm" method="post" action="/ida/ingredient_insert.ida">
+							<form name="IngredientForm" method="post" action="/ida/ingredient.ida">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
@@ -53,22 +50,23 @@
 											<td align=center><b>등록일</b></td>
 										</tr>
 									</thead>
-									<tbody>
-										<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
-											<tr>
-												<td align=center>${loopTagStatus.index+1}
-												<input type="hidden" name="i_no" value="${ingredient.i_no}">
-												<input type="hidden" value="${ingredient.s_no}">
-												<td align=center>${ingredient.ia_name}</td>
-												<td align=center>${ingredient.ib_name}</td>
-												<td align=center>${ingredient.io_name}</td>
-												<td align=center>${ingredient.i_name}</td>
-												<td align=center>${ingredient.i_size}</td>
-												<td align=center>${ingredient.i_price}</td>
-												<td align=center>${ingredient.reg_date}</td>
-											</tr>
-										</c:forEach>
-									</tbody>
+			<tbody>
+		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
+				<tr>
+				
+					<td align=center>${loopTagStatus.index+1}
+					<input type="hidden" name="i_no" value="${ingredient.i_no}">
+					<input type="hidden" value="${ingredient.s_no}">
+					<td align=center>${ingredient.ia_name}</td>
+					<td align=center>${ingredient.ib_name}</td>
+					<td align=center>${ingredient.io_name}</td>
+					<td align=center>${ingredient.i_name}</td>
+					<td align=center>${ingredient.i_size}</td>
+					<td align=center>${ingredient.i_price}</td>
+					<td align=center>${ingredient.reg_date}</td>
+				</tr>
+		</c:forEach>
+			</tbody>
 								</table>
 							</form>
 							</div>
@@ -82,69 +80,71 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 추가 <span name=store_insert_form
 								style='float: right'> 
-								<button type="button" class="btn btn-success insert"> 식자재 추가 </button>
+								<button type="button" class="btn btn-success update" value="식자재 추가" onClick="insert_ing_reg_btn();"> 식자재 추가 </button>
 							</span>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered" id="dataTable" width="100%"
+						<form name="insertIngForm" method="post" action="/ida/ingredient_insert.ida">
+							<table class="table " id="dataTable" width="100%"
 								cellspacing="0">
 								<!--select option 으로 바꿀 예정-->
 								<tr>
 									<th>대분류
-									<th><input type="text" name="ia_code">
+										<th><select name="ia_name">
+											<c:forEach items="${code_ingredientDTO.ia_nameList}" var="ia_nameList" varStatus="loopTagStatus">
+												<option value="${ia_nameList.ia_name}">${ia_nameList.ia_name}</option>
+											</c:forEach>
+										</select>
 								<tr>
 									<th>소분류
-									<th><input type="text" name="ib_code">
+										<th><select name="ib_name">
+											<c:forEach items="${code_ingredientDTO.ib_nameList}" var="ib_nameList" varStatus="loopTagStatus">
+												<option value="${ib_nameList.ib_name}">${ib_nameList.ib_name}</option>
+											</c:forEach>
+										</select>
+								<tr>
+									<th>원산지
+										<th><select name="io_name">
+											<c:forEach items="${code_ingredientDTO.io_nameList}" var="io_nameList" varStatus="loopTagStatus">
+												<option value="${io_nameList.io_name}">${io_nameList.io_name}</option>
+											</c:forEach>
+										</select>
 								<tr>
 									<th>식자재명
 									<th><input type="text" name="i_name">
 								<tr>
 									<th>식자재수량
-									<th><input type="text" name="quantity">
+									<th><input type="text" name="i_size">
 								<tr>
 									<th>매입가격
-									<th><input type="text" name="purchase_price">
+									<th><input type="text" name="i_price">
 								<tr>
 									<th>알레르기코드
-									<th><input type="text" name="sell_price">
-								<tr>
-									<th>삭제여부
-									<th><select name="st_state">
-											<option value='t'>T
-											<option value='f'>F
-									</select>
+									<th>
+									<form:form name="ingredientCheckForm" commandName="code_ingredientDTO">
+										<form:checkboxes path="a_name" 
+										items="${code_ingredientDTO.a_nameList}" itemLabel="a_name" itemValue="a_name" />
+									</form:form>
+								
+					<input type="hidden" value="${ingredient.s_no}">
 							</table>
+						</form>
 						</div>
 					</div>
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

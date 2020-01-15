@@ -12,8 +12,10 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".delete").click(function(){
-			menu_delete_reg("{cr}");
+			menu_delete_reg("${cr}");
 		});
 	});
 </script>

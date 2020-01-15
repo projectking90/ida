@@ -79,6 +79,16 @@ public class MenuDAOImpl implements MenuDAO {
 	}
 	
 	@Override
+	public int insertMenuIngredient(MenuDTO menuDTO) {
+		int menu_ingredient_insert = this.sqlSession.insert(
+				"system.ida.dao.MenuDAO.insertMenuIngredient"
+				,menuDTO
+		);
+		
+		return menu_ingredient_insert;
+	}
+
+	@Override
 	public List<CodeMenuAlphaDTO> getCodeMenuAlpha(){
 		List<CodeMenuAlphaDTO> ma_nameList = this.sqlSession.selectList(
 				sqlSessionPath + "getCodeMenuAlpha"		
@@ -137,27 +147,17 @@ public class MenuDAOImpl implements MenuDAO {
 		return delete_result;
 	}
 	
-	@Override
-	public int insertMenuIngredient(MenuDTO menuDTO) {
-		int menu_ingredient_insert = this.sqlSession.insert(
-				"system.ida.dao.MenuDAO.insertMenuIngredient"
-				,menuDTO
-		);
-		
-		return menu_ingredient_insert;
-	}
-
 	/**
-	 * 가게 메뉴 삭제 시 식자재도 삭제
-	 * @param trData : 메뉴 번호
-	 * @return deleteCnt : 식자재 삭제 행 개수
+	 * 메뉴 식자재 삭제
+	 * @param trData : mi_no 값
+	 * @return delete_cnt : 삭제 결과
 	 */
 	@Override
 	public int deleteMenuIngredient(Map<String, String> trData) {
-		int deleteCnt = this.sqlSession.delete(
+		int delete_cnt = this.sqlSession.delete(
 				sqlSessionPath + "deleteMenuIngredient"
 				, trData);
 		
-		return deleteCnt;
+		return delete_cnt;
 	}
 }

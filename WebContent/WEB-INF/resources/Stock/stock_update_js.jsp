@@ -12,6 +12,8 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".update").click(function(){
 			stock_update("${cr}");
 		});

@@ -22,8 +22,14 @@
 <script>
 	$(document).ready(function(){
 		$("body").addClass("sidebar-toggled");
+		$("table").addClass("table-striped");
+		$("i").addClass("fa-2x");
+		
 		titleBars('${cr}', '${sessionScope.s_id}');
 		setSidebars('${cr}');
 		setLogoutFunc('${cr}');
+		setBreadcrumbs('${cr}', '${sessionScope.user_flag}');
+		setTopUp();
+		setFooter();
 	});
 </script>

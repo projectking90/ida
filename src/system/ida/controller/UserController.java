@@ -86,6 +86,7 @@ public class UserController {
 			
 			if(loginCnt==1) {
 				session.setAttribute("s_id", userDTO.getS_id());
+				session.setAttribute("user_flag", "s");
 			}
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goLoginProc 에러발생>");

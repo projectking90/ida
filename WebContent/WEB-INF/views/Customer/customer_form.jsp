@@ -22,23 +22,20 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 고객 현황
-							<span name=store_form style='float:right'>
-								<input type="button" class="update" value="식자재 수정">
-								<input type="button" class="delete" value="식자재 삭제">
+							<i class="fas fa-table"></i>고객 현황
+							<span name=customer_form style='float:right'>
+								<input type="button" class="btn btn-primary update" value="고객 수정">
+								<input type="button" class="btn btn-danger delete"value="고객 삭제">
 							</span>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
@@ -50,42 +47,29 @@
 											<td align=center><b>픽업시간</b></td>
 										</tr>
 									</thead>
-								<c:forEach items="${customer_list}" var="customer" varStatus="loopTagStatus">
 									<tbody>
-										<tr>
-											<td align=center><b>${loopTagStatus.index+1}</b></td>
-											<td align=center><b>${customer.c_phone}</b></td>
-											<td align=center><b>${customer.gender}</b></td>
-											<td align=center><b>${customer.age}대</b></td>
-											<td align=center><b>${customer.order_time}</b></td>
-											<td align=center><b>${customer.pickup_time}</b></td>
-										</tr>
+										<c:forEach items="${customer_list}" var="customer" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${loopTagStatus.index+1}</td>
+												<td align=center>${customer.c_phone}</td>
+												<td align=center>${customer.gender}</td>
+												<td align=center>${customer.age}대</td>
+												<td align=center>${customer.order_time}</td>
+												<td align=center>${customer.pickup_time}</td>
+											</tr>
+										</c:forEach>
 									</tbody>
-											</c:forEach>
 								</table>
 							</div>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>
 					</div>
-	
-
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 	
@@ -93,12 +77,9 @@
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

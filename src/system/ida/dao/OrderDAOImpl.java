@@ -4,9 +4,16 @@
  */
 package system.ida.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import system.ida.dto.MenuDTO;
+import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderUpdateDTO;
 
 /**
  * OrderDAOImpl 클래스
@@ -24,4 +31,119 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * 메소드 선언
 	 */
+	public List<OrderUpdateDTO> getOrderList(String s_id){
+		List<OrderUpdateDTO> order_list = this.sqlSession.selectList(
+				"system.ida.dao.OrderDAO.getOrderList"	// 실행할 SQL 구문의 위치 지정
+				,s_id
+				);
+		
+		return order_list;
+	}
+	public List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id){
+		List<OrderUpdateDTO> order_list = this.sqlSession.selectList(
+				"system.ida.dao.OrderDAO.getOrderList_sepa_quan"	// 실행할 SQL 구문의 위치 지정
+				,s_id
+				);
+		
+		return order_list;
+	}
+	
+	@Override
+	public List<MenuDTO> getMenuList(String s_id){
+		List<MenuDTO> mi_nameList = this.sqlSession.selectList(
+				sqlSessionPath + "getMenuList"
+				,s_id
+		);
+		return mi_nameList;
+	}
+	
+	/**
+	 * 주문 추가
+	 * @param orderDTO : 메뉴 추가를 위해 사용하는 DTO
+	 * @return insert_result : 메뉴 추가 적용 개수
+	 */
+	@Override
+	public int insertStoreOrder(OrderDTO orderDTO) {
+		int insert_result = sqlSession.insert(
+				"system.ida.dao.OrderDAO.insertStoreOrder",
+				orderDTO
+				);
+		
+		return insert_result;
+	}
+	
+	@Override
+	public int insertOrderMenu(OrderDTO orderDTO) {
+		int order_menu_insert = this.sqlSession.insert(
+				"system.ida.dao.OrderDAO.insertOrderMenuOne"
+				,orderDTO
+		);
+		
+		return order_menu_insert;
+	}
+	
+	/**
+	 * 가게 주문 수정
+	 * @param trData : 주문 수정을 위해 사용하는 Map
+	 * @return update_result : 주문 수정 적용 개수
+	 */
+	@Override
+	public int updateStoreOrder(Map<String, String> trData) {
+		int update_result = 0;
+		update_result = this.sqlSession.update(
+				sqlSessionPath + "updateStoreOrder"
+				,trData
+		);
+		
+		return update_result;
+	}
+	
+	/**
+	 * 주문 수정 추가
+	 * @param trData : 주문 수정을 위해 사용하는 Map
+	 * @return insert_order_menu : 주문 수정 적용 개수
+	 */
+	@Override
+	public int insertOrderMenu(Map<String, String> trData) {
+		int insert_order_menu = 0;
+		insert_order_menu = this.sqlSession.insert(
+				sqlSessionPath + "insertOrderMenu"
+				,trData
+		);
+		
+		return insert_order_menu;
+	}
+	
+	/**
+	 * 가게 주문 삭제
+	 * @param orderDTO : 주문 삭제를 위해 사용하는 DTO
+	 * @return delete_result : 주문 삭제 적용 개수
+	 */
+	@Override
+	public int deleteStoreOrder(Map<String, String> trData) {
+		int delete_result = 0;
+		delete_result = this.sqlSession.update(
+				sqlSessionPath + "deleteStoreOrder"
+				,trData
+				
+		);
+		
+		return delete_result;
+	}
+	/**
+	 * 가게 주문 삭제
+	 * @param orderDTO : 주문 삭제를 위해 사용하는 DTO
+	 * @return delete_result : 주문 삭제 적용 개수
+	 */
+	
+	@Override
+	public int deleteOrderMenu(Map<String, String> trData) {
+		int delete_order_menu = 0;
+		delete_order_menu = this.sqlSession.delete(
+				sqlSessionPath + "deleteOrderMenu"
+				,trData
+		);
+		
+		return delete_order_menu;
+	}
 }

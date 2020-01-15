@@ -21,10 +21,7 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
@@ -36,8 +33,9 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
+									<thead>
 										<tr>
 											<td align=center resize=10><b>재고번호</b></td>
 											<td align=center><b>대분류</b></td>
@@ -47,9 +45,10 @@
 											<td align=center><b>규격</b></td>
 											<td align=center><b>재고수량</b></td>
 											<td align=center><b>상태</b></td>
+											<td align=center><b>가격(원)</b></td>
 											<td align=center><b>날짜</b></td>
-											<td align=center><b>가격</b></td>
 										</tr>
+									</thead>
 										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
 											<tr class="stock_list_tr" style="cursor:pointer">
 												<td align=center>${loopTagStatus.index+1}
@@ -70,8 +69,8 @@
 															<option value="t">t
 														</c:if>
 													</select>
-												<td align=center>${stock.reg_date}
 												<td align=center>${stock.i_price}
+												<td align=center>${stock.reg_date}
 											</tr>
 										</c:forEach>
 								</table>
@@ -79,37 +78,21 @@
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>
-					</div> 
-
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
+					</div>
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.IdaDAO;
+import system.ida.dao.ManagerDAO;
 import system.ida.dao.UserDAO;
 import system.ida.dto.ManagerDTO;
 import system.ida.dto.UserDTO;
@@ -26,7 +27,7 @@ public class ManagerServiceImpl implements ManagerService {
 	 * 속성변수 선언
 	 */
 	@Autowired
-	private UserDAO userDAO;	// UserDAO 인터페이스를 구현받은 객체를 생성해서 저장
+	private ManagerDAO managerDAO;	// ManagerDAO 인터페이스를 구현받은 객체를 생성해서 저장
 
 	/**
 	 * 메소드 선언
@@ -38,43 +39,45 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	@Override
 	public int insertRegManager(ManagerDTO managerDTO) {
-		/*
-		 * int insert_cnt = this.userDAO.getIdCnt(userDTO);
-		 * 
-		 * if(insert_cnt>0) { return -1; } else { insert_cnt =
-		 * this.userDAO.insertRegUser(userDTO); }
-		 * 
-		 * return insert_cnt;
-		 */
-		return 0;
+		int insert_cnt = this.managerDAO.getIdCnt(managerDTO);
+		
+		if(insert_cnt>0){
+			return -1;
+		} else{
+			insert_cnt = this.managerDAO.insertRegManager(managerDTO);
+		}
+		
+		return insert_cnt;
 	}
 
 	/**
-	 * 사용자 정보를 가져옴
-	 * @param s_id : 아이디
+	 * 관리자 정보를 가져옴
+	 * @param m_id : 아이디
 	 * @return user_updateDTO : 회원정보를 수정하려는 사용자 정보
 	 */
 	@Override
-	public UserUpdateDTO getUserInfo(String s_id) {
-		UserUpdateDTO user_updateDTO = this.userDAO.getUserInfo(s_id);
+	public ManagerDTO getUserInfo(String m_id) {
+		ManagerDTO managerDTO = null;
+				//this.userDAO.getUserInfo(m_id);
 		
-		return user_updateDTO;
+		return managerDTO;
 	}
 
 	/**
 	 * 회원정보를 수정
-	 * @param user_updateDTO : 변경하려는 회원정보를 담은 DTO
+	 * @param managerDTO : 변경하려는 회원정보를 담은 DTO
 	 * @return updateCnt : 회원정보 변경 결과
 	 */
 	@Override
-	public int updateUserInfo(UserUpdateDTO user_updateDTO) {
-		int updateCnt = this.userDAO.getLoginCnt(user_updateDTO);
+	public int updateManagerInfo(ManagerDTO managerDTO) {
+		int updateCnt = 0;
+				//this.userDAO.getLoginCnt(managerDTO);
 		
 		if(updateCnt==0) {
 			return -1;
 		}
 		
-		updateCnt = this.userDAO.updateUserInfo(user_updateDTO);
+		//updateCnt = this.userDAO.updateUserInfo(managerDTO);
 		
 		return updateCnt;
 	}

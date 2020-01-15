@@ -4,6 +4,8 @@
  */
 package system.ida.dto;
 
+import java.util.List;
+
 /**
  * MenuSearchDTO 클래스
  * 메뉴 검색할 때 사용할 DTO
@@ -19,11 +21,12 @@ public class MenuDTO {
 	private int s_no;
 	private String s_id;
 	private String mi_name;
-	private int price;
+	private String price;
 	private String mi_comment;
 	private String reg_date;
 	private String is_del;
 	private String[] i_name;
+	private List<MenuDTO> mi_nameList;
 
 	
 	/**
@@ -73,11 +76,11 @@ public class MenuDTO {
 		this.mi_name = mi_name;
 	}
 
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
@@ -119,12 +122,16 @@ public class MenuDTO {
 	public void setS_id(String s_id) {
 		this.s_id = s_id;
 	}
-
 	public String[] getI_name() {
 		return i_name;
 	}
-
 	public void setI_name(String[] i_name) {
 		this.i_name = i_name;
+	}
+	public List<MenuDTO> getMi_nameList() {
+		return mi_nameList;
+	}
+	public void setMi_nameList(List<MenuDTO> mi_nameList) {
+		this.mi_nameList = mi_nameList;
 	}
 }

@@ -12,6 +12,8 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".insert").click(function(){
 			insert_stock_reg("${cr}");
 		});

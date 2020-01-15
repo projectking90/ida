@@ -11,4 +11,7 @@
 <script src="${cr}/resources/Customer/customer.js" type="text/javascript"></script>
 
 <script>
+	$(document).ready(function(){
+		$('#dataTable').DataTable();
+	});
 </script>

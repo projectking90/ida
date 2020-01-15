@@ -4,11 +4,19 @@
  */
 package system.ida.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.OrderDAO;
+import system.ida.dto.MenuDTO;
+import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderUpdateDTO;
 
 /**
  * OrderServiceImpl 클래스
@@ -27,4 +35,148 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * 메소드 선언
 	 */
+	public List<OrderUpdateDTO> getOrderList(String s_id){
+		List<OrderUpdateDTO> order_list = this.orderDAO.getOrderList(s_id);
+		
+		return order_list;
+	}
+	
+	public List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id){
+		List<OrderUpdateDTO> order_list = this.orderDAO.getOrderList_sepa_quan(s_id);
+		
+		return order_list;
+	}
+	
+	@Override
+	public List<MenuDTO> getMenuList(String s_id){
+		List<MenuDTO> mi_nameList = this.orderDAO.getMenuList(s_id);
+		return mi_nameList;
+	}
+	
+	/**
+	 * 주문 추가
+	 * @param orderDTO : 주문 추가를 위해 사용하는 DTO
+	 * @return insert_result : 메뉴 추가 적용 개수
+	 */
+	@Override
+	public int insertStoreOrder(OrderDTO orderDTO) {
+		int insert_result = this.orderDAO.insertStoreOrder(orderDTO);
+		
+		return insert_result;
+	}
+
+	@Override
+	public int insertOrderMenu(OrderDTO orderDTO) {
+		int order_menu_insert = this.orderDAO.insertOrderMenu(orderDTO);
+		
+		return order_menu_insert;
+	}
+	
+	/**
+	 * 주문 수정
+	 * @param order_update : 주문 수정을 위해 사용하는 ArrayList
+	 * @return update_result : 메뉴 수정 적용 개수
+	 */
+	@Override
+	public int updateStoreOrder(ArrayList<String> order_update) {
+		Map<String, String> trData = new HashMap<String, String>();
+		int update_result = 0;
+		
+		for(int i=0; i<order_update.size(); i++) {
+			if(i%8==0) {
+				trData.put("oi_no", order_update.get(i));
+			}else if(i%8==1) {
+				trData.put("c_phone", order_update.get(i));
+			}else if(i%8==2) {
+				trData.put("mi_name", order_update.get(i));
+			}else if(i%8==3) {
+				trData.put("quantity", order_update.get(i));
+			}else if(i%8==4) {
+				trData.put("gender", order_update.get(i));
+			}else if(i%8==5) {
+				trData.put("age", order_update.get(i));
+			}else if(i%8==6) {
+				trData.put("pickup_time", order_update.get(i));
+			}else if(i%8==7) {
+				trData.put("s_id", order_update.get(i));
+				update_result += this.orderDAO.updateStoreOrder(trData);
+				//System.out.println("stock_update_cnt : "+stock_update_cnt);
+			}
+		}
+		
+		int delete_order_menu = 0;
+
+		
+		for(int i=0; i<order_update.size(); i++) {
+			if(i%8==0) {
+				trData.put("oi_no", order_update.get(i));
+			}else if(i%8==1) {
+				trData.put("c_phone", order_update.get(i));
+			}else if(i%8==2) {
+				trData.put("mi_name", order_update.get(i));
+			}else if(i%8==3) {
+				trData.put("quantity", order_update.get(i));
+			}else if(i%8==4) {
+				trData.put("gender", order_update.get(i));
+			}else if(i%8==5) {
+				trData.put("age", order_update.get(i));
+			}else if(i%8==6) {
+				trData.put("pickup_time", order_update.get(i));
+			}else if(i%8==7) {
+				trData.put("s_id", order_update.get(i));
+				delete_order_menu += this.orderDAO.deleteOrderMenu(trData);
+				//System.out.println("stock_update_cnt : "+stock_update_cnt);
+			}
+		}
+		
+		int insert_order_menu = 0;
+		
+		for(int i=0; i<order_update.size(); i++) {
+			if(i%8==0) {
+				trData.put("oi_no", order_update.get(i));
+			}else if(i%8==1) {
+				trData.put("c_phone", order_update.get(i));
+			}else if(i%8==2) {
+				trData.put("mi_name", order_update.get(i));
+			}else if(i%8==3) {
+				trData.put("quantity", order_update.get(i));
+			}else if(i%8==4) {
+				trData.put("gender", order_update.get(i));
+			}else if(i%8==5) {
+				trData.put("age", order_update.get(i));
+			}else if(i%8==6) {
+				trData.put("pickup_time", order_update.get(i));
+			}else if(i%8==7) {
+				trData.put("s_id", order_update.get(i));
+				insert_order_menu += this.orderDAO.insertOrderMenu(trData);
+			}
+		}
+
+		return update_result;
+	}
+	
+	/**
+	 * 가게 주문 삭제
+	 * @param orderDTO : 메뉴 추가를 위해 사용하는 DTO
+	 * @return delete_result : 주문 삭제 적용 개수
+	 */
+	@Override
+	public int deleteStoreOrder(ArrayList<String> order_delete) {
+		Map<String, String> trData = new HashMap<String, String>();
+		int delete_result=0;
+		
+		for(int i=0; i<order_delete.size(); i++) {
+			trData.put("oi_no", order_delete.get(i));
+			delete_result += this.orderDAO.deleteStoreOrder(trData);
+		}
+		
+		int delete_order_menu = 0;
+		
+		for(int i=0; i<order_delete.size(); i++) {
+			trData.put("oi_no", order_delete.get(i));
+			delete_order_menu += this.orderDAO.deleteOrderMenu(trData);
+		}
+		
+		return delete_result;
+	}
 }

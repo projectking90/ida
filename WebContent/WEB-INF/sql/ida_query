@@ -4,6 +4,7 @@
 */
 
 /*
+	drop view login_manager;
 	drop view login_store;
 	drop view code_city_name;
 	drop view code_gun_name;
@@ -29,7 +30,20 @@
 	drop table manager;
 	drop table store;
 	drop table code_addr;
+	drop table breadcrumbs;
 */
+
+create table breadcrumbs(
+	path	varchar2(100)
+	, label	varchar2(100)	not null
+	, before_path	varchar2(100)	default ' '
+	, user_flag	varchar2(1)	not null check(user_flag in ('s', 'm'))
+);
+
+select
+	*
+from
+	breadcrumbs;
 
 create table code_addr(	-- 주소
 	addr_code	number(10)	-- 주소코드
@@ -45,7 +59,7 @@ select
 	*
 from
 	code_addr;
-		
+
 create table store(	-- 가게
 	s_no	number(10)	-- 가게번호
 	, s_id	varchar2(100)	not null unique	-- 아이디
@@ -66,22 +80,6 @@ select
 	*
 from
 	store;
-	
-create table manager(	-- 관리자
-	m_no	number(10)	-- 가게번호
-	, m_id	varchar2(100)	not null unique	-- 아이디
-	, pwd	varchar2(256)	not null	-- 비밀번호
-	, m_name	varchar2(100)	not null	-- 사업자명
-	, email	varchar2(100)	not null	-- 이메일
-	, reg_date	date	default sysdate	-- 등록일
-	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
-	, primary key(m_no)
-);
-
-select
-	*
-from
-	manager;
 	
 create view login_store
 as (select
@@ -142,6 +140,35 @@ select
 	*
 from
 	code_dong_name;
+	
+create table manager(	-- 관리자
+	m_no	number(10)	-- 관리자 번호
+	, m_id	varchar2(100)	not null unique	-- 아이디
+	, pwd	varchar2(256)	not null	-- 비밀번호
+	, m_name	varchar2(100)	not null	-- 관리자명
+	, email	varchar2(100)	not null	-- 이메일
+	, reg_date	date	default sysdate	-- 등록일
+	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
+	, primary key(m_no)
+);
+
+select
+	*
+from
+	manager;
+	
+create view login_manager
+as (select
+		m_no
+		, m_id
+		, pwd
+	from
+		manager);
+
+select
+	*
+from
+	login_manager;
 	
 create table code_ingredient_alpha(	-- 식자재 대분류 코드
 	ia_code	number(10)	-- 식자재대분류코드
@@ -329,7 +356,7 @@ create table order_info(	-- 주문
 	, primary key(oi_no)
 	, foreign key(s_no) references store(s_no)
 );
-
+	
 select
 	*
 from

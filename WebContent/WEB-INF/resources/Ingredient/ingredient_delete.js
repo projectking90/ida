@@ -1,15 +1,15 @@
 function ing_delete_reg(cr) {
 	var trArr = new Array();
-	
 	$(".ingredient_list_tr").each(function(index){
 		if($(this).find("[name='delete_ingredient']").prop("checked")==true){
 			trArr.push($(this).find("[name='delete_ingredient']").val());
 			if(trArr[index]==""){
 				trArr[index].splice(index, 1);
 			}
+			alert($(this).find("[name='delete_ingredient']").val());
 		}
 	});
-
+	
 	$.ajax({
 		// 접속할 서버 쪽 url 주소 설정
 		url : cr + "/ingredeint_delete.ida"
@@ -28,7 +28,9 @@ function ing_delete_reg(cr) {
 			}
 		}
 		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
-		,error : function(){
+		,error : function(xhr,errorThrown){
+			alert(xhr);
+			alert(errorThrown);
 			alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
 		}
 	});

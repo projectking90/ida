@@ -12,8 +12,10 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".update").click(function(){
-			update_menu_reg("{cr}");
+			update_menu_reg("${cr}");
 		});
 	});
 </script>

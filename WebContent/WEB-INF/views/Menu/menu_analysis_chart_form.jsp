@@ -21,10 +21,7 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>	
 					
@@ -56,7 +53,7 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 메뉴 분석 차트
+							<i class="fas fa-fw fa-chart-area"></i>메뉴 분석 차트
 							<span name='menu_analysis_chart_btn' style='float:right'>
 								<button type="button" class="btn btn-primary m_table">메뉴 표</button>
 							</span>
@@ -71,27 +68,16 @@
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

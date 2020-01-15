@@ -12,6 +12,12 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable({
+			"language": {
+				"search": "결과 내 검색 : "
+			}
+		});
+		
 		$(".s_chart").click(function(){
 			location.replace("${cr}/stock_analysis_chart_form.ida");
 		});

@@ -12,4 +12,17 @@
 <script src="${cr}/resources/Manager/login_manager.js" type="text/javascript"></script>
 
 <script>
+	$(document).ready(function(){
+		$(".login").click(function(){
+			checkLoginForm("${cr}");
+		});
+		
+		$(".register").click(function(){
+			location.replace("${cr}/register_manager_form.ida");
+		});
+		
+		$(".user").click(function(){
+			location.replace("${cr}/login_form.ida");
+		})
+	});
 </script>

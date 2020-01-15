@@ -1,0 +1,11 @@
+create table breadcrumbs(
+	path	varchar2(100)
+	, label	varchar2(100)	not null
+	, before_path	varchar2(100)	default ' '
+	, user_flag	varchar2(1)	not null check(user_flag in ('s', 'm'))
+);
+
+select
+	*
+from
+	breadcrumbs;

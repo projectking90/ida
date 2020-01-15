@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그 선언 -->
+<mapper namespace="system.ida.dao.ManagerDAO">
+	<!-- 관리자 존재 여부를 가져오는 select 태그 -->
+	<select id="getLoginCnt" parameterType="system.ida.dto.ManagerDTO" resultType="int">
+		select
+			count(m_no)
+		from
+			login_manager
+		where
+			m_id = #{m_id}
+			and pwd = #{pwd}
+	</select>
+	
+	<!-- 아이디 존재 여부를 확인하는 select 태그 -->
+	<select id="getIdCnt" parameterType="system.ida.dto.ManagerDTO" resultType="int">
+		select
+			count(m_no)
+		from
+			login_manager
+		where
+			m_id = #{m_id}
+	</select>
+	
+	<!-- 관리자 회원가입하는 insert 태그 -->
+	<insert id="insertRegManager" parameterType="system.ida.dto.ManagerDTO">
+		insert into manager(
+			m_no
+			, m_id
+			, pwd
+			, m_name
+			, email
+		) values(
+			(select nvl(max(m_no), 0) + 1 from manager)
+			, #{m_id}
+			, #{pwd}
+			, #{m_name}
+			, #{email}
+		)
+	</insert>
+	
+	<!-- 관리자 정보를 가져오는 select 태그 -->
+	<select id="getManagerInfo" parameterType="string" resultType="system.ida.dto.ManagerDTO">
+		select
+			m_name	as "M_NAME"
+			, email	as "EMAIL"
+		from
+			manager
+		where
+			m_id = #{m_id}
+	</select>
+	
+	<!-- 회원정보를 수정하는 update 태그 -->
+	<update id="updateManagerInfo" parameterType="system.ida.dto.ManagerDTO">
+		update
+			manager
+		set
+			m_name = #{m_name}
+			, email = #{email}
+			<if test="!newPwd.equals('wLn3W6nd568lPQKBtdZ4tA==')">
+				,pwd = #{newPwd}
+			</if>
+		where
+			m_id = #{m_id}
+	</update>
+</mapper>

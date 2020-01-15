@@ -5,8 +5,10 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import system.ida.dto.AddrDTO;
+import system.ida.dto.MenuTrackingDTO;
 
 /**
  * IdaDAO 인터페이스
@@ -26,4 +28,5 @@ public interface IdaDAO {
 	List<AddrDTO> getGunList(AddrDTO addrDTO);	// 군 목록을 가져옴
 	List<AddrDTO> getGuList(AddrDTO addrDTO);	// 구 목록을 가져옴
 	List<AddrDTO> getDongList(AddrDTO addrDTO);	// 동 목록을 가져옴
+	MenuTrackingDTO getMenuTracking(Map<String, String> path_user_flag);	// 메뉴 트래킹 정보를 가져옴
 }

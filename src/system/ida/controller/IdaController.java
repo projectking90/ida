@@ -4,16 +4,20 @@
  */
 package system.ida.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.AddrDTO;
 import system.ida.service.IdaService;
+import system.ida.dto.MenuTrackingDTO;
 
 /**
  * IdaController 클래스
@@ -100,5 +104,34 @@ public class IdaController {
 		}
 		
 		return dong_list;
+	}
+	
+	
+	
+	/**
+	 * 메뉴 트래킹 정보를 가져올 메소드
+	 * @param path : 경로
+	 * @param user_flag : 유저 구분
+	 * @return menu_tracking_list : 메뉴 트래킹 정보
+	 */
+	@RequestMapping(value="/get_path.onm")
+	@ResponseBody
+	public List<MenuTrackingDTO> getMenuTracking(
+			@RequestParam(value="path") String path
+			, @RequestParam(value="user_flag") String user_flag) {
+		List<MenuTrackingDTO> menu_tracking_list = null;
+		
+		Map<String, String> path_user_flag = new HashMap<String, String>();
+		path_user_flag.put("path", path);
+		path_user_flag.put("user_flag", user_flag);
+		
+		try {
+			menu_tracking_list = this.idaService.getMenuTracking(path_user_flag);
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<getMenuTracking 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return menu_tracking_list;
 	}
 }

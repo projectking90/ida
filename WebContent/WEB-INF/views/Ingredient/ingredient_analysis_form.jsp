@@ -21,10 +21,7 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>
 						
@@ -58,7 +55,7 @@
 									<input type="checkbox" value="시간"><b>시간</b>&nbsp;
 									<input type="checkbox" value="분기"><b>분기</b>
 								</div>
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
@@ -84,27 +81,16 @@
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

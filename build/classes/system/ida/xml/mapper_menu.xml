@@ -78,6 +78,18 @@
 		)
 	</insert>
 	
+	<!-- 가게 메뉴의 식자재를 추가하는 insert 태그 -->
+	<insert id='insertMenuIngredient' parameterType="system.ida.dto.MenuDTO">
+		<foreach collection="i_name" item="i_name" open="insert all" close="select * from dual" separator=" ">
+		into menu_ingredient(mi_no,i_no)
+		values
+			(
+			(select max(mi_no) from menu_info)
+			,(select i_no from ingredient where i_name=#{i_name})
+			)
+		</foreach>
+	</insert>
+	
 	<!-- 메뉴대분류의 목록을 검색하는 select 태그 -->
 	<select id='getCodeMenuAlpha' resultType="system.ida.dto.CodeMenuAlphaDTO">
 		select
@@ -102,6 +114,7 @@
 			ingredient
 		where s_no=(select s_no from store where s_id=#{s_id})
 	</select>
+	
 	<!-- 가게 메뉴를 수정하는 update 태그 -->
 	<update id="updateStoreMenu" parameterType="hashmap">
 			update menu_info 
@@ -122,23 +135,10 @@
 			where mi_no=#{mi_no}
 	</update>
 	
-	<!-- 가게 메뉴의 식자재를 추가하는 insert 태그 -->
-	<insert id='insertMenuIngredient' parameterType="system.ida.dto.MenuDTO">
-		<foreach collection="i_name" item="i_name" open="insert all" close="select * from dual" separator=" ">
-		into menu_ingredient(mi_no,i_no)
-		values
-			(
-			(select max(mi_no) from menu_info)
-			,(select i_no from ingredient where i_name=#{i_name})
-			)
-		</foreach>
-	</insert>
-	
-	<!-- 가게 메뉴를 삭제할 경우 식자재도 삭제하는 delete 태그 -->
 	<delete id="deleteMenuIngredient" parameterType="hashmap">
 		delete from
 			menu_ingredient
 		where
-			mi_no = #{mi_no}
+			mi_no=#{mi_no}
 	</delete>
 </mapper>

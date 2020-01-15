@@ -12,6 +12,8 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".delete").click(function(){
 			stock_delete("${cr}");
 		});

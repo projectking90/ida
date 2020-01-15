@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>재고수정</title>
+		<title>주문수정</title>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -21,108 +21,88 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 재고 수정 <span name=stock_insert_form
-								style='float: right'> <input type='button' value='재고 수정'
-								onClick='update_stock_reg_btn();'>
+							<i class="fas fa-table"></i>주문 수정 <span name=order_insert_form
+								style='float: right'>
+								<button type="button" class="btn btn-primary update">주문 수정완료</button>
 							</span>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered" id="dataTable" width="100%"
+							<table class="table" id="dataTable" width="100%"
 								cellspacing="0">
-								<tr>
-									<td align=center resize=3><b>재고 번호</b></td>
-									<td align=center><b>대분류</b></td>
-									<td align=center><b>소분류</b></td>
-									<td align=center><b>식자재명</b></td>
-									<td align=center><b>재고수량</b></td>
-									<td align=center><b>사용여부</b></td>
-									<td align=center><b>날짜</b></td>
-									<td align=center><b>매입가격</b></td>
-									<td align=center><b>판매가격</b></td>
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000001"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류1"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류1"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="양파"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="136"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=4 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-									<td align=center><b><input type="text"
-											name="purchase_price" size=9 value="1000"></b></td>
-									<td align=center><b><input type="text"
-											name="sell_price" size=9 value="1500"></b></td>
-								</tr>
-								<tr>
-									<td align=center><b><input type="text" name="st_no"
-											size=9 value="4000002"></b></td>
-									<td align=center><b><input type="text" name="ca_code"
-											size=6 value="대분류2"></b></td>
-									<td align=center><b><input type="text" name="cb_code"
-											size=6 value="소분류2"></b></td>
-									<td align=center><b><input type="text" name="i_name"
-											size=10 value="당근"></b></td>
-									<td align=center><b><input type="text" name="quantity"
-											size=5 value="150"></b></td>
-									<td align=center><b><input type="text" name="st_state"
-											size=1 value="T"></b></td>
-									<td align=center><b><input type="text"
-											name="recent_date" size=15 value="2019-12-23(월)"></b></td>
-									<td align=center><b><input type="text"
-											name="purchase_price" size=9 value="1500"></b></td>
-									<td align=center><b><input type="text"
-											name="sell_price" size=9 value="2100"></b></td>
-								</tr>
+									<thead>
+										<tr>
+											<td align=center resize=3><b>주문번호</b></td>
+											<td align=center><b>핸드폰</b></td>
+											<td align=center><b>주문메뉴</b></td>
+											<td align=center><b>수량</b></td>
+											<td align=center><b>성별</b></td>
+											<td align=center><b>나이대</b></td>
+											<td align=center><b>주문시간</b></td>
+											<td align=center><b>픽업시간</b></td>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
+										<tr class="order_list_tr">
+											<td align=center>${order.oi_no}
+															<input type="hidden" name="oi_no" value="${order.oi_no}">
+											<td align=center>
+															<input type="text" name="c_phone" value="${order.c_phone}">
+											<td align=center>
+												<select name="mi_name">
+													<c:forEach items="${menu_listDTO.mi_nameList}" var="mi_nameList" varStatus="loopTagStatus">
+														<option value="${mi_nameList.mi_name}" 
+														${order.mi_name == mi_nameList.mi_name ? 'selected="selected"' : '' }
+														>${mi_nameList.mi_name}</option>
+														
+													</c:forEach>
+												</select>
+											<td align=center>
+												<b><input type="text" name="quantity" value="${order.quantity}"></b>
+											<td align=center>
+												<select name="gender">
+													<option value="1" <c:if test="${order.gender == '남'}">selected</c:if> >남</option>
+													<option value="2" <c:if test="${order.gender == '여'}">selected</c:if> >여</option>
+												</select>
+											<td align=center>
+												<select name="age">
+													<option value="10" <c:if test="${order.age == '10'}">selected</c:if> >10대</option>
+													<option value="20" <c:if test="${order.age == '20'}">selected</c:if> >20대</option>
+													<option value="30" <c:if test="${order.age == '30'}">selected</c:if> >30대</option>
+													<option value="40" <c:if test="${order.age == '40'}">selected</c:if> >40대</option>
+													<option value="50" <c:if test="${order.age == '50'}">selected</c:if> >50대</option>
+													<option value="60" <c:if test="${order.age == '60'}">selected</c:if> >60대</option>
+												</select>
+											<td align=center>${order.order_time}
+															<input type="hidden" name="s_id" value="${sessionScope.s_id}">
+											<td align=center>
+												<b><input type="text" name="pickup_time" value="${order.pickup_time}"></b>
+										</c:forEach>
+									</tbody>
 							</table>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>
 					</div>
-	
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

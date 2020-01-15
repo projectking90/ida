@@ -18,6 +18,6 @@ public interface ManagerService {
 	 * 메소드 선언
 	 */
 	int insertRegManager(ManagerDTO managerDTO);	// 관리자 회원가입
-	UserUpdateDTO getUserInfo(String s_id);	// 사용자 정보를 가져옴
-	int updateUserInfo(UserUpdateDTO user_updateDTO);	// 회원정보를 수정
+	ManagerDTO getUserInfo(String m_id);	// 관리자 정보를 가져옴
+	int updateManagerInfo(ManagerDTO managerDTO);	// 회원정보를 수정
 }

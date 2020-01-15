@@ -3,4 +3,152 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.OrderDAO">
+	<sql id="orderWhere">
+			<if test="keyword!=null and keyword.length()>0">
+					and (
+						upper(oi_no) like upper('%${keyword}%')
+						<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
+						or upper(s_no) like upper('%${keyword}%')
+						or upper(c_phone) like upper('%${keyword}%')
+						or upper(gender) like upper('%${keyword}%')
+						<!-- ============================= -->
+						or upper(age) like upper('%${keyword}%')
+						or upper(order_time) like upper('%${keyword}%')
+						or upper(pickup_time) like upper('%${keyword}%')
+					)
+			</if>
+	</sql>
+		
+		<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
+		<select id="getOrderList" parameterType="string" resultType="system.ida.dto.OrderDTO">
+				select zzz.*, rownum RNUM from(
+					select 	
+						 o.oi_no	"oi_no"
+						,o.s_no   "s_no"
+						,o.c_phone "c_phone"
+						,(select 
+						substr(xmlagg(xmlelement(x,', ',
+						(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
+						'('||(c.quantity)||')')).extract('//text()'),2) 
+						from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
+						,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+						,o.age "age"
+						,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+						,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+						,o.is_del	"is_del"	
+					from order_info o
+					where o.is_del='F'
+						and s_no = (select
+										s_no
+									from
+										store
+									where
+										s_id=#{s_id})
+					) zzz
+		</select>
+		
+		<!-- 가게에 등록된 주문 중 수량을 분리해 가져오는 select 태그 -->
+		<select id="getOrderList_sepa_quan" parameterType="string" resultType="system.ida.dto.OrderUpdateDTO">
+					select 	
+						 o1.oi_no	"oi_no"
+						,o1.s_no	"s_no"
+						,o1.c_phone "c_phone"
+						,(select m.mi_name from menu_info m where m.mi_no=o2.mi_no and o1.oi_no=o2.oi_no) as "mi_name"
+						,o2.quantity as "quantity"
+						,case o1.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+						,o1.age "age"
+						,to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+						,to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+						,o1.is_del	"is_del"	
+					from order_info o1 right outer join order_menu o2 
+						on o1.oi_no=o2.oi_no
+					where o1.is_del='F'
+						and o1.s_no = (select s_no from store where s_id=#{s_id})
+		</select>
+		
+	<!-- 메뉴 목록을 검색하는 select 태그 -->
+	<select id='getMenuList' parameterType="string" resultType="system.ida.dto.MenuDTO">
+		select
+			mi_name	"mi_name"
+		from
+			menu_info
+		where s_no=(select s_no from store where s_id=#{s_id})
+	</select>
+	
+	<!-- 가게 주문을 추가하는 insert 태그 -->
+	<insert id='insertStoreOrder' parameterType="system.ida.dto.OrderDTO">
+		insert into order_info(
+			oi_no
+			,s_no
+			,c_phone
+			,gender
+			,age
+			,pickup_time
+		)values(
+			(select nvl(max(oi_no),0)+1 from order_info)
+			,(select s_no from store where s_id=#{s_id})
+			,#{c_phone}
+			,#{gender}
+			,#{age}
+			, to_date(
+				to_char(sysdate, 'yyyy')|| '-' || to_char(sysdate, 'mm')
+				|| '-' || to_char(sysdate, 'dd')|| ' ' || to_char(sysdate, 'hh')|| ':' ||
+					to_char((case
+								when (to_number(to_char(sysdate, 'mi')) + ${pickup_time})>59
+								then (60-(to_number(to_char(sysdate, 'mi')) + ${pickup_time}))
+								else (to_number(to_char(sysdate, 'mi')) + ${pickup_time})
+							end))
+				|| ':' || to_char(sysdate, 'ss'),'YYYY-MM-DD HH:MI:SS'	
+			)
+		)
+	</insert>
+	<!-- 가게 주문을 수정하는 insert 태그 -->
+	<insert id='insertOrderMenuOne' parameterType="system.ida.dto.OrderDTO">
+		insert into order_menu(
+			oi_no
+			,mi_no
+			,quantity
+		)values(
+			(select nvl(max(oi_no),0) from order_info)
+			,(select mi_no from menu_info  where mi_name=#{mi_name})
+			,${quantity}
+		)
+	</insert>
+	
+	<!-- 가게 주문을 수정하는 update 태그 -->
+	<update id="updateStoreOrder" parameterType="hashmap">
+		update order_info 
+		set 
+			c_phone=#{c_phone}
+			,gender=#{gender}
+			,age=#{age}
+			,pickup_time=to_date(#{pickup_time},'YYYY-MM-DD(DY) HH:MI:SS')
+		where oi_no=${oi_no}
+	</update>
+	
+	<!-- 가게 주문을 수정하는 delete 태그 -->
+	<delete id="deleteOrderMenu" parameterType="hashmap">
+		delete from order_menu where oi_no=${oi_no}
+	</delete>
+		
+	<!-- 가게 주문을 수정하는 insert 태그 -->
+	<insert id='insertOrderMenu' parameterType="hashmap">
+		insert into order_menu(
+			oi_no
+			,mi_no
+			,quantity
+		)values(
+			${oi_no}
+			,(select mi_no from menu_info  where mi_name=#{mi_name})
+			,${quantity}
+		)
+	</insert>
+	
+	<!-- 가게 주문을 삭제하는 update 태그 -->
+	<update id="deleteStoreOrder" parameterType="hashmap">
+		update order_info 
+		set 
+			is_del='T'
+		where oi_no=#{oi_no}
+	</update>
 </mapper>

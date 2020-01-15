@@ -4,13 +4,14 @@ function update_store_reg(cr){
 	$(".ingredient_list_tr").each(function(index){
 		trArr[index] = new Array();
 		trArr[index].push($(this).find("[name='i_no']").val());
-		trArr[index].push($(this).find("[name='ia_code']").val());
-		trArr[index].push($(this).find("[name='ib_code']").val());
-		trArr[index].push($(this).find("[name='io_code']").val());
+		trArr[index].push($(this).find("[name='ia_name']").val());
+		trArr[index].push($(this).find("[name='ib_name']").val());
+		trArr[index].push($(this).find("[name='io_name']").val());
 		trArr[index].push($(this).find("[name='i_name']").val());
 		trArr[index].push($(this).find("[name='i_size']").val());
+		trArr[index].push($(this).find("[name='i_price']").val());
 	});
-	
+			
 	$.ajax({
 		// 접속할 서버 쪽 url 주소 설정
 		url : cr + "/ingredient_update_proc.ida"

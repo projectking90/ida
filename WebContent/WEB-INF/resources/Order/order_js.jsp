@@ -12,6 +12,12 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
+		$(".insert").click(function(){
+			insert_order_reg("${cr}");
+		});
+		
 		$(".update").click(function(){
 			location.replace("${cr}/order_update_form.ida");
 		});

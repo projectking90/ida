@@ -4,6 +4,13 @@
  */
 package system.ida.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import system.ida.dto.MenuDTO;
+import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderUpdateDTO;
+
 /**
  * OrderService 인터페이스
  * 서비스 클래스를 사용하기 위해 정의한 인터페이스
@@ -17,4 +24,17 @@ public interface OrderService {
 	/**
 	 * 메소드 선언
 	 */
+	List<OrderUpdateDTO> getOrderList(String s_id);
+
+	List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id);
+
+	List<MenuDTO> getMenuList(String s_id);
+
+	int deleteStoreOrder(ArrayList<String> order_delete);
+
+	int updateStoreOrder(ArrayList<String> order_update);
+
+	int insertStoreOrder(OrderDTO orderDTO);
+
+	int insertOrderMenu(OrderDTO orderDTO);
 }

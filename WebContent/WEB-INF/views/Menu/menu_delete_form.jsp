@@ -19,25 +19,24 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
+	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 메뉴 현황 <span name=stock_form
+							<i class="fas fa-table"></i>메뉴 현황 <span name=stock_form
 								style='float: right'>
 								<button type="button" class="btn btn-danger delete">메뉴 삭제완료</button>
 							</span>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form name="deleteMenuForm" method="post" action="${cr}/menu_delete.ida">
-								<table class="table table-bordered" id="dataTable" width="100%"
+							<form name="deleteMenuForm" method="post" action="/ida/menu_delete.ida">
+								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
+									<thead>
 									<tr>
 										<td align=center resize=1><b>선택</b>
 										<td align=center resize=3><b>메뉴 번호</b></td>
@@ -47,10 +46,12 @@
 										<td align=center><b>가격</b></td>
 										<td align=center><b>설명</b></td>
 									</tr>
+									</thead>
+									<tbody>
 									<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
 									<tr class="menu_list_tr">
-										<td border="0" align=center><input type="checkbox"
-											name="delete_menu" value="${menu.mi_no}">
+										<td border="0" align=center>
+											<input type="checkbox" name="delete_menu" value="${menu.mi_no}">
 										<td align=center>${menu.mi_no}
 										<td align=center>${menu.ma_code}
 										<td align=center>${menu.mb_code}
@@ -58,6 +59,7 @@
 										<td align=center>${menu.price}
 										<td align=center>${menu.mi_comment}
 									</c:forEach>
+									</tbody>
 								</table>
 							</form>
 							</div>
@@ -65,36 +67,20 @@
 						<div class="card-footer small text-muted">Updated yesterday
 							at 11:59 PM</div>
 					</div>
-	
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © IDA 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

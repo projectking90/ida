@@ -21,60 +21,43 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 주문 현황
 							<span name=stock_form style='float:right'>
-								<input type="button" class="update" value="주문 수정">
-								<input type="button" class="delete" value="주문 삭제">
+								<button type="button" class="btn btn-primary update" value="주문 수정"> 주문 수정 </button>
+								<button type="button" class="btn btn-danger delete" value="주문 삭제"> 주문 삭제 </button>
 							</span>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
-											<td align=center resize=3><b>재고 번호</b></td>
-											<td align=center><b>대분류</b></td>
-											<td align=center><b>소분류</b></td>
-											<td align=center><b>식자재명</b></td>
-											<td align=center><b>재고수량</b></td>
-											<td align=center><b>사용여부</b></td>
-											<td align=center><b>날짜</b></td>
-											<td align=center><b>매입가격</b></td>
-											<td align=center><b>판매가격</b></td>
+											<td align=center resize=3><b>주문번호</b></td>
+											<td align=center><b>핸드폰</b></td>
+											<td align=center><b>주문메뉴</b></td>
+											<td align=center><b>성별</b></td>
+											<td align=center><b>나이대</b></td>
+											<td align=center><b>주문시간</b></td>
+											<td align=center><b>픽업시간</b></td>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td align=center><b>4000001</b></td>
-											<td align=center><b>대분류1</b></td>
-											<td align=center><b>소분류1</b></td>
-											<td align=center><b>양파</b></td>
-											<td align=center><b>136</b></td>
-											<td align=center><b>T</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-											<td align=center><b>1000</b></td>
-											<td align=center><b>1500</b></td>
-										</tr>
-										<tr>
-											<td align=center><b>4000002</b></td>
-											<td align=center><b>대분류2</b></td>
-											<td align=center><b>소분류2</b></td>
-											<td align=center><b>당근</b></td>
-											<td align=center><b>150</b></td>
-											<td align=center><b>T</b></td>
-											<td align=center><b>2019-12-23(월)</b></td>
-											<td align=center><b>1500</b></td>
-											<td align=center><b>2100</b></td>
-										</tr>
+										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${order.oi_no}
+												<td align=center>${order.c_phone}
+												<td align=center>${order.order_menus}
+												<td align=center>${order.gender}
+												<td align=center>${order.age}대
+												<td align=center>${order.order_time}
+												<td align=center>${order.pickup_time}
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -86,71 +69,76 @@
 					<!--추가-->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 재고 추가 <span name=stock_insert_form
-								style='float: right'> <input type='button' value='재고 추가'
-								onClick='insert_stock_reg_btn();'>
+							<i class="fas fa-table"></i> 주문 추가 <span name=order_insert_form
+								style='float: right'>
+								<button type="button" class="btn btn-success insert">주문 추가완료</button>
 							</span>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered" id="dataTable" width="100%"
+							<form name="insertOrderForm" method="post" action="/ida/order_insert.ida">
+							<table class="table" id="dataTable"
 								cellspacing="0">
 								<!--select option 으로 바꿀 예정-->
 								<tr>
-									<th>대분류
-									<th><input type="text" name="ca_code">
+									<th>핸드폰
+									<th><input type="text" name="c_phone">
 								<tr>
-									<th>소분류
-									<th><input type="text" name="cb_code">
+									<th>성별
+									<th>
+										<select name="gender">
+											<option value="1">남</option>
+											<option value="2">여</option>
+										</select>
 								<tr>
-									<th>식자재명
-									<th><input type="text" name="i_name">
+									<th>나이대
+									<th>
+										<select name="age">
+											<option value="10">10대</option>
+											<option value="20">20대</option>
+											<option value="30">30대</option>
+											<option value="40">40대</option>
+											<option value="50">50대</option>
+											<option value="60">60대</option>
+										</select>
 								<tr>
-									<th>재고수량
+									<th>메뉴
+									<th>
+										<form:form name="menuCheckForm" commandName="menu_listDTO">
+											<form:checkboxes path="mi_name" 
+											items="${menu_listDTO.mi_nameList}" itemLabel="mi_name" itemValue="mi_name" />
+										</form:form>
+								<tr>
+									<th>수량
 									<th><input type="text" name="quantity">
+										<input type="hidden" name="s_id" value="${sessionScope.s_id}">
 								<tr>
-									<th>사용여부
-									<th><select name="st_state">
-											<option value='t'>T
-											<option value='f'>F
+									<th>픽업시간
+									<th>
+									<select name="pickup_time">
+										<option value="5">5분</option>
+										<option value="10">10분</option>
+										<option value="15">15분</option>
+										<option value="30">30분</option>
+										<option value="60">60분</option>
 									</select>
-								<tr>
-									<th>매입가격
-									<th><input type="text" name="purchase_price">
-								<tr>
-									<th>판매가격
-									<th><input type="text" name="sell_price">
 							</table>
+							</form>
 						</div>
 					</div>
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © Your Website 2019</span>
-						</div>
-					</div>
-				</footer>
-	
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

@@ -15,6 +15,7 @@ public class ManagerDTO {
 	 */
 	private String m_id;	// 아이디
 	private String pwd;	// 비밀번호
+	private String newPwd;	// 변경하려는 비밀번호
 	private String m_name;	// 이름
 	private String email;	// 이메일
 
@@ -52,6 +53,20 @@ public class ManagerDTO {
 	 */
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+	/**
+	 * newPwd 접근자
+	 * @return newPwd : 변경하려는 비밀번호
+	 */
+	public String getNewPwd() {
+		return newPwd;
+	}
+	/**
+	 * newPwd 설정자
+	 * @param newPwd : 변경하려는 비밀번호
+	 */
+	public void setNewPwd(String newPwd) {
+		this.newPwd = newPwd;
 	}
 	/**
 	 * m_name 접근자

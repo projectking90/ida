@@ -5,12 +5,14 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import system.ida.dto.AddrDTO;
+import system.ida.dto.MenuTrackingDTO;
 
 /**
  * IdaDAOImpl 클래스
@@ -80,5 +82,20 @@ public class IdaDAOImpl implements IdaDAO {
 				, addrDTO);
 		
 		return dong_list;
+	}
+
+	/**
+	 * 메뉴 트래킹 정보를 가져옴
+	 * @param path_user_flag : 경로와 유저구분
+	 * @return menu_tracking : 메뉴 트래킹 정보
+	 */
+	@Override
+	public MenuTrackingDTO getMenuTracking(Map<String, String> path_user_flag) {
+		MenuTrackingDTO menu_tracking_list = this.sqlSession.selectOne(
+				sqlSessionPath + "getMenuTracking"
+				, path_user_flag
+			);
+		
+		return menu_tracking_list;
 	}
 }

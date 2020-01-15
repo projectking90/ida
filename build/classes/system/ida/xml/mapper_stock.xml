@@ -15,7 +15,7 @@
 			,st.quantity as "quantity"
 			,st.st_state as "st_state"
             ,to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi') as "reg_date"
-			,(select i.i_price from ingredient i where i.i_no=st.i_no) as "i_price"
+			,to_char((select i.i_price from ingredient i where i.i_no=st.i_no), '9,999,999,999') as "i_price"
 		from stock st
 		where st.is_del='F'
 			and st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id}))
@@ -68,6 +68,8 @@
 			count(*)
 		from 
 			stock
+		where
+			st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id})) and st.i_no=${i_no}
 	</select>	
 	
 	<select id="getInsertedStockIsDelCnt" parameterType="system.ida.dto.StockDTO" resultType="int">

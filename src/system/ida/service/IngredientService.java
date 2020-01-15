@@ -7,6 +7,7 @@ package system.ida.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import system.ida.dto.Code_IngredientAllergieDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
 import system.ida.dto.Code_IngredientOriginDTO;
@@ -30,6 +31,7 @@ public interface IngredientService {
 	List<Code_IngredientAlphaDTO> getCodeIngAlpha();					//식자재 대분류를 가져오는 메소드
 	List<Code_IngredientBetaDTO> getCodeIngBeta();						//식자재 소분류를 가져오는 메소드
 	List<Code_IngredientOriginDTO> getCodeIngOrigin();					//식자재 원산지를 가져오는 메소드
+	List<Code_IngredientAllergieDTO> getCodeIngAllergie();				//식자재 알레르기 가져오는 메소드
 	int insertIngredient(IngredientDTO ingredientDTO);					//식자재 추가 메소드
 	int updateIngredient(ArrayList<String> ingredient_update);			//식자재 수정 메소드
 	int deleteIngredient(ArrayList<String> ingredient_delete);			//식자재 삭제 메소드

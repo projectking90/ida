@@ -12,12 +12,13 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
 		$(".insert").click(function(){
-			insert_menu_reg("{cr}");
+			insert_menu_reg("${cr}");
 		});
 		
 		$(".update").click(function(){
-			document.updateMenu.submit();
 			location.replace("${cr}/menu_update_form.ida");
 		});
 		

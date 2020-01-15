@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.Code_IngredientAlphaDTO;
+import system.ida.dto.Code_IngredientBetaDTO;
+import system.ida.dto.Code_IngredientOriginDTO;
 import system.ida.dto.Code_ingredientDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.IngredientSearchDTO;
@@ -57,8 +60,15 @@ public class IngredientController {
 			ingredient_searchDTO.setS_id(s_id);
 			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
 			
+			Code_ingredientDTO code_ingredientDTO = new Code_ingredientDTO();
+			code_ingredientDTO.setIa_nameList(this.ingredientService.getCodeIngAlpha());
+			code_ingredientDTO.setIb_nameList(this.ingredientService.getCodeIngBeta());
+			code_ingredientDTO.setIo_nameList(this.ingredientService.getCodeIngOrigin());
+			code_ingredientDTO.setA_nameList(this.ingredientService.getCodeIngAllergie());
+			
 			mav.addObject("ingredient_list",ingredient_list);
 			mav.addObject("ingredient_searchDTO",ingredient_searchDTO);
+			mav.addObject("code_ingredientDTO",code_ingredientDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -78,10 +88,13 @@ public class IngredientController {
 		, produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public int insertIngredient(
-		IngredientDTO ingredientDTO) {
+		IngredientDTO ingredientDTO
+		,HttpSession session) {
 		int insert_result =0; 		//데이터베이스 실행 후 결과를 저장
 		
 		try {
+			String s_id =(String)session.getAttribute("s_id");
+			ingredientDTO.setS_id(s_id);
 			insert_result = this.ingredientService.insertIngredient(ingredientDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientInsertForm 에러발생>");
@@ -108,12 +121,17 @@ public class IngredientController {
 			String s_id =(String)session.getAttribute("s_id");
 			ingredient_searchDTO.setS_id(s_id);
 			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
+			List<Code_IngredientAlphaDTO> alpha = this.ingredientService.getCodeIngAlpha();
+			List<Code_IngredientBetaDTO> beta = this.ingredientService.getCodeIngBeta();
+			List<Code_IngredientOriginDTO> origin = this.ingredientService.getCodeIngOrigin();
+			
+			for(IngredientDTO temp : ingredient_list) {
+				temp.setIa_nameList(alpha);
+				temp.setIb_nameList(beta);
+				temp.setIo_nameList(origin);
+			}
+			
 			mav.addObject("ingredient_list",ingredient_list);
-			Code_ingredientDTO code_ingredientDTO = new Code_ingredientDTO();
-			code_ingredientDTO.setIa_nameList(this.ingredientService.getCodeIngAlpha());
-			code_ingredientDTO.setIb_nameList(this.ingredientService.getCodeIngBeta());
-			code_ingredientDTO.setIo_nameList(this.ingredientService.getCodeIngOrigin());
-			mav.addObject(code_ingredientDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientUpdateForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -121,7 +139,13 @@ public class IngredientController {
 		
 		return mav;
 	}
-	
+
+	/**
+	 * 식자재 수정 기능 실행시 보여줄 데이터베이스와 연동처리 할 메소드
+	 * 가상주소 : ingredient_update_proc.ida 로 접근하면 호출
+	 * @param ingredient_update
+	 * @return
+	 */
 	@RequestMapping(value="/ingredient_update_proc.ida")
 	@ResponseBody
 	public int tableUpdateProc(
@@ -180,17 +204,11 @@ public class IngredientController {
 			,HttpSession session
 			,@RequestParam(value="trArr") ArrayList<String> ingredient_delete) {
 		int delete_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
-		
-		for(int index=0; index<ingredient_delete.size(); index++) {
-			System.out.println(ingredient_delete.get(index));
-		}
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			ingredient_searchDTO.setS_id(s_id);
 			delete_result = this.ingredientService.deleteIngredient(ingredient_delete);
-			System.out.print("del : " + delete_result);
-			
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<deleteStoreMenu 에러발생>");
 			System.out.println(e.getMessage());

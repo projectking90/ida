@@ -176,7 +176,6 @@ public class MenuController {
 	) {
 		int update_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
 
-		System.out.print("updatecheck");
 		try {
 			 update_result = this.menuService.updateStoreMenu(menu_update); 
 			
@@ -199,14 +198,14 @@ public class MenuController {
 			HttpSession session
 			,MenuSearchDTO menu_searchDTO) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "menu_delete_form");
-		String s_id = (String)session.getAttribute("s_id");
-		menu_searchDTO.setS_id(s_id);
-		List<MenuDTO> menu_list = this.menuService.getMenuList(menu_searchDTO);
-		mav.addObject("menu_list", menu_list);
-		mav.addObject("menu_searchDTO", menu_searchDTO);
 
 		try {
+			mav.setViewName(path + "menu_delete_form");
+			String s_id = (String)session.getAttribute("s_id");
+			menu_searchDTO.setS_id(s_id);
+			List<MenuDTO> menu_list = this.menuService.getMenuList(menu_searchDTO);
+			mav.addObject("menu_list", menu_list);
+			mav.addObject("menu_searchDTO", menu_searchDTO);
 		} catch (Exception e) { // try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goMenuDeleteForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -230,15 +229,16 @@ public class MenuController {
 			,@RequestParam(value="trArr") ArrayList<String> menu_delete) {
 		int delete_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
 		
-		for(int index=0; index<menu_delete.size(); index++) {
-			System.out.println(menu_delete.get(index));
-		}
+		/*
+		 * for(int index=0; index<menu_delete.size(); index++) {
+		 * System.out.println(menu_delete.get(index)); }
+		 */
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			menu_searchDTO.setS_id(s_id);
 			delete_result = this.menuService.deleteStoreMenu(menu_delete);
-			System.out.print("del : " + delete_result);
+			//System.out.print("del : " + delete_result);
 			
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<deleteStoreMenu 에러발생>");

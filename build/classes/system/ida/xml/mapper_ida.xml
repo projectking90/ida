@@ -52,4 +52,17 @@
 		order by
 			1
 	</select>
+	
+	<!-- 메뉴 트래킹 정보를 검색하는 select 태그 -->
+	<select id="getMenuTracking" parameterType="hashmap" resultType="system.ida.dto.MenuTrackingDTO">
+		select
+			path	as "PATH"
+			, label as "LABEL"
+			, before_path as "BEFORE_PATH"
+		from
+			breadcrumbs
+		where
+			path = #{path}
+			and user_flag = #{user_flag}
+	</select>
 </mapper>

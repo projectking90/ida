@@ -17,14 +17,19 @@ public class IngredientDTO {
 	 */
 	private int i_no;	// 식자재 번호
 	private int s_no;	// 가게 번호
+	private String s_id;	// 아이디
 	private String ia_name;	// 식자재 대분류
 	private String ib_name;	// 식자재 소분류
 	private String io_name;	// 식자재 원산지
 	private String i_name;	// 식자재 이름
 	private String i_size;	// 식자재 규격
-	private int i_price;	// 식자재 가격
+	private String i_price;	// 식자재 가격
 	private String reg_date;	// 식자재 등록일
 	private String is_del;	// 삭제여부
+
+	private List<Code_IngredientAlphaDTO> ia_nameList;		//DB에서 가져온 대분류값
+	private List<Code_IngredientBetaDTO> ib_nameList;		//DB에서 가져온 소분류값
+	private List<Code_IngredientOriginDTO> io_nameList;	//DB에서 가져온 원산지값
 	/**
 	 * i_no 접근자
 	 * @return i_no : 
@@ -52,6 +57,20 @@ public class IngredientDTO {
 	 */
 	public void setS_no(int s_no) {
 		this.s_no = s_no;
+	}
+	/**
+	 * s_id 접근자
+	 * @return s_id : 
+	 */
+	public String getS_id() {
+		return s_id;
+	}
+	/**
+	 * s_id 설정자
+	 * @param s_id : 
+	 */
+	public void setS_id(String s_id) {
+		this.s_id = s_id;
 	}
 	/**
 	 * ia_name 접근자
@@ -127,14 +146,14 @@ public class IngredientDTO {
 	 * i_price 접근자
 	 * @return i_price : 
 	 */
-	public int getI_price() {
+	public String getI_price() {
 		return i_price;
 	}
 	/**
 	 * i_price 설정자
 	 * @param i_price : 
 	 */
-	public void setI_price(int i_price) {
+	public void setI_price(String i_price) {
 		this.i_price = i_price;
 	}
 	/**
@@ -164,6 +183,48 @@ public class IngredientDTO {
 	 */
 	public void setIs_del(String is_del) {
 		this.is_del = is_del;
+	}
+	/**
+	 * ia_nameList 접근자
+	 * @return ia_nameList : 
+	 */
+	public List<Code_IngredientAlphaDTO> getIa_nameList() {
+		return ia_nameList;
+	}
+	/**
+	 * ia_nameList 설정자
+	 * @param ia_nameList : 
+	 */
+	public void setIa_nameList(List<Code_IngredientAlphaDTO> ia_nameList) {
+		this.ia_nameList = ia_nameList;
+	}
+	/**
+	 * ib_nameList 접근자
+	 * @return ib_nameList : 
+	 */
+	public List<Code_IngredientBetaDTO> getIb_nameList() {
+		return ib_nameList;
+	}
+	/**
+	 * ib_nameList 설정자
+	 * @param ib_nameList : 
+	 */
+	public void setIb_nameList(List<Code_IngredientBetaDTO> ib_nameList) {
+		this.ib_nameList = ib_nameList;
+	}
+	/**
+	 * io_nameList 접근자
+	 * @return io_nameList : 
+	 */
+	public List<Code_IngredientOriginDTO> getIo_nameList() {
+		return io_nameList;
+	}
+	/**
+	 * io_nameList 설정자
+	 * @param io_nameList : 
+	 */
+	public void setIo_nameList(List<Code_IngredientOriginDTO> io_nameList) {
+		this.io_nameList = io_nameList;
 	}
 
 	/**

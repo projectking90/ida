@@ -1,12 +1,12 @@
 function menu_delete_reg(cr) {
 	var trArr = new Array();
-	
 	$(".menu_list_tr").each(function(index){
 		if($(this).find("[name='delete_menu']").prop("checked")==true){
 			trArr.push($(this).find("[name='delete_menu']").val());
 			if(trArr[index]==""){
 				trArr[index].splice(index, 1);
 			}
+			//alert($(this).find("[name='delete_menu']").val());
 		}
 	});
 
@@ -19,7 +19,7 @@ function menu_delete_reg(cr) {
 		, data : "trArr=" + trArr
 		// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
 		// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
-		, success : function(delete_result){
+		, success : function(delete_result){						
 			if(delete_result>=1){
 				alert("삭제 성공하였습니다.");
 				location.replace(cr + "/menu_form.ida");

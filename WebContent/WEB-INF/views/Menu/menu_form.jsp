@@ -21,15 +21,12 @@
 				<div class="container-fluid">
 	
 					<!-- Breadcrumbs-->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 메뉴 현황
+							<i class="fas fa-table"></i>메뉴 현황
 							<span name=stock_form style='float:right'>
 								<button type="button" class="btn btn-primary update" value="메뉴 수정"> 메뉴 수정 </button>
 								<button type="button" class="btn btn-danger delete" value="메뉴 삭제"> 메뉴 삭제 </button>
@@ -38,7 +35,7 @@
 						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
@@ -46,7 +43,7 @@
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>메뉴이름</b></td>
-											<td align=center><b>가격</b></td>
+											<td align=center><b>가격(원)</b></td>
 											<td align=center><b>설명</b></td>
 											<td align=center><b>등록일</b></td>
 											
@@ -74,14 +71,14 @@
 					<!--추가-->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 메뉴 추가 <span name=stock_insert_form
+							<i class="fas fa-table"></i> 메뉴 추가 <span name=menu_insert_form
 								style='float: right'>
 								<button type="button" class="btn btn-success insert">메뉴 추가</button>
 							</span>
 						</div>
 						<div class="card-body">
 							<form name="insertMenuForm" method="post" action="/ida/menu_insert.ida">
-							<table class="table table-bordered" id="dataTable" width="100%"
+							<table class="table" id="dataTable" width="100%"
 								cellspacing="0">
 								<!--select option 으로 바꿀 예정-->
 								<tr>
@@ -104,7 +101,8 @@
 									<th>식자재
 									<th>
 									<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
-										<form:checkboxes path="i_name" items="${ingredient_listDTO.i_nameList}" itemLabel="i_name" itemValue="i_name" />
+										<form:checkboxes path="i_name" 
+										items="${ingredient_listDTO.i_nameList}" itemLabel="i_name" itemValue="i_name" />
 									</form:form>
 								<tr>
 									<th>메뉴이름
@@ -120,36 +118,20 @@
 							</form>
 						</div>
 					</div>
-					<p class="small text-center text-muted my-5">
-						<em>More table examples coming soon...</em>
-					</p>
-	
 				</div>
 				<!-- /.container-fluid -->
 	
 				<!-- Sticky Footer -->
-				<footer class="sticky-footer">
-					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
-							<span>Copyright © IDA 2019</span>
-						</div>
-					</div>
-				</footer>
+				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
 	
 		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+		<a class="scroll-to-top rounded" href="#page-top"></a>
 	
 		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		</div>
-		<form name="updateMenu" method="post" action="${cr}/menu_update_form.ida">
-			<input type="hidden" name="menu_list" values="${menu_list}">
-		</form>
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 	</body>
 </html>

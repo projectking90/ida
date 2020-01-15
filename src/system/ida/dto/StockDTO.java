@@ -11,7 +11,7 @@ public class StockDTO {
 	private int quantity;
 	private String st_state;
 	private String reg_date;
-	private int i_price;
+	private String i_price;
 	private String s_id;
 	
 	public int getSt_no() {
@@ -74,10 +74,10 @@ public class StockDTO {
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
-	public int getI_price() {
+	public String getI_price() {
 		return i_price;
 	}
-	public void setI_price(int i_price) {
+	public void setI_price(String i_price) {
 		this.i_price = i_price;
 	}
 	public String getS_id() {

@@ -12,5 +12,10 @@
 
 <script>
 	$(document).ready(function(){
+		$('#dataTable').DataTable();
+		
+		$(".update").click(function(){
+			update_order_reg("${cr}");
+		});
 	});
 </script>
