@@ -59,7 +59,7 @@
 											<td align=center>
 												<select name="ia_name">
 													<c:forEach items="${ingredient.ia_nameList}" var="ia_nameList" varStatus="loopTagStatus">
-														<option value="${ingredient.ia_name}"
+														<option value="${ia_nameList.ia_name}"
 														${ingredient.ia_name == ia_nameList.ia_name ? 'selected="selected"' : '' }
 														>${ia_nameList.ia_name}</option>
 													</c:forEach>
@@ -68,7 +68,7 @@
 											<td align=center>
 												<select name="ib_name">
 													<c:forEach items="${ingredient.ib_nameList}" var="ib_nameList" varStatus="loopTagStatus">
-														<option value="${ingredient.ib_name}"
+														<option value="${ib_nameList.ib_name}"
 														${ingredient.ib_name == ib_nameList.ib_name ? 'selected="selected"' : '' }
 														>${ib_nameList.ib_name}</option>
 													</c:forEach>
@@ -77,7 +77,7 @@
 											<td align=center>
 												<select name="io_name">
 													<c:forEach items="${ingredient.io_nameList}" var="io_nameList" varStatus="loopTagStatus">
-														<option value="${ingredient.io_name}"
+														<option value="${io_nameList.io_name}"
 														${ingredient.io_name == io_nameList.io_name ? 'selected="selected"' : '' }
 														>${io_nameList.io_name}</option>
 													</c:forEach>

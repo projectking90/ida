@@ -67,7 +67,7 @@
 		select
 			count(*)
 		from 
-			stock
+			stock st
 		where
 			st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id})) and st.i_no=${i_no}
 	</select>	

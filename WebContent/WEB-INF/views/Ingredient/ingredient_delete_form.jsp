@@ -29,8 +29,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 현황 <span id=store_form
 								style='float: right'> 
-								<button type="button" class="btn btn-danger" value="식자재 삭제"
-									onClick='ing_delete_reg_btn();'>식자재 삭제완료</button>
+								<button type="button" class="btn btn-danger delete">식자재 삭제완료</button>
 							</span>
 						</div>
 						<div class="card-body">

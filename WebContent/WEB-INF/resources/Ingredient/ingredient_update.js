@@ -9,9 +9,9 @@ function update_store_reg(cr){
 		trArr[index].push($(this).find("[name='io_name']").val());
 		trArr[index].push($(this).find("[name='i_name']").val());
 		trArr[index].push($(this).find("[name='i_size']").val());
-		trArr[index].push($(this).find("[name='i_price']").val());
+		trArr[index].push(withoutComma($(this).find("[name='i_price']").val()));
 	});
-			
+	
 	$.ajax({
 		// 접속할 서버 쪽 url 주소 설정
 		url : cr + "/ingredient_update_proc.ida"
@@ -34,4 +34,12 @@ function update_store_reg(cr){
 			alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
 		}
 	});
+}
+
+function withoutComma(price){
+	var temp = new String(price);
+	
+	temp = temp.replace(/,/gi, "");
+	
+	return temp;
 }

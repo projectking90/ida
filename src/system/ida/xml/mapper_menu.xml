@@ -73,7 +73,7 @@
 			,(select mb_code from code_menu_beta  where mb_name=#{mb_code})
 			,(select s_no from store where s_id=#{s_id})
 			,#{mi_name}
-			,#{price}
+			,to_number(#{price}, 9999999999)
 			,#{mi_comment}
 		)
 	</insert>
@@ -122,7 +122,7 @@
 				ma_code=(select ma_code from code_menu_alpha a where ma_name=#{ma_code})
 				,mb_code=(select mb_code from code_menu_beta b where mb_name=#{mb_code})
 				,mi_name=#{mi_name}
-				,price=#{price}
+				,price=to_number(#{price}, 9999999999)
 				,mi_comment=#{mi_comment}
 			where mi_no=#{mi_no}
 	</update>

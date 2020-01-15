@@ -81,9 +81,12 @@ public class StockController {
 			, produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public int insertStockReg(
-			StockDTO stockDTO) {
+			StockDTO stockDTO
+			, HttpSession session) {
 		int stock_reg_cnt=0;
 		try {
+			String s_id = (String)session.getAttribute("s_id");
+			stockDTO.setS_id(s_id);
 			stock_reg_cnt=this.stockService.insertStock(stockDTO);
 		}catch(Exception e){
 			System.out.println("<insertStockReg 에러발생>");

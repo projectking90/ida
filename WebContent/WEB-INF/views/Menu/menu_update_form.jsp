@@ -26,14 +26,14 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i>메뉴 수정 <span name=stock_insert_form
+							<i class="fas fa-table"></i> 메뉴 수정 <span name=menu_insert_form
 								style='float: right'>
 								<button type="button" class="btn btn-primary update">메뉴 수정완료</button>
 							</span>
 						</div>
 						<div class="card-body">
 							<form name="updateMenuForm" method="post" action="/ida/menu_update.ida">
-							<table class="table table-bordered" id="dataTable" width="100%"
+							<table class="table" id="dataTable" width="100%"
 								cellspacing="0">
 									<thead>
 										<tr>
