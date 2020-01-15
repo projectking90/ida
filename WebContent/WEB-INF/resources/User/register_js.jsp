@@ -14,7 +14,7 @@
 <script>
 	$(document).ready(function(){
 		$(".register").click(function(){
-			registerUser("{cr}");
+			registerUser("${cr}");
 		});
 		
 		$(".back").click(function(){
@@ -24,16 +24,16 @@
 		setCity();
 		
 		$("[name=register_user_form] [name=city]").change(function(){
-			setGun("{cr}");
+			setGun("${cr}");
 		});
 		
 		$("[name=register_user_form] [name=gun]").change(function(){
-			setGu("{cr}");
-			setDong("{cr}");
+			setGu("${cr}");
+			setDong("${cr}");
 		});
 		
 		$("[name=register_user_form] [name=gu]").change(function(){
-			setDong("{cr}");
+			setDong("${cr}");
 		});
 		
 		$("[name=register_user_form] [name=s_phone]").keyup(function(){
