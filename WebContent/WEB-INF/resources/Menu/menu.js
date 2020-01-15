@@ -9,7 +9,9 @@ function insert_menu_reg(cr) {
 		$("[name=price]").focus();
 		return;
 	}
-
+	
+	$("[name=insertMenuForm] [name='i_price']").val(withoutComma($("[name=insertMenuForm] [name='i_price']").val()));	
+	
 	$.ajax({
 		url : cr + "/menu_insert.ida"
 		, type : "post"

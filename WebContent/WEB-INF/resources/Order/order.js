@@ -14,11 +14,25 @@ function insert_order_reg(cr) {
 		$("[name=quantity]").focus();
 		return;
 	}
+
+	var minameArr = new Array();
+	
+	$("[name^=mi_name]").each(function(index){
+		/* minameArr[index] = new Array(); */
+		minameArr.push($(this).val());
+	});
+
+	var quantityArr = new Array();
+	
+	$("[name^=quantity]").each(function(index){
+		/* minameArr[index] = new Array(); */
+		quantityArr.push($(this).val());
+	});
 	
 	$.ajax({
 		url : cr + "/order_insert.ida"
 		, type : "post"
-		,data : $("[name=insertOrderForm]").serialize()
+		,data : $("[name=insertOrderForm]").serialize()+"&minameArr="+minameArr+"&quantityArr="+quantityArr
 		,success : function(insert_result){
 			if(insert_result==1){
 				alert("메뉴 등록 성공하였습니다.");
@@ -31,4 +45,15 @@ function insert_order_reg(cr) {
 			alert("서버 접속을 실패하였습니다.");
 		}
 	});
+}
+
+function remove_menu_tr_btn(){
+	var tableObj = $("#insertMenuTable");
+	var tableTrsObj = tableObj.find("tr");
+	
+	var lastTrObj = tableObj.find("tr").last();
+
+	if(tableTrsObj.length>3){
+		lastTrObj.remove();
+	}
 }

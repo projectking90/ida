@@ -66,8 +66,23 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int insertOrderMenu(OrderDTO orderDTO) {
-		int order_menu_insert = this.orderDAO.insertOrderMenu(orderDTO);
+	public int insertOrderMenuOne(ArrayList<String> mi_names, ArrayList<String> quantitys) {
+		Map<String, String> trData = new HashMap<String, String>();
+		int order_menu_insert = 0;
+		System.out.print(mi_names.get(0));
+		System.out.print(mi_names.get(1));
+
+		System.out.print(quantitys.get(0));
+		System.out.print(quantitys.get(1));
+		System.out.print(quantitys.size());
+		
+		
+		for(int i=0; i<mi_names.size(); i++) {
+				trData.put("mi_name", mi_names.get(i));
+				trData.put("quantity", quantitys.get(i));
+				order_menu_insert += this.orderDAO.insertOrderMenuOne(trData);
+				System.out.println("order_menu_insert : "+order_menu_insert);
+		}
 		
 		return order_menu_insert;
 	}

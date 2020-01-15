@@ -25,8 +25,8 @@ public class OrderDTO {
 	private String pickup_time;
 	private String is_del;
 	private String order_menus;
-	private String quantity;
-	private String mi_name;
+	private String[] quantity;
+	private String[] mi_name;
 
 	
 	/**
@@ -91,16 +91,16 @@ public class OrderDTO {
 	public void setOrder_menus(String order_menus) {
 		this.order_menus = order_menus;
 	}
-	public String getQuantity() {
+	public String[] getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(String quantity) {
+	public void setQuantity(String[] quantity) {
 		this.quantity = quantity;
 	}
-	public String getMi_name() {
+	public String[] getMi_name() {
 		return mi_name;
 	}
-	public void setMi_name(String mi_name) {
+	public void setMi_name(String[] mi_name) {
 		this.mi_name = mi_name;
 	}
 	/**

@@ -73,10 +73,10 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
-	public int insertOrderMenu(OrderDTO orderDTO) {
+	public int insertOrderMenuOne(Map<String, String> trData) {
 		int order_menu_insert = this.sqlSession.insert(
 				"system.ida.dao.OrderDAO.insertOrderMenuOne"
-				,orderDTO
+				,trData
 		);
 		
 		return order_menu_insert;
@@ -130,12 +130,12 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return delete_result;
 	}
+	
 	/**
 	 * 가게 주문 삭제
 	 * @param orderDTO : 주문 삭제를 위해 사용하는 DTO
 	 * @return delete_result : 주문 삭제 적용 개수
 	 */
-	
 	@Override
 	public int deleteOrderMenu(Map<String, String> trData) {
 		int delete_order_menu = 0;

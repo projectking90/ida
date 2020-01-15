@@ -26,4 +26,17 @@
 			location.replace("${cr}/order_delete_form.ida");
 		});
 	});
+	
+	function append_menu_tr_btn(){
+		var tableObj = $("#insertMenuTable");
+		var lastTrObj = tableObj.find("tr").last();
+		
+		tableObj.append( '<tr><th>메뉴<th>'+
+				'<select name=mi_name'+$("[name=mi_name]").index()+'>'+
+				'<c:forEach items="${menu_listDTO.mi_nameList}" var="mi_nameList" varStatus="loopTagStatus">'+
+					'<option value="${mi_nameList.mi_name}">${mi_nameList.mi_name}</option>'+
+				'</c:forEach>'+
+			'</select><th>수량<th><input type="text" name=quantity'+$("[name=quantity]").index()+'>' );
+		return;
+	}
 </script>

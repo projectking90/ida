@@ -312,3 +312,16 @@ function check_pwd(selecter1, selecter2){
 		return;
 	}
 }
+
+/**
+ * 입력한 입력양식에 ','가 포함된 화폐일 경우 ','를 제거하는 함수
+ * @param price : ','가 포함된 숫자
+ * @returns temp : ','가 제거된 숫자
+ */
+function withoutComma(price){
+	var temp = new String(price);
+	
+	temp = temp.replace(/,/gi, "");
+	
+	return temp;
+}

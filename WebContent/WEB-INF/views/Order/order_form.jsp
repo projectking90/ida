@@ -71,18 +71,23 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 주문 추가 <span name=order_insert_form
 								style='float: right'>
-								<button type="button" class="btn btn-success insert">주문 추가완료</button>
+								<button type="button" class="btn btn-primary" value='주문메뉴 추가'
+									onClick='append_menu_tr_btn();'>메뉴 +</button>
+								<button type="button" class="btn btn-danger" value='주문메뉴 삭제'
+									onClick='remove_menu_tr_btn();'>메뉴 -</button>
+								<button type="button" class="btn btn-success" value='주문 추가'
+									onClick='insert_order_reg_btn();'>주문 추가완료</button>
 							</span>
 						</div>
 						<div class="card-body">
 							<form name="insertOrderForm" method="post" action="/ida/order_insert.ida">
-							<table class="table" id="dataTable"
+							<table class="table table-bordered" id="insertMenuTable"
 								cellspacing="0">
 								<!--select option 으로 바꿀 예정-->
 								<tr>
 									<th>핸드폰
 									<th><input type="text" name="c_phone">
-								<tr>
+										<input type="hidden" name="s_id" value="${sessionScope.s_id}">
 									<th>성별
 									<th>
 										<select name="gender">
@@ -100,18 +105,6 @@
 											<option value="50">50대</option>
 											<option value="60">60대</option>
 										</select>
-								<tr>
-									<th>메뉴
-									<th>
-										<form:form name="menuCheckForm" commandName="menu_listDTO">
-											<form:checkboxes path="mi_name" 
-											items="${menu_listDTO.mi_nameList}" itemLabel="mi_name" itemValue="mi_name" />
-										</form:form>
-								<tr>
-									<th>수량
-									<th><input type="text" name="quantity">
-										<input type="hidden" name="s_id" value="${sessionScope.s_id}">
-								<tr>
 									<th>픽업시간
 									<th>
 									<select name="pickup_time">
@@ -121,6 +114,16 @@
 										<option value="30">30분</option>
 										<option value="60">60분</option>
 									</select>
+								<tr>
+									<th>메뉴
+									<th>
+										<select name="mi_name" class="mi_name">
+											<c:forEach items="${menu_listDTO.mi_nameList}" var="mi_nameList" varStatus="loopTagStatus">
+												<option value="${mi_nameList.mi_name}">${mi_nameList.mi_name}</option>
+											</c:forEach>
+										</select>
+									<th>수량
+									<th><input type="text" name="quantity" class="quantity">
 							</table>
 							</form>
 						</div>

@@ -58,7 +58,6 @@ public class MenuController {
 			String s_id = (String)session.getAttribute("s_id");
 			menu_searchDTO.setS_id(s_id);
 
-			
 			int menu_list_all_cnt=this.menuService.getMenuListAllCnt(menu_searchDTO);
 			
 			if(menu_list_all_cnt>0) {

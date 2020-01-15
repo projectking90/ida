@@ -1,6 +1,5 @@
 function order_delete_reg(cr) {
 	var trArr = new Array();
-	
 	$(".order_list_tr").each(function(index){
 		if($(this).find("[name='delete_order']").prop("checked")==true){
 			trArr.push($(this).find("[name='delete_order']").val());

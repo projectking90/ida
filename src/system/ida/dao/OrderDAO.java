@@ -39,7 +39,7 @@ public interface OrderDAO {
 
 	int insertOrderMenu(Map<String, String> trData);
 	
-	int insertOrderMenu(OrderDTO orderDTO);
+	int insertOrderMenuOne(Map<String, String> trData);
 
 	int insertStoreOrder(OrderDTO orderDTO);
 }

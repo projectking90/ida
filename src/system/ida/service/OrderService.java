@@ -36,5 +36,5 @@ public interface OrderService {
 
 	int insertStoreOrder(OrderDTO orderDTO);
 
-	int insertOrderMenu(OrderDTO orderDTO);
+	int insertOrderMenuOne(ArrayList<String> mi_names, ArrayList<String> quantitys);
 }

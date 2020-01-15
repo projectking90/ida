@@ -26,7 +26,7 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i>주문 수정 <span name=order_insert_form
+							<i class="fas fa-table"></i> 주문 수정 <span name=order_insert_form
 								style='float: right'>
 								<button type="button" class="btn btn-primary update">주문 수정완료</button>
 							</span>

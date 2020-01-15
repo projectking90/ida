@@ -112,7 +112,9 @@
 			i_name	"i_name"
 		from
 			ingredient
-		where s_no=(select s_no from store where s_id=#{s_id})
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
 	</select>
 	
 	<!-- 가게 메뉴를 수정하는 update 태그 -->

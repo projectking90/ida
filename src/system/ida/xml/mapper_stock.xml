@@ -26,7 +26,8 @@
 			i_no "i_no"
 			,i_name "i_name"
 		from ingredient i
-		where i.s_no=(select s.s_no from store s where s.s_id=#{s_id})
+		where i.is_del='F'
+			and i.s_no=(select s.s_no from store s where s.s_id=#{s_id})
 	</select>
 	
 	<insert id="insertStock" parameterType="system.ida.dto.StockDTO">

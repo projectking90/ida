@@ -30,7 +30,9 @@ function insert_ing_reg(cr) {
 		$("[name=i_price]").focus();
 		return;
 	}
-
+	
+	$("[name=insertIngForm] [name='i_price']").val(withoutComma($("[name=insertIngForm] [name='i_price']").val()));
+	
 	$.ajax({
 		url : cr + "/ingredient_insert.ida"
 		, type : "post"

@@ -7,7 +7,7 @@ function update_menu_reg(cr) {
 		trArr[index].push($(this).find("[name='ma_code']").val());
 		trArr[index].push($(this).find("[name='mb_code']").val());
 		trArr[index].push($(this).find("[name='mi_name']").val());
-		trArr[index].push($(this).find("[name='price']").val());
+		trArr[index].push(withoutComma($(this).find("[name='price']").val()));
 		trArr[index].push($(this).find("[name='mi_comment']").val());
 		trArr[index].push($(this).find("[name='s_id']").val());
 	});

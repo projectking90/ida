@@ -35,11 +35,3 @@ function update_store_reg(cr){
 		}
 	});
 }
-
-function withoutComma(price){
-	var temp = new String(price);
-	
-	temp = temp.replace(/,/gi, "");
-	
-	return temp;
-}

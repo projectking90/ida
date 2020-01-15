@@ -81,17 +81,17 @@ public class OrderController {
 	@ResponseBody
 	public int insertStoreMenu(
 			OrderDTO orderDTO
-			,HttpServletRequest request
+			,@RequestParam(value="minameArr") ArrayList<String> mi_names
+			,@RequestParam(value="quantityArr") ArrayList<String> quantitys
 			) {
+		
 		int insert_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
 		int order_menu_insert = 0;
 		
 		try {
 			insert_result = this.orderService.insertStoreOrder(orderDTO);
 			
-			order_menu_insert = this.orderService.insertOrderMenu(orderDTO);
-			
-			
+			order_menu_insert = this.orderService.insertOrderMenuOne(mi_names,quantitys);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<insertStoreMenu 에러발생>");
 			System.out.println(e.getMessage());
@@ -194,18 +194,17 @@ public class OrderController {
 			,HttpSession session
 			,@RequestParam(value="trArr") ArrayList<String> order_delete) {
 		int delete_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
-		ModelAndView mav = new ModelAndView();
 		
-		for(int index=0; index<order_delete.size(); index++) {
-			System.out.println(order_delete.get(index));
-		}
+		/*
+		 * for(int index=0; index<order_delete.size(); index++) {
+		 * System.out.println(order_delete.get(index)); }
+		 */
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			orderDTO.setS_id(s_id);
 			delete_result = this.orderService.deleteStoreOrder(order_delete);
-			System.out.print("del");
-			
+			//System.out.print("del");
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<deleteStoreMenu 에러발생>");
 			System.out.println(e.getMessage());
