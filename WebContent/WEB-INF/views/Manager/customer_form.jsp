@@ -5,13 +5,14 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/Menu/menu_delete_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Customer/customer_js.jsp" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>메뉴 삭제</title>
+		<title>모든 고객관리</title>
 	</head>
+
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 		</nav>
@@ -26,45 +27,43 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i>메뉴 현황 <span name=stock_form
-								style='float: right'>
-								<button type="button" class="btn btn-danger delete">메뉴 삭제완료</button>
+							<i class="fas fa-table"></i>고객 현황
+							<span name=customer_form style='float:right'>
+								<input type="button" class="btn btn-primary update" value="고객 수정">
+								<input type="button" class="btn btn-danger delete"value="고객 삭제">
 							</span>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form name="deleteMenuForm" method="post" action="/ida/menu_delete.ida">
 								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
-									<tr>
-										<td align=center resize=1><b>선택</b>
-										<td align=center resize=3><b>메뉴 번호</b></td>
-										<td align=center><b>대분류</b></td>
-										<td align=center><b>소분류</b></td>
-										<td align=center><b>메뉴이름</b></td>
-										<td align=center><b>가격</b></td>
-										<td align=center><b>설명</b></td>
-									</tr>
+										<tr>
+											<td align=center resize=3><b>고객 번호</b></td>
+											<td align=center><b>핸드폰</b></td>
+											<td align=center><b>성별</b></td>
+											<td align=center><b>나이대</b></td>
+											<td align=center><b>주문시간</b></td>
+											<td align=center><b>픽업시간</b></td>
+										</tr>
 									</thead>
 									<tbody>
-									<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
-									<tr class="menu_list_tr">
-										<td border="0" align=center>
-											<input type="checkbox" name="delete_menu" value="${menu.mi_no}">
-										<td align=center>${menu.mi_no}
-										<td align=center>${menu.ma_code}
-										<td align=center>${menu.mb_code}
-										<td align=center>${menu.mi_name}
-										<td align=center>${menu.price}
-										<td align=center>${menu.mi_comment}
-									</c:forEach>
+										<c:forEach items="${customer_list}" var="customer" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${loopTagStatus.index+1}</td>
+												<td align=center>${customer.c_phone}</td>
+												<td align=center>${customer.gender}</td>
+												<td align=center>${customer.age}대</td>
+												<td align=center>${customer.order_time}</td>
+												<td align=center>${customer.pickup_time}</td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
-							</form>
 							</div>
 						</div>
-						<div class="card-footer small text-muted"></div>
+						<div class="card-footer small text-muted">Updated yesterday
+							at 11:59 PM</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
@@ -73,6 +72,7 @@
 				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
+	
 		</div>
 		<!-- /#wrapper -->
 	

@@ -72,7 +72,9 @@
 			mi_name	"mi_name"
 		from
 			menu_info
-		where s_no=(select s_no from store where s_id=#{s_id})
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
 	</select>
 	
 	<!-- 가게 주문을 추가하는 insert 태그 -->
@@ -110,7 +112,7 @@
 			,quantity
 		)values(
 			(select nvl(max(oi_no),0) from order_info)
-			,(select mi_no from menu_info  where mi_name=#{mi_name})
+			,(select mi_no from menu_info where mi_name=#{mi_name} and is_del='F' and is_del='F' and s_no = (select s_no from store where s_id=#{s_id}))
 			,${quantity}
 		)
 	</insert>
@@ -139,7 +141,7 @@
 			,quantity
 		)values(
 			${oi_no}
-			,(select mi_no from menu_info  where mi_name=#{mi_name})
+			,(select mi_no from menu_info  where mi_name=#{mi_name} and is_del='F' and is_del='F' and s_no = (select s_no from store where s_id=#{s_id}))
 			,${quantity}
 		)
 	</insert>

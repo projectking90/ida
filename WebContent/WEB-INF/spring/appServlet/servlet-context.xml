@@ -49,6 +49,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basename" value="/WEB-INF/properties/messages" />
+	</beans:bean>
+
 	<!--****************************************************************************************-->
 	<!-- 지정한 패키지에 속하는 모든 하위 [컨트롤러 클래스], [서비스 클래스], [DAO 클래스] 등을 bean 태그로 등록한다.-->
 	<!-- bean 태그로 등록한 객체만이 스프링크레임워크가 사용한다.-->
@@ -104,6 +108,4 @@
             <beans:bean class="com.naver.erp.SessionInterceptor"></beans:bean>         
         </mvc:interceptor>        
     </mvc:interceptors>   -->
-   
-    
 </beans:beans>

@@ -70,6 +70,8 @@ public class MenuServiceImpl implements MenuService {
 	public int insertStoreMenu(MenuDTO menuDTO) {
 		int insert_result = this.menuDAO.insertStoreMenu(menuDTO);
 		
+		insert_result=this.menuDAO.insertMenuIngredient(menuDTO);
+		
 		return insert_result;
 	}
 	
@@ -142,12 +144,5 @@ public class MenuServiceImpl implements MenuService {
 		}
 		
 		return delete_result;
-	}
-
-	@Override
-	public int insertMenuIngredient(MenuDTO menuDTO) {
-		int menu_ingredient_insert = this.menuDAO.insertMenuIngredient(menuDTO);
-		
-		return menu_ingredient_insert;
 	}
 }

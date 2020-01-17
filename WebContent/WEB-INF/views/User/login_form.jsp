@@ -32,6 +32,7 @@
 									id="inputPassword" class="form-control" placeholder="Password"
 									required="required" name="pwd">
 								<label for="inputPassword">비밀번호</label>
+								<%-- <form:errors path="pwd"/> --%>
 							</div>
 						</div>
 					</form>

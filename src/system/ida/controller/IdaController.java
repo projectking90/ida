@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,15 +108,13 @@ public class IdaController {
 		return dong_list;
 	}
 	
-	
-	
 	/**
 	 * 메뉴 트래킹 정보를 가져올 메소드
 	 * @param path : 경로
 	 * @param user_flag : 유저 구분
 	 * @return menu_tracking_list : 메뉴 트래킹 정보
 	 */
-	@RequestMapping(value="/get_path.onm")
+	@RequestMapping(value="/get_path.ida")
 	@ResponseBody
 	public List<MenuTrackingDTO> getMenuTracking(
 			@RequestParam(value="path") String path
@@ -133,5 +133,33 @@ public class IdaController {
 		}
 		
 		return menu_tracking_list;
+	}
+	
+	/**
+	 * 테이블의 마지막 수정 날짜 정보를 가져올 메소드
+	 * @param table_name : 테이블명
+	 * @param session : HttpSession 객체
+	 * @return date : 테이블의 마지막 수정 날짜
+	 */
+	@RequestMapping(value="/get_last_update_data.ida")
+	@ResponseBody
+	public String getLastUpdateTable(
+			@RequestParam(value="table_name") String table_name
+			, HttpSession session) {
+		String date = null;
+		
+		try {
+			Map<String, String> table_name_s_id = new HashMap<String, String>();
+			String s_id = (String) session.getAttribute("s_id");
+			table_name_s_id.put("s_id", s_id);
+			table_name_s_id.put("table_name", table_name);
+			
+			date = this.idaService.getLastUpdateTable(table_name_s_id);
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<getLastUpdateTable 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return date;
 	}
 }

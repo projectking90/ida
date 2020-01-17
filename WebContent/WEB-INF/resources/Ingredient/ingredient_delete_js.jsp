@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("ingredient", "${cr}");
 		
 		$(".delete").click(function(){
 			ing_delete_reg("${cr}");

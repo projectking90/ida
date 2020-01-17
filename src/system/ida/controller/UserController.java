@@ -6,10 +6,15 @@ package system.ida.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.javassist.compiler.ast.BinExpr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +23,7 @@ import system.ida.dto.AddrDTO;
 import system.ida.dto.UserDTO;
 import system.ida.dto.UserUpdateDTO;
 import system.ida.ida.Aes256;
+import system.ida.ida.LoginValidator;
 import system.ida.service.IdaService;
 import system.ida.service.UserService;
 
@@ -75,9 +81,16 @@ public class UserController {
 	@ResponseBody
 	public int goLoginProc(
 			UserDTO userDTO
-			, HttpSession session) {
+			, HttpSession session
+			//, BindingResult bindingResult
+			) {
+		//new LoginValidator().validate(userDTO, bindingResult);
+		
 		int loginCnt = 0;
 		
+		//if(bindingResult.hasErrors()) {
+		//	loginCnt = -1;
+		//} else {
 		try {
 			Aes256 aes = new Aes256();
 			userDTO.setPwd(aes.encrypt(userDTO.getPwd()));
@@ -92,6 +105,7 @@ public class UserController {
 			System.out.println("<goLoginProc 에러발생>");
 			System.out.println(e.getMessage());
 		}
+		//}
 		
 		return loginCnt;
 	}
@@ -227,11 +241,22 @@ public class UserController {
 	 */
 	@RequestMapping(value="/logout_form.ida")
 	public ModelAndView goLoginOutForm(
-			HttpSession session) {
+			HttpSession session
+			, HttpServletRequest request
+			, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
+		Cookie[] cookies = request.getCookies();
 		
 		try {
 			session.invalidate();	// session 객체의 수명을 0으로 만듬
+			
+			if(cookies != null) {
+				for(int i=0; i<cookies.length; i++) {
+					cookies[i].setMaxAge(0);
+					response.addCookie(cookies[i]);
+				}
+			}
+			
 			mav.setViewName(path + "logout_form");
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goLoginOutForm 에러발생>");

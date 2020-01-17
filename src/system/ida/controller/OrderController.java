@@ -79,10 +79,11 @@ public class OrderController {
 	@RequestMapping(value="/order_insert.ida"
 					, method=RequestMethod.POST	)
 	@ResponseBody
-	public int insertStoreMenu(
+	public int insertOrderMenu(
 			OrderDTO orderDTO
 			,@RequestParam(value="minameArr") ArrayList<String> mi_names
 			,@RequestParam(value="quantityArr") ArrayList<String> quantitys
+			, HttpSession session
 			) {
 		
 		int insert_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
@@ -90,10 +91,11 @@ public class OrderController {
 		
 		try {
 			insert_result = this.orderService.insertStoreOrder(orderDTO);
+			String s_id = (String)session.getAttribute("s_id");
 			
-			order_menu_insert = this.orderService.insertOrderMenuOne(mi_names,quantitys);
+			order_menu_insert = this.orderService.insertOrderMenuOne(mi_names,quantitys, s_id);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<insertStoreMenu 에러발생>");
+			System.out.println("<insertOrderMenu 에러발생>");
 			System.out.println(e.getMessage());
 			return -1;
 		}

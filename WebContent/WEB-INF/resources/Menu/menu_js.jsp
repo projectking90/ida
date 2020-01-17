@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("menu_info", "${cr}");
 		
 		$(".insert").click(function(){
 			insert_menu_reg("${cr}");

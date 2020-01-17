@@ -35,10 +35,10 @@ function insert_order_reg(cr) {
 		,data : $("[name=insertOrderForm]").serialize()+"&minameArr="+minameArr+"&quantityArr="+quantityArr
 		,success : function(insert_result){
 			if(insert_result==1){
-				alert("메뉴 등록 성공하였습니다.");
+				alert("주문 등록 성공하였습니다.");
 				location.replace(cr + '/order_form.ida');
 			}else{
-				alert("메뉴 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
+				alert("주문 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
 			}
 		}
 		,error : function(){

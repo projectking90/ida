@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("menu_info", "${cr}");
 		
 		$(".delete").click(function(){
 			menu_delete_reg("${cr}");

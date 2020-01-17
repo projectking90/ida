@@ -5,7 +5,9 @@
 package system.ida.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.ChartDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
 import system.ida.dto.Code_IngredientOriginDTO;
@@ -260,5 +263,56 @@ public class IngredientController {
 		}
 		
 		return mav;
+	}
+	
+	/**
+	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
+	 * 가상주소 /ingredeint_delete.onm로 접근하면 호출
+	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
+	 * @return delete_result : 식자제 삭제 Query 실행 결과
+	 */
+	@RequestMapping(value="/ingredeint_analysis_chart.ida")
+	@ResponseBody
+	public ChartDTO getIngredientChartData(
+			HttpSession session
+			, @RequestParam(value="chart_search") String chart_search) {
+		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
+
+		try {
+			String s_id = (String)session.getAttribute("s_id");
+			
+			if(chart_search.equals("주")) {
+				List<String> label = new ArrayList<String>();
+				label.add("1주");
+				label.add("2주");
+				label.add("3주");
+				
+				List<String> data = new ArrayList<String>();
+				data.add("100");
+				data.add("30");
+				data.add("500");
+				
+				chart_data.setLabel(label);
+				chart_data.setData(data);
+			} else if(chart_search.equals("월")) {
+				List<String> label = new ArrayList<String>();
+				label.add("1월");
+				label.add("2월");
+				label.add("3월");
+				
+				List<String> data = new ArrayList<String>();
+				data.add("10");
+				data.add("50");
+				data.add("30");
+				
+				chart_data.setLabel(label);
+				chart_data.setData(data);
+			}
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<getIngredientChartData 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return chart_data;
 	}
 }

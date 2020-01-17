@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("ingredient", "${cr}");
 		
 		$(".update").click(function(){
 			update_store_reg("${cr}");

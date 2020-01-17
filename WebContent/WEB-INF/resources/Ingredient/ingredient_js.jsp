@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("ingredient", "${cr}");
 		
 		$(".insert").click(function(){
 			insert_ing_reg("${cr}");

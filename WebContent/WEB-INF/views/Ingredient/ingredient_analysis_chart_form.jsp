@@ -24,26 +24,13 @@
 					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>
-						
-					<div class="text">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search"></i>
-								</button>
-							</div>
-						</form>
-					</div>
 			
 					<div class="text-right">
-						<select name="">
+						<select name="chart_search">
 							<option value='주'>주
 							<option value='월'>월
 							<option value='시간'>시간
 							<option value='분기'>분기
-							<option value='성별'>성별
-							<option value='나이대'>나이대
 						</select>
 					</div>
 					

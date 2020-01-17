@@ -98,4 +98,16 @@ public class IdaServiceImpl implements IdaService {
 		
 		return menu_tracking_list;
 	}
+
+	/**
+	 * 테이블의 마지막 수정 날짜를 가져옴
+	 * @param table_name_s_id : 테이블 명과 사용자 아이디
+	 * @return last_update_date : 테이블의 마지막 수정 날짜
+	 */
+	@Override
+	public String getLastUpdateTable(Map<String, String> table_name_s_id) {
+		String last_update_date = this.idaDAO.getLastUpdateTable(table_name_s_id);
+		
+		return last_update_date;
+	}
 }

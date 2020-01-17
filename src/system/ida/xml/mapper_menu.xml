@@ -85,7 +85,7 @@
 		values
 			(
 			(select max(mi_no) from menu_info)
-			,(select i_no from ingredient where i_name=#{i_name})
+			,(select i_no from ingredient where i_name=#{i_name} and is_del='F')
 			)
 		</foreach>
 	</insert>

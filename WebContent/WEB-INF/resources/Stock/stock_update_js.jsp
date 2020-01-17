@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("stock", "${cr}");
 		
 		$(".update").click(function(){
 			stock_update("${cr}");

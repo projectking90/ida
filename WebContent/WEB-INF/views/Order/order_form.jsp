@@ -75,8 +75,7 @@
 									onClick='append_menu_tr_btn();'>메뉴 +</button>
 								<button type="button" class="btn btn-danger" value='주문메뉴 삭제'
 									onClick='remove_menu_tr_btn();'>메뉴 -</button>
-								<button type="button" class="btn btn-success" value='주문 추가'
-									onClick='insert_order_reg_btn();'>주문 추가완료</button>
+								<button type="button" class="btn btn-success insert" value='주문 추가'>주문 추가완료</button>
 							</span>
 						</div>
 						<div class="card-body">

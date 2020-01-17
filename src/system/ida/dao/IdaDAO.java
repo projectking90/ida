@@ -29,4 +29,5 @@ public interface IdaDAO {
 	List<AddrDTO> getGuList(AddrDTO addrDTO);	// 구 목록을 가져옴
 	List<AddrDTO> getDongList(AddrDTO addrDTO);	// 동 목록을 가져옴
 	MenuTrackingDTO getMenuTracking(Map<String, String> path_user_flag);	// 메뉴 트래킹 정보를 가져옴
+	String getLastUpdateTable(Map<String, String> table_name_s_id);	// 테이블의 마지막 수정 날짜를 가져옴
 }

@@ -41,7 +41,7 @@ public class MenuDAOImpl implements MenuDAO {
 	@Override
 	public List<MenuDTO> getMenuList(MenuSearchDTO menu_searchDTO) {
 		List<MenuDTO> menu_list = this.sqlSession.selectList(
-				"system.ida.dao.MenuDAO.getMenuList"	// 실행할 SQL 구문의 위치 지정
+				sqlSessionPath + "getMenuList"	// 실행할 SQL 구문의 위치 지정
 				,menu_searchDTO				
 				);
 		
@@ -56,7 +56,7 @@ public class MenuDAOImpl implements MenuDAO {
 	@Override
 	public int getMenuListAllCnt(MenuSearchDTO menu_searchDTO) {
 		int menu_list_all_cnt = this.sqlSession.selectOne(
-				"system.ida.dao.MenuDAO.getMenuListAllCnt"
+				sqlSessionPath + "getMenuListAllCnt"
 				, menu_searchDTO
 				);
 		
@@ -70,8 +70,8 @@ public class MenuDAOImpl implements MenuDAO {
 	 */
 	@Override
 	public int insertStoreMenu(MenuDTO menuDTO) {
-		int insert_result = sqlSession.insert(
-				"system.ida.dao.MenuDAO.insertStoreMenu",
+		int insert_result = this.sqlSession.insert(
+				sqlSessionPath + "insertStoreMenu",
 				menuDTO
 				);
 		
@@ -81,7 +81,7 @@ public class MenuDAOImpl implements MenuDAO {
 	@Override
 	public int insertMenuIngredient(MenuDTO menuDTO) {
 		int menu_ingredient_insert = this.sqlSession.insert(
-				"system.ida.dao.MenuDAO.insertMenuIngredient"
+				sqlSessionPath + "insertMenuIngredient"
 				,menuDTO
 		);
 		

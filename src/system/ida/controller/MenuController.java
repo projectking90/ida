@@ -110,14 +110,9 @@ public class MenuController {
 			MenuDTO menuDTO
 			, HttpServletRequest request) {
 		int insert_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
-		int menu_ingredient_insert = 0;
 		
 		try {
 			insert_result = this.menuService.insertStoreMenu(menuDTO);
-			
-			menu_ingredient_insert = this.menuService.insertMenuIngredient(menuDTO);
-			
-			
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<insertStoreMenu 에러발생>");
 			System.out.println(e.getMessage());

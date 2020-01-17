@@ -71,8 +71,7 @@
 							</form>
 							</div>
 						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
+						<div class="card-footer small text-muted"></div>
 					</div>
 	
 					<!--추가-->
@@ -80,7 +79,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 추가 <span name=store_insert_form
 								style='float: right'> 
-								<button type="button" class="btn btn-success update" value="식자재 추가" onClick="insert_ing_reg_btn();"> 식자재 추가 </button>
+								<button type="button" class="btn btn-success insert" value="식자재 추가" onClick="insert_ing_reg_btn();"> 식자재 추가 </button>
 							</span>
 						</div>
 						<div class="card-body">
@@ -130,6 +129,7 @@
 							</table>
 						</form>
 						</div>
+						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->

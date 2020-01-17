@@ -75,7 +75,7 @@ function setBreadcrumbs(cr, user_flag){
 	var data = "path=" + path + "&user_flag=" + user_flag;
 	
 	$.ajax({
-		url : cr + "/get_path.onm"
+		url : cr + "/get_path.ida"
 		, type : "post"
 		, data : data
 		, success : function(data){
@@ -86,6 +86,55 @@ function setBreadcrumbs(cr, user_flag){
 					$(".breadcrumb").append('<li class="breadcrumb-item active">' + data[i].label + '</li>');
 				}
 			}
+		}, error : function(){
+			alert("서버 통신 실패<br>");
+		}
+	});
+}
+
+/**
+ * Card Footer Setting
+ */
+function setCardFooter(table_name, cr){
+	$.ajax({
+		url : cr + "/get_last_update_data.ida"
+		, type : "post"
+		, data : "table_name=" + table_name
+		, success : function(date){
+			var update_date = new Date(date);
+			var day = update_date.getDay();
+			
+			switch(day){
+				case 0:
+					day = "일";
+					break;
+				case 1:
+					day = "월";
+					break;
+				case 2:
+					day = "화";
+					break;
+				case 3:
+					day = "수";
+					break;
+				case 4:
+					day = "목";
+					break;
+				case 5:
+					day = "금";
+					break;
+				case 6:
+					day = "토";
+					break;
+			}
+			
+			$(".card-footer").html("마지막 변경일 : "
+					+ update_date.getFullYear() + "-"
+					+ (update_date.getMonth()+1) + "-"
+					+ update_date.getDate() + "("
+					+ day + ") "
+					+ update_date.getHours() + ":"
+					+ update_date.getMinutes());
 		}, error : function(){
 			alert("서버 통신 실패<br>");
 		}

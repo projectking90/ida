@@ -65,4 +65,34 @@
 			path = #{path}
 			and user_flag = #{user_flag}
 	</select>
+	
+	<!-- 테이블의 마지막 수정 날짜를 가져오는 select 태그 -->
+	<select id="getLastUpdateTable" parameterType="hashmap" resultType="string">
+		select
+			to_char(nvl(max(reg_date), sysdate), 'YYYY-MM-DD HH24:MI') as "DATE"
+		from
+			${table_name}
+		where
+			<if test="table_name.equals('ingredient') or table_name.equals('menu_info')">
+				s_no = (select
+							nvl(s_no, 0)
+						from
+							store
+						where
+							s_id = #{s_id})
+			</if>
+			<if test="table_name.equals('stock')">
+				i_no in (select
+								i_no
+							from
+								ingredient
+							where
+								s_no = (select
+											s_no
+										from
+											store
+										where
+											s_id = #{s_id}))
+			</if>
+	</select>
 </mapper>

@@ -18,6 +18,13 @@
 <script src="${cr}/resources/IDA/js/sb-admin.min.js"></script>
 <!-- Demo scripts for this page-->
 <script src="${cr}/resources/IDA/js/demo/datatables-demo.js"></script>
+<!-- Page level plugin JavaScript-->
+<script src="${cr}/resources/IDA/chart.js/Chart.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<%-- <script src="${cr}/resources/IDA/js/demo/chart-area-demo.js"></script>
+<script src="${cr}/resources/IDA/js/demo/chart-bar-demo.js"></script>
+<script src="${cr}/resources/IDA/js/demo/chart-pie-demo.js"></script> --%>
 
 <script>
 	$(document).ready(function(){
@@ -27,6 +34,7 @@
 		
 		titleBars('${cr}', '${sessionScope.s_id}');
 		setSidebars('${cr}');
+		$("span").css("font-size", "1em");
 		setLogoutFunc('${cr}');
 		setBreadcrumbs('${cr}', '${sessionScope.user_flag}');
 		setTopUp();

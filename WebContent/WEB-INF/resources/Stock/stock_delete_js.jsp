@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("stock", "${cr}");
 		
 		$(".delete").click(function(){
 			stock_delete("${cr}");

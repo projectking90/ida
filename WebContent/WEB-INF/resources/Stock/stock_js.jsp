@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
+		setCardFooter("stock", "${cr}");
 		
 		$(".insert").click(function(){
 			insert_stock_reg("${cr}");

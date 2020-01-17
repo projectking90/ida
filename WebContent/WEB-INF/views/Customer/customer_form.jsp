@@ -27,11 +27,7 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i>고객 현황
-							<span name=customer_form style='float:right'>
-								<input type="button" class="btn btn-primary update" value="고객 수정">
-								<input type="button" class="btn btn-danger delete"value="고객 삭제">
-							</span>
+							<i class="fas fa-table"></i> 고객 현황
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -62,8 +58,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
+						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
