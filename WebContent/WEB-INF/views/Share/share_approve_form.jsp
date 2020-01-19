@@ -10,11 +10,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>재고관리</title>
+		<title>재고 공유 승인 현황</title>
 	</head>
-	<body id="page-top">      <div id="all_mask"></div>
-      
-      <div class="window"></div>
+	<body id="page-top">      
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 		</nav>
 	
@@ -26,16 +24,69 @@
 					<ol class="breadcrumb"></ol>
 					
 					<!-- DataTables Example -->
-					<form name="different_share_form">
+					<form name="my_share_approve_form">
 						<div class="card mb-3">
 							<div class="card-header">
-								<i class="fas fa-table"></i> 타 매장 재고 공유 현황
+								<i class="fas fa-table"></i> 내 매장 재고 공유 승인 현황
 								<span name=stock_form style='float:right'>
 								</span>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
 									<table class="table" id="dataTable2" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>대분류</b></td>
+												<td align=center><b>소분류</b></td>
+												<td align=center><b>원산지</b></td>
+												<td align=center><b>식자재명</b></td>
+												<td align=center><b>수량</b></td>
+												<td align=center><b>입/출고 여부</b></td>
+												<td align=center><b>등록일</b></td>
+												<td align=center><b>요청일</b></td>
+												<td align=center><b>승인일</b></td>
+											</tr>
+										</thead>
+										<tbody>
+										<%--
+											<c:forEach items="${my_share_approve_list}" var="my_share_approve" varStatus="loopTagStatus">
+												<tr style="cursor:pointer" onClick="my_share_approve_content(${my_share_approve.si_no})">
+													<td align=center>${loopTagStatus.index+1}
+														<input type="hidden" name="si_no" value="${my_share_approve.si_no}">
+													<td align=center>${my_share_approve.ia_name}
+													<td align=center>${my_share_approve.ib_name}
+													<td align=center>${my_share_approve.io_name}
+													<td align=center>${my_share_approve.i_name}
+													<td align=center>${my_share_approve.si_quantity}
+													<td align=center>${my_share_approve.sr_state}
+													<td align=center>${my_share_approve.reg_date}
+													<td align=center>${my_share_approve.r_reg_date}
+													<td align=center>${my_share_approve.a_reg_date}
+												</tr>
+											</c:forEach>
+										--%>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="card-footer small text-muted">Updated yesterday
+								at 11:59 PM</div>
+						</div>
+					</form>
+	
+					<!--추가-->
+					<form name="different_share_approve_form">
+						<div class="card mb-3">
+							<div class="card-header my_share_table_title_form">
+								<i class="fas fa-table"></i> 타 매장 재고 공유 승인 현황
+								<span name='insert_share_span' style='float:right'>
+								</span>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table" id="dataTable" width="100%"
 										cellspacing="0">
 										<thead>
 											<tr>
@@ -49,34 +100,38 @@
 												<td align=center><b>수량</b></td>
 												<td align=center><b>입/출고 여부</b></td>
 												<td align=center><b>등록일</b></td>
+												<td align=center><b>요청일</b></td>
+												<td align=center><b>승인일</b></td>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${different_share_list}" var="different_share" varStatus="loopTagStatus">
-												<tr style="cursor:pointer" onClick="different_share_content_tr(${different_share.si_no})">
+											<c:forEach items="${different_share_approve_list}" var="different_share_approve" varStatus="loopTagStatus">
+												<tr style="cursor:pointer" onClick="different_share_approve_content(${different_share_approve.si_no})">
 													<td align=center>${loopTagStatus.index+1}
-														<input type="hidden" name="si_no" value="${my_share.si_no}">
-													<td align=center>${different_share.com_name}
-													<td align=center>${different_share.city}
-														<c:if test="${different_share.gun!=''}">
-															&nbsp;${different_share.gun}
+														<input type="hidden" name="si_no" value="${different_share_approve.si_no}">
+													<td align=center>${different_share_approve.com_name}
+													<td align=center>${different_share_approve.city}
+														<c:if test="${different_share_approve.gun!=''}">
+															&nbsp;${different_share_approve.gun}
 														</c:if>
-														<c:if test="${different_share.gu!=''}">
-															&nbsp;${different_share.gu}
+														<c:if test="${different_share_approve.gu!=''}">
+															&nbsp;${different_share_approve.gu}
 														</c:if>
-														<c:if test="${different_share.dong!=''}">
-															&nbsp;${different_share.dong}
+														<c:if test="${different_share_approve.dong!=''}">
+															&nbsp;${different_share_approve.dong}
 														</c:if>
-														<c:if test="${different_share.ri!=''}">
-															&nbsp;${different_share.ri}
+														<c:if test="${different_share_approve.ri!=''}">
+															&nbsp;${different_share_approve.ri}
 														</c:if>
-													<td align=center>${different_share.ia_name}
-													<td align=center>${different_share.ib_name}
-													<td align=center>${different_share.io_name}
-													<td align=center>${different_share.i_name}
-													<td align=center>${different_share.si_quantity}
-													<td align=center>${different_share.sr_state}
-													<td align=center>${different_share.reg_date}
+													<td align=center>${different_share_approve.ia_name}
+													<td align=center>${different_share_approve.ib_name}
+													<td align=center>${different_share_approve.io_name}
+													<td align=center>${different_share_approve.i_name}
+													<td align=center>${different_share_approve.si_quantity}
+													<td align=center>${different_share_approve.sr_state}
+													<td align=center>${different_share_approve.reg_date}
+													<td align=center>${different_share_approve.r_reg_date}
+													<td align=center>${different_share_approve.a_reg_date}
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -85,91 +140,6 @@
 							</div>
 							<div class="card-footer small text-muted">Updated yesterday
 								at 11:59 PM</div>
-						</div>
-					</form>
-	
-					<!--추가-->
-					<form name="my_share_form">
-						<div class="card mb-3">
-							<div class="card-header my_share_table_title_form">
-								<i class="fas fa-table"></i> 내 매장 재고 공유 현황
-								<span name='insert_share_span' style='float:right'>
-								</span>
-							</div>
-							<div class="card-body">
-								<div class="table-responsive">
-									<table class="table" id="dataTable" width="100%"
-										cellspacing="0">
-										<thead>
-											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
-												<td align=center><b>대분류</b></td>
-												<td align=center><b>소분류</b></td>
-												<td align=center><b>원산지</b></td>
-												<td align=center><b>식자재명</b></td>
-												<td align=center><b>수량</b></td>
-												<td align=center><b>입/출고 여부</b></td>
-												<td align=center><b>등록일</b></td>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach items="${my_share_list}" var="my_share" varStatus="loopTagStatus">
-												<tr style="cursor:pointer" onClick="my_share_content_tr(${my_share.si_no})">
-													<td align=center>${loopTagStatus.index+1}
-														<input type="hidden" name="si_no" value="${my_share.si_no}">
-													<td align=center>${my_share.ia_name}
-													<td align=center>${my_share.ib_name}
-													<td align=center>${my_share.io_name}
-													<td align=center>${my_share.i_name}
-													<td align=center>${my_share.si_quantity}
-													<td align=center>${my_share.sr_state}
-													<td align=center>${my_share.reg_date}
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="card-footer small text-muted">Updated yesterday
-								at 11:59 PM</div>
-						</div>
-					</form>
-					
-					<!--추가-->
-					<form name="insert_share_form">
-						<div class="card mb-3">
-							<div class="card-header">
-								<i class="fas fa-table"></i> 공유 재고 추가 
-								<span name='share_insert_form' style='float: right'> 
-									<input type='button' class="btn btn-success insert" value='재고 추가' onClick="insert_share_btn();">
-								</span>
-							<br>
-							</div>
-							<div class="card-body">
-								<table class="table" id="dataTable" width="100%" cellspacing="0">
-									<tr>
-										<th>식자재명
-										<th>
-											<select name='st_no'>
-												<c:forEach items='${stock_list}' var='stock' varStatus='loopTagStatus'>
-													<option value='${stock.st_no}'>${stock.i_name}
-												</c:forEach>
-											</select>
-									<tr>
-										<th>수량
-										<th><input type="text" name="si_quantity" class="si_quantity">
-									<tr>
-										<th>상태
-										<th>
-											<select name="sr_state" class="sr_state">
-													<option value='i'>입고
-													<option value='o'>출고
-											</select>
-									<tr>
-										<th> 조건 
-										<th><textarea style='width:100%;  height:80%; resize:none;' name='deal'></textarea>
-								</table>
-							</div>
 						</div>
 					</form>
 				</div>

@@ -27,4 +27,10 @@ public interface ShareService {
 	List<ShareDTO> getMyShareList(ShareSearchDTO share_searchDTO);	// 내 지점 공유 현황 리스트
 	List<StockDTO> getStockList(ShareSearchDTO share_searchDTO);	// 공유 재고 추가할 때 필요한 재고 리스트
 	int insertShare(ShareDTO shareDTO);	// 공유 재고 추가 메소드
+	ShareDTO getShareDTO(int si_no); // 상세보기 메소드
+	int updateShare(ShareDTO shareDTO); // 내 지점 공유 재고 수정하는 메소드
+	int deleteShare(ShareDTO shareDTO); // 내 지점 공유 재고 삭제하는 메소드
+	int requestShare(ShareDTO shareDTO); // 타 지점의 공유 재고 요청하는 메소드
+	List<ShareDTO> getMyShareRequestList(ShareSearchDTO share_searchDTO); // 내 매장 공유 재고 요청 현황 리스트
+	List<ShareDTO> getDifferentShareRequestList(ShareSearchDTO share_searchDTO); // 타 매장 공유 재고 요청 현황 리스트
 }

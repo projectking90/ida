@@ -39,7 +39,6 @@ public class ShareServiceImpl implements ShareService {
 	/**
 	 * 메소드 선언
 	 */
-
 	@Override
 	public List<ShareDTO> getDifferentShareList(ShareSearchDTO share_searchDTO){
 		List<ShareDTO> different_share_list = this.shareDAO.getDifferentShareList(share_searchDTO);
@@ -80,5 +79,61 @@ public class ShareServiceImpl implements ShareService {
 			}
 		}
 		return -1;
+	}
+
+	@Override
+	public ShareDTO getShareDTO(int si_no) {
+		ShareDTO shareDTO = this.shareDAO.getShareDTO(si_no);
+		return shareDTO;
+	}
+
+	@Override
+	public int updateShare(ShareDTO shareDTO) {
+		int shareCnt=this.shareDAO.getMyShareCnt(shareDTO);
+		System.out.println("shareCnt "+shareCnt);
+		if(shareCnt==0) {return -2;}
+		
+		int share_update_cnt=this.shareDAO.updateShare(shareDTO);
+		
+		return share_update_cnt;
+	}
+
+	@Override
+	public int deleteShare(ShareDTO shareDTO) {
+		int shareCnt=this.shareDAO.getMyShareCnt(shareDTO);
+		if(shareCnt==0) {return -2;}
+		
+		int share_delete_cnt=this.shareDAO.deleteShare(shareDTO);
+		int share_record_delete=this.shareDAO.deleteStockRecord(shareDTO);
+		if(share_record_delete==1) {
+			return share_delete_cnt;
+		}
+		return -1;
+	}
+
+	@Override
+	public int requestShare(ShareDTO shareDTO) {
+		int share_request_cnt=0;
+		int share_record_request=0;
+		int share_recorded_request=this.shareDAO.requestStockRecorded(shareDTO);
+		if(share_recorded_request>0) {
+			return -2;
+		}else {
+			share_request_cnt=this.shareDAO.requestShare(shareDTO);
+			share_record_request=this.shareDAO.requestStockRecord(shareDTO);
+			return share_request_cnt;
+		}
+	}
+
+	@Override
+	public List<ShareDTO> getMyShareRequestList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> my_share_request_list = this.shareDAO.getMyShareRequestList(share_searchDTO);
+		return my_share_request_list;
+	}
+
+	@Override
+	public List<ShareDTO> getDifferentShareRequestList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> different_share_request_list = this.shareDAO.getDifferentShareRequestList(share_searchDTO);
+		return different_share_request_list;
 	}
 }

@@ -56,6 +56,8 @@ function setSidebars(cr){
 	$(".share_side").append('<div class="dropdown-menu" aria-labelledby="pagesDropdown"></div>');
 	$(".share_side").find('a').append('<i class="fas fa-bars"></i> <span>공유</span>');
 	$(".share_side").find('div').append('<a class="dropdown-item" href="' + cr + '/share_form.ida"><i class="fas fa-fw fa-table"></i>공유관리</a>');
+	$(".share_side").find('div').append('<a class="dropdown-item" href="' + cr + '/share_request_form.ida"><i class="fas fa-fw fa-table"></i>공유 요청 현황</a>');
+	$(".share_side").find('div').append('<a class="dropdown-item" href="' + cr + '/share_approve_form.ida"><i class="fas fa-fw fa-table"></i>공유 승인 현황</a>');
 	$(".share_side").find('div').append('<a class="dropdown-item" href="' + cr + '/share_analysis_chart_form.ida"><i class="fas fa-fw fa-chart-area"></i>공유분석</a>');
 	
 	$(".customer_side").append('<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>');

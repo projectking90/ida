@@ -30,7 +30,6 @@ public class ShareDAOImpl implements ShareDAO {
 	/**
 	 * 메소드 선언
 	 */
-
 	@Override
 	public List<ShareDTO> getDifferentShareList(ShareSearchDTO share_searchDTO) {
 		List<ShareDTO> different_share_list=this.sqlSession.selectList(sqlSessionPath+"getDifferentShareList", share_searchDTO);
@@ -75,5 +74,96 @@ public class ShareDAOImpl implements ShareDAO {
 				, shareDTO);
 		
 		return share_record_insert;
+	}
+
+	@Override
+	public ShareDTO getShareDTO(int si_no) {
+		ShareDTO shareDTO = this.sqlSession.selectOne(
+				sqlSessionPath+"getShareDTO"
+				, si_no
+		);
+		return shareDTO;
+	}
+
+	@Override
+	public int updateShare(ShareDTO shareDTO) {
+		int share_update_cnt=this.sqlSession.update(
+				sqlSessionPath+"updateShare"
+				,shareDTO
+		);
+		return share_update_cnt;
+	}
+
+	@Override
+	public int getMyShareCnt(ShareDTO shareDTO) {
+		int shareCnt=this.sqlSession.selectOne(
+				sqlSessionPath+"getMyShareCnt"
+				,shareDTO
+		);
+		return shareCnt;
+	}
+
+	@Override
+	public int deleteShare(ShareDTO shareDTO) {
+		int share_delete_cnt=this.sqlSession.update(
+				sqlSessionPath+"deleteShare"
+				,shareDTO
+		);
+		return share_delete_cnt;
+		
+	}
+
+	@Override
+	public int requestShare(ShareDTO shareDTO) {
+		int share_request_cnt=this.sqlSession.update(
+				sqlSessionPath+"requestShare"
+				,shareDTO
+		);
+		return share_request_cnt;
+	}
+
+	@Override
+	public int deleteStockRecord(ShareDTO shareDTO) {
+		int share_record_delete=this.sqlSession.insert(
+				sqlSessionPath+"deleteStockRecord"
+				, shareDTO);
+		
+		return share_record_delete;
+	}
+
+	@Override
+	public int requestStockRecord(ShareDTO shareDTO) {
+		int share_record_request=this.sqlSession.insert(
+				sqlSessionPath+"requestStockRecord"
+				, shareDTO);
+		
+		return share_record_request;
+	}
+
+	@Override
+	public int requestStockRecorded(ShareDTO shareDTO) {
+		int share_recorded_request = this.sqlSession.selectOne(
+				sqlSessionPath+"requestStockRecorded"
+				, shareDTO
+		);
+		return share_recorded_request;
+	}
+
+	@Override
+	public List<ShareDTO> getMyShareRequestList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> my_share_request_list=this.sqlSession.selectList(
+				sqlSessionPath+"getMyShareRequestList"
+				, share_searchDTO
+		);
+		return my_share_request_list;
+	}
+
+	@Override
+	public List<ShareDTO> getDifferentShareRequestList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> different_share_request_list=this.sqlSession.selectList(
+				sqlSessionPath+"getDifferentShareRequestList"
+				, share_searchDTO)
+		;
+		return different_share_request_list;
 	}
 }
