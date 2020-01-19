@@ -16,6 +16,10 @@
 			"language": {
 				"search": "결과 내 검색 : "
 			}
+		});	
+		
+		$(".list").click(function(){
+			menu_list();
 		});
 		
 		$(".m_chart").click(function(){

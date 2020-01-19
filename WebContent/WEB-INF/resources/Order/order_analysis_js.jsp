@@ -17,6 +17,10 @@
 				"search": "결과 내 검색 : "
 			}
 		});
+				
+		$(".list").click(function(){
+			order_list();
+		});
 		
 		$(".o_chart").click(function(){
 			location.replace("${cr}/order_analysis_chart_form.ida");

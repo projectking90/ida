@@ -160,4 +160,12 @@ public class MenuDAOImpl implements MenuDAO {
 		
 		return delete_cnt;
 	}
+	
+	public List<Map<String, String>> getMenuCostData(String s_id) {
+		List<Map<String,String>> cost_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMenuCostData"
+				,s_id);
+		
+		return cost_chart;
+	}
 }

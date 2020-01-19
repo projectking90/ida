@@ -6,6 +6,7 @@ package system.ida.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.ChartDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuListDTO;
 import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderSearchDTO;
 import system.ida.dto.OrderUpdateDTO;
 import system.ida.service.OrderService;
 
@@ -224,12 +227,15 @@ public class OrderController {
 	@RequestMapping(value="/order_analysis_form.ida")
 	public ModelAndView goOrderAnalysisForm(
 		HttpSession session
-		) {
+		, OrderSearchDTO ordersearchDTO) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "order_analysis_form");
 		 
 		try {
-			String s_id =(String)session.getAttribute("s_id");
+			String s_id = (String)session.getAttribute("s_id");
+			ordersearchDTO.setS_id(s_id);
+			List<OrderDTO> order_list = this.orderService.getOrderList(ordersearchDTO);
+			mav.addObject("order_list", order_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goOrderAnalysisForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -245,8 +251,7 @@ public class OrderController {
 	 */
 	@RequestMapping(value="/order_analysis_chart_form.ida")
 	public ModelAndView goOrderAnalysisChartForm(
-		HttpSession session
-		) {
+		HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "order_analysis_chart_form");
 		 
@@ -258,5 +263,81 @@ public class OrderController {
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/order_analysis_chart.ida")
+	@ResponseBody
+	public ChartDTO getOrderChartData(
+			HttpSession session
+			, @RequestParam(value="chart_search") String chart_search) {
+		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
+
+		try {
+			String s_id = (String)session.getAttribute("s_id");
+			
+			if(chart_search.equals("주")) {
+				List<String> label = new ArrayList<String>();
+				label.add("1주");
+				label.add("2주");
+				label.add("3주");
+				
+				List<String> data1 = new ArrayList<String>();
+				data1.add("100");
+				data1.add("30");
+				data1.add("500");
+				
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+			} else if(chart_search.equals("월")) {
+				List<Map<String,String>> month_chart = this.orderService.getMonthData(s_id);
+				List<String> label = new ArrayList<String>();
+				for(int i=0; i<month_chart.size(); i++) {
+					label.add(month_chart.get(i).get("label"));
+				}
+				List<String> data1 = new ArrayList<String>();
+				for(int i=0; i<month_chart.size(); i++) {
+						data1.add(month_chart.get(i).get("data"));
+				}
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+			} else if (chart_search.equals("성별")) {
+				List<Map<String,String>> gender_chart = this.orderService.getGenderData(s_id);
+				List<String> label = new ArrayList<String>();
+				for(int i=0; i<gender_chart.size(); i++) {
+					label.add(gender_chart.get(i).get("label"));
+				}
+				List<String> data1 = new ArrayList<String>();
+				List<String> data2 = new ArrayList<String>();
+				for(int i=0; i<gender_chart.size(); i++) {
+					if(gender_chart.get(i).get("dataset").equals("남자")) {
+						data1.add(gender_chart.get(i).get("data"));
+					}
+					else if(gender_chart.get(i).get("dataset").equals("여자")) {
+						data2.add(gender_chart.get(i).get("data"));
+						
+					}
+				}
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+				chart_data.setData2(data2);
+			} else if (chart_search.equals("나이대")) {
+				List<Map<String,String>> age_chart = this.orderService.getAgeData(s_id);
+				List<String> label = new ArrayList<String>();
+				for(int i=0; i<age_chart.size(); i++) {
+					label.add(age_chart.get(i).get("label"));
+				}
+				List<String> data1 = new ArrayList<String>();
+				for(int i=0; i<age_chart.size(); i++) {
+						data1.add(age_chart.get(i).get("data"));
+				}
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+			}
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<getOrderChartData 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return chart_data;
 	}
 }

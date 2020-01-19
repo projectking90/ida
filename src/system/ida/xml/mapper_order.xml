@@ -4,67 +4,114 @@
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.OrderDAO">
 	<sql id="orderWhere">
-			<if test="keyword!=null and keyword.length()>0">
-					and (
-						upper(oi_no) like upper('%${keyword}%')
-						<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
-						or upper(s_no) like upper('%${keyword}%')
-						or upper(c_phone) like upper('%${keyword}%')
-						or upper(gender) like upper('%${keyword}%')
-						<!-- ============================= -->
-						or upper(age) like upper('%${keyword}%')
-						or upper(order_time) like upper('%${keyword}%')
-						or upper(pickup_time) like upper('%${keyword}%')
-					)
+		<if test="keyword!=null and keyword.length()>0">
+				and (
+					upper(oi_no) like upper('%${keyword}%')
+					<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
+					or upper(s_no) like upper('%${keyword}%')
+					or upper(c_phone) like upper('%${keyword}%')
+					or upper(gender) like upper('%${keyword}%')
+					<!-- ============================= -->
+					or upper(age) like upper('%${keyword}%')
+					or upper(order_time) like upper('%${keyword}%')
+					or upper(pickup_time) like upper('%${keyword}%')
+				)
+		</if>
+		<if test="search_condition!=null and search_condition.length>0">
+		and
+		<!-- ================================================ -->
+		<!-- [mybatis foreach 반복문]의 속성 설명 -->
+		<!-- ================================================ -->
+		<!-- collection="배열/List 객체의 속성변수명" -->
+		<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
+		<!-- open="반복문 시작 전에 삽입할 문자" -->
+		<!-- close="반복문 끝난 후에 삽입할 문자" -->
+		<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
+		<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
+		<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">
+			<if test="xxx.equals('주')">
+				to_char(sysdate,'ww') = to_char(order_time,'ww')
 			</if>
+			<if test="xxx.equals('월')">
+				to_char(sysdate-1,'YYYYMM') = to_char(order_time,'YYYYMM')
+			</if>					
+			<if test="xxx.equals('시간')">
+				to_char(sysdate,'YYYYMMDDHH:24') = to_char(order_time,'YYYYMMDDHH:24')
+			</if>					
+			<if test="xxx.equals('남자')">
+				gender = '1'
+			</if>					
+			<if test="xxx.equals('여자')">
+				gender = '2'
+			</if>										
+			<if test="xxx.equals('10')">
+				age = '10'
+			</if>										
+			<if test="xxx.equals('20')">
+				age = '20'
+			</if>										
+			<if test="xxx.equals('30')">
+				age = '30'
+			</if>										
+			<if test="xxx.equals('40')">
+				age = '40'
+			</if>										
+			<if test="xxx.equals('50')">
+				age = '50'
+			</if>										
+			<if test="xxx.equals('60')">
+				age = '60'
+			</if>
+		</foreach>
+	</if>
 	</sql>
 		
-		<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
-		<select id="getOrderList" parameterType="string" resultType="system.ida.dto.OrderDTO">
-				select zzz.*, rownum RNUM from(
-					select 	
-						 o.oi_no	"oi_no"
-						,o.s_no   "s_no"
-						,o.c_phone "c_phone"
-						,(select 
-						substr(xmlagg(xmlelement(x,', ',
-						(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
-						'('||(c.quantity)||')')).extract('//text()'),2) 
-						from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
-						,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-						,o.age "age"
-						,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-						,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-						,o.is_del	"is_del"	
-					from order_info o
-					where o.is_del='F'
-						and s_no = (select
-										s_no
-									from
-										store
-									where
-										s_id=#{s_id})
-					) zzz
-		</select>
-		
-		<!-- 가게에 등록된 주문 중 수량을 분리해 가져오는 select 태그 -->
-		<select id="getOrderList_sepa_quan" parameterType="string" resultType="system.ida.dto.OrderUpdateDTO">
-					select 	
-						 o1.oi_no	"oi_no"
-						,o1.s_no	"s_no"
-						,o1.c_phone "c_phone"
-						,(select m.mi_name from menu_info m where m.mi_no=o2.mi_no and o1.oi_no=o2.oi_no) as "mi_name"
-						,o2.quantity as "quantity"
-						,case o1.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-						,o1.age "age"
-						,to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-						,to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-						,o1.is_del	"is_del"	
-					from order_info o1 right outer join order_menu o2 
-						on o1.oi_no=o2.oi_no
-					where o1.is_del='F'
-						and o1.s_no = (select s_no from store where s_id=#{s_id})
-		</select>
+	<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
+	<select id="getOrderList" parameterType="string" resultType="system.ida.dto.OrderDTO">
+		select zzz.*, rownum RNUM from(
+			select 	
+				 o.oi_no	"oi_no"
+				,o.s_no   "s_no"
+				,o.c_phone "c_phone"
+				,(select 
+				substr(xmlagg(xmlelement(x,', ',
+				(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
+				'('||(c.quantity)||')')).extract('//text()'),2) 
+				from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
+				,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+				,o.age "age"
+				,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+				,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+				,o.is_del	"is_del"	
+			from order_info o
+			where o.is_del='F'
+				and s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id=#{s_id})
+			) zzz
+	</select>
+	
+	<!-- 가게에 등록된 주문 중 수량을 분리해 가져오는 select 태그 -->
+	<select id="getOrderList_sepa_quan" parameterType="string" resultType="system.ida.dto.OrderUpdateDTO">
+		select 	
+			 o1.oi_no	"oi_no"
+			,o1.s_no	"s_no"
+			,o1.c_phone "c_phone"
+			,(select m.mi_name from menu_info m where m.mi_no=o2.mi_no and o1.oi_no=o2.oi_no) as "mi_name"
+			,o2.quantity as "quantity"
+			,case o1.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+			,o1.age "age"
+			,to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+			,to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+			,o1.is_del	"is_del"	
+		from order_info o1 right outer join order_menu o2 
+			on o1.oi_no=o2.oi_no
+		where o1.is_del='F'
+			and o1.s_no = (select s_no from store where s_id=#{s_id})
+	</select>
 		
 	<!-- 메뉴 목록을 검색하는 select 태그 -->
 	<select id='getMenuList' parameterType="string" resultType="system.ida.dto.MenuDTO">
@@ -153,4 +200,78 @@
 			is_del='T'
 		where oi_no=#{oi_no}
 	</update>
+	
+	<!-- 메뉴 목록을 검색하는 select 태그 -->
+	<select id='getGenderData' parameterType="string" resultType="hashmap">
+		select
+			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
+		from (select
+				oi.s_no as "S_NO",
+				oi.gender as "GENDER", mi.mi_name as "MI_NAME"
+			from order_menu om,
+				order_info oi, menu_info mi
+				where
+					om.oi_no = oi.oi_no
+					and om.mi_no = mi.mi_no)
+		where
+			s_no=(select s_no from store where s_id=#{s_id})
+			group by mi_name, gender
+			order by  2
+	</select>
+	
+	<select id='getAgeData' parameterType="string" resultType="hashmap">
+		select
+			count(s_no)||'' "data", age||'대' "label"
+		from (select
+					oi.s_no as "S_NO", oi.age as "AGE"
+				from order_menu om, order_info oi
+				where
+					om.oi_no = oi.oi_no)
+		where
+		s_no = (select s_no from store where s_id=#{s_id})
+		group by age
+		order by 2
+	</select>
+	
+	<select id='getMonthData' parameterType="string" resultType="hashmap">
+		select
+			count(s_no)||'' "data", to_char(order_time, 'mm')||'월'	"label"
+		from (select
+					oi.s_no as "S_NO", oi.order_time as "ORDER_TIME"
+					from order_menu om, order_info oi
+					where
+					om.oi_no = oi.oi_no)
+		where
+			s_no = (select s_no from store where s_id=#{s_id})
+		group by
+			to_char(order_time, 'mm')
+	</select>
+	
+	<select id="getOrderList_analy" parameterType="system.ida.dto.OrderSearchDTO" resultType="system.ida.dto.OrderDTO">
+			select zzz.*, rownum RNUM from(
+				select 	
+					 o.oi_no	"oi_no"
+					,o.s_no   "s_no"
+					,o.c_phone "c_phone"
+					,(select 
+					substr(xmlagg(xmlelement(x,', ',
+					(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
+					'('||(c.quantity)||')')).extract('//text()'),2) 
+					from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
+					,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+					,o.age "age"
+					,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+					,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+					,o.is_del	"is_del"	
+				from order_info o
+				where o.is_del='F'
+					and s_no = (select
+									s_no
+								from
+									store
+								where
+									s_id=#{s_id})
+							<include refid="orderWhere"/>
+				) zzz
+	</select>
 </mapper>

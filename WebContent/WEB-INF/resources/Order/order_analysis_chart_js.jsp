@@ -12,6 +12,12 @@
 
 <script>
 	$(document).ready(function(){
+		getChartData("${cr}", $("[name=chart_search]").val());
+		
+		$("[name=chart_search]").change(function(){
+			getChartData("${cr}", $(this).val());
+		});
+		
 		$(".o_table").click(function(){
 			location.replace("${cr}/order_analysis_form.ida");
 		});

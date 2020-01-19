@@ -6,6 +6,7 @@ package system.ida.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import system.ida.dto.CodeMenuAlphaDTO;
 import system.ida.dto.CodeMenuBetaDTO;
@@ -34,4 +35,5 @@ public interface MenuService {
 	List<IngredientDTO> getIngredientList(String s_id);
 	int updateStoreMenu(ArrayList<String> menu_update);	// 가게 메뉴 수정
 	int deleteStoreMenu(ArrayList<String> menu_delete);	// 가게 메뉴 삭제
+	List<Map<String, String>> getMenuCostData(String s_id);
 }

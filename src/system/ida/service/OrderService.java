@@ -6,9 +6,11 @@ package system.ida.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderSearchDTO;
 import system.ida.dto.OrderUpdateDTO;
 
 /**
@@ -37,4 +39,12 @@ public interface OrderService {
 	int insertStoreOrder(OrderDTO orderDTO);
 
 	int insertOrderMenuOne(ArrayList<String> mi_names, ArrayList<String> quantitys, String s_id);
+
+	List<Map<String, String>> getGenderData(String s_id);
+
+	List<Map<String, String>> getAgeData(String s_id);
+
+	List<Map<String, String>> getMonthData(String s_id);
+
+	List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO);
 }

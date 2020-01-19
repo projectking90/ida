@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import system.ida.dao.OrderDAO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderSearchDTO;
 import system.ida.dto.OrderUpdateDTO;
 
 /**
@@ -187,5 +188,28 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		return delete_result;
+	}
+	public List<Map<String, String>> getGenderData(String s_id) {
+		List<Map<String,String>> gender_chart = this.orderDAO.getGenderData(s_id);
+		
+		return gender_chart;
+	}
+	
+	public List<Map<String, String>> getAgeData(String s_id) {
+		List<Map<String,String>> age_chart = this.orderDAO.getAgeData(s_id);
+		
+		return age_chart;
+	}
+	
+	public List<Map<String, String>> getMonthData(String s_id) {
+		List<Map<String,String>> month_chart = this.orderDAO.getMonthData(s_id);
+		
+		return month_chart;
+	}
+	
+	public List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO){
+		List<OrderDTO> order_list = this.orderDAO.getOrderList(ordersearchDTO);
+		
+		return order_list;
 	}
 }

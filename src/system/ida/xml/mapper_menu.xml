@@ -4,58 +4,108 @@
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.MenuDAO">
 	<sql id="menuWhere">
-			<if test="keyword!=null and keyword.length()>0">
-					and (
-						upper(m_no) like upper('%${keyword}%')
-						<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
-						or upper(ma_code) like upper('%${keyword}%')
-						or upper(mb_code) like upper('%${keyword}%')
-						or upper(s_name) like upper('%${keyword}%')
-						<!-- ============================= -->
-						or upper(m_name) like upper('%${keyword}%')
-						or upper(price) like upper('%${keyword}%')
-						or upper(m_comment) like upper('%${keyword}%')
-						or upper(reg_date) like upper('%${keyword}%')	
-					)
-			</if>
-		</sql>
+		<if test="keyword!=null and keyword.length()>0">
+				and (
+					upper(m_no) like upper('%${keyword}%')
+					<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
+					or upper(ma_code) like upper('%${keyword}%')
+					or upper(mb_code) like upper('%${keyword}%')
+					or upper(s_name) like upper('%${keyword}%')
+					<!-- ============================= -->
+					or upper(m_name) like upper('%${keyword}%')
+					or upper(price) like upper('%${keyword}%')
+					or upper(m_comment) like upper('%${keyword}%')
+					or upper(reg_date) like upper('%${keyword}%')	
+				)
+		</if>
+		<if test="search_condition!=null and search_condition.length>0">
+			and
+			<!-- ================================================ -->
+			<!-- [mybatis foreach 반복문]의 속성 설명 -->
+			<!-- ================================================ -->
+			<!-- collection="배열/List 객체의 속성변수명" -->
+			<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
+			<!-- open="반복문 시작 전에 삽입할 문자" -->
+			<!-- close="반복문 끝난 후에 삽입할 문자" -->
+			<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
+			<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
+			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">
+				<if test="xxx.equals('한식')">
+					ma_code = 1
+				</if>
+				<if test="xxx.equals('중식')">
+					ma_code = 2
+				</if>
+				<if test="xxx.equals('일식')">
+					ma_code = 3
+				</if>		
+				<if test="xxx.equals('양식')">
+					ma_code = 4
+				</if>			
+				<if test="xxx.equals('분식')">
+					ma_code = 5
+				</if>			
+				<if test="xxx.equals('패스트푸드')">
+					ma_code = 6
+				</if>			
+				<if test="xxx.equals('카페')">
+					ma_code = 7
+				</if>					
+				<if test="xxx.equals('일반')">
+					mb_code = 1
+				</if>					
+				<if test="xxx.equals('베지테리언')">
+					mb_code = 2
+				</if>					
+				<if test="xxx.equals('알레르기')">
+					mb_code = 3
+				</if>							
+				<if test="xxx.equals('5000')">
+					price >= 5000
+				</if>							
+				<if test="xxx.equals('10000')">
+					price >= 10000
+				</if>
+			</foreach>
+		</if>
+	</sql>
 		
-		<!-- 가게에 등록된 메뉴를 가져오는 select 태그 -->
-		<select id="getMenuList" parameterType="system.ida.dto.MenuSearchDTO" resultType="system.ida.dto.MenuDTO">
-				select zzz.*, rownum RNUM from(
-					select 	
-						m.mi_no "mi_no"
-						,(select a.ma_name from code_menu_alpha a where a.ma_code=m.ma_code)   "ma_code"
-						,(select b.mb_name from code_menu_beta b where b.mb_code=m.mb_code)   "mb_code"
-						,m.mi_name "mi_name"
-						,m.price "price"
-						,m.mi_comment "mi_comment"
-						,to_char(m.reg_date, 'YYYY-MM-DD(dy)') "reg_date"	
-					from menu_info m
-					where m.is_del='F'
-						and s_no = (select
-										s_no
-									from
-										store
-									where
-										s_id=#{s_id})
-					<include refid="menuWhere"/>) zzz
-		</select>
-		
-		<!-- 가게에 등록된 메뉴의 총 개수를 가져오는 select 태그 -->
-		<select id="getMenuListAllCnt" parameterType="system.ida.dto.MenuSearchDTO" resultType="int">
-			select 
-				count(*) 
-			from menu_info		
-			where is_del='F'
-				and s_no = (select
-								s_no
-							from
-								store
-							where
-								s_id=#{s_id})
-			<include refid="menuWhere"/>
-		</select>
+	<!-- 가게에 등록된 메뉴를 가져오는 select 태그 -->
+	<select id="getMenuList" parameterType="system.ida.dto.MenuSearchDTO" resultType="system.ida.dto.MenuDTO">
+			select zzz.*, rownum RNUM from(
+				select 	
+					m.mi_no "mi_no"
+					,(select a.ma_name from code_menu_alpha a where a.ma_code=m.ma_code)   "ma_code"
+					,(select b.mb_name from code_menu_beta b where b.mb_code=m.mb_code)   "mb_code"
+					,m.mi_name "mi_name"
+					,m.price "price"
+					,m.mi_comment "mi_comment"
+					,to_char(m.reg_date, 'YYYY-MM-DD(dy)') "reg_date"	
+				from menu_info m
+				where m.is_del='F'
+					and s_no = (select
+									s_no
+								from
+									store
+								where
+									s_id=#{s_id})
+				<include refid="menuWhere"/>) zzz
+	</select>
+	
+	<!-- 가게에 등록된 메뉴의 총 개수를 가져오는 select 태그 -->
+	<select id="getMenuListAllCnt" parameterType="system.ida.dto.MenuSearchDTO" resultType="int">
+		select 
+			count(*) 
+		from menu_info		
+		where is_del='F'
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id=#{s_id})
+		<include refid="menuWhere"/>
+	</select>
 	
 	<!-- 가게 메뉴를 추가하는 insert 태그 -->
 	<insert id='insertStoreMenu' parameterType="system.ida.dto.MenuDTO">
@@ -143,4 +193,20 @@
 		where
 			mi_no=#{mi_no}
 	</delete>
+	
+	<select id='getMenuCostData' parameterType="string" resultType="hashmap">
+		select
+			i_name "label", sum(i_price)||'' "data"
+		from(select
+					i.s_no as "S_NO", mi.i_no as "I_NO", i.i_name as "I_NAME", i.i_price as "I_PRICE"
+					from
+					menu_ingredient mi, ingredient i
+					where
+					mi.i_no = i.i_no
+					and i.is_del = 'F')
+		where
+			s_no = (select s_no from store where s_id=#{s_id})
+		group by
+			i_name
+	</select>
 </mapper>
