@@ -70,7 +70,7 @@ public class MenuServiceImpl implements MenuService {
 	public int insertStoreMenu(MenuDTO menuDTO) {
 		int insert_result = this.menuDAO.insertStoreMenu(menuDTO);
 		
-		insert_result=this.menuDAO.insertMenuIngredient(menuDTO);
+		this.menuDAO.insertMenuIngredient(menuDTO);
 		
 		return insert_result;
 	}

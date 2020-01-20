@@ -139,7 +139,8 @@
 			,#{c_phone}
 			,#{gender}
 			,#{age}
-			, to_date(
+			, sysdate + ${pickup_time}
+			<!-- , to_date(
 				to_char(sysdate, 'yyyy')|| '-' || to_char(sysdate, 'mm')
 				|| '-' || to_char(sysdate, 'dd')|| ' ' || to_char(sysdate, 'hh')|| ':' ||
 					to_char((case
@@ -147,8 +148,8 @@
 								then (60-(to_number(to_char(sysdate, 'mi')) + ${pickup_time}))
 								else (to_number(to_char(sysdate, 'mi')) + ${pickup_time})
 							end))
-				|| ':' || to_char(sysdate, 'ss'),'YYYY-MM-DD HH:MI:SS'	
-			)
+				|| ':' || to_char(sysdate, 'ss'),'YYYY-MM-DD HH:MI:SS'
+			) -->
 		)
 	</insert>
 	<!-- 가게 주문을 수정하는 insert 태그 -->

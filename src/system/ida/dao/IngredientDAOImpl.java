@@ -122,6 +122,24 @@ public class IngredientDAOImpl implements IngredientDAO {
 		return insert_result;
 	}
 
+	@Override
+	public List<Map<String, String>> getWeekData(String s_id) {
+		List<Map<String,String>> ing_week_chart = this.sqlSession.selectList(
+			sqlSessionPath+"getWeekData"
+			,s_id
+		);
+		return ing_week_chart;
+	}
+
+	@Override
+	public List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO) {
+		List<IngredientDTO> ingredient_anl_list = this.sqlSession.selectList(
+				sqlSessionPath+"getIngAnlList"
+				,ingredient_SearchDTO
+		);
+		return ingredient_anl_list;
+	}
+
 	/*
 	 * // 이미 등록되어 있는 식자재 총 개수
 	 * 

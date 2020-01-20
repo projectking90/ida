@@ -45,7 +45,9 @@
 			code_dong_name
 		where
 			city = #{city}
-			and gun = #{gun}
+			<if test="gun!=null and gun.length()>0">
+				and gun = #{gun}
+			</if>
 			<if test="gu!=null and gu.length()>0">
 				and gu = #{gu}
 			</if>

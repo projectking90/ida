@@ -59,20 +59,8 @@
 							</span>
 						</div>
 						
-						<div class="card-body" name="주">
-							<canvas id="myAreaChart" width="100%" height="30"></canvas>
-						</div>
-						
-						<div class="card-body" name="월">
-							<canvas id="myMonthChart" width="100%" height="30"></canvas>
-						</div>
-							
-						<div class="card-body" name="성별">
-							<canvas id="myBarChart" width="100%" height="30"></canvas>
-						</div>
-						
-						<div class="card-body" name="나이대">
-							<canvas id="myPieChart" width="100%" height="30"></canvas>
+						<div class="card-body">
+							<canvas id="myChart" width="100%" height="30"></canvas>
 						</div>
 					</div>
 				</div>
