@@ -51,4 +51,8 @@ public interface OrderDAO {
 	List<Map<String, String>> getMonthData(String s_id);
 
 	List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO);
+
+	List<Map<String, String>> getHourData(String s_id);
+
+	List<Map<String, String>> getQuarterData(String s_id);
 }

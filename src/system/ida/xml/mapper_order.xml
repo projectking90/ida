@@ -4,7 +4,7 @@
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.OrderDAO">
 	<sql id="orderWhere">
-		<if test="keyword!=null and keyword.length()>0">
+			<if test="keyword!=null and keyword.length()>0">
 				and (
 					upper(oi_no) like upper('%${keyword}%')
 					<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
@@ -16,54 +16,57 @@
 					or upper(order_time) like upper('%${keyword}%')
 					or upper(pickup_time) like upper('%${keyword}%')
 				)
+			</if>
+			<if test="search_condition!=null and search_condition.length>0">
+			and
+			<!-- ================================================ -->
+			<!-- [mybatis foreach 반복문]의 속성 설명 -->
+			<!-- ================================================ -->
+			<!-- collection="배열/List 객체의 속성변수명" -->
+			<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
+			<!-- open="반복문 시작 전에 삽입할 문자" -->
+			<!-- close="반복문 끝난 후에 삽입할 문자" -->
+			<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
+			<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
+			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">					
+				<if test="xxx.equals('week')">
+					to_char(sysdate,'ww') = to_char(order_time,'ww')
+				</if>
+				<if test="xxx.equals('month')">
+					to_char(sysdate,'YYYYMM') = to_char(order_time,'YYYYMM')
+				</if>					
+				<if test="xxx.equals('hour')">
+					to_char(sysdate,'YYYYMMDDHH') = to_char(order_time,'YYYYMMDDHH')
+				</if>					
+				<if test="xxx.equals('quarter')">
+					to_char(sysdate,'q') = to_char(order_time,'q')
+				</if>						
+				<if test="xxx.equals('남자')">
+					gender = '1'
+				</if>					
+				<if test="xxx.equals('여자')">
+					gender = '2'
+				</if>										
+				<if test="xxx.equals('10')">
+					age = '10'
+				</if>										
+				<if test="xxx.equals('20')">
+					age = '20'
+				</if>										
+				<if test="xxx.equals('30')">
+					age = '30'
+				</if>										
+				<if test="xxx.equals('40')">
+					age = '40'
+				</if>										
+				<if test="xxx.equals('50')">
+					age = '50'
+				</if>										
+				<if test="xxx.equals('60')">
+					age = '60'
+				</if>
+			</foreach>
 		</if>
-		<if test="search_condition!=null and search_condition.length>0">
-		and
-		<!-- ================================================ -->
-		<!-- [mybatis foreach 반복문]의 속성 설명 -->
-		<!-- ================================================ -->
-		<!-- collection="배열/List 객체의 속성변수명" -->
-		<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
-		<!-- open="반복문 시작 전에 삽입할 문자" -->
-		<!-- close="반복문 끝난 후에 삽입할 문자" -->
-		<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
-		<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
-		<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">
-			<if test="xxx.equals('주')">
-				to_char(sysdate,'ww') = to_char(order_time,'ww')
-			</if>
-			<if test="xxx.equals('월')">
-				to_char(sysdate-1,'YYYYMM') = to_char(order_time,'YYYYMM')
-			</if>					
-			<if test="xxx.equals('시간')">
-				to_char(sysdate,'YYYYMMDDHH:24') = to_char(order_time,'YYYYMMDDHH:24')
-			</if>					
-			<if test="xxx.equals('남자')">
-				gender = '1'
-			</if>					
-			<if test="xxx.equals('여자')">
-				gender = '2'
-			</if>										
-			<if test="xxx.equals('10')">
-				age = '10'
-			</if>										
-			<if test="xxx.equals('20')">
-				age = '20'
-			</if>										
-			<if test="xxx.equals('30')">
-				age = '30'
-			</if>										
-			<if test="xxx.equals('40')">
-				age = '40'
-			</if>										
-			<if test="xxx.equals('50')">
-				age = '50'
-			</if>										
-			<if test="xxx.equals('60')">
-				age = '60'
-			</if>
-		</foreach>
-	</if>
 	</sql>
 		
 	<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
@@ -201,8 +204,6 @@
 			is_del='T'
 		where oi_no=#{oi_no}
 	</update>
-	
-	<!-- 메뉴 목록을 검색하는 select 태그 -->
 	<select id='getGenderData' parameterType="string" resultType="hashmap">
 		select
 			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
@@ -246,6 +247,9 @@
 			s_no = (select s_no from store where s_id=#{s_id})
 		group by
 			to_char(order_time, 'mm')
+		order by
+			to_char(order_time, 'mm')
+		
 	</select>
 	
 	<select id="getOrderList_analy" parameterType="system.ida.dto.OrderSearchDTO" resultType="system.ida.dto.OrderDTO">
@@ -274,5 +278,29 @@
 									s_id=#{s_id})
 							<include refid="orderWhere"/>
 				) zzz
+	</select>
+	
+	<select id='getHourData' parameterType="string" resultType="hashmap">
+		select
+			count(s_no)||'' "data", to_char(order_time, 'hh24')	"label"
+		from order_day
+		where
+			s_no = (select s_no from store where s_id=#{s_id})
+		group by
+			to_char(order_time, 'hh24')
+		order by to_char(order_time, 'hh24')
+	</select>
+	
+	<select id='getQuarterData' parameterType="string" resultType="hashmap">
+		select
+			count(s_no)||'' "data", to_char(order_time, 'q')	"label"
+		from order_day
+		where
+			s_no = (select s_no from store where s_id=#{s_id})
+		group by
+			to_char(order_time, 'q')
+		order by
+			to_char(order_time, 'q')
+			
 	</select>
 </mapper>

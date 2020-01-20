@@ -235,6 +235,7 @@ public class OrderController {
 			String s_id = (String)session.getAttribute("s_id");
 			ordersearchDTO.setS_id(s_id);
 			List<OrderDTO> order_list = this.orderService.getOrderList(ordersearchDTO);
+			mav.addObject("ordersearchDTO", ordersearchDTO);
 			mav.addObject("order_list", order_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goOrderAnalysisForm 에러발생>");
@@ -280,56 +281,102 @@ public class OrderController {
 				label.add("1주");
 				label.add("2주");
 				label.add("3주");
+				label.add("4주");
 				
 				List<String> data1 = new ArrayList<String>();
 				data1.add("100");
 				data1.add("30");
 				data1.add("500");
+				data1.add("150");
 				
 				chart_data.setLabel(label);
 				chart_data.setData1(data1);
 			} else if(chart_search.equals("월")) {
 				List<Map<String,String>> month_chart = this.orderService.getMonthData(s_id);
 				List<String> label = new ArrayList<String>();
+				
 				for(int i=0; i<month_chart.size(); i++) {
 					label.add(month_chart.get(i).get("label"));
 				}
+				
 				List<String> data1 = new ArrayList<String>();
+				
 				for(int i=0; i<month_chart.size(); i++) {
-						data1.add(month_chart.get(i).get("data"));
+					data1.add(month_chart.get(i).get("data"));
 				}
+				
 				chart_data.setLabel(label);
 				chart_data.setData1(data1);
+			} else if(chart_search.equals("시간")) {
+				List<Map<String,String>> hour_chart = this.orderService.getHourData(s_id);
+				List<String> label = new ArrayList<String>();
+				
+				for(int i=0; i<hour_chart.size(); i++) {
+					label.add(hour_chart.get(i).get("label"));
+				}
+				
+				List<String> data1 = new ArrayList<String>();
+				
+				for(int i=0; i<hour_chart.size(); i++) {
+					data1.add(hour_chart.get(i).get("data"));
+				}
+				
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+			} else if(chart_search.equals("분기")) {
+				List<Map<String,String>> quarter_chart = this.orderService.getQuarterData(s_id);
+				List<String> label = new ArrayList<String>();
+				
+				for(int i=0; i<quarter_chart.size(); i++) {
+					label.add(quarter_chart.get(i).get("label"));
+				}
+				
+				List<String> data1 = new ArrayList<String>();
+				
+				for(int i=0; i<quarter_chart.size(); i++) {
+						data1.add(quarter_chart.get(i).get("data"));
+				}
+				
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+				
 			} else if (chart_search.equals("성별")) {
 				List<Map<String,String>> gender_chart = this.orderService.getGenderData(s_id);
 				List<String> label = new ArrayList<String>();
+				
 				for(int i=0; i<gender_chart.size(); i++) {
 					label.add(gender_chart.get(i).get("label"));
 				}
+				
 				List<String> data1 = new ArrayList<String>();
 				List<String> data2 = new ArrayList<String>();
+				
 				for(int i=0; i<gender_chart.size(); i++) {
 					if(gender_chart.get(i).get("dataset").equals("남자")) {
 						data1.add(gender_chart.get(i).get("data"));
-					}
-					else if(gender_chart.get(i).get("dataset").equals("여자")) {
+					} else if(gender_chart.get(i).get("dataset").equals("여자")) {
 						data2.add(gender_chart.get(i).get("data"));
 						
 					}
 				}
+				
 				chart_data.setLabel(label);
 				chart_data.setData1(data1);
 				chart_data.setData2(data2);
 			} else if (chart_search.equals("나이대")) {
 				List<Map<String,String>> age_chart = this.orderService.getAgeData(s_id);
 				List<String> label = new ArrayList<String>();
+				
 				for(int i=0; i<age_chart.size(); i++) {
 					label.add(age_chart.get(i).get("label"));
 				}
+					
 				List<String> data1 = new ArrayList<String>();
+				
 				for(int i=0; i<age_chart.size(); i++) {
 						data1.add(age_chart.get(i).get("data"));
 				}
+				
 				chart_data.setLabel(label);
 				chart_data.setData1(data1);
 			}

@@ -4,21 +4,20 @@
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.MenuDAO">
 	<sql id="menuWhere">
-		<if test="keyword!=null and keyword.length()>0">
+			<if test="keyword!=null and keyword.length()>0">
 				and (
-					upper(m_no) like upper('%${keyword}%')
+					upper(oi_no) like upper('%${keyword}%')
 					<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
-					or upper(ma_code) like upper('%${keyword}%')
-					or upper(mb_code) like upper('%${keyword}%')
-					or upper(s_name) like upper('%${keyword}%')
+					or upper(s_no) like upper('%${keyword}%')
+					or upper(c_phone) like upper('%${keyword}%')
+					or upper(gender) like upper('%${keyword}%')
 					<!-- ============================= -->
-					or upper(m_name) like upper('%${keyword}%')
-					or upper(price) like upper('%${keyword}%')
-					or upper(m_comment) like upper('%${keyword}%')
-					or upper(reg_date) like upper('%${keyword}%')	
+					or upper(age) like upper('%${keyword}%')
+					or upper(order_time) like upper('%${keyword}%')
+					or upper(pickup_time) like upper('%${keyword}%')
 				)
-		</if>
-		<if test="search_condition!=null and search_condition.length>0">
+			</if>
+			<if test="search_condition!=null and search_condition.length>0">
 			and
 			<!-- ================================================ -->
 			<!-- [mybatis foreach 반복문]의 속성 설명 -->

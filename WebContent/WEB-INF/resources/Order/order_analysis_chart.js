@@ -7,10 +7,10 @@ function getChartData(cr, chart_search){
 		// 서버로 보낼 파라미터명과 파라미터값을 설정
 		, data : "chart_search=" + chart_search
 		// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
-		// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
 		, success : function(chart_data){
-			$("[id=myChart]").remove();
-			$(".card-body").append('<canvas id="myChart" width="100%" height="30"></canvas>');
+			$("#myChart").remove();
+			$(".card-body").append(
+					'<canvas id="myChart" width="100%" height="30"></canvas>');
 			
 			if($("[name=chart_search]").val() == '성별'){
 				drawdoubleBarChart(chart_data);
@@ -19,6 +19,10 @@ function getChartData(cr, chart_search){
 			}else if($("[name=chart_search]").val() == '주'){
 				drawAreaChart(chart_data);
 			}else if($("[name=chart_search]").val() == '월'){
+				drawAreaChart(chart_data);
+			}else if($("[name=chart_search]").val() == '시간'){
+				drawAreaChart(chart_data);
+			}else if($("[name=chart_search]").val() == '분기'){
 				drawAreaChart(chart_data);
 			}
 		}
@@ -34,7 +38,6 @@ function drawAreaChart(data) {
 	// styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	Chart.defaults.global.defaultFontColor = '#292b2c';
-
 	// Area Chart Example
 	var ctx = document.getElementById("myChart");
 	var myLineChart = new Chart(ctx, {
@@ -72,7 +75,7 @@ function drawAreaChart(data) {
 				yAxes : [ {
 					ticks : {
 						min : 0,
-						max : 1000,
+						max : 700,
 						maxTicksLimit : 5
 					},
 					gridLines : {
@@ -82,6 +85,10 @@ function drawAreaChart(data) {
 			},
 			legend : {
 				display : false
+			},
+			title:{
+				display : true,
+				text : '시간대 별 주문 횟수'
 			}
 		}
 	});
@@ -103,10 +110,16 @@ function drawPieChart(data) {
 				backgroundColor : [ '#007bff', '#dc3545', '#ffc107', '#28a745','#38a789' ],
 			} ],
 		},
+		options:{
+			title:{
+				display : true,
+				text : '나이대 별 주문 횟수'
+			}
+		}
 	});
 }
 
-function drqwBarChart(data){
+function drawBarChart(data){
 	//Set new default font family and font color to mimic Bootstrap's default styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	Chart.defaults.global.defaultFontColor = '#292b2c';
@@ -194,7 +207,7 @@ function drawdoubleBarChart(data){
 				yAxes : [ {
 					ticks : {
 						min : 0,
-						max : 20,
+						max : 30,
 						maxTicksLimit : 10
 					},
 					gridLines : {
@@ -204,6 +217,9 @@ function drawdoubleBarChart(data){
 			},
 			legend : {
 				display : false
+			},			title:{
+				display : true,
+				text : '메뉴 별 주문 횟수'
 			}
 		}
 	});

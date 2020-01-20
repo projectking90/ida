@@ -212,4 +212,15 @@ public class OrderServiceImpl implements OrderService {
 		
 		return order_list;
 	}
+	
+	public List<Map<String, String>> getHourData(String s_id) {
+		List<Map<String,String>> hour_chart = this.orderDAO.getHourData(s_id);
+		
+		return hour_chart;
+	}
+	public List<Map<String, String>> getQuarterData(String s_id) {
+		List<Map<String,String>> quarter_chart = this.orderDAO.getQuarterData(s_id);
+		
+		return quarter_chart;
+	}
 }

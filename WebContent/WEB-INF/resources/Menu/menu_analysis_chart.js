@@ -137,7 +137,8 @@ function drawBarChart(data){
 				yAxes : [ {
 					ticks : {
 						min : 0,
-						max : 150000,
+						max : 200000,
+						stepSize : 20000,
 						maxTicksLimit : 10
 					},
 					gridLines : {

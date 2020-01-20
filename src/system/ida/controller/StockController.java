@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.ChartDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
 import system.ida.dto.StockInsertDTO;
@@ -220,5 +221,101 @@ public class StockController {
 		}
 		
 		return mav;
+	}
+
+	/*
+	 * 재고 차트
+	 * 
+	 * */
+	@RequestMapping(value="/stock_analysis_chart.ida")
+	@ResponseBody
+	public ChartDTO getStockChartData(
+			HttpSession session
+			, @RequestParam(value="chart_search") String chart_search)
+	{
+		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
+
+		try {
+			String s_id = (String)session.getAttribute("s_id");
+			
+			if(chart_search.equals("주")) {
+				/*List<String> label = new ArrayList<String>();
+
+				
+				List<String> data1 = new ArrayList<String>();
+
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+				*/
+				
+			} else if(chart_search.equals("월")) {
+				
+				/*System.out.println("월");
+				List<String> label = new ArrayList<String>();
+				label.add("1월");
+				label.add("2월");
+				label.add("3월");
+				label.add("4월");
+				label.add("5월");
+				label.add("6월");
+				label.add("7월");
+				label.add("8월");
+				label.add("9월");
+				label.add("10월");
+				label.add("11월");
+				label.add("12월");
+				
+				List<String> data1 = new ArrayList<String>();
+				data1.add("4670");
+				data1.add("3544");
+				data1.add("4093");
+				data1.add("4233");
+				data1.add("4080");
+				data1.add("4189");
+				data1.add("4654");
+				data1.add("4432");
+				data1.add("4122");
+				data1.add("3324");
+				data1.add("4320");
+				data1.add("4532");
+				data1.add("4234");
+				data1.add("4876");
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
+			*/
+				
+			} else if (chart_search.equals("시간")) {
+				/*			
+				List<String> label = new ArrayList<String>();
+
+				
+				List<String> data1 = new ArrayList<String>();
+
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);*/
+				
+			} else if (chart_search.equals("분기")) {
+				/*List<String> label = new ArrayList<String>();
+				label.add("1분기");
+				label.add("2분기");
+				label.add("3분기");
+				label.add("4분기");
+				
+				List<String> data1 = new ArrayList<String>();
+				data1.add("12456");
+				data1.add("21089");
+				data1.add("16433");
+				data1.add("17633");			
+
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);*/
+
+			}
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<getStockChartData 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return chart_data;
 	}
 }

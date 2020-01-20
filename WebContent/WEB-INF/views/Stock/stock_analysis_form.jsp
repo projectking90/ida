@@ -49,7 +49,7 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i>재고 분석
+							<i class="fas fa-table"></i> 재고 분석
 							<span name='stock_analysis_btn' style='float:right'>
 								<button type="button" class="btn btn-primary s_chart">재고 차트</button>
 							</span>
