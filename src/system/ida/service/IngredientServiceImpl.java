@@ -133,4 +133,16 @@ public class IngredientServiceImpl implements IngredientService {
 		int insert_result = this.ingredientDAO.insertIngredient(ingredientDTO);
 		return insert_result;
 	}
+
+	@Override
+	public List<Map<String, String>> getWeekData(String s_id) {
+		List<Map<String,String>> ing_week_chart = this.ingredientDAO.getWeekData(s_id);
+		return ing_week_chart;
+	}
+
+	@Override
+	public List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO) {
+		List<IngredientDTO> ingredient_anl_list = this.ingredientDAO.getIngAnlList(ingredient_SearchDTO);
+		return ingredient_anl_list;
+	}
 }

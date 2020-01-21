@@ -62,9 +62,6 @@
 						<div class="card-body">
 							<canvas id="myChart" width="100%" height="30"></canvas>
 						</div>
-						
-							
-							
 					</div>
 				</div>
 				<!-- /.container-fluid -->

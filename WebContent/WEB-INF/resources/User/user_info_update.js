@@ -13,9 +13,15 @@ function setGun(cr){
 		, data : "city=" + city
 		, success : function(gun_list){
 			gun.empty();
-			gun.append("<option></option>");
-			for(var i=0; i<gun_list.length; i++){
-				gun.append("<option value=" + gun_list[i].gun +">" + gun_list[i].gun + "</option>");
+			
+			if(gun_list.length>1){
+				gun.append("<option></option>");
+				for(var i=0; i<gun_list.length; i++){
+					gun.append("<option value=" + gun_list[i].gun +">" + gun_list[i].gun + "</option>");
+				}
+			} else{
+				setGu(cr);
+				setDong(cr);
 			}
 		}, error : function(){
 			alert("서버와 통신 실패");
@@ -160,20 +166,4 @@ function updateUser(cr){
 			alert("서버와 통신 실패");
 		}
 	});
-}
-
-function check_pwd(selecter1, selecter2){
-	var obj1 = $(selecter1);
-	var obj2 = $(selecter2);
-	
-	try{
-		if(obj1.val() != obj2.val()){
-			return true;
-		} else{
-			return false;
-		}
-	} catch(e){
-		alert("check_pwd 함수에서 에러");
-		return;
-	}
 }

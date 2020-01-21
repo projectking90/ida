@@ -13,8 +13,6 @@ public class IngredientSearchDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	
-	
 	private String keyword;
 	private String[] date;
 	private int select_page_no=1;

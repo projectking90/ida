@@ -12,7 +12,10 @@
 
 <script>
 	$(document).ready(function(){
+<<<<<<< HEAD
 		
+=======
+>>>>>>> branch 'master' of https://github.com/projectking90/ida
 		getChartData("${cr}", $("[name=chart_search]").val());
 		
 		$("[name=chart_search]").change(function(){

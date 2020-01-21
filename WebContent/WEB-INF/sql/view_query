@@ -1,0 +1,146 @@
+create view
+	order_menu_age	-- 나이별 메뉴별 주문 횟수
+as
+	(select
+		oi.s_no	as "S_NO"
+		, oi.age	as "AGE"
+		, mi.mi_name	as "MI_NAME"
+	from
+		order_menu om, order_info oi, menu_info mi
+	where
+		om.oi_no = oi.oi_no
+		and om.mi_no = mi.mi_no);
+		
+create view
+	order_menu_gender	-- 성별 메뉴별 주문 횟수
+as
+	(select
+		oi.s_no	as "S_NO"
+		, oi.gender	as "GENDER"
+		, mi.mi_name	as "MI_NAME"
+	from
+		order_menu om, order_info oi, menu_info mi
+	where
+		om.oi_no = oi.oi_no
+		and om.mi_no = mi.mi_no);
+		
+create view
+	order_age	-- 나이별 주문 횟수
+as
+	(select
+		oi.s_no	as "S_NO"
+		, oi.age	as "AGE"
+	from
+		order_menu om, order_info oi
+	where
+		om.oi_no = oi.oi_no);
+		
+create view
+	order_gender	-- 성별 주문 횟수
+as
+	(select
+		oi.s_no	as "S_NO"
+		, oi.gender	as "GENDER"
+	from
+		order_menu om, order_info oi
+	where
+		om.oi_no = oi.oi_no);
+
+create view
+	order_day	-- 주, 월, 분기, 시간별 주문 횟수
+as
+	(select
+		oi.s_no	as "S_NO"
+		, oi.order_time	as "ORDER_TIME"
+	from
+		order_menu om, order_info oi
+	where
+		om.oi_no = oi.oi_no);
+
+create view
+	order_day_menu	-- 주, 월, 분기, 시간별  메뉴별 주문 횟수
+as
+	(select
+		oi.s_no	as "S_NO"
+		, oi.order_time	as "ORDER_TIME"
+		, mi.mi_name	as "MI_NAME"
+	from
+		order_menu om, order_info oi, menu_info mi
+	where
+		om.oi_no = oi.oi_no
+		and om.mi_no = mi.mi_no);
+
+create view
+	menu_cost	-- 메뉴 코스트
+as
+	(select
+		i.s_no	as "S_NO"
+		, i.i_name	as "I_NAME"
+		, i.i_price	as "I_PRICE"
+	from
+		menu_ingredient mi, ingredient i
+	where
+		mi.i_no = i.i_no
+		and i.is_del = 'F');
+
+create view
+	ingredient_day	-- 주, 월, 분기, 시간별 식자재 현황
+as
+	(select
+		i.s_no	as "S_NO"
+		, i.i_name	as "I_NAME"
+		, ir.i_price	as "I_PRICE"
+		, i.reg_date	as "REG_DATE"
+	from
+		ingredient i, ingredient_record ir
+	where
+		i.i_no = ir.i_no);
+		
+create view
+	menu_used_ingredient	-- 메뉴별 사용되는 식자재 현황
+as
+	(select
+		(select
+			m.mi_name
+		from
+			menu_info m
+		where
+			m.mi_no = mi.mi_no)	as "MI_NAME"
+		, i.s_no	as "S_NO"
+		, i.i_name	as "I_NAME"
+	from
+		menu_ingredient mi, ingredient i
+	where
+		mi.i_no = i.i_no);
+		
+create view
+	stock_ingredient	-- 주, 월, 분기, 시간별 식자재 재고 변화 현황
+as
+	(select
+		i.s_no	as "S_NO"
+		, i.i_name	as "I_NAME"
+		, i.reg_date	as "REG_DATE"
+		, sr.quantity	as "QUANTITY"
+	from
+		ingredient i, stock s, stock_record sr
+	where
+		i.i_no = s.i_no
+		and s.st_no = sr.st_no);
+		
+create view
+	share_chart	-- 주, 월, 분기, 시간별, 위치별 공유 현황
+as
+	(select
+		s.s_no	as "S_NO"
+		, s.addr_code	as "ADDR_CODE"
+		, i.i_name	as "I_NAME"
+		, si.si_quantity	as "SI_QUANTITY"
+		, si.sr_state	as "SR_STATE"
+		, si.si_state	as "SI_STATE"
+		, si.reg_date	as "REG_DATE"
+	from
+		store s, stock st, ingredient i, share_ingredient si
+	where
+		s.s_no = i.s_no
+		and i.i_no	= st.i_no
+		and st.st_no = si.st_no);

@@ -209,3 +209,126 @@ var myLineChart = new Chart(ctx, {
 });
 
 }
+
+function drawPieChart(data) {
+	// Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
+
+	// Pie Chart Example
+	var ctx = document.getElementById("myPieChart");
+	var myPieChart = new Chart(ctx, {
+		type : 'pie',
+		data : {
+			labels : data.label,
+			datasets : [ {
+				data : data.data1,
+				backgroundColor : [ '#007bff', '#dc3545', '#ffc107', '#28a745','#38a789' ],
+			} ],
+		},
+	});
+}
+
+function drawBarChart(data){
+	//Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
+
+	//Bar Chart Example
+	var ctx = document.getElementById("myMonthChart");
+	var myLineChart = new Chart(ctx, {
+		type : 'bar',
+		data : {
+			labels : data.label,
+			datasets : [ {
+				label : data.dataset,
+				backgroundColor : "rgba(2,117,216,1)",
+				borderColor : "rgba(2,117,216,1)",
+				data : data.data1
+			} ],
+		},
+		options : {
+			scales : {
+				xAxes : [ {
+					time : {
+						unit : 'month'
+					},
+					gridLines : {
+						display : false
+					},
+					ticks : {
+						maxTicksLimit : 15
+					}
+				} ],
+				yAxes : [ {
+					ticks : {
+						min : 0,
+						max : 200000,
+						stepSize : 20000,
+						maxTicksLimit : 10
+					},
+					gridLines : {
+						display : true
+					}
+				} ],
+			},
+			legend : {
+				display : false
+			}
+		}
+	});
+}
+
+function drawdoubleBarChart(data){
+	//Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
+	
+	//Bar Chart Example
+	var ctx = document.getElementById("myBarChart");
+	var myLineChart = new Chart(ctx, {
+		type : 'bar',
+		data : {
+			labels : data.label,
+			datasets : [ {
+				label : data.dataset,
+				backgroundColor : "rgba(2,117,216,1)",
+				borderColor : "rgba(2,117,216,1)",
+				data : data.data1
+			} , {
+				label : data.dataset,
+				backgroundColor : "rgba(100,350,216,1)",
+				borderColor : "rgba(2,117,216,1)",
+				data : data.data2
+			}],
+		},
+		options : {
+			scales : {
+				xAxes : [ {
+					time : {
+						unit : 'month'
+					},
+					gridLines : {
+						display : false
+					},
+					ticks : {
+						maxTicksLimit : 15
+					}
+				} ],
+				yAxes : [ {
+					ticks : {
+						min : 0,
+						max : 20,
+						maxTicksLimit : 10
+					},
+					gridLines : {
+						display : true
+					}
+				} ],
+			},
+			legend : {
+				display : false
+			}
+		}
+	});
+}

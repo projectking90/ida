@@ -228,13 +228,20 @@ public class IngredientController {
 	 */
 	@RequestMapping(value="/ingredient_analysis_form.ida")
 	public ModelAndView goIngredientAnalysisForm(
-		HttpSession session
+			IngredientSearchDTO ingredient_searchDTO
+			, HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "ingredient_analysis_form");
-		 
+		
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			
+			ingredient_searchDTO.setS_id(s_id);
+			
+			List<IngredientDTO> ingredient_anl_list = this.ingredientService.getIngAnlList(ingredient_searchDTO);
+			
+			mav.addObject("ingredient_anl_list",ingredient_anl_list);
+			mav.setViewName(path + "ingredient_analysis_form");
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientAnalysisForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -280,18 +287,17 @@ public class IngredientController {
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
-			
+
 			if(chart_search.equals("주")) {
+				List<Map<String,String>> ing_week_chart = this.ingredientService.getWeekData(s_id);
 				List<String> label = new ArrayList<String>();
-				label.add("1주");
-				label.add("2주");
-				label.add("3주");
-				
+				for(int i=0; i<ing_week_chart.size(); i++) {
+					label.add(ing_week_chart.get(i).get("label"));
+				}
 				List<String> data = new ArrayList<String>();
-				data.add("100");
-				data.add("30");
-				data.add("500");
-				
+				for(int i=0; i<ing_week_chart.size(); i++) {
+					data.add(ing_week_chart.get(i).get("data"));
+				}
 				chart_data.setLabel(label);
 				chart_data.setData1(data);
 			} else if(chart_search.equals("월")) {

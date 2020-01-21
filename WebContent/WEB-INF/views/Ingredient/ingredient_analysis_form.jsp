@@ -71,8 +71,21 @@
 									</thead>
 									
 									<tbody>
+										<c:forEach items="${ingredient_anl_list}" var="ingredient_anl_list" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${loopTagStatus.index+1}
+												<input type="hidden" name="i_no" value="${ingredient_anl_list.i_no}">
+												<input type="hidden" value="${ingredient_anl_list.s_no}">
+												<td align=center>${ingredient_anl_list.ia_name}</td>
+												<td align=center>${ingredient_anl_list.ib_name}</td>
+												<td align=center>${ingredient_anl_list.io_name}</td>
+												<td align=center>${ingredient_anl_list.i_name}</td>
+												<td align=center>${ingredient_anl_list.i_size}</td>
+												<td align=center>${ingredient_anl_list.i_price}</td>
+												<td align=center>${ingredient_anl_list.reg_date}</td>
+											</tr>
+										</c:forEach>
 									</tbody>
-									
 								</table>
 							</div>
 						</div>

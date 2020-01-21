@@ -247,6 +247,28 @@ function removeSpace(selector){
 }
 
 /**
+ * 입력값에 공백이 있는지 체크하는 함수
+ * @param selector : 선택자
+ * @return 공백 존재 여부
+ */
+function checkSpace(selector){
+	try{
+		var obj = $(selector);
+		var tmp = obj.val();
+		
+		tmp = $.trim(tmp);
+		if(tmp.indexOf(' ')>=0){
+			return true;
+		} else{
+			return false;
+		}
+	} catch(e){
+		alert("checkSpace('" + selector + "') 함수에서 에러 발생!");
+		return;
+	}
+}
+
+/**
  * 입력양식에 value값을 삽입하거나 체크해주는 함수 선언
  * @param selector : 선택자
  * @param date : 입력 데이터

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.Map;
 
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
@@ -55,7 +56,4 @@ public interface OrderService {
 	List<Map<String, String>> getQuarterData(String s_id);
 
 	List<Map<String, String>> getWeekData(String s_id);
-
-
-
 }

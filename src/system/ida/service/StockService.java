@@ -30,4 +30,5 @@ public interface StockService {
 	int insertStock(StockDTO stockDTO);	// 재고 추가
 	int updateStock(ArrayList<String> stock_update);	// 재고 수정
 	int deleteStock(ArrayList<String> stock_delete);	// 재고 삭제
+	//List<Map<String, String>> getStockWeekData(String s_id); // 주간 데이터 재고 수량 차트 데이터 가져오기
 }

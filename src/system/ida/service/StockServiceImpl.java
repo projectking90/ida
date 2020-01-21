@@ -151,4 +151,12 @@ public class StockServiceImpl implements StockService {
 		}
 		return stock_delete_cnt;
 	}
+
+/*	
+ 	@Override
+	public List<Map<String, String>> getStockWeekData(String s_id) {
+		List<Map<String,String>> week_chart = this.stockDAO.getStockWeekData(s_id);
+		return week_chart;
+	}
+*/	
 }

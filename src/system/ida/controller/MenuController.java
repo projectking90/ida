@@ -280,8 +280,7 @@ public class MenuController {
 	 */
 	@RequestMapping(value="/menu_analysis_chart_form.ida")
 	public ModelAndView goMenuAnalysisChartForm(
-		HttpSession session
-		) {
+		HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "menu_analysis_chart_form");
 		 
@@ -309,18 +308,20 @@ public class MenuController {
 			if(chart_search.equals("코스트")) {
 				List<Map<String,String>> cost_chart = this.menuService.getMenuCostData(s_id);
 				List<String> label = new ArrayList<String>();
-					for(int i=0; i<cost_chart.size(); i++) {
-						label.add(cost_chart.get(i).get("label"));
-					}
-				List<String> data1 = new ArrayList<String>();
-					for(int i=0; i<cost_chart.size(); i++) {
-							data1.add(cost_chart.get(i).get("data"));
-					}
-					chart_data.setLabel(label);
-					chart_data.setData1(data1);
 				
+				for(int i=0; i<cost_chart.size(); i++) {
+					label.add(cost_chart.get(i).get("label"));
+				}
+				
+				List<String> data1 = new ArrayList<String>();
+				
+				for(int i=0; i<cost_chart.size(); i++) {
+						data1.add(cost_chart.get(i).get("data"));
+				}
+				
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
 			}
-					
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getOrderChartData 에러발생>");
 			System.out.println(e.getMessage());

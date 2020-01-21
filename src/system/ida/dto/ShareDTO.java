@@ -18,6 +18,9 @@ public class ShareDTO {
 	private String reg_date;
 	private String deal;
 	private String s_id;
+	private String r_reg_date;
+	private String a_reg_date;
+	private String s_phone;
 	
 	public int getSi_no() {
 		return si_no;
@@ -120,5 +123,47 @@ public class ShareDTO {
 	}
 	public void setS_id(String s_id) {
 		this.s_id = s_id;
+	}
+	/**
+	 * r_reg_date 접근자
+	 * @return r_reg_date : 
+	 */
+	public String getR_reg_date() {
+		return r_reg_date;
+	}
+	/**
+	 * r_reg_date 설정자
+	 * @param r_reg_date : 
+	 */
+	public void setR_reg_date(String r_reg_date) {
+		this.r_reg_date = r_reg_date;
+	}
+	/**
+	 * a_reg_date 접근자
+	 * @return a_reg_date : 
+	 */
+	public String getA_reg_date() {
+		return a_reg_date;
+	}
+	/**
+	 * a_reg_date 설정자
+	 * @param a_reg_date : 
+	 */
+	public void setA_reg_date(String a_reg_date) {
+		this.a_reg_date = a_reg_date;
+	}
+	/**
+	 * s_phone 접근자
+	 * @return s_phone : 
+	 */
+	public String getS_phone() {
+		return s_phone;
+	}
+	/**
+	 * s_phone 설정자
+	 * @param s_phone : 
+	 */
+	public void setS_phone(String s_phone) {
+		this.s_phone = s_phone;
 	}
 }

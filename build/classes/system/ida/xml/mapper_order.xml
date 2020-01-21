@@ -69,52 +69,52 @@
 		</if>
 	</sql>
 		
-		<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
-		<select id="getOrderList" parameterType="string" resultType="system.ida.dto.OrderDTO">
-				select zzz.*, rownum RNUM from(
-					select 	
-						 o.oi_no	"oi_no"
-						,o.s_no   "s_no"
-						,o.c_phone "c_phone"
-						,(select 
-						substr(xmlagg(xmlelement(x,', ',
-						(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
-						'('||(c.quantity)||')')).extract('//text()'),2) 
-						from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
-						,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-						,o.age "age"
-						,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-						,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-						,o.is_del	"is_del"	
-					from order_info o
-					where o.is_del='F'
-						and s_no = (select
-										s_no
-									from
-										store
-									where
-										s_id=#{s_id})
-					) zzz
-		</select>
-		
-		<!-- 가게에 등록된 주문 중 수량을 분리해 가져오는 select 태그 -->
-		<select id="getOrderList_sepa_quan" parameterType="string" resultType="system.ida.dto.OrderUpdateDTO">
-					select 	
-						 o1.oi_no	"oi_no"
-						,o1.s_no	"s_no"
-						,o1.c_phone "c_phone"
-						,(select m.mi_name from menu_info m where m.mi_no=o2.mi_no and o1.oi_no=o2.oi_no) as "mi_name"
-						,o2.quantity as "quantity"
-						,case o1.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-						,o1.age "age"
-						,to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-						,to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-						,o1.is_del	"is_del"	
-					from order_info o1 right outer join order_menu o2 
-						on o1.oi_no=o2.oi_no
-					where o1.is_del='F'
-						and o1.s_no = (select s_no from store where s_id=#{s_id})
-		</select>
+	<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
+	<select id="getOrderList" parameterType="string" resultType="system.ida.dto.OrderDTO">
+		select zzz.*, rownum RNUM from(
+			select 	
+				 o.oi_no	"oi_no"
+				,o.s_no   "s_no"
+				,o.c_phone "c_phone"
+				,(select 
+				substr(xmlagg(xmlelement(x,', ',
+				(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
+				'('||(c.quantity)||')')).extract('//text()'),2) 
+				from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
+				,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+				,o.age "age"
+				,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+				,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+				,o.is_del	"is_del"	
+			from order_info o
+			where o.is_del='F'
+				and s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id=#{s_id})
+			) zzz
+	</select>
+	
+	<!-- 가게에 등록된 주문 중 수량을 분리해 가져오는 select 태그 -->
+	<select id="getOrderList_sepa_quan" parameterType="string" resultType="system.ida.dto.OrderUpdateDTO">
+		select 	
+			 o1.oi_no	"oi_no"
+			,o1.s_no	"s_no"
+			,o1.c_phone "c_phone"
+			,(select m.mi_name from menu_info m where m.mi_no=o2.mi_no and o1.oi_no=o2.oi_no) as "mi_name"
+			,o2.quantity as "quantity"
+			,case o1.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
+			,o1.age "age"
+			,to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
+			,to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
+			,o1.is_del	"is_del"	
+		from order_info o1 right outer join order_menu o2 
+			on o1.oi_no=o2.oi_no
+		where o1.is_del='F'
+			and o1.s_no = (select s_no from store where s_id=#{s_id})
+	</select>
 		
 	<!-- 메뉴 목록을 검색하는 select 태그 -->
 	<select id='getMenuList' parameterType="string" resultType="system.ida.dto.MenuDTO">
@@ -142,7 +142,8 @@
 			,#{c_phone}
 			,#{gender}
 			,#{age}
-			, to_date(
+			, sysdate + ${pickup_time}
+			<!-- , to_date(
 				to_char(sysdate, 'yyyy')|| '-' || to_char(sysdate, 'mm')
 				|| '-' || to_char(sysdate, 'dd')|| ' ' || to_char(sysdate, 'hh')|| ':' ||
 					to_char((case
@@ -150,8 +151,8 @@
 								then (60-(to_number(to_char(sysdate, 'mi')) + ${pickup_time}))
 								else (to_number(to_char(sysdate, 'mi')) + ${pickup_time})
 							end))
-				|| ':' || to_char(sysdate, 'ss'),'YYYY-MM-DD HH:MI:SS'	
-			)
+				|| ':' || to_char(sysdate, 'ss'),'YYYY-MM-DD HH:MI:SS'
+			) -->
 		)
 	</insert>
 	<!-- 가게 주문을 수정하는 insert 태그 -->
@@ -203,9 +204,7 @@
 			is_del='T'
 		where oi_no=#{oi_no}
 	</update>
-	
-	
-	<!-- 메뉴 목록을 검색하는 select 태그 -->
+
 	<select id='getGenderData' parameterType="string" resultType="hashmap">
 		select
 			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
@@ -305,7 +304,7 @@
 			to_char(order_time, 'q')
 			
 	</select>
-	
+		
 	<select id='getWeekData' parameterType="string" resultType="hashmap">
 		select
 			count(s_no)||'' "data", to_char(order_time, 'ww')||'주'	"label"
@@ -318,6 +317,5 @@
 			to_char(order_time, 'ww')
 			
 	</select>
-	
 	
 </mapper>

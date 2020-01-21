@@ -99,6 +99,9 @@ public class IdaController {
 			if(addrDTO.getGu().equals("null")) {
 				addrDTO.setGu("");
 			}
+			if(addrDTO.getGun().equals("null")) {
+				addrDTO.setGun("");
+			}
 			dong_list = this.idaService.getDongList(addrDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getDongList 에러발생>");
