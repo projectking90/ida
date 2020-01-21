@@ -145,4 +145,10 @@ public class MenuServiceImpl implements MenuService {
 		
 		return delete_result;
 	}
+	
+	public List<Map<String, String>> getMenuCostData(String s_id) {
+		List<Map<String,String>> cost_chart = this.menuDAO.getMenuCostData(s_id);
+		
+		return cost_chart;
+	}
 }

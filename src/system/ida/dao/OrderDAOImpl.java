@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderSearchDTO;
 import system.ida.dto.OrderUpdateDTO;
 
 /**
@@ -145,5 +146,66 @@ public class OrderDAOImpl implements OrderDAO {
 		);
 		
 		return delete_order_menu;
+	}
+	
+	public List<Map<String, String>> getGenderData(String s_id) {
+		List<Map<String,String>> gender_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getGenderData"
+				,s_id
+		);
+		
+		return gender_chart;
+	}
+	
+	public List<Map<String, String>> getAgeData(String s_id) {
+		List<Map<String,String>> age_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAgeData"
+				,s_id
+		);
+		
+		return age_chart;
+	}
+	
+	public List<Map<String, String>> getMonthData(String s_id) {
+		List<Map<String,String>> month_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthData"
+				,s_id
+		);
+		
+		return month_chart;
+	}
+	
+	public List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO){
+		List<OrderDTO> order_list = this.sqlSession.selectList(
+				sqlSessionPath + "getOrderList_analy"
+				,ordersearchDTO);
+		
+		return order_list;
+	}
+	
+	public List<Map<String, String>> getHourData(String s_id) {
+		List<Map<String,String>> hour_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getHourData"
+				,s_id
+		);
+		
+		return hour_chart;
+	}
+	
+	public List<Map<String, String>> getQuarterData(String s_id) {
+		List<Map<String,String>> quarter_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterData"
+				,s_id
+		);
+		
+		return quarter_chart;
+	}
+	public List<Map<String, String>> getWeekData(String s_id) {
+		List<Map<String,String>> week_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekData"
+				,s_id
+		);
+		
+		return week_chart;
 	}
 }

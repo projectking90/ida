@@ -26,24 +26,16 @@
 					<table><tr height=10><td></table>
 					
 					<div class="text-center">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="orderAnalysisForm" 
+						method="post" action="/ida/order_analysis_form.ida">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+								<input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
 								
-								<button class="btn btn-primary" type="button">
+								<button class="btn btn-primary list" type="button">
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
-						</form>
-					</div>
-			
-					<div class="text-right">
-						<input type="checkbox" value="주"><b>주</b>&nbsp;
-						<input type="checkbox" value="월"><b>월</b>&nbsp;
-						<input type="checkbox" value="시간"><b>시간</b>&nbsp;
-						<input type="checkbox" value="분기"><b>분기</b>&nbsp;
-						<input type="checkbox" value="성별"><b>성별</b>&nbsp;
-						<input type="checkbox" value="나이대"><b>나이대</b>
+					<table><tr height=10><td></table>
 					</div>
 	
 					<!-- DataTables Example -->
@@ -54,6 +46,26 @@
 								<button type="button" class="btn btn-primary o_chart">주문 차트</button>
 							</span>
 						</div>
+			
+					<div class="text-right">
+						
+						<input type="checkbox" value="week" name="search_condition"><b>주</b>&nbsp;
+						<input type="checkbox" value="month" name="search_condition"><b>월</b>&nbsp;
+						<input type="checkbox" value="hour" name="search_condition"><b>시간</b>&nbsp;
+						
+						<input type="checkbox" value="quarter" name="search_condition"><b>분기</b>&nbsp;
+						<b>성별 : </b> 
+						<input type="checkbox" value="남자" name="search_condition"><b>남</b>&nbsp;
+						<input type="checkbox" value="여자" name="search_condition"><b>여</b>&nbsp;
+						<b>나이대 : </b>
+						<input type="checkbox" value="10" name="search_condition"><b>10대</b>
+						<input type="checkbox" value="20" name="search_condition"><b>20대</b>
+						<input type="checkbox" value="30" name="search_condition"><b>30대</b>
+						<input type="checkbox" value="40" name="search_condition"><b>40대</b>
+						<input type="checkbox" value="50" name="search_condition"><b>50대</b>
+						<input type="checkbox" value="60" name="search_condition"><b>60대</b>
+					</div>
+					</form>
 						
 						<div class="card-body">
 						<div class="table-responsive">
@@ -72,6 +84,16 @@
 									</thead>
 									
 									<tbody>
+										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${order.oi_no}
+												<td align=center>${order.c_phone}
+												<td align=center>${order.order_menus}
+												<td align=center>${order.gender}
+												<td align=center>${order.age}대
+												<td align=center>${order.order_time}
+												<td align=center>${order.pickup_time}
+										</c:forEach>
 									</tbody>
 									
 								</table>

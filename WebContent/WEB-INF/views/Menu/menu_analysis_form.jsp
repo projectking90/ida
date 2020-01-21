@@ -26,32 +26,43 @@
 					<table><tr height=10><td></table>
 					
 					<div class="text-center">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="menuAnalysisForm" 
+						method="post" action="/ida/menu_analysis_form.ida">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+								<input type="text" name="keyword" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
 								
-								<button class="btn btn-primary" type="button">
+								<button class="btn btn-primary list" type="button">
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
-						</form>
 					</div>
 			
 					<div class="text-right">
-						<input type="checkbox" value="주"><b>주</b>&nbsp;
-						<input type="checkbox" value="월"><b>월</b>&nbsp;
-						<input type="checkbox" value="시간"><b>시간</b>&nbsp;
-						<input type="checkbox" value="분기"><b>분기</b>&nbsp;
-						<input type="checkbox" value="성별"><b>성별</b>&nbsp;
-						<input type="checkbox" value="나이대"><b>나이대</b>
+						<b>대분류 : </b>
+						<input type="checkbox" value="한식" name="search_condition">한식&nbsp;
+						<input type="checkbox" value="중식" name="search_condition">중식&nbsp;
+						<input type="checkbox" value="일식" name="search_condition">일식&nbsp;
+						<input type="checkbox" value="양식" name="search_condition">양식&nbsp;
+						<input type="checkbox" value="분식" name="search_condition">분식&nbsp;
+						<input type="checkbox" value="패스트푸드" name="search_condition">패스트푸드&nbsp;
+						<input type="checkbox" value="카페" name="search_condition">카페&nbsp;
+						<b>소분류 : </b>
+						<input type="checkbox" value="일반" name="search_condition">일반&nbsp;
+						<input type="checkbox" value="베지테리언" name="search_condition">베지테리언&nbsp;
+						<input type="checkbox" value="알레르기" name="search_condition">알레르기&nbsp;
+						<b>가격 : </b>
+						<input type="checkbox" value="5000" name="search_condition">5000원 이상&nbsp;
+						<input type="checkbox" value="10000" name="search_condition">10000원 이상&nbsp;
+						
 					</div>
+					</form>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i>메뉴 분석
 							<span name='menu_analysis_btn' style='float:right'>
-								<button type="button" class="btn btn-primary m_chart">주문 차트</button>
+								<button type="button" class="btn btn-primary m_chart">메뉴 차트</button>
 							</span>
 						</div>
 						
@@ -61,17 +72,27 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th>주문번호
-											<th>핸드폰
-											<th>주문메뉴
-											<th>성별
-											<th>나이대
-											<th>주문시간
-											<th>픽업시간
+											<td align=center><b>메뉴 번호</b></td>
+											<td align=center><b>대분류</b></td>
+											<td align=center><b>소분류</b></td>
+											<td align=center><b>메뉴이름</b></td>
+											<td align=center><b>가격(원)</b></td>
+											<td align=center><b>설명</b></td>
+											<td align=center><b>등록일</b></td>
+											
 										</tr>
 									</thead>
-									
 									<tbody>
+										<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>${menu.mi_no}
+												<td align=center>${menu.ma_code}
+												<td align=center>${menu.mb_code}
+												<td align=center>${menu.mi_name}
+												<td align=center>${menu.price}
+												<td align=center>${menu.mi_comment}
+												<td align=center>${menu.reg_date}
+										</c:forEach>
 									</tbody>
 									
 								</table>

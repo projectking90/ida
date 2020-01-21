@@ -17,7 +17,17 @@ public class MenuSearchDTO {
 	private int select_page_no;
 	private int row_cnt_per_page;
 	private String s_id;
+	private String[] search_condition;
 	
+	
+	public String[] getSearch_condition() {
+		return search_condition;
+	}
+
+	public void setSearch_condition(String[] search_condition) {
+		this.search_condition = search_condition;
+	}
+
 	/**
 	 * 생성자 선언
 	 */

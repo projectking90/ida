@@ -16,7 +16,15 @@
 			"language": {
 				"search": "결과 내 검색 : "
 			}
+		});	
+		
+		$(".list").click(function(){
+			menu_list();
 		});
+		
+		<c:forEach items="${menu_searchDTO.search_condition}" var="search_condition">
+			inputData("[name=search_condition]","${search_condition}");
+		</c:forEach>
 		
 		$(".m_chart").click(function(){
 			location.replace("${cr}/menu_analysis_chart_form.ida");

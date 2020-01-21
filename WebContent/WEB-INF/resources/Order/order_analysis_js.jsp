@@ -17,6 +17,13 @@
 				"search": "결과 내 검색 : "
 			}
 		});
+				
+		$(".list").click(function(){
+			order_list();
+		});
+		<c:forEach items="${ordersearchDTO.search_condition}" var="search_condition">
+			inputData("[name=search_condition]","${search_condition}");
+		</c:forEach>
 		
 		$(".o_chart").click(function(){
 			location.replace("${cr}/order_analysis_chart_form.ida");

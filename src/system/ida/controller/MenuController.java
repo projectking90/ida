@@ -6,6 +6,7 @@ package system.ida.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.ChartDTO;
 import system.ida.dto.CodeMenuDTO;
 import system.ida.dto.IngredientListDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuSearchDTO;
+import system.ida.dto.OrderDTO;
 import system.ida.service.MenuService;
 
 /**
@@ -251,12 +254,17 @@ public class MenuController {
 	@RequestMapping(value="/menu_analysis_form.ida")
 	public ModelAndView goMenuAnalysisForm(
 		HttpSession session
+		,MenuSearchDTO menu_searchDTO
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "menu_analysis_form");
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			menu_searchDTO.setS_id(s_id);
+			List<MenuDTO> menu_list = this.menuService.getMenuList(menu_searchDTO);
+			mav.addObject("menu_searchDTO",menu_searchDTO);
+			mav.addObject("menu_list", menu_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goMenuAnalysisForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -285,5 +293,39 @@ public class MenuController {
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/menu_analysis_chart.ida")
+	@ResponseBody
+	public ChartDTO getMenuChartData(
+			HttpSession session
+			, @RequestParam(value="chart_search") String chart_search)
+	{
+		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
+
+		try {
+			String s_id = (String)session.getAttribute("s_id");
+			
+			if(chart_search.equals("코스트")) {
+				List<Map<String,String>> cost_chart = this.menuService.getMenuCostData(s_id);
+				List<String> label = new ArrayList<String>();
+					for(int i=0; i<cost_chart.size(); i++) {
+						label.add(cost_chart.get(i).get("label"));
+					}
+				List<String> data1 = new ArrayList<String>();
+					for(int i=0; i<cost_chart.size(); i++) {
+							data1.add(cost_chart.get(i).get("data"));
+					}
+					chart_data.setLabel(label);
+					chart_data.setData1(data1);
+				
+			}
+					
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<getOrderChartData 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return chart_data;
 	}
 }

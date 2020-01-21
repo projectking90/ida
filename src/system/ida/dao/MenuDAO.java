@@ -37,4 +37,5 @@ public interface MenuDAO {
 	int deleteStoreMenu(Map<String, String> trData);	// 가게 메뉴 삭제
 	int insertMenuIngredient(MenuDTO menuDTO);
 	int deleteMenuIngredient(Map<String, String> trData);	// 메뉴 식자재 삭제
+	List<Map<String, String>> getMenuCostData(String s_id);
 }

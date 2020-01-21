@@ -9,6 +9,7 @@ import java.util.Map;
 
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
+import system.ida.dto.OrderSearchDTO;
 import system.ida.dto.OrderUpdateDTO;
 
 /**
@@ -42,4 +43,18 @@ public interface OrderDAO {
 	int insertOrderMenuOne(Map<String, String> trData);
 
 	int insertStoreOrder(OrderDTO orderDTO);
+
+	List<Map<String, String>> getGenderData(String s_id);
+
+	List<Map<String, String>> getAgeData(String s_id);
+
+	List<Map<String, String>> getMonthData(String s_id);
+
+	List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO);
+
+	List<Map<String, String>> getHourData(String s_id);
+
+	List<Map<String, String>> getQuarterData(String s_id);
+
+	List<Map<String, String>> getWeekData(String s_id);
 }

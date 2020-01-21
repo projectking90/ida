@@ -38,13 +38,8 @@
 					</div>
 			
 					<div class="text-right">
-						<select name="">
-							<option value='주'>주
-							<option value='월'>월
-							<option value='시간'>시간
-							<option value='분기'>분기
-							<option value='성별'>성별
-							<option value='나이대'>나이대
+						<select name="chart_search">
+							<option value='코스트'>코스트
 						</select>
 					</div>
 					
@@ -60,7 +55,7 @@
 						</div>
 						
 						<div class="card-body">
-							<canvas id="myAreaChart" width="100%" height="30"></canvas>
+							<canvas id=myMonthChart width="100%" height="30"></canvas>
 						</div>
 							
 					</div>
