@@ -159,4 +159,11 @@ public class StockServiceImpl implements StockService {
 		return week_chart;
 	}
 */	
+
+	@Override
+	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
+		List<StockDTO> stock_anl_list = this.stockDAO.getStockAnlList(stock_searchDTO);
+		return stock_anl_list;
+	}
+
 }

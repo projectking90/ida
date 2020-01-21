@@ -153,4 +153,20 @@
 			i_name
 	</select>
 -->
+
+	<select id="getStockAnlList" resultType="system.ida.dto.StockDTO">
+        select
+            str.st_no as "st_no"
+            ,(select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=(select i.ia_code from ingredient i where i.i_no=st.i_no)) as "ia_name"
+            ,(select ib.ib_name from code_ingredient_beta ib where ib.ib_code=(select i.ib_code from ingredient i where i.i_no=st.i_no))  as "ib_name"
+            ,(select io.io_name from code_ingredient_origin io where io.io_code=(select i.io_code from ingredient i where i.i_no=st.i_no))  as "io_name"
+            ,(select i.i_name from ingredient i where i.i_no=st.i_no) as "i_name"
+            ,(select i.i_size from ingredient i where i.i_no=st.i_no) as "i_size"
+            ,str.quantity as "quantity"
+             ,to_char(str.reg_date, 'yyyy-mm-dd(dy) hh:mi') as "reg_date"
+            ,to_char((select i.i_price from ingredient i where i.i_no=st.i_no), '9,999,999,999') as "i_price"
+		from stock st, stock_record str
+		where st.is_del='F' and str.quantity>0
+			and st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id}))
+	</select>
 </mapper>

@@ -22,6 +22,8 @@ public interface StockService {
 	 * 속성변수 선언
 	 */
 
+
+
 	/**
 	 * 메소드 선언
 	 */
@@ -31,4 +33,5 @@ public interface StockService {
 	int updateStock(ArrayList<String> stock_update);	// 재고 수정
 	int deleteStock(ArrayList<String> stock_delete);	// 재고 삭제
 	//List<Map<String, String>> getStockWeekData(String s_id); // 주간 데이터 재고 수량 차트 데이터 가져오기
+	List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO); // 차트 재고 테이블 목록 가져오기
 }
