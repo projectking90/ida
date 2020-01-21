@@ -16,6 +16,7 @@
 		<div class="container">
 			<div class="card card-login mx-auto mt-5">
 				<div class="card-header">로그인</div>
+				
 				<div class="card-body">
 					<form name="user_info_form">
 						<div class="form-group">
@@ -26,6 +27,7 @@
 								<label for="inputSId">아이디</label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="password"
@@ -37,15 +39,18 @@
 						</div>
 					</form>
 				</div>
+				
 				<a class="btn btn-primary btn-block login">로그인</a>
+				
+				<div class="form-group"></div>
+				
 				<div class="text-center">
-					<a class="d-block small mt-3 register">[회원가입]</a>
+					<a class="d-done small mt-3 register">[회원가입]</a>
+					&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+					<a class="d-done small mt-3 manager">[관리자모드]</a>
 				</div>
-				<div class="text-center">
-					<a class="d-block small mt-3 manager">[관리자모드]</a>
-				</div><div class="text-center">
-					<a class="d-block small mt-3">&nbsp;</a>
-				</div>
+				
+				<div class="form-group"></div>
 			</div>
 		</div>
 	</body>

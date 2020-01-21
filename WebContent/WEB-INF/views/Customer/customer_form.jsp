@@ -14,13 +14,11 @@
 	</head>
 
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
@@ -29,13 +27,13 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 고객 현황
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=3><b>고객 번호</b></td>
+											<td align=center><b>번호</b></td>
 											<td align=center><b>핸드폰</b></td>
 											<td align=center><b>성별</b></td>
 											<td align=center><b>나이대</b></td>
@@ -44,9 +42,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${customer_list}" var="customer" varStatus="loopTagStatus">
+										<c:forEach items="${customer_list}" var="customer">
 											<tr>
-												<td align=center>${loopTagStatus.index+1}</td>
+												<td align=center></td>
 												<td align=center>${customer.c_phone}</td>
 												<td align=center>${customer.gender}</td>
 												<td align=center>${customer.age}대</td>
@@ -58,18 +56,18 @@
 								</table>
 							</div>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

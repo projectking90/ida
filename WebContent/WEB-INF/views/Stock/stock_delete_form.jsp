@@ -13,13 +13,11 @@
 		<title>재고삭제</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
@@ -27,18 +25,17 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
-							<span name=stock_form style='float:right'>
+							<span style='float:right'>
 								<input type="button" class="btn btn-danger delete" value="재고 삭제">
 							</span>
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=3></td>
-											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>선택</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>원산지</b></td>
@@ -50,10 +47,11 @@
 											<td align=center><b>날짜</b></td>
 										</tr>
 									</thead>
-										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
-											<tr style="cursor:pointer" class="stock_list_tr">
-												<td align=center><input type="checkbox" name="delete_stock" value='${stock.st_no}'>
-												<td align=center>${loopTagStatus.index+1}
+									<tbody>
+										<c:forEach items="${stock_list}" var="stock">
+											<tr class="stock_list_tr">
+												<td align=center>
+													<input type="checkbox" name="delete_stock" value='${stock.st_no}'>
 												<td align=center class="ia_name">${stock.ia_name}
 												<td align=center class="ib_name">${stock.ib_name}
 												<td align=center class="io_name">${stock.io_name}
@@ -61,24 +59,26 @@
 												<td align=center class="i_size">${stock.i_size}
 												<td align=center class="quantity">${stock.quantity}
 												<td align=center class="st_state">${stock.st_state}
-												<td align=center class="i_price">${stock.i_price}
+												<td align=right class="i_price">${stock.i_price}
 												<td align=center class="reg_date">${stock.reg_date}
 											</tr>
 										</c:forEach>
+									</tbody>
 								</table>
 							</div>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

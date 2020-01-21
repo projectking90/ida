@@ -12,7 +12,7 @@
 
 <script>
 	$(document).ready(function(){
-		$('#dataTable').DataTable();
+		setDataTable('#dataTable');
 		setCardFooter("stock", "${cr}");
 		
 		$(".update").click(function(){

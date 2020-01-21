@@ -13,8 +13,7 @@
 		<title>주문관리</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
@@ -27,18 +26,18 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 주문 현황
-							<span name=stock_form style='float:right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary update" value="주문 수정"> 주문 수정 </button>
 								<button type="button" class="btn btn-danger delete" value="주문 삭제"> 주문 삭제 </button>
 							</span>
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=3><b>주문번호</b></td>
+											<td align=center><b>번호</b></td>
 											<td align=center><b>핸드폰</b></td>
 											<td align=center><b>주문메뉴</b></td>
 											<td align=center><b>성별</b></td>
@@ -50,7 +49,7 @@
 									<tbody>
 										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
 											<tr>
-												<td align=center>${order.oi_no}
+												<td align=center>
 												<td align=center>${order.c_phone}
 												<td align=center>${order.order_menus}
 												<td align=center>${order.gender}
@@ -62,15 +61,17 @@
 								</table>
 							</div>
 						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
+						
+						<div class="card-footer small text-muted">
+							Updated yesterday at 11:59 PM
+						</div>
 					</div>
 	
 					<!--추가-->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 주문 추가 <span name=order_insert_form
-								style='float: right'>
+							<i class="fas fa-table"></i> 주문 추가
+							<span style='float: right'>
 								<button type="button" class="btn btn-primary" value='주문메뉴 추가'
 									onClick='append_menu_tr_btn();'>메뉴 +</button>
 								<button type="button" class="btn btn-danger" value='주문메뉴 삭제'
@@ -78,52 +79,50 @@
 								<button type="button" class="btn btn-success insert" value='주문 추가'>주문 추가완료</button>
 							</span>
 						</div>
+						
 						<div class="card-body">
-							<form name="insertOrderForm" method="post" action="/ida/order_insert.ida">
-							<table class="table table-bordered" id="insertMenuTable"
-								cellspacing="0">
-								<!--select option 으로 바꿀 예정-->
-								<tr>
-									<th>핸드폰
-									<th><input type="text" name="c_phone">
-										<input type="hidden" name="s_id" value="${sessionScope.s_id}">
-									<th>성별
-									<th>
-										<select name="gender">
-											<option value="1">남</option>
-											<option value="2">여</option>
+							<form name="insertOrderForm" method="post" action="${cr}/order_insert.ida">
+								<table class="table table-bordered" id="insertOrderTable">
+									<tr>
+										<th>핸드폰
+										<th><input type="text" name="c_phone">
+										<th>성별
+										<th>
+											<select name="gender">
+												<option value="1">남</option>
+												<option value="2">여</option>
+											</select>
+									<tr>
+										<th>나이대
+										<th>
+											<select name="age">
+												<option value="10">10대</option>
+												<option value="20">20대</option>
+												<option value="30">30대</option>
+												<option value="40">40대</option>
+												<option value="50">50대</option>
+												<option value="60">60대</option>
+											</select>
+										<th>픽업시간
+										<th>
+										<select name="pickup_time">
+											<option value="5">5분</option>
+											<option value="10">10분</option>
+											<option value="15">15분</option>
+											<option value="30">30분</option>
+											<option value="60">60분</option>
 										</select>
-								<tr>
-									<th>나이대
-									<th>
-										<select name="age">
-											<option value="10">10대</option>
-											<option value="20">20대</option>
-											<option value="30">30대</option>
-											<option value="40">40대</option>
-											<option value="50">50대</option>
-											<option value="60">60대</option>
-										</select>
-									<th>픽업시간
-									<th>
-									<select name="pickup_time">
-										<option value="5">5분</option>
-										<option value="10">10분</option>
-										<option value="15">15분</option>
-										<option value="30">30분</option>
-										<option value="60">60분</option>
-									</select>
-								<tr>
-									<th>메뉴
-									<th>
-										<select name="mi_name" class="mi_name">
-											<c:forEach items="${menu_listDTO.mi_nameList}" var="mi_nameList" varStatus="loopTagStatus">
-												<option value="${mi_nameList.mi_name}">${mi_nameList.mi_name}</option>
-											</c:forEach>
-										</select>
-									<th>수량
-									<th><input type="text" name="quantity" class="quantity">
-							</table>
+									<tr>
+										<th>메뉴
+										<th>
+											<select name="mi_name" class="mi_name">
+												<c:forEach items="${menu_listDTO.mi_nameList}" var="mi_nameList" varStatus="loopTagStatus">
+													<option value="${mi_nameList.mi_name}">${mi_nameList.mi_name}</option>
+												</c:forEach>
+											</select>
+										<th>수량
+										<th><input type="text" name="quantity" class="quantity">
+								</table>
 							</form>
 						</div>
 					</div>

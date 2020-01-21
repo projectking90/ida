@@ -13,6 +13,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", login_bg_img);
 		$(".login").click(function(){
 			checkLogin("${cr}");
 		});

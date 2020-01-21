@@ -12,7 +12,7 @@
 
 <script>
 	$(document).ready(function(){
-		$('#dataTable').DataTable();
+		setDataTable('#dataTable');
 		setCardFooter("menu_info", "${cr}");
 		
 		$(".update").click(function(){

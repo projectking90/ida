@@ -13,13 +13,11 @@
 		<title>재고관리</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
@@ -27,18 +25,18 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
-							<span name=stock_form style='float:right'>
+							<span style='float:right'>
 								<input type="button" class="btn btn-primary update" value="재고 수정">
-								<input type="button" class="btn btn-danger delete"value="재고 삭제">
+								<input type="button" class="btn btn-danger delete" value="재고 삭제">
 							</span>
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>원산지</b></td>
@@ -51,10 +49,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
-											<tr style="cursor:pointer">
-												<td align=center>${loopTagStatus.index+1}
-													<input type="hidden" name="st_no" value="${stock.st_no}">
+										<c:forEach items="${stock_list}" var="stock">
+											<tr>
+												<td align=center>
 												<td align=center>${stock.ia_name}
 												<td align=center>${stock.ib_name}
 												<td align=center>${stock.io_name}
@@ -62,7 +59,7 @@
 												<td align=center>${stock.i_size}
 												<td align=center>${stock.quantity}
 												<td align=center>${stock.st_state}
-												<td align=center>${stock.i_price}
+												<td align=right>${stock.i_price}
 												<td align=center>${stock.reg_date}
 											</tr>
 										</c:forEach>
@@ -70,6 +67,7 @@
 								</table>
 							</div>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 	
@@ -77,21 +75,19 @@
 					<form name="insert_stock_form">
 						<div class="card mb-3">
 							<div class="card-header">
-								<i class="fas fa-table"></i> 재고 추가 <span name=stock_insert_form
-									style='float: right'> 
+								<i class="fas fa-table"></i> 재고 추가
+								<span style='float:right'> 
 									<input type='button' class="btn btn-success insert" value='재고 추가'>
 								</span>
-							<br>
 							</div>
+							
 							<div class="card-body">
-								<table class="table" id="dataTable" width="100%" cellspacing="0">
-									<!--select option 으로 바꿀 예정-->
-									<!-- 추가 : 식자재명, 재고상태, 수량 -->
+								<table class="table table-bordered" id="insertStockTable">
 									<tr>
 										<th>식자재명
 										<th>
 											<select name="i_no" class="i_no">
-												<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
+												<c:forEach items="${ingredient_list}" var="ingredient">
 													<option value="${ingredient.i_no}">${ingredient.i_name}
 												</c:forEach>
 											</select>
@@ -102,8 +98,8 @@
 										<th>상태
 										<th>
 											<select name="st_state" class="st_state">
-													<option value='t'>t
-													<option value='f'>f
+												<option value='t'>t
+												<option value='f'>f
 											</select>
 								</table>
 							</div>
@@ -111,13 +107,13 @@
 					</form>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

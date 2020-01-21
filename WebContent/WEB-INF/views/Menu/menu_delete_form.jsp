@@ -13,57 +13,54 @@
 		<title>메뉴 삭제</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i>메뉴 현황 <span name=stock_form
-								style='float: right'>
+							<i class="fas fa-table"></i> 메뉴 현황
+							<span style='float: right'>
 								<button type="button" class="btn btn-danger delete">메뉴 삭제완료</button>
 							</span>
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-							<form name="deleteMenuForm" method="post" action="/ida/menu_delete.ida">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-									<tr>
-										<td align=center resize=1><b>선택</b>
-										<td align=center resize=3><b>메뉴 번호</b></td>
-										<td align=center><b>대분류</b></td>
-										<td align=center><b>소분류</b></td>
-										<td align=center><b>메뉴이름</b></td>
-										<td align=center><b>가격</b></td>
-										<td align=center><b>설명</b></td>
-									</tr>
-									</thead>
-									<tbody>
-									<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
-									<tr class="menu_list_tr">
-										<td border="0" align=center>
-											<input type="checkbox" name="delete_menu" value="${menu.mi_no}">
-										<td align=center>${menu.mi_no}
-										<td align=center>${menu.ma_code}
-										<td align=center>${menu.mb_code}
-										<td align=center>${menu.mi_name}
-										<td align=center>${menu.price}
-										<td align=center>${menu.mi_comment}
-									</c:forEach>
-									</tbody>
-								</table>
-							</form>
+								<form name="deleteMenuForm" method="post" action="${cr}/menu_delete.ida">
+									<table class="table" id="dataTable">
+										<thead>
+											<tr>
+												<td align=center><b>선택</b>
+												<td align=center><b>대분류</b></td>
+												<td align=center><b>소분류</b></td>
+												<td align=center><b>메뉴이름</b></td>
+												<td align=center><b>가격(원)</b></td>
+												<td align=center><b>설명</b></td>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${menu_list}" var="menu">
+												<tr class="menu_list_tr">
+													<td align=center>
+														<input type="checkbox" name="delete_menu" value="${menu.mi_no}">
+													<td align=center>${menu.ma_code}
+													<td align=center>${menu.mb_code}
+													<td align=center>${menu.mi_name}
+													<td align=right>${menu.price}
+													<td align=center>${menu.mi_comment}
+											</c:forEach>
+										</tbody>
+									</table>
+								</form>
 							</div>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>

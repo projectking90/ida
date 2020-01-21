@@ -88,13 +88,14 @@ public class OrderController {
 			,@RequestParam(value="quantityArr") ArrayList<String> quantitys
 			, HttpSession session
 			) {
-		
 		int insert_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
 		int order_menu_insert = 0;
 		
 		try {
-			insert_result = this.orderService.insertStoreOrder(orderDTO);
 			String s_id = (String)session.getAttribute("s_id");
+			orderDTO.setS_id(s_id);
+			
+			insert_result = this.orderService.insertStoreOrder(orderDTO);
 			
 			order_menu_insert = this.orderService.insertOrderMenuOne(mi_names,quantitys, s_id);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
@@ -126,7 +127,6 @@ public class OrderController {
 			menu_listDTO.setMi_nameList(menu_list);
 			mav.addObject("menu_listDTO", menu_listDTO);
 			
-			
 			List<OrderUpdateDTO> order_list = this.orderService.getOrderList_sepa_quan(s_id);
 			mav.addObject("order_list", order_list);
 		} catch (Exception e) { // try 구문에서 예외가 발생하면 실행할 구문 설정
@@ -150,7 +150,6 @@ public class OrderController {
 	) {
 		int update_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
 
-		System.out.print("updatecheck");
 		try {
 			 update_result = this.orderService.updateStoreOrder(order_update); 
 			

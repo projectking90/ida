@@ -13,74 +13,72 @@
 		<title>메뉴 수정</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 메뉴 수정 <span name=menu_insert_form
-								style='float: right'>
+							<i class="fas fa-table"></i> 메뉴 수정
+							<span style='float: right'>
 								<button type="button" class="btn btn-primary update">메뉴 수정완료</button>
 							</span>
 						</div>
+						
 						<div class="card-body">
-							<form name="updateMenuForm" method="post" action="/ida/menu_update.ida">
-							<table class="table" id="dataTable" width="100%"
-								cellspacing="0">
-									<thead>
-										<tr>
-											<td align=center resize=3><b>메뉴 번호</b></td>
-											<td align=center><b>대분류</b></td>
-											<td align=center><b>소분류</b></td>
-											<td align=center><b>메뉴이름</b></td>
-											<td align=center><b>가격</b></td>
-											<td align=center><b>설명</b></td>
-											<td align=center><b>등록일</b></td>
-											
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
-										<tr class="menu_list_tr">
-											<td align=center>${menu.mi_no}
-															<input type="hidden" name="mi_no" value="${menu.mi_no}">
-											<td align=center>
-												<select name="ma_code">
-													<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList" varStatus="loopTagStatus">
-														<option value="${ma_nameList.ma_name}"
-														${menu.ma_code == ma_nameList.ma_name ? 'selected="selected"' : '' }
-														>${ma_nameList.ma_name}</option>
-													</c:forEach>
-												</select>
-											<td align=center>
-												<select name="mb_code">
-													<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList" varStatus="loopTagStatus">
-														<option value="${mb_nameList.mb_name}" 
-														${menu.mb_code == mb_nameList.mb_name ? 'selected="selected"' : '' }
-														>${mb_nameList.mb_name}</option>
-													</c:forEach>
-												</select>
-											<td align=center>
-												<b><input type="text" name="mi_name" value="${menu.mi_name}"></b>
-											<td align=center>
-												<b><input type="text" name="price" value="${menu.price}"></b>
-											<td align=center>
-												<b><input type="text" name="mi_comment" value="${menu.mi_comment}"></b>
-											<td align=center>${menu.reg_date}
-															<input type="hidden" name="s_id" value="${sessionScope.s_id}">
-										</c:forEach>
-									</tbody>
-							</table>
+							<form name="updateMenuForm" method="post" action="${cr}/menu_update.ida">
+								<table class="table" id="dataTable">
+										<thead>
+											<tr>
+												<td align=center><b>번호</b></td>
+												<td align=center><b>대분류</b></td>
+												<td align=center><b>소분류</b></td>
+												<td align=center><b>메뉴이름</b></td>
+												<td align=center><b>가격(원)</b></td>
+												<td align=center><b>설명</b></td>
+												<td align=center><b>등록일</b></td>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${menu_list}" var="menu">
+											<tr class="menu_list_tr">
+												<td align=center>
+													<input type="hidden" name="mi_no" value="${menu.mi_no}">
+												<td>
+													<select name="ma_code">
+														<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList">
+															<option value="${ma_nameList.ma_name}"
+															${menu.ma_code == ma_nameList.ma_name ? 'selected="selected"' : '' }
+															>${ma_nameList.ma_name}</option>
+														</c:forEach>
+													</select>
+												<td>
+													<select name="mb_code">
+														<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList">
+															<option value="${mb_nameList.mb_name}" 
+															${menu.mb_code == mb_nameList.mb_name ? 'selected="selected"' : '' }
+															>${mb_nameList.mb_name}</option>
+														</c:forEach>
+													</select>
+												<td>
+													<input type="text" name="mi_name" value="${menu.mi_name}">
+												<td>
+													<input type="text" name="price" value="${menu.price}">
+												<td>
+													<input type="text" name="mi_comment" value="${menu.mi_comment}">
+												<td align=center>${menu.reg_date}
+													<input type="hidden" name="s_id" value="${sessionScope.s_id}">
+											</c:forEach>
+										</tbody>
+								</table>
 							</form>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>

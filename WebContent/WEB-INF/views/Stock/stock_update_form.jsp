@@ -13,13 +13,11 @@
 		<title>재고수정</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
@@ -27,17 +25,17 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
-							<span name=stock_form style='float:right'>
+							<span style='float:right'>
 								<input type="button" class="btn btn-primary update" value="재고 수정완료">
 							</span>
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>원산지</b></td>
@@ -49,16 +47,18 @@
 											<td align=center><b>날짜</b></td>
 										</tr>
 									</thead>
-										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
-											<tr class="stock_list_tr" style="cursor:pointer">
-												<td align=center>${loopTagStatus.index+1}
+									<tbody>
+										<c:forEach items="${stock_list}" var="stock">
+											<tr class="stock_list_tr">
+												<td align=center>
 													<input type="hidden" name="st_no" value="${stock.st_no}">
 												<td align=center>${stock.ia_name}
 												<td align=center>${stock.ib_name}
 												<td align=center>${stock.io_name}
 												<td align=center>${stock.i_name}
 												<td align=center>${stock.i_size}
-												<td align=center><input type="text" name="quantity" size=6 value="${stock.quantity}">
+												<td>
+													<input type="text" name="quantity" size=6 value="${stock.quantity}">
 												<td align=center>
 													<select name="st_state">
 														<option value="${stock.st_state}">${stock.st_state}
@@ -69,25 +69,27 @@
 															<option value="t">t
 														</c:if>
 													</select>
-												<td align=center>${stock.i_price}
+												<td align=right>${stock.i_price}
 												<td align=center>${stock.reg_date}
 											</tr>
 										</c:forEach>
+									</tbody>
 								</table>
 							</div>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
 	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
+		
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>
 	

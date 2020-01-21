@@ -13,13 +13,11 @@
 		<title>메뉴 관리</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
@@ -27,19 +25,18 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 메뉴 현황
-							<span name=stock_form style='float:right'>
-								<button type="button" class="btn btn-primary update" value="메뉴 수정"> 메뉴 수정 </button>
-								<button type="button" class="btn btn-danger delete" value="메뉴 삭제"> 메뉴 삭제 </button>
+							<span style='float:right'>
+								<button type="button" class="btn btn-primary update"> 메뉴 수정 </button>
+								<button type="button" class="btn btn-danger delete"> 메뉴 삭제 </button>
 							</span>
 						</div>
 						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=3><b>메뉴 번호</b></td>
+											<td align=center><b>번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>메뉴이름</b></td>
@@ -50,13 +47,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${menu_list}" var="menu" varStatus="loopTagStatus">
+										<c:forEach items="${menu_list}" var="menu">
 											<tr>
-												<td align=center>${menu.mi_no}
+												<td align=center>
 												<td align=center>${menu.ma_code}
 												<td align=center>${menu.mb_code}
 												<td align=center>${menu.mi_name}
-												<td align=center>${menu.price}
+												<td align=right>${menu.price}
 												<td align=center>${menu.mi_comment}
 												<td align=center>${menu.reg_date}
 										</c:forEach>
@@ -64,69 +61,69 @@
 								</table>
 							</div>
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 	
 					<!--추가-->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 메뉴 추가 <span name=menu_insert_form
-								style='float: right'>
+							<i class="fas fa-table"></i> 메뉴 추가
+							<span style='float:right'>
 								<button type="button" class="btn btn-success insert">메뉴 추가</button>
 							</span>
 						</div>
+						
 						<div class="card-body">
-							<form name="insertMenuForm" method="post" action="/ida/menu_insert.ida">
-							<table class="table" id="dataTable" width="100%"
-								cellspacing="0">
-								<!--select option 으로 바꿀 예정-->
-								<tr>
-									<th>대분류
-									<th>
-										<select name="ma_code">
-											<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList" varStatus="loopTagStatus">
-												<option value="${ma_nameList.ma_name}">${ma_nameList.ma_name}</option>
-											</c:forEach>
-										</select>
-								<tr>
-									<th>소분류
-									<th>
-										<select name="mb_code">
-											<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList" varStatus="loopTagStatus">
-												<option value="${mb_nameList.mb_name}">${mb_nameList.mb_name}</option>
-											</c:forEach>
-										</select>
-								<tr>
-									<th>식자재
-									<th>
-									<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
-										<form:checkboxes path="i_name" 
-										items="${ingredient_listDTO.i_nameList}" itemLabel="i_name" itemValue="i_name" />
-									</form:form>
-								<tr>
-									<th>메뉴이름
-									<th><input type="text" name="mi_name">
-								<tr>
-									<th>가격
-									<th><input type="text" name="price">
-								<tr>
-									<th>설명
-									<th><input type="text" name="mi_comment">
-										<input type="hidden" name="s_id" value="${sessionScope.s_id}">
-							</table>
+							<form name="insertMenuForm" method="post" action="${cr}/menu_insert.ida">
+								<table class="table table-bordered" id="insertMenuTable">
+									<tr>
+										<th>대분류
+										<th>
+											<select name="ma_code">
+												<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList" varStatus="loopTagStatus">
+													<option value="${ma_nameList.ma_name}">${ma_nameList.ma_name}</option>
+												</c:forEach>
+											</select>
+									<tr>
+										<th>소분류
+										<th>
+											<select name="mb_code">
+												<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList" varStatus="loopTagStatus">
+													<option value="${mb_nameList.mb_name}">${mb_nameList.mb_name}</option>
+												</c:forEach>
+											</select>
+									<tr>
+										<th>식자재
+										<th>
+										<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+											<form:checkboxes path="i_name" 
+											items="${ingredient_listDTO.i_nameList}" itemLabel="i_name" itemValue="i_name"/>
+										</form:form>
+									<tr>
+										<th>메뉴이름
+										<th><input type="text" name="mi_name">
+									<tr>
+										<th>가격
+										<th><input type="text" name="price">
+									<tr>
+										<th>설명
+										<th><input type="text" name="mi_comment">
+											<input type="hidden" name="s_id" value="${sessionScope.s_id}">
+								</table>
 							</form>
 						</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
-	
+
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
+		
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>
 	

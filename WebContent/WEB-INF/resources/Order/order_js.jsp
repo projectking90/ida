@@ -12,7 +12,7 @@
 
 <script>
 	$(document).ready(function(){
-		$('#dataTable').DataTable();
+		setDataTable('#dataTable');
 		
 		$(".insert").click(function(){
 			insert_order_reg("${cr}");
@@ -24,6 +24,12 @@
 	
 		$(".delete").click(function(){
 			location.replace("${cr}/order_delete_form.ida");
+		});
+		
+		$("[name=insertOrderForm] [name=c_phone]").keyup(function(){
+			var str = new String($(this).val());
+			str = str.replace("-", "");
+			$(this).val(str);
 		});
 	});
 	

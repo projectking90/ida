@@ -12,6 +12,6 @@
 
 <script>
 	$(document).ready(function(){
-		$('#dataTable').DataTable();
+		setDataTable('#dataTable');
 	});
 </script>

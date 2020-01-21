@@ -13,8 +13,7 @@
 		<title>주문삭제</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
@@ -26,19 +25,18 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 주문 현황 <span name=order_form
-								style='float: right'> 
+							<i class="fas fa-table"></i> 주문 현황
+							<span style='float:right'> 
 								<button type="button" class="btn btn-danger delete">주문 삭제완료</button>
 							</span>
 						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=1><b>선택</b>
-											<td align=center resize=3><b>주문번호</b></td>
+											<td align=center><b>선택</b>
 											<td align=center><b>핸드폰</b></td>
 											<td align=center><b>주문메뉴</b></td>
 											<td align=center><b>성별</b></td>
@@ -47,11 +45,11 @@
 											<td align=center><b>픽업시간</b></td>
 										</tr>
 									</thead>
-										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
+									<tbody>
+										<c:forEach items="${order_list}" var="order">
 											<tr class="order_list_tr">
-												<td border="0" align=center>
+												<td align=center>
 													<input type="checkbox" name="delete_order" value="${order.oi_no}">
-												<td align=center>${order.oi_no}
 												<td align=center>${order.c_phone}
 												<td align=center>${order.order_menus}
 												<td align=center>${order.gender}
@@ -59,11 +57,14 @@
 												<td align=center>${order.order_time}
 												<td align=center>${order.pickup_time}
 										</c:forEach>
+									</tbody>
 								</table>
 							</div>
 						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
+						
+						<div class="card-footer small text-muted">
+							Updated yesterday at 11:59 PM
+						</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->

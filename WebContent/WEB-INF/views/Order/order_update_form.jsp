@@ -13,8 +13,7 @@
 		<title>주문수정</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
@@ -26,40 +25,39 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 주문 수정 <span name=order_insert_form
-								style='float: right'>
+							<i class="fas fa-table"></i> 주문 수정
+							<span style='float: right'>
 								<button type="button" class="btn btn-primary update">주문 수정완료</button>
 							</span>
 						</div>
+						
 						<div class="card-body">
-							<table class="table" id="dataTable" width="100%"
-								cellspacing="0">
-									<thead>
-										<tr>
-											<td align=center resize=3><b>주문번호</b></td>
-											<td align=center><b>핸드폰</b></td>
-											<td align=center><b>주문메뉴</b></td>
-											<td align=center><b>수량</b></td>
-											<td align=center><b>성별</b></td>
-											<td align=center><b>나이대</b></td>
-											<td align=center><b>주문시간</b></td>
-											<td align=center><b>픽업시간</b></td>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
+							<table class="table" id="dataTable">
+								<thead>
+									<tr>
+										<td align=center><b>번호</b></td>
+										<td align=center><b>핸드폰</b></td>
+										<td align=center><b>주문메뉴</b></td>
+										<td align=center><b>수량</b></td>
+										<td align=center><b>성별</b></td>
+										<td align=center><b>나이대</b></td>
+										<td align=center><b>주문시간</b></td>
+										<td align=center><b>픽업시간</b></td>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${order_list}" var="order">
 										<tr class="order_list_tr">
-											<td align=center>${order.oi_no}
-															<input type="hidden" name="oi_no" value="${order.oi_no}">
 											<td align=center>
-															<input type="text" name="c_phone" value="${order.c_phone}">
+												<input type="hidden" name="oi_no" value="${order.oi_no}">
+											<td align=center>
+												<input type="text" name="c_phone" value="${order.c_phone}">
 											<td align=center>
 												<select name="mi_name">
 													<c:forEach items="${menu_listDTO.mi_nameList}" var="mi_nameList" varStatus="loopTagStatus">
 														<option value="${mi_nameList.mi_name}" 
 														${order.mi_name == mi_nameList.mi_name ? 'selected="selected"' : '' }
 														>${mi_nameList.mi_name}</option>
-														
 													</c:forEach>
 												</select>
 											<td align=center>
@@ -79,15 +77,17 @@
 													<option value="60" <c:if test="${order.age == '60'}">selected</c:if> >60대</option>
 												</select>
 											<td align=center>${order.order_time}
-															<input type="hidden" name="s_id" value="${sessionScope.s_id}">
+												<input type="hidden" name="s_id" value="${sessionScope.s_id}">
 											<td align=center>
 												<b><input type="text" name="pickup_time" value="${order.pickup_time}"></b>
-										</c:forEach>
-									</tbody>
+									</c:forEach>
+								</tbody>
 							</table>
 						</div>
-						<div class="card-footer small text-muted">Updated yesterday
-							at 11:59 PM</div>
+						
+						<div class="card-footer small text-muted">
+							Updated yesterday at 11:59 PM
+						</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->

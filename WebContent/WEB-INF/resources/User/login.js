@@ -1,6 +1,7 @@
 function checkLogin(cr){
-	var s_id = "[name=user_info_form] [name=s_id]";
-	var pwd = "[name=user_info_form] [name=pwd]";
+	var form = "[name=user_info_form]";
+	var s_id = form + " [name=s_id]";
+	var pwd = form + " [name=pwd]";
 	
 	if(is_empty(s_id)){
 		alert("아이디를 입력하세요");
@@ -47,7 +48,7 @@ function checkLogin(cr){
 	$.ajax({
 		url : cr + "/login_proc.ida"
 		, type : "post"
-		, data : $("[name=user_info_form]").serialize()
+		, data : $(form).serialize()
 		, success : function(loginCnt){
 			if(loginCnt==1){
 				location.replace(cr + "/order_form.ida");

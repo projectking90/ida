@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", ingredient_bg_img);
 		$('#dataTable').DataTable();
 		setCardFooter("ingredient", "${cr}");
 		

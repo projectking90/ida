@@ -1,8 +1,9 @@
 function setGun(cr){
-	var city = $("[name=register_user_form] [name=city]").val();
-	var gun = $("[name=register_user_form] [name=gun]");
-	var gu = $("[name=register_user_form] [name=gu]");
-	var dong = $("[name=register_user_form] [name=dong]");
+	var form = "[name=register_user_form]";
+	var city = $(form + " [name=city]").val();
+	var gun = $(form + " [name=gun]");
+	var gu = $(form + " [name=gu]");
+	var dong = $(form + " [name=dong]");
 	
 	gu.empty();
 	dong.empty();
@@ -30,8 +31,9 @@ function setGun(cr){
 }
 
 function setGu(cr){
-	var gun = $("[name=register_user_form] [name=gun]").val();
-	var gu = $("[name=register_user_form] [name=gu]");
+	var form = "[name=register_user_form]";
+	var gun = $(form + " [name=gun]").val();
+	var gu = $(form + " [name=gu]");
 	
 	$.ajax({
 		url : cr + "/get_gu.ida"
@@ -50,10 +52,11 @@ function setGu(cr){
 }
 
 function setDong(cr){
-	var city = $("[name=register_user_form] [name=city]").val();
-	var gun = $("[name=register_user_form] [name=gun]").val();
-	var gu = $("[name=register_user_form] [name=gu]").val();
-	var dong = $("[name=register_user_form] [name=dong]");
+	var form = "[name=register_user_form]";
+	var city = $(form + " [name=city]").val();
+	var gun = $(form + " [name=gun]").val();
+	var gu = $(form + " [name=gu]").val();
+	var dong = $(form + " [name=dong]");
 	
 	$.ajax({
 		url : cr + "/get_dong.ida"
@@ -72,18 +75,19 @@ function setDong(cr){
 }
 
 function registerUser(cr){
-	var s_id = "[name=register_user_form] [name=s_id]";
-	var pwd = "[name=register_user_form] [name=pwd]";
-	var conPwd = "[name=register_user_form] [id=confirmPassword]";
-	var com_name = "[name=register_user_form] [name=com_name]";
-	var s_name = "[name=register_user_form] [name=s_name]";
-	var s_reg_num = "[name=register_user_form] [name=s_reg_num]";
-	var s_phone = "[name=register_user_form] [name=s_phone]";
-	var email = "[name=register_user_form] [name=email]";
-	var city = "[name=register_user_form] [name=city]";
-	var gun = "[name=register_user_form] [name=gun]";
-	var gu = "[name=register_user_form] [name=gu]";
-	var dong = "[name=register_user_form] [name=dong]";
+	var form = "[name=register_user_form]";
+	var s_id = form + " [name=s_id]";
+	var pwd = form + " [name=pwd]";
+	var conPwd = form + " [id=confirmPassword]";
+	var com_name = form + " [name=com_name]";
+	var s_name = form + " [name=s_name]";
+	var s_reg_num = form + " [name=s_reg_num]";
+	var s_phone = form + " [name=s_phone]";
+	var email = form + " [name=email]";
+	var city = form + " [name=city]";
+	var gun = form + " [name=gun]";
+	var gu = form + " [name=gu]";
+	var dong = form + " [name=dong]";
 	
 	if(is_empty(s_id)){
 		alert("아이디를 입력하세요");
@@ -225,7 +229,7 @@ function registerUser(cr){
 	$.ajax({
 		url : cr + "/register_user_proc.ida"
 		, type : "post"
-		, data : $("[name=register_user_form]").serialize()
+		, data : $(form).serialize()
 		, success : function(regCnt){
 			if(regCnt==1){
 				alert("회원가입에 성공");

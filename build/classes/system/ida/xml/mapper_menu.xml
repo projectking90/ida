@@ -77,7 +77,7 @@
 					,(select a.ma_name from code_menu_alpha a where a.ma_code=m.ma_code)   "ma_code"
 					,(select b.mb_name from code_menu_beta b where b.mb_code=m.mb_code)   "mb_code"
 					,m.mi_name "mi_name"
-					,m.price "price"
+					,to_char(m.price, '9,999,999,999') "price"
 					,m.mi_comment "mi_comment"
 					,to_char(m.reg_date, 'YYYY-MM-DD(dy)') "reg_date"	
 				from menu_info m

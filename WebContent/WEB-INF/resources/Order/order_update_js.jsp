@@ -12,10 +12,16 @@
 
 <script>
 	$(document).ready(function(){
-		$('#dataTable').DataTable();
+		setDataTable('#dataTable');
 		
 		$(".update").click(function(){
 			update_order_reg("${cr}");
+		});
+		
+		$("[name=c_phone]").keyup(function(){
+			var str = new String($(this).val());
+			str = str.replace("-", "");
+			$(this).val(str);
 		});
 	});
 </script>

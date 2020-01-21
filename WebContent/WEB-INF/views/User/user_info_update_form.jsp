@@ -16,6 +16,7 @@
 		<div class="container">
 			<div class="card card-register mx-auto mt-5">
 				<div class="card-header">회원정보수정</div>
+				
 				<div class="card-body">
 					<form:form name="update_user_form" commandName="user_info">
 						<div class="form-group">
@@ -36,36 +37,42 @@
 								<form:label path="confirmPwd" for="confirmPassword">비밀번호 확인(필수아님)</form:label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:input path="com_name" id="inputStoreName" class="form-control" placeholder="text" required="required"/>
 								<form:label path="com_name" for="inputStoreName">가게명</form:label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:input path="s_name" id="inputSName" class="form-control" placeholder="text" required="required"/>
 								<form:label path="s_name" for="inputSName">사업자명</form:label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:input path="s_reg_num" id="inputSRegNum" class="form-control" placeholder="text" required="required"/>
 								<form:label path="s_reg_num" for="inputSRegNum">사업자등록번호(***-**-*****)</form:label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:input path="s_phone" id="inputSPhone" class="form-control" placeholder="text" required="required"/>
 								<form:label path="s_phone" for="inputSPhone">핸드폰(-없이)</form:label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<form:input path="email" id="inputEmail" class="form-control" placeholder="text" required="required"/>
 								<form:label path="email" for="inputEmail">이메일</form:label>
 							</div>
 						</div>
+						
 						주소<br>
 						<form:select path="city">
 							<form:options items="${user_info.city_list}" itemLabel="city" itemValue="city"/>
@@ -81,6 +88,7 @@
 						</form:select>
 						
 						<a class="btn btn-primary btn-block update">회원정보 변경</a>
+						
 						<div class="text-center">
 							<a class="d-block mt-3 back">이전</a>
 						</div>

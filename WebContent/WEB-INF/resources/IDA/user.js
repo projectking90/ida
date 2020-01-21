@@ -178,3 +178,20 @@ function setLogoutFunc(cr){
 
 	$(".logout_footer").append('<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button> <a class="btn btn-primary" href="'+ cr + '/logout_form.ida">로그아웃</a>');
 }
+
+/**
+ * DataTable Setting
+ */
+function setDataTable(table_id){
+	var dt = $(table_id).DataTable({
+		"columnDefs" : [
+			{"searchable" : false, "orderable" : false, "targets" : 0}
+		]
+	});
+	
+	dt.on( 'order.dt search.dt', function () {
+		dt.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+			cell.innerHTML = i+1;
+		} );
+	} ).draw();
+}

@@ -27,7 +27,7 @@
 					
 					<div class="text-center">
 						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="orderAnalysisForm" 
-						method="post" action="/ida/order_analysis_form.ida">
+						method="post" action="${cr}/order_analysis_form.ida">
 							<div class="input-group">
 								<input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
 								

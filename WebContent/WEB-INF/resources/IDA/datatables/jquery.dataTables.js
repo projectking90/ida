@@ -6258,7 +6258,7 @@
 		var customSort = DataTable.ext.order[ column.sSortDataType ];
 		var customData;
 	
-		if ( customSort ) {
+		if ( customSort) {
 			customData = customSort.call( settings.oInstance, settings, idx,
 				_fnColumnIndexToVisible( settings, idx )
 			);
@@ -9984,7 +9984,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aaSorting": [[0,'asc']],
+		"aaSorting": [[1,'asc']],
 	
 	
 		/**

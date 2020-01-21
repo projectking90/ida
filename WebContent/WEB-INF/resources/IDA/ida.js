@@ -1,3 +1,6 @@
+var login_bg_img = "/ida/resources/IMG/main_img.jpg";
+var ingredient_bg_img = "/ida/resources/IMG/ingredient_img.jpg";
+
 /**
 *	입력양식이 비어 있거나 미체크 시 true 리턴하는 함수 선언
 */
@@ -256,7 +259,6 @@ function checkSpace(selector){
 		var obj = $(selector);
 		var tmp = obj.val();
 		
-		tmp = $.trim(tmp);
 		if(tmp.indexOf(' ')>=0){
 			return true;
 		} else{

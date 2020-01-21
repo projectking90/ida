@@ -16,6 +16,7 @@
 		<div class="container">
 			<div class="card card-register mx-auto mt-5">
 				<div class="card-header">회원가입</div>
+				
 				<div class="card-body">
 					<form name="register_user_form">
 						<div class="form-group">
@@ -45,6 +46,7 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="text" id="inputStoreName" class="form-control"
@@ -52,6 +54,7 @@
 									for="inputStoreName">가게명</label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="text" id="inputSName" class="form-control"
@@ -59,6 +62,7 @@
 									for="inputSName">사업자명</label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="text" id="inputSRegNum" class="form-control"
@@ -66,6 +70,7 @@
 									for="inputSRegNum">사업자등록번호(***-**-*****)</label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="text" id="inputSPhone" class="form-control"
@@ -73,6 +78,7 @@
 									for="inputSPhone">핸드폰(-없이)</label>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-label-group">
 								<input type="text" id="inputEmail" class="form-control"
@@ -80,12 +86,17 @@
 									for="inputEmail">이메일</label>
 							</div>
 						</div>
+						
 						주소<br>
 						<select name="city"></select>
 						<select name="gun"></select>
 						<select name="gu"></select>
 						<select name="dong"></select>
+						
+						<div class="form-group"></div>
+						
 						<a class="btn btn-primary btn-block register">회원가입</a>
+						
 						<div class="text-center">
 							<a class="d-block mt-3 back">이전</a>
 						</div>
