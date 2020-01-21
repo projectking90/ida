@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
 import system.ida.dto.OrderSearchDTO;
@@ -157,6 +158,24 @@ public class OrderDAOImpl implements OrderDAO {
 		return gender_chart;
 	}
 	
+	public List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> gender_chart_m = this.sqlSession.selectList(
+				sqlSessionPath + "getGenderData_M"
+				,chart_search_DTO
+		);
+		
+		return gender_chart_m;
+	}
+	
+	public List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> gender_chart_w = this.sqlSession.selectList(
+				sqlSessionPath + "getGenderData_W"
+				,chart_search_DTO
+		);
+		
+		return gender_chart_w;
+	}
+	
 	public List<Map<String, String>> getAgeData(String s_id) {
 		List<Map<String,String>> age_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getAgeData"
@@ -164,6 +183,15 @@ public class OrderDAOImpl implements OrderDAO {
 		);
 		
 		return age_chart;
+	}
+	
+	public List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> age_menu_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAgeMenuData"
+				,chart_search_DTO
+		);
+		
+		return age_menu_chart;
 	}
 	
 	public List<Map<String, String>> getMonthData(String s_id) {
@@ -200,10 +228,10 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return quarter_chart;
 	}
-	public List<Map<String, String>> getWeekData(String s_id) {
+	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> week_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getWeekData"
-				,s_id
+				,chart_search_DTO
 		);
 		
 		return week_chart;

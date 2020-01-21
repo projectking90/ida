@@ -24,24 +24,9 @@
 					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>
-					
-					<div class="text-center">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
 
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search"></i>
-								</button>
-							</div>
-						</form>
-					</div>
 			
-					<div class="text-right">
-						<select name="chart_search">
-							<option value='코스트'>코스트
-						</select>
-					</div>
+
 					
 					<table><tr height=10><td></table>	
 					
@@ -55,6 +40,11 @@
 						</div>
 						
 						<div class="card-body">
+							<div class="text-right">
+								<select name="chart_search">
+									<option value='코스트'>코스트
+								</select>
+							</div>
 							<canvas id=myMonthChart width="100%" height="30"></canvas>
 						</div>
 							

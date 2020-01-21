@@ -11,6 +11,7 @@ import java.util.Map;
 
 import java.util.Map;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
 import system.ida.dto.OrderSearchDTO;
@@ -55,5 +56,11 @@ public interface OrderService {
 
 	List<Map<String, String>> getQuarterData(String s_id);
 
-	List<Map<String, String>> getWeekData(String s_id);
+	List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO);
 }

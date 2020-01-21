@@ -206,20 +206,51 @@
 	</update>
 
 	<select id='getGenderData' parameterType="string" resultType="hashmap">
-		select
+		select zzz.*, rownum RNUM from
+		(select
 			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
-		from (select
-				oi.s_no as "S_NO",
-				oi.gender as "GENDER", mi.mi_name as "MI_NAME"
-			from order_menu om,
-				order_info oi, menu_info mi
-				where
-					om.oi_no = oi.oi_no
-					and om.mi_no = mi.mi_no)
+		from order_menu_gender
 		where
 			s_no=(select s_no from store where s_id=#{s_id})
+			and gender=1
 			group by mi_name, gender
-			order by  2
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=5
+			]]>
+	</select>
+	
+	<select id='getGenderData_M' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select zzz.*, rownum RNUM from
+		(select
+			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
+		from order_menu_gender
+		where
+			s_no=(select s_no from store where s_id=#{s_id})
+			and gender=1
+			group by mi_name, gender
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=${chart_cnt}
+			]]>
+	</select>
+	
+	<select id='getGenderData_W' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select zzz.*, rownum RNUM from
+		(select
+			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
+		from order_menu_gender
+		where
+			s_no=(select s_no from store where s_id=#{s_id})
+			and gender=2
+			group by mi_name, gender
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=${chart_cnt}
+			]]>
 	</select>
 	
 	<select id='getAgeData' parameterType="string" resultType="hashmap">
@@ -235,6 +266,23 @@
 		group by age
 		order by 2
 	</select>
+		
+	<select id='getAgeMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select zzz.*, rownum RNUM from
+		(select
+			count(mi_name)||''	"data", mi_name	 "label", age||'대'	"dataset"
+		from order_menu_age
+		where
+			s_no=(select s_no from store where s_id=#{s_id})
+			and age=#{age}
+			group by mi_name, age
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=${chart_cnt}
+			]]>
+	</select>
+	
 	
 	<select id='getMonthData' parameterType="string" resultType="hashmap">
 		select
@@ -294,7 +342,7 @@
 	
 	<select id='getQuarterData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time, 'q')	"label"
+			count(s_no)||'' "data", to_char(order_time, 'q')||'/4분기'	"label"
 		from order_day
 		where
 			s_no = (select s_no from store where s_id=#{s_id})
@@ -305,7 +353,7 @@
 			
 	</select>
 		
-	<select id='getWeekData' parameterType="string" resultType="hashmap">
+	<select id='getWeekData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
 		select
 			count(s_no)||'' "data", to_char(order_time, 'ww')||'주'	"label"
 		from order_day
