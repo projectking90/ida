@@ -186,13 +186,17 @@ public class StockController {
 	 */
 	@RequestMapping(value="/stock_analysis_form.ida")
 	public ModelAndView goStockAnalysisForm(
-		HttpSession session
+			StockSearchDTO stock_searchDTO,
+			HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "stock_analysis_form");
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			stock_searchDTO.setS_id(s_id);
+			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(stock_searchDTO);
+			mav.addObject("stock_anl_list",stock_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockAnalysisForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -201,6 +205,7 @@ public class StockController {
 		return mav;
 	}
 	
+	
 	/**
 	 * 재고 분석 - 차트화면을 보여줄 jsp와 가게에 등록된 재고를 검색 조건에 따라 차트로 보여주는 메소드
 	 * 가상주소 /stock_analysis_chart_form.ida로 접근하면 호출
@@ -208,13 +213,16 @@ public class StockController {
 	 */
 	@RequestMapping(value="/stock_analysis_chart_form.ida")
 	public ModelAndView goStockAnalysisChartForm(
-		HttpSession session
+			StockSearchDTO stock_searchDTO,
+			HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "stock_analysis_chart_form");
-		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			stock_searchDTO.setS_id(s_id);
+			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(stock_searchDTO);
+			mav.addObject("stock_anl_list",stock_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockAnalysisChartForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -239,76 +247,15 @@ public class StockController {
 			String s_id = (String)session.getAttribute("s_id");
 			
 			if(chart_search.equals("주")) {
-				/*List<String> label = new ArrayList<String>();
 
-				
-				List<String> data1 = new ArrayList<String>();
-
-				chart_data.setLabel(label);
-				chart_data.setData1(data1);
-				*/
 				
 			} else if(chart_search.equals("월")) {
-				
-				/*System.out.println("월");
-				List<String> label = new ArrayList<String>();
-				label.add("1월");
-				label.add("2월");
-				label.add("3월");
-				label.add("4월");
-				label.add("5월");
-				label.add("6월");
-				label.add("7월");
-				label.add("8월");
-				label.add("9월");
-				label.add("10월");
-				label.add("11월");
-				label.add("12월");
-				
-				List<String> data1 = new ArrayList<String>();
-				data1.add("4670");
-				data1.add("3544");
-				data1.add("4093");
-				data1.add("4233");
-				data1.add("4080");
-				data1.add("4189");
-				data1.add("4654");
-				data1.add("4432");
-				data1.add("4122");
-				data1.add("3324");
-				data1.add("4320");
-				data1.add("4532");
-				data1.add("4234");
-				data1.add("4876");
-				chart_data.setLabel(label);
-				chart_data.setData1(data1);
-			*/
+	
 				
 			} else if (chart_search.equals("시간")) {
-				/*			
-				List<String> label = new ArrayList<String>();
 
-				
-				List<String> data1 = new ArrayList<String>();
-
-				chart_data.setLabel(label);
-				chart_data.setData1(data1);*/
 				
 			} else if (chart_search.equals("분기")) {
-				/*List<String> label = new ArrayList<String>();
-				label.add("1분기");
-				label.add("2분기");
-				label.add("3분기");
-				label.add("4분기");
-				
-				List<String> data1 = new ArrayList<String>();
-				data1.add("12456");
-				data1.add("21089");
-				data1.add("16433");
-				data1.add("17633");			
-
-				chart_data.setLabel(label);
-				chart_data.setData1(data1);*/
 
 			}
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정

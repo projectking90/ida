@@ -41,9 +41,7 @@
 						<input type="checkbox" value="주"><b>주</b>&nbsp;
 						<input type="checkbox" value="월"><b>월</b>&nbsp;
 						<input type="checkbox" value="시간"><b>시간</b>&nbsp;
-						<input type="checkbox" value="분기"><b>분기</b>&nbsp;
-						<input type="checkbox" value="성별"><b>성별</b>&nbsp;
-						<input type="checkbox" value="나이대"><b>나이대</b>
+						<input type="checkbox" value="분기"><b>분기</b>
 					</div>
 	
 					<!-- DataTables Example -->
@@ -61,19 +59,35 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th>주문번호
-											<th>핸드폰
-											<th>주문메뉴
-											<th>성별
-											<th>나이대
-											<th>주문시간
-											<th>픽업시간
+											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>대분류</b></td>
+											<td align=center><b>소분류</b></td>
+											<td align=center><b>원산지</b></td>
+											<td align=center><b>식자재명</b></td>
+											<td align=center><b>규격</b></td>
+											<td align=center><b>재고수량</b></td>
+											<td align=center><b>가격(원)</b></td>
+											<td align=center><b>날짜</b></td>
 										</tr>
 									</thead>
 									
 									<tbody>
+										<c:forEach items="${stock_anl_list}" var="stock_anl_list" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>
+													<input type="hidden" name="st_no" value="${stock_anl_list.st_no}">
+													${loopTagStatus.index+1}
+												<td align=center>${stock_anl_list.ia_name}
+												<td align=center>${stock_anl_list.ib_name}
+												<td align=center>${stock_anl_list.io_name}
+												<td align=center>${stock_anl_list.i_name}
+												<td align=center>${stock_anl_list.i_size}
+												<td align=center>${stock_anl_list.quantity}
+												<td align=center>${stock_anl_list.i_price}
+												<td align=center>${stock_anl_list.reg_date}
+											</tr>
+										</c:forEach>
 									</tbody>
-									
 								</table>
 							</div>
 						</div>
