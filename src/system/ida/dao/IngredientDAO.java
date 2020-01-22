@@ -39,6 +39,9 @@ public interface IngredientDAO {
 	List<Code_IngredientOriginDTO> getCodeIngOrigin();									//식자재 원산지
 	List<Code_IngredientAllergieDTO> getCodeIngAllergie();								//식자재 알레르기
 	List<Map<String,String>> getWeekData(String s_id);
-	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
-	List<Map<String,String>> getMonthData(String s_id);
+
+	List<IngredientDTO> getIngAnlList(
+			IngredientSearchDTO ingredient_SearchDTO);/*
+														 * List<Map<String,String>> getMonthData(String s_id);
+														 */
 }

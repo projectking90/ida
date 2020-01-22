@@ -300,21 +300,18 @@ public class IngredientController {
 				}
 				chart_data.setLabel(label);
 				chart_data.setLabel(data1);
-			}else if(chart_search.equals("월")) {
-				List<Map<String,String>> ing_month_chart = this.ingredientService.getMonthData(s_id);
-				List<String> label = new ArrayList<String>();
-				for(int i=0; i<ing_month_chart.size(); i++) {
-					label.add(ing_month_chart.get(i).get("label"));
-				}
-				
-				List<String> data1 = new ArrayList<String>();
-				
-				for(int i=0; i<ing_month_chart.size(); i++) {
-					data1.add(ing_month_chart.get(i).get("data1"));
-				}
-				chart_data.setLabel(label);
-				chart_data.setData1(data1);
-			}
+			} /*
+				 * else if(chart_search.equals("월")) { List<Map<String,String>> ing_month_chart
+				 * = this.ingredientService.getMonthData(s_id); List<String> label = new
+				 * ArrayList<String>(); for(int i=0; i<ing_month_chart.size(); i++) {
+				 * label.add(ing_month_chart.get(i).get("label")); }
+				 * 
+				 * List<String> data1 = new ArrayList<String>();
+				 * 
+				 * for(int i=0; i<ing_month_chart.size(); i++) {
+				 * data1.add(ing_month_chart.get(i).get("data1")); } chart_data.setLabel(label);
+				 * chart_data.setData1(data1); }
+				 */
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getIngredientChartData 에러발생>");
 			System.out.println(e.getMessage());

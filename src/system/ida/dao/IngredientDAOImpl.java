@@ -139,16 +139,11 @@ public class IngredientDAOImpl implements IngredientDAO {
 		);
 		return ingredient_anl_list;
 	}
-
-	@Override
-	public List<Map<String, String>> getMonthData(String s_id) {
-		List<Map<String,String>> ing_month_chart = this.sqlSession.selectList(
-			sqlSessionPath+"getMonthData"
-			,s_id
-		);
-		return ing_month_chart;
-	}
-
+	/*
+	 * @Override public List<Map<String, String>> getMonthData(String s_id) {
+	 * List<Map<String,String>> ing_month_chart = this.sqlSession.selectList(
+	 * sqlSessionPath+"getMonthData" ,s_id ); return ing_month_chart; }
+	 */
 	
 	
 	// ingredient_record에 추가한 것 기록하기
