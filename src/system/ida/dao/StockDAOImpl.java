@@ -135,16 +135,7 @@ public class StockDAOImpl implements StockDAO {
 		int updated_stock_record=this.sqlSession.insert(sqlSessionPath+"updateStockRecord", trData);
 		return updated_stock_record;
 	}
-/*
-	@Override
-	public List<Map<String, String>> getStockWeekData(String s_id) {
-		List<Map<String,String>> week_chart = this.sqlSession.selectList(
-				sqlSessionPath + "getStockWeekData"
-				,s_id);
-		
-		return week_chart;
-	}
-*/
+
 	@Override
 	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
 		List<StockDTO> stock_anl_list = this.sqlSession.selectList(
@@ -153,6 +144,15 @@ public class StockDAOImpl implements StockDAO {
 		
 		
 		return stock_anl_list;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekData(String s_id) {
+		List<Map<String,String>> week_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekData"
+				,s_id);
+		
+		return week_chart;
 	}
 
 }

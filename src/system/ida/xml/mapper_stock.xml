@@ -130,29 +130,29 @@
 			,${change_quantity}
 		)
 	</insert>
-<!--  	
-	<select id='getStockWeekData' parameterType="string" resultType="hashmap">
+	<select id='getWeekData' parameterType="string" resultType="hashmap">
 		select
-			i_name "label", sum(quantity)||'' "data"
-		from(
-			select
-				i.s_no	as "S_NO"
-				, i.i_name	as "I_NAME"
-				, i.reg_date	as "REG_DATE"
-				, sr.quantity	as "QUANTITY"
-			from
-				ingredient i, stock s, stock_record sr
-			where
-				i.i_no = s.i_no
-				and s.st_no = sr.st_no
-				and s.is_del = 'F'
-			)
-		where
-			s_no = (select s_no from store where s_id=#{s_id})
-		group by
-			i_name
+		     ss.i_name "LABEL", nvl(sum(ss.quantity),0)||'' "DATA"
+		from
+		    (
+		    select
+		        i.s_no	as "S_NO"
+		        , i.i_name	as "I_NAME"
+		        , to_char(to_date(to_char(i.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')	as "REG_DATE"
+		        , sr.quantity	as "QUANTITY"
+		    from
+		        ingredient i, stock s, stock_record sr
+		    where
+		        i.i_no = s.i_no
+		        and s.st_no = sr.st_no
+		        and s.is_del = 'F' 
+		    ) ss     
+		where 
+		    ss.s_no = (select s_no from store where s_id=#{s_id})
+		group by                                       
+		   i_name
+		order by nvl(sum(ss.quantity),0) desc
 	</select>
--->
 
 
 	<select id="getStockAnlList" resultType="system.ida.dto.StockDTO">

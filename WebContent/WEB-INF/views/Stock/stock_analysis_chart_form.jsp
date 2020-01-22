@@ -37,14 +37,7 @@
 						</form>
 					</div>
 			
-					<div class="text-right">
-						<select name="chart_search">
-							<option value='주'>주
-							<option value='월'>월
-							<option value='시간'>시간
-							<option value='분기'>분기
-						</select>
-					</div>
+
 					
 					<table><tr height=10><td></table>	
 					
@@ -57,17 +50,21 @@
 							</span>
 						</div>
 						
-						<div class="card-body" name="주">
-							<canvas id="myAreaChart" width="100%" height="30"></canvas>
-						</div>						
-						<div class="card-body" name="월">
-							<canvas id="myMonthChart" width="100%" height="30"></canvas>
-						</div>						
-						<div class="card-body" name="시간">
-							<canvas id="myTimeChart" width="100%" height="30"></canvas>
-						</div>						
-						<div class="card-body" name="분기">
-							<canvas id="myQuarterChart" width="100%" height="30"></canvas>
+
+						<div class="card-body">
+							<canvas id="myChart" width="100%" height="30"></canvas>
+							<button type="buton" class="btn btn-outline-info btn-sm top3">TOP 3</button>
+							<button type="buton" class="btn btn-outline-info btn-sm top5">TOP 5</button>
+							<button type="buton" class="btn btn-outline-info btn-sm top10">TOP 10</button>
+							
+							
+						<div class="text-right">
+							<select name="chart_search">
+								<option value='주'>주
+								<option value='월'>월
+								<option value='시간'>시간
+								<option value='분기'>분기
+							</select>
 						</div>
 					</div>
 				</div>

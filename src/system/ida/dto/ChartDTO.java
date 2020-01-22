@@ -13,6 +13,7 @@ public class ChartDTO {
 	/**
 	 * 속성변수 선언
 	 */
+	private List<String> labels;
 	private List<String> label;
 	private List<String> data1;
 	private List<String> data2;
@@ -25,6 +26,13 @@ public class ChartDTO {
 	/**
 	 * 접근자, 설정자 선언
 	 */
+
+	public List<String> getLabels() {
+		return labels;
+	}
+	public void setLabels(List<String> labels) {
+		this.labels = labels;
+	}
 	/**
 	 * label 접근자
 	 * @return label : 

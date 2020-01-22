@@ -9,30 +9,60 @@ function getChartData(cr, chart_search){
 		// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
 		// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
 		, success : function(chart_data){
+	         $("#myChart").remove();
+	         $(".card-body").append('<canvas id="myChart" width="100%" height="30"></canvas>');
+
 			if($("[name=chart_search]").val() == '주'){
-				$("[name='월']").hide();
-				$("[name='시간']").hide();
-				$("[name='분기']").hide();
-				drawLineWeekChart(chart_data);
-				$("[name='주']").show();
-			}else if($("[name=chart_search]").val() == '월'){
-				$("[name='주']").hide();
-				$("[name='시간']").hide();
-				$("[name='분기']").hide();
+				drawLineWeekChart5(chart_data);
+				$(".top3").click(function(){
+			         $("#myChart").remove();
+			         $(".card-body").append(
+			               '<canvas id="myChart" width="100%" height="30"></canvas>');
+
+			         drawLineWeekChart3(chart_data);
+		       });
+		       $(".top5").click(function(){
+			         $("#myChart").remove();
+			         $(".card-body").append(
+			               '<canvas id="myChart" width="100%" height="30"></canvas>');
+
+			         drawLineWeekChart5(chart_data);
+		       });
+		       $(".top10").click(function(){
+			         $("#myChart").remove();
+			         $(".card-body").append(
+			               '<canvas id="myChart" width="100%" height="30"></canvas>');
+			         drawLineWeekChart10(chart_data);
+
+		       });
+			}else if($("[name=chart_search]").val() == '월'){	    	  
+				drawAreaChartMonth2(chart_data);
+		       $(".top3").click(function(){
+			         $("#myChart").remove();
+			         $(".card-body").append(
+			               '<canvas id="myChart" width="100%" height="30"></canvas>');
+		    	   drawAreaChartMonth1(chart_data);
+		       });
+		       $(".top5").click(function(){
+			         $("#myChart").remove();
+			         $(".card-body").append(
+			               '<canvas id="myChart" width="100%" height="30"></canvas>');
+		    	   drawAreaChartMonth2(chart_data);
+		       });
+		       $(".top10").click(function(){
+			         $("#myChart").remove();
+			         $(".card-body").append(
+			               '<canvas id="myChart" width="100%" height="30"></canvas>');
+		    	   drawAreaChartMonth3(chart_data);
+		       });
 				drawLineMonthChart(chart_data);
-				$("[name='월']").show();
 			}else if($("[name=chart_search]").val() == '시간'){
-				$("[name='주']").hide();
-				$("[name='월']").hide();
-				$("[name='분기']").hide();
 				drawLineTimeChart(chart_data);
-				$("[name='시간']").show();
 			}else if($("[name=chart_search]").val() == '분기'){
-				$("[name='주']").hide();
-				$("[name='월']").hide();
-				$("[name='시간']").hide();
-				drawLineQuarterChart(chart_data);
-				$("[name='분기']").show();
+					drawPieQuarterChart(chart_data);
+		    	   $(".top3").hide();
+		    	   $(".top5").hide();
+		    	   $(".top10").hide();
 			}
 		}
 		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
@@ -42,62 +72,181 @@ function getChartData(cr, chart_search){
 	});
 }
 
-function drawLineWeekChart(data) {
+function drawLineWeekChart3(data) {
+	
 	// Set new default font family and font color to mimic Bootstrap's default
 	// styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	Chart.defaults.global.defaultFontColor = '#292b2c';
 
 	// Area Chart Example
-	var ctx = document.getElementById("myAreaChart");
-	var myLineChart = new Chart(ctx, {
-		type : 'line',
-		data : {
-			labels : ["1주차", "2주차", "3주차", "4주차"],
-			datasets : [ {
-				label : "Sessions",
-				lineTension : 0.3,
-				backgroundColor : "rgba(2,117,216,0.2)",
-				borderColor : "rgba(2,117,216,1)",
-				pointRadius : 5,
-				pointBackgroundColor : "rgba(2,117,216,1)",
-				pointBorderColor : "rgba(255,255,255,0.8)",
-				pointHoverRadius : 5,
-				pointHoverBackgroundColor : "rgba(2,117,216,1)",
-				pointHitRadius : 50,
-				pointBorderWidth : 2,
-				data : [1200, 1390, 1140, 1430],
-			} ],
-		},
-		options : {
-			scales : {
-				xAxes : [ {
-					time : {
-						unit : 'date'
-					},
-					gridLines : {
-						display : false
-					},
-					ticks : {
-						maxTicksLimit : 7
-					}
-				} ],
-				yAxes : [ {
-					ticks : {
-						min : 0,
-						max : 5000,
-						maxTicksLimit : 5
-					},
-					gridLines : {
-						color : "rgba(0, 0, 0, .125)",
-					}
-				} ],
-			},
-			legend : {
-				display : false
-			}
-		}
-	});
+	
+	var ctx = document.getElementById('myChart').getContext('2d');
+    var data = {
+            // The type of chart we want to create
+            type: 'bar',
+            // The data for our dataset
+            data: {
+                labels: data.label,
+                datasets: [{
+                    label: "1주차 재고 입/출고 총합",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill:false, // line의 아래쪽을 색칠할 것인가? 
+                    borderColor: 'rgb(255, 99, 132)',
+                    lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+                    data:data.data1
+                }
+                ]
+            },
+            // Configuration options go here
+            options: {
+            	
+            	
+    			responsive: true,
+    			hover: {
+    				animationDuration: 0
+    				
+    			},
+    			title: {
+    				display: true,
+    				text: '주 별 재고 입/출고 총 현황 TOP 3'
+    			},
+            	
+            	
+            	
+            }
+        }
+        var chart = new Chart(ctx, data);
+    
+    var data = {
+            // The type of chart we want to create
+            type: 'bar',
+            // The data for our dataset
+            data: {
+                labels: data.label,
+                datasets: [{
+                    label: "2주차 재고 입/출고 총합",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill:false, // line의 아래쪽을 색칠할 것인가? 
+                    borderColor: 'rgb(255, 99, 132)',
+                    lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+                    data:data.data1
+                }
+                ]
+            },
+            // Configuration options go here
+            options: {
+            	
+            	
+    			responsive: true,
+    			hover: {
+    				animationDuration: 0
+    				
+    			},
+    			title: {
+    				display: true,
+    				text: '주 별 재고 입/출고 총 현황 TOP 3'
+    			},
+            	
+            	
+            	
+            }
+        }
+        var chart = new Chart(ctx, data);
+}
+
+function drawLineWeekChart5(data) {
+	
+	// Set new default font family and font color to mimic Bootstrap's default
+	// styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
+
+	// Area Chart Example
+	
+	var ctx = document.getElementById('myChart').getContext('2d');
+    var data = {
+            // The type of chart we want to create
+            type: 'bar',
+            // The data for our dataset
+            data: {
+                labels: data.label,
+                datasets: [{
+                    label: "재고 입/출고 총합",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill:false, // line의 아래쪽을 색칠할 것인가? 
+                    borderColor: 'rgb(255, 99, 132)',
+                    lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+                    data:data.data1
+                }
+                ]
+            },
+            // Configuration options go here
+            options: {
+            	
+            	
+    			responsive: true,
+    			hover: {
+    				animationDuration: 0
+    				
+    			},
+    			title: {
+    				display: true,
+    				text: '주 별 재고 입/출고 총 현황 TOP 5'
+    			},
+            	
+            	
+            	
+            }
+        }
+        var chart = new Chart(ctx, data);
+}
+
+function drawLineWeekChart10(data) {
+	
+	// Set new default font family and font color to mimic Bootstrap's default
+	// styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
+
+	// Area Chart Example
+	
+	var ctx = document.getElementById('myChart').getContext('2d');
+    var data = {
+            // The type of chart we want to create
+            type: 'bar',
+            // The data for our dataset
+            data: {
+                labels: data.label,
+                datasets: [{
+                    label: "재고 입/출고 총합",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill:false, // line의 아래쪽을 색칠할 것인가? 
+                    borderColor: 'rgb(255, 99, 132)',
+                    lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+                    data:data.data1
+                }
+                ]
+            },
+            // Configuration options go here
+            options: {
+            	
+            	
+    			responsive: true,
+    			hover: {
+    				animationDuration: 0
+    				
+    			},
+    			title: {
+    				display: true,
+    				text: '주 별 재고 입/출고 총 현황 TOP 10'
+    			},
+            	
+            	
+            	
+            }
+        }
+        var chart = new Chart(ctx, data);
 }
 
 function drawLineMonthChart(data) {
@@ -216,7 +365,7 @@ function drawLineTimeChart(data) {
 	});
 }
 
-function drawLineQuarterChart(data) {
+function drawPieQuarterChart(data) {
 	// Set new default font family and font color to mimic Bootstrap's default
 	// styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -225,7 +374,7 @@ function drawLineQuarterChart(data) {
 	// Area Chart Example
 	var ctx = document.getElementById("myQuarterChart");
 	var myLineChart = new Chart(ctx, {
-		type : 'line',
+		type : 'pie',
 		data : {
 			labels : ["1분기", "2분기", "3분기", "4분기"],
 			datasets : [ {

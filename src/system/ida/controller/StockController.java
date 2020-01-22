@@ -5,7 +5,9 @@
 package system.ida.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -247,7 +249,22 @@ public class StockController {
 			String s_id = (String)session.getAttribute("s_id");
 			
 			if(chart_search.equals("주")) {
-
+				
+				List<Map<String, String>> week_chart=this.stockService.getWeekData(s_id);
+				
+				
+				List<String> label = new ArrayList<String>();
+				for(int i=0; i<week_chart.size(); i++) {
+					label.add(week_chart.get(i).get("LABEL"));
+				}	
+				
+				List<String> data1=new ArrayList<String>();
+				for(int i=0; i<week_chart.size(); i++) {
+					data1.add(week_chart.get(i).get("DATA"));
+				}
+				
+				chart_data.setLabel(label);
+				chart_data.setData1(data1);
 				
 			} else if(chart_search.equals("월")) {
 	
