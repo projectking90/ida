@@ -173,17 +173,16 @@
 				to_char(reg_date, 'ww'), i_name
 	</select>
 	
-	<!-- <select id="getMonthData" parameterType="String" resultType="hashmap"> -->
+	<!-- <select id="getMonthData" parameterType="String" resultType="hashmap">
+		select
+			(select s_no from store where s_id=#{s_id})
+			,i_name    "label"
+			,ir.i_price  "data1"
+			,to_char(i.reg_date,'mm') "labels"
+		from ingredient_day
+		order by to_char(i.reg_date,'mm')
+	</select> -->
 	
-<!-- 	select
-		(select s_no from store where s_id=#{s_id})
-		,i_name    "label"
-		,ir.i_price  "data1"
-		,to_char(i.reg_date,'mm') "labels"
-	from ingredient_day
-	order by to_char(i.reg_date,'mm')
-	</select>
-	 -->
 	
 	<select id="getIngAnlList" parameterType="system.ida.dto.IngredientSearchDTO" resultType="system.ida.dto.IngredientDTO">
 		select
