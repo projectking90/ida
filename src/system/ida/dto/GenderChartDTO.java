@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * @author Jo
  */
-public class ChartDTO {
+public class GenderChartDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private List<String> label;
+	private List<String> label1;
 	private List<String> label2;
 	private List<String> data1;
 	private List<String> data2;
@@ -23,13 +23,8 @@ public class ChartDTO {
 	 * 생성자 선언
 	 */
 
-	public List<String> getLabel2() {
-		return label2;
-	}
-	public void setLabel2(List<String> label2) {
-		this.label2 = label2;
-	}
 
+	
 	/**
 	 * 접근자, 설정자 선언
 	 */
@@ -37,15 +32,15 @@ public class ChartDTO {
 	 * label 접근자
 	 * @return label : 
 	 */
-	public List<String> getLabel() {
-		return label;
+	public List<String> getLabel1() {
+		return label1;
 	}
 	/**
 	 * label 설정자
 	 * @param label : 
 	 */
-	public void setLabel(List<String> label) {
-		this.label = label;
+	public void setLabel1(List<String> label1) {
+		this.label1 = label1;
 	}
 	/**
 	 * data1 접근자

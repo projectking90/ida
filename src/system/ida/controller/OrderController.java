@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.ChartDTO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuListDTO;
 import system.ida.dto.OrderDTO;
@@ -229,7 +230,6 @@ public class OrderController {
 		, OrderSearchDTO ordersearchDTO) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "order_analysis_form");
-		 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			ordersearchDTO.setS_id(s_id);
@@ -269,24 +269,28 @@ public class OrderController {
 	@ResponseBody
 	public ChartDTO getOrderChartData(
 			HttpSession session
-			, @RequestParam(value="chart_search") String chart_search) {
+			, @RequestParam(value="chart_search") String chart_search
+			, @RequestParam(value="chart_cnt") String chart_cnt
+			,@RequestParam(value="age") String age) {
 		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
-
+		ChartSearchDTO chart_search_DTO  = new ChartSearchDTO();
 		try {
 			String s_id = (String)session.getAttribute("s_id");
+			chart_search_DTO.setChart_cnt(chart_cnt);
+			chart_search_DTO.setS_id(s_id);
+			chart_search_DTO.setAge(age);
 			
 			if(chart_search.equals("주")) {
+				List<Map<String,String>> week_chart = this.orderService.getWeekData(chart_search_DTO);
 				List<String> label = new ArrayList<String>();
-				label.add("1주");
-				label.add("2주");
-				label.add("3주");
-				label.add("4주");
+				for(int i=0; i<week_chart.size(); i++) {
+					label.add(week_chart.get(i).get("label"));
+				}
 				
 				List<String> data1 = new ArrayList<String>();
-				data1.add("100");
-				data1.add("30");
-				data1.add("500");
-				data1.add("150");
+				for(int i=0; i<week_chart.size(); i++) {
+					data1.add(week_chart.get(i).get("data"));
+				}
 				
 				chart_data.setLabel(label);
 				chart_data.setData1(data1);
@@ -340,44 +344,75 @@ public class OrderController {
 				chart_data.setData1(data1);
 				
 			} else if (chart_search.equals("성별")) {
-				List<Map<String,String>> gender_chart = this.orderService.getGenderData(s_id);
-				List<String> label = new ArrayList<String>();
+				List<Map<String,String>> gender_chart_m = this.orderService.getGenderData_M(chart_search_DTO);
+				List<Map<String,String>> gender_chart_w = this.orderService.getGenderData_W(chart_search_DTO);
 				
-				for(int i=0; i<gender_chart.size(); i++) {
-					label.add(gender_chart.get(i).get("label"));
+				List<String> label1 = new ArrayList<String>();
+				List<String> label2 = new ArrayList<String>();
+				
+				for(int i=0; i<gender_chart_m.size(); i++) {
+					label1.add(gender_chart_m.get(i).get("label"));
+				}
+				
+				for(int i=0; i<gender_chart_w.size(); i++) {
+					label2.add(gender_chart_w.get(i).get("label"));
 				}
 				
 				List<String> data1 = new ArrayList<String>();
 				List<String> data2 = new ArrayList<String>();
-				
-				for(int i=0; i<gender_chart.size(); i++) {
-					if(gender_chart.get(i).get("dataset").equals("남자")) {
-						data1.add(gender_chart.get(i).get("data"));
-					} else if(gender_chart.get(i).get("dataset").equals("여자")) {
-						data2.add(gender_chart.get(i).get("data"));
-						
-					}
+
+				for(int i=0; i<gender_chart_m.size(); i++) {
+					data1.add(gender_chart_m.get(i).get("data"));
+				}
+
+				for(int i=0; i<gender_chart_w.size(); i++) {
+					data2.add(gender_chart_w.get(i).get("data"));
 				}
 				
-				chart_data.setLabel(label);
+				List<String> dataset = new ArrayList<String>();
+				dataset.add(gender_chart_m.get(0).get("dataset"));
+				dataset.add(gender_chart_w.get(0).get("dataset"));
+				
+
+				chart_data.setDataset(dataset);
+				chart_data.setLabel(label1);
+				chart_data.setLabel2(label2);
 				chart_data.setData1(data1);
 				chart_data.setData2(data2);
+				
 			} else if (chart_search.equals("나이대")) {
 				List<Map<String,String>> age_chart = this.orderService.getAgeData(s_id);
-				List<String> label = new ArrayList<String>();
+				List<Map<String,String>> age_menu_chart = this.orderService.getAgeMenuData(chart_search_DTO);
+				List<String> label1 = new ArrayList<String>();
+				List<String> label2 = new ArrayList<String>();
 				
 				for(int i=0; i<age_chart.size(); i++) {
-					label.add(age_chart.get(i).get("label"));
+					label1.add(age_chart.get(i).get("label"));
+				}
+				for(int i=0; i<age_menu_chart.size(); i++) {
+					label2.add(age_menu_chart.get(i).get("label"));
 				}
 					
 				List<String> data1 = new ArrayList<String>();
+				List<String> data2 = new ArrayList<String>();
 				
 				for(int i=0; i<age_chart.size(); i++) {
-						data1.add(age_chart.get(i).get("data"));
+					data1.add(age_chart.get(i).get("data"));
 				}
 				
-				chart_data.setLabel(label);
+				for(int i=0; i<age_menu_chart.size(); i++) {
+					data2.add(age_menu_chart.get(i).get("data"));
+				}
+				
+				List<String> dataset = new ArrayList<String>();
+				dataset.add(age_menu_chart.get(0).get("dataset"));
+
+				chart_data.setDataset(dataset);
+				chart_data.setLabel(label1);
+				chart_data.setLabel2(label2);
 				chart_data.setData1(data1);
+				chart_data.setData2(data2);
+				
 			}
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getOrderChartData 에러발생>");

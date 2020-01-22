@@ -19,6 +19,7 @@ public class MenuSearchDTO {
 	private String s_id;
 	private String[] search_condition;
 	
+
 	/**
 	 * 생성자 선언
 	 */

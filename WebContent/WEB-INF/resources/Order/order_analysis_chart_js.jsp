@@ -12,11 +12,22 @@
 
 <script>
 	$(document).ready(function(){
+		$(".gender").hide();
 		getChartData("${cr}", $("[name=chart_search]").val());
+
 		
 		$("[name=chart_search]").change(function(){
-			getChartData("${cr}", $(this).val());
+			getChartData("${cr}", $(this).val(), $("[name=chart_cnt]").val(), $("[name=age]").val());
 		});
+		
+		$("[name=chart_cnt]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $(this).val(), $("[name=age]").val());
+		});
+		
+		$("[name=age]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(), $(this).val());
+		});
+	
 		
 		$(".o_table").click(function(){
 			location.replace("${cr}/order_analysis_form.ida");

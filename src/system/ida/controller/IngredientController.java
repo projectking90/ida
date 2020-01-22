@@ -299,7 +299,20 @@ public class IngredientController {
 					data.add(ing_week_chart.get(i).get("data"));
 				}
 				chart_data.setLabel(label);
-				chart_data.setLabel(data);
+				chart_data.setData1(data);
+			} else if(chart_search.equals("월")) {
+				List<String> label = new ArrayList<String>();
+				label.add("1월");
+				label.add("2월");
+				label.add("3월");
+				
+				List<String> data = new ArrayList<String>();
+				data.add("10");
+				data.add("50");
+				data.add("30");
+				
+				chart_data.setLabel(label);
+				chart_data.setData1(data);
 			}
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getIngredientChartData 에러발생>");

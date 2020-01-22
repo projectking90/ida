@@ -24,29 +24,8 @@
 					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>
-					
-					<div class="text-center">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search"></i>
-								</button>
-							</div>
-						</form>
-					</div>
 			
-					<div class="text-right">
-						<select name="chart_search">
-							<option value='주'>주
-							<option value='월'>월
-							<option value='시간'>시간
-							<option value='분기'>분기
-							<option value='성별'>성별
-							<option value='나이대'>나이대
-						</select>
-					</div>
+
 					
 					<table><tr height=10><td></table>	
 					
@@ -60,7 +39,36 @@
 						</div>
 						
 						<div class="card-body">
-							<canvas id="myChart" width="100%" height="30"></canvas>
+							<div class="text-right">
+								<span class="age_select">
+									<input type="radio" name="age" value="10">10대
+									<input type="radio" name="age" value="20">20대
+									<input type="radio" name="age" value="30">30대
+									<input type="radio" name="age" value="40">40대
+									<input type="radio" name="age" value="50">50대
+									<input type="radio" name="age" value="60">60대
+								</span>
+								<span class="gender">
+									<input type="radio" name="gender" value="m">남
+									<input type="radio" name="gender" value="w">여
+								</span>
+								<span class="chart_cnt">
+									<select name="chart_cnt">
+										<option value="3">3
+										<option value="5">5
+										<option value="8">8
+									</select>
+								</span>
+								<select name="chart_search">
+									<option value='주'>주
+									<option value='월'>월
+									<option value='시간'>시간
+									<option value='분기'>분기
+									<option value='성별'>성별
+									<option value='나이대'>나이대
+								</select>
+							</div>
+							<canvas id="myChart1" width="100%" height="30"></canvas>
 						</div>
 					</div>
 				</div>

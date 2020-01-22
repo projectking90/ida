@@ -25,6 +25,7 @@ import system.ida.dto.CodeMenuDTO;
 import system.ida.dto.IngredientListDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuSearchDTO;
+import system.ida.dto.OrderDTO;
 import system.ida.service.MenuService;
 
 /**
@@ -253,7 +254,8 @@ public class MenuController {
 	@RequestMapping(value="/menu_analysis_form.ida")
 	public ModelAndView goMenuAnalysisForm(
 		HttpSession session
-		,MenuSearchDTO menu_searchDTO) {
+		,MenuSearchDTO menu_searchDTO
+		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "menu_analysis_form");
 		 

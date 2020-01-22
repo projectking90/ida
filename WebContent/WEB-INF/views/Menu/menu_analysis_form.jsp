@@ -24,18 +24,41 @@
 					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>
-					
+					<div class="text-center">
+						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="menuAnalysisForm" 
+						method="post" action="/ida/menu_analysis_form.ida">
+=======
 					<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 						<div class="text-center">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+								<input type="text" name="keyword" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
 								
-								<button class="btn btn-primary" type="button">
+								<button class="btn btn-primary list" type="button">
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
+					</div>
 						</div>
 			
+					<div class="text-right">
+						<b>대분류 : </b>
+						<input type="checkbox" value="한식" name="search_condition">한식&nbsp;
+						<input type="checkbox" value="중식" name="search_condition">중식&nbsp;
+						<input type="checkbox" value="일식" name="search_condition">일식&nbsp;
+						<input type="checkbox" value="양식" name="search_condition">양식&nbsp;
+						<input type="checkbox" value="분식" name="search_condition">분식&nbsp;
+						<input type="checkbox" value="패스트푸드" name="search_condition">패스트푸드&nbsp;
+						<input type="checkbox" value="카페" name="search_condition">카페&nbsp;
+						<b>소분류 : </b>
+						<input type="checkbox" value="일반" name="search_condition">일반&nbsp;
+						<input type="checkbox" value="베지테리언" name="search_condition">베지테리언&nbsp;
+						<input type="checkbox" value="알레르기" name="search_condition">알레르기&nbsp;
+						<b>가격 : </b>
+						<input type="checkbox" value="5000" name="search_condition">5000원 이상&nbsp;
+						<input type="checkbox" value="10000" name="search_condition">10000원 이상&nbsp;
+						
+					</div>
+=======
 						<div class="text-right">
 							<b>대분류 : </b>
 							<input type="checkbox" value="한식" name="search_condition">한식&nbsp;

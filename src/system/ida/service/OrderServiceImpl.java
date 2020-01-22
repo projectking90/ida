@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.OrderDAO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.OrderDTO;
 import system.ida.dto.OrderSearchDTO;
@@ -195,10 +196,28 @@ public class OrderServiceImpl implements OrderService {
 		return gender_chart;
 	}
 	
+	public List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> gender_chart_m = this.orderDAO.getGenderData_M(chart_search_DTO);
+		
+		return gender_chart_m;
+	}
+	
+	public List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> gender_chart_w = this.orderDAO.getGenderData_W(chart_search_DTO);
+		
+		return gender_chart_w;
+	}
+	
 	public List<Map<String, String>> getAgeData(String s_id) {
 		List<Map<String,String>> age_chart = this.orderDAO.getAgeData(s_id);
 		
 		return age_chart;
+	}
+	
+	public List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> age_menu_chart = this.orderDAO.getAgeMenuData(chart_search_DTO);
+		
+		return age_menu_chart;
 	}
 	
 	public List<Map<String, String>> getMonthData(String s_id) {
@@ -222,5 +241,10 @@ public class OrderServiceImpl implements OrderService {
 		List<Map<String,String>> quarter_chart = this.orderDAO.getQuarterData(s_id);
 		
 		return quarter_chart;
+	}
+	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> week_chart = this.orderDAO.getWeekData(chart_search_DTO);
+		
+		return week_chart;
 	}
 }

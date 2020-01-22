@@ -21,7 +21,6 @@
 		$(".list").click(function(){
 			order_list();
 		});
-		
 		<c:forEach items="${ordersearchDTO.search_condition}" var="search_condition">
 			inputData("[name=search_condition]","${search_condition}");
 		</c:forEach>
