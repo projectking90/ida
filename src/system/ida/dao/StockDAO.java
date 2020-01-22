@@ -39,4 +39,5 @@ public interface StockDAO {
 	int getInsertedStockQuantityCnt(Map<String, String> trData);	// 추가된 재고의 수량 가져오기
 	int updateStockRecord(Map<String, String> trData);	// 등록되었지만 재고 수량이 수정될 때 기존값-수정된 값을 insert하기
 	//List<Map<String, String>> getStockWeekData(String s_id); // 주간 데이터 재고 수량 차트 데이터 가져오기
+	List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO); // 차트 재고 테이블 목록 가져오기
 }

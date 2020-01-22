@@ -145,4 +145,14 @@ public class StockDAOImpl implements StockDAO {
 		return week_chart;
 	}
 */
+	@Override
+	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
+		List<StockDTO> stock_anl_list = this.sqlSession.selectList(
+				sqlSessionPath+"getStockAnlList"
+				, stock_searchDTO);
+		
+		
+		return stock_anl_list;
+	}
+
 }
