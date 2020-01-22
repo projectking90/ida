@@ -39,24 +39,35 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-fw fa-chart-area"></i>식자재 분석
-							<span name='ingredient_analysis_chart_btn' style='float:right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary i_table">식자재 표</button>
 							</span>
 						</div>
 
 						<div class="card-body">
 							<canvas id="myChart" width="100%" height="30"></canvas>
+							<button type="button" class="btn btn-outline-info btn-sm top3">TOP 3</button>
+							<button type="button" class="btn btn-outline-info btn-sm top5">TOP 5</button>
+							<button type="button" class="btn btn-outline-info btn-sm top10">TOP 10</button>
+							
+							<div class="text-right">
+								<select name="chart_search">
+									<option value='주'>주</option>
+									<option value='월'>월</option>
+									<option value='분기'>분기</option>
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

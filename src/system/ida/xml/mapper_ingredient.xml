@@ -149,7 +149,7 @@
 	</insert>
 	
 	<!-- 삭제한 식자재 기록하기 -->
-	<insert id="deleteIngRecord" parameterType="hashmap">
+<!-- 	<insert id="deleteIngRecord" parameterType="hashmap">
 		insert into ingredient_record(
 			i_no
 			,i_price
@@ -157,22 +157,33 @@
 			(select i_no from ingredient where i_no=${i_no} and is_del='T')
 			,to_number(${i_price}, 9999999999)
 		)
-	</insert>
+	</insert> -->
 	
-	<select id="getWeekData" parameterType="String" resultType="hashmap">
-	select
-    count(i_name)
-    , i_name
-    , to_char(reg_date, 'mm')
-from (select
-              s_no as "S_NO", reg_date as "REG_DATE", i_name as "I_NAME"
-          from ingredient
-where
-    s_no = (select s_no from store where s_id=#{s_id}) )
-group by
-   to_char(reg_date, 'mm'), i_name;
-	
+	<select id="getWeekData" parameterType="string" resultType="hashmap">
+		select
+			count(i_name) ||''  "data1"
+			, i_name
+			, to_char(reg_date, 'ww')  "LABEL"
+		from (select
+			s_no as "S_NO", reg_date as "REG_DATE", i_name as "I_NAME"
+		from ingredient )
+			where
+				s_no = (select s_no from store where s_id=#{s_id}) 
+			group by
+				to_char(reg_date, 'ww'), i_name
 	</select>
+	
+	<!-- <select id="getMonthData" parameterType="String" resultType="hashmap"> -->
+	
+<!-- 	select
+		(select s_no from store where s_id=#{s_id})
+		,i_name    "label"
+		,ir.i_price  "data1"
+		,to_char(i.reg_date,'mm') "labels"
+	from ingredient_day
+	order by to_char(i.reg_date,'mm')
+	</select>
+	 -->
 	
 	<select id="getIngAnlList" parameterType="system.ida.dto.IngredientSearchDTO" resultType="system.ida.dto.IngredientDTO">
 		select
@@ -187,8 +198,10 @@ group by
 			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
 			,i.is_del   as  "is_del"
 			
-		from ingredient i 
-		where i.is_del = 'F'
+		from
+			ingredient i 
+		where
+			i.is_del = 'F'
 			and s_no = (select s_no from store where s_id=#{s_id})
 			<include refid="ingredientWhere"/>
 	</select>

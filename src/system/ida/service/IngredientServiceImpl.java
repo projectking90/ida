@@ -145,4 +145,10 @@ public class IngredientServiceImpl implements IngredientService {
 		List<IngredientDTO> ingredient_anl_list = this.ingredientDAO.getIngAnlList(ingredient_SearchDTO);
 		return ingredient_anl_list;
 	}
+	
+	/*
+	 * @Override public List<Map<String, String>> getMonthData(String s_id) {
+	 * List<Map<String,String>> ing_month_data =
+	 * this.ingredientDAO.getMonthData(s_id); return ing_month_data; }
+	 */
 }

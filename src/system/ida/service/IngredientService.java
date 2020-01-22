@@ -38,4 +38,7 @@ public interface IngredientService {
 	int deleteIngredient(ArrayList<String> ingredient_delete);			//식자재 삭제 메소드
 	List<Map<String,String>> getWeekData(String s_id);
 	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
+	/*
+	 * List<Map<String,String>> getMonthData(String s_id);
+	 */
 }

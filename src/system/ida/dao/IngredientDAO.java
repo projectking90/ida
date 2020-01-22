@@ -32,10 +32,15 @@ public interface IngredientDAO {
 	int insertIngredient(IngredientDTO ingredientDTO);									//식자재 추가
 	int updateIngredient(Map<String, String> trData);									//식자재 수정
 	int deleteIngredient(Map<String,String> trData);									//식자재 삭제
+	int insertIngRecord(IngredientDTO ingredientDTO);							// 식자재 추가 기록 
+	int updateIngRecord(Map<String, String> trData);							// 식자재 수정 기록
 	List<Code_IngredientAlphaDTO> getCodeIngAlpha();									//식자재 대분류
 	List<Code_IngredientBetaDTO> getCodeIngBeta();										//식자재 소분류
 	List<Code_IngredientOriginDTO> getCodeIngOrigin();									//식자재 원산지
 	List<Code_IngredientAllergieDTO> getCodeIngAllergie();								//식자재 알레르기
 	List<Map<String,String>> getWeekData(String s_id);
 	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
+	/*
+	 * List<Map<String,String>> getMonthData(String s_id);
+	 */
 }
