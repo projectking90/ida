@@ -104,9 +104,14 @@ public class IngredientServiceImpl implements IngredientService {
 				trData.put("i_size", ingredient_update.get(i));
 			} else if (i % 7 == 6) {
 				trData.put("i_price", ingredient_update.get(i));
+				int i_price = Integer.parseInt(ingredient_update.get(i));
+				int change_i_price =
 				ingredient_update_cnt += this.ingredientDAO.updateIngredient(trData);
+			}if(ingredient_update_cnt>0) {
+				int ing_update_record_cnt = this.ingredientDAO.updateIngRecord(trData);
 			}
 		}
+		
 
 		return ingredient_update_cnt;
 	}
@@ -145,4 +150,12 @@ public class IngredientServiceImpl implements IngredientService {
 		List<IngredientDTO> ingredient_anl_list = this.ingredientDAO.getIngAnlList(ingredient_SearchDTO);
 		return ingredient_anl_list;
 	}
+
+	@Override
+	public List<Map<String, String>> getMonthData(String s_id) {
+		List<Map<String,String>> ing_month_data = this.ingredientDAO.getMonthData(s_id);
+		return ing_month_data;
+	}
+
+	
 }

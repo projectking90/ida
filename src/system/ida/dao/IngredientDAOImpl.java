@@ -140,6 +140,30 @@ public class IngredientDAOImpl implements IngredientDAO {
 		return ingredient_anl_list;
 	}
 
+	@Override
+	public List<Map<String, String>> getMonthData(String s_id) {
+		List<Map<String,String>> ing_month_chart = this.sqlSession.selectList(
+			sqlSessionPath+"getMonthData"
+			,s_id
+		);
+		return ing_month_chart;
+	}
+
+	
+	
+	// ingredient_record에 추가한 것 기록하기
+		
+		@Override public int insertIngRecord(IngredientDTO ingredientDTO) { int
+		ing_record_insert = this.sqlSession.insert( sqlSessionPath+"insertIngRecord"
+		,ingredientDTO ); return ing_record_insert; }
+		
+		// ingredient_record에 수정한 것 기록하기
+		
+		@Override public int updateIngRecord(Map<String, String> trData) { int
+		ing_record_update = this.sqlSession.insert( sqlSessionPath+"updateIngRecord"
+		,trData ); return ing_record_update; }
+		
+		
 	/*
 	 * // 이미 등록되어 있는 식자재 총 개수
 	 * 
@@ -150,19 +174,7 @@ public class IngredientDAOImpl implements IngredientDAO {
 	 * 
 	 * 
 	 * 
-	 * // ingredient_record에 추가한 것 기록하기
 	 * 
-	 * @Override public int insertIngRecord(IngredientDTO ingredientDTO) { int
-	 * ing_record_insert = this.sqlSession.insert( sqlSessionPath+"insertIngRecord"
-	 * ,ingredientDTO ); return ing_record_insert; }
-	 * 
-	 * // ingredient_record에 수정한 것 기록하기
-	 * 
-	 * @Override public int updateIngRecord(Map<String, String> trData) { int
-	 * ing_record_update = this.sqlSession.insert( sqlSessionPath+"updateIngRecord"
-	 * ,trData ); return ing_record_update; }
-	 */
-	
 	
 	/*
 	 * // 삭제된 식자재의 총 개수 구하기
