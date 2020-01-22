@@ -22,16 +22,6 @@
 	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
-			
-					<table><tr height=10><td></table>
-			
-					<div class="text-right">
-						<select name="chart_search">
-							<option value='주'>주</option>
-							<option value='월'>월</option>
-							<option value='분기'>분기</option>
-						</select>
-					</div>
 					
 					<table><tr height=10><td></table>
 	
@@ -50,13 +40,13 @@
 							<button type="button" class="btn btn-outline-info btn-sm top5">TOP 5</button>
 							<button type="button" class="btn btn-outline-info btn-sm top10">TOP 10</button>
 							
-							<div class="text-right">
+							<span style='float:right'>
 								<select name="chart_search">
 									<option value='주'>주</option>
 									<option value='월'>월</option>
 									<option value='분기'>분기</option>
 								</select>
-							</div>
+							</span>
 						</div>
 					</div>
 				</div>
