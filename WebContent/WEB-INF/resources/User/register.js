@@ -103,8 +103,8 @@ function registerUser(cr){
 		return;
 	}
 	
-	if(!is_valid_pattern(s_id, /^[0-9a-z]{1,10}$/)){
-		alert("아이디는 영어 소문자 또는 숫자 10자리 이내만 입력할 수 있습니다");
+	if(!is_valid_pattern(s_id, /^[0-9a-z]{6,10}$/)){
+		alert("아이디는 영어 소문자 또는 숫자를 최소 6자리, 최대 10자리 입력할 수 있습니다");
 		$(s_id).focus();
 		
 		return;
@@ -124,8 +124,8 @@ function registerUser(cr){
 		return;
 	}
 	
-	if(!is_valid_pattern(pwd, /^[0-9a-z]{1,15}$/)){
-		alert("비밀번호는 영어 소문자 또는 숫자 15자리 이내만 입력할 수 있습니다");
+	if(!is_valid_pattern(pwd, /^[0-9a-z]{6,15}$/)){
+		alert("비밀번호는 영어 소문자 또는 숫자를 최소 6자리, 최대 15자리 입력할 수 있습니다");
 		$(pwd).focus();
 		
 		return;
@@ -174,7 +174,7 @@ function registerUser(cr){
 	}
 	
 	if(!is_valid_pattern(s_reg_num, /^[\d]{3}-[\d]{2}-[\d]{5}$/)){
-		alert("사업자등록번호이 아닙니다");
+		alert("사업자등록번호가 아닙니다");
 		$(s_reg_num).focus();
 		
 		return;
@@ -188,7 +188,7 @@ function registerUser(cr){
 	}
 	
 	if(!is_valid_pattern(s_phone, /^010[\d]{8}$/)){
-		alert("핸드폰 형식이 아닙니다");
+		alert("핸드폰 양식이 아닙니다");
 		$(s_phone).focus();
 		
 		return;

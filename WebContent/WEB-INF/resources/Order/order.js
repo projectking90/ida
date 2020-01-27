@@ -1,17 +1,40 @@
 function insert_order_reg(cr) {
-	if(is_empty("[name=insertOrderForm] [name=c_phone]")){
+	var form = "[name=insertOrderForm]";
+	var c_phone = form + " [name=c_phone]";
+	var mi_name = form + " [name=mi_name]";
+	var quantity = form + " [name=quantity]";
+	
+	if(is_empty(c_phone)){
 		alert("핸드폰 번호를 입력해주시기 바랍니다.");
-		$("[name=c_phone]").focus();
+		$(c_phone).focus();
+		
 		return;
 	}
-	if(is_empty("[name=insertOrderForm] [name=mi_name]")){
+	
+	if(!is_valid_pattern(c_phone, /^010[\d]{8}$/)){
+		alert("핸드폰 양식이 아닙니다");
+		$(c_phone).focus();
+		
+		return;
+	}
+	
+	if(is_empty(mi_name)){
 		alert("메뉴를 선택해 주시기 바랍니다.");
-		$("[name=mi_name]").focus();
+		
 		return;
 	}
-	if(is_empty("[name=insertOrderForm] [name=quantity]")){
+	
+	if(is_empty(quantity)){
 		alert("수량을 입력해 주시기 바랍니다.");
-		$("[name=quantity]").focus();
+		$(quantity).focus();
+		
+		return;
+	}
+	
+	if(!is_valid_pattern(quantity, /^[1-9]{1}[\d]{0,2}$/)){
+		alert("수량은 0 초과, 1000 미만의 정수로만 입력 가능합니다.");
+		$(quantity).focus();
+		
 		return;
 	}
 
@@ -32,7 +55,7 @@ function insert_order_reg(cr) {
 	$.ajax({
 		url : cr + "/order_insert.ida"
 		, type : "post"
-		,data : $("[name=insertOrderForm]").serialize()+"&minameArr="+minameArr+"&quantityArr="+quantityArr
+		,data : $(form).serialize()+"&minameArr="+minameArr+"&quantityArr="+quantityArr
 		,success : function(insert_result){
 			if(insert_result==1){
 				alert("주문 등록 성공하였습니다.");

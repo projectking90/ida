@@ -28,7 +28,7 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 수정 
-							<span name=store_insert_form style='float: right'>
+							<span style='float: right'>
 								<button type="button" class="btn btn-primary update" value="수정완료">수정완료 </button>
 							</span>
 						</div>
@@ -52,8 +52,8 @@
 										<c:forEach items="${ingredient_list}" var="ingredient">
 											<tr class="ingredient_list_tr" style="cursor:pointer">
 												<td align=center>
-													<form:hidden path="" name="i_no" value="${ingredient.i_no}"/>
 												<td>
+													<form:hidden path="" name="i_no" value="${ingredient.i_no}"/>
 													<select name="ia_name">
 														<c:forEach items="${ingredient.ia_nameList}" var="ia_nameList" varStatus="loopTagStatus">
 															<option value="${ia_nameList.ia_name}"

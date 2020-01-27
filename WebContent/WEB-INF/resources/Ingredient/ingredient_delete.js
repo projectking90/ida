@@ -27,9 +27,7 @@ function ing_delete_reg(cr) {
 			}
 		}
 		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
-		,error : function(xhr,errorThrown){
-			alert(xhr);
-			alert(errorThrown);
+		,error : function(){
 			alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
 		}
 	});

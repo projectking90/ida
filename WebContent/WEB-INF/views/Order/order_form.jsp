@@ -62,16 +62,14 @@
 							</div>
 						</div>
 						
-						<div class="card-footer small text-muted">
-							Updated yesterday at 11:59 PM
-						</div>
+						<div class="card-footer small text-muted"></div>
 					</div>
 	
 					<!--추가-->
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 주문 추가
-							<span style='float: right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary" value='주문메뉴 추가'
 									onClick='append_menu_tr_btn();'>메뉴 +</button>
 								<button type="button" class="btn btn-danger" value='주문메뉴 삭제'

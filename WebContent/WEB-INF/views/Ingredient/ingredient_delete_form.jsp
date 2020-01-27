@@ -49,7 +49,7 @@
 									<tbody>
 										<form:form name="deleteIngredient" method="post"  commandName="ingredientDTO" action="${cr}/ingredient_delete_form.ida">
 											<c:forEach items="${ingredient_list}" var="ingredient">
-											<tr>
+											<tr class="ingredient_list_tr">
 												<td align=center>
 													<input type="checkbox" name="delete_ingredient" value="${ingredient.i_no}">
 												<td align=center>${ingredient.ia_name}

@@ -195,7 +195,7 @@ public class IngredientController {
 	
 	/**
 	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
-	 * 가상주소 /ingredeint_delete.onm로 접근하면 호출
+	 * 가상주소 /ingredeint_delete.ida로 접근하면 호출
 	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
 	 * @return delete_result : 식자제 삭제 Query 실행 결과
 	 */
@@ -211,6 +211,9 @@ public class IngredientController {
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			ingredient_searchDTO.setS_id(s_id);
+			for(int i=0; i<ingredient_delete.size(); i++) {
+				System.out.println(ingredient_delete.get(i));
+			}
 			delete_result = this.ingredientService.deleteIngredient(ingredient_delete);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<deleteStoreMenu 에러발생>");
@@ -274,7 +277,7 @@ public class IngredientController {
 	
 	/**
 	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
-	 * 가상주소 /ingredeint_delete.onm로 접근하면 호출
+	 * 가상주소 /ingredeint_analysis_chart.ida로 접근하면 호출
 	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
 	 * @return delete_result : 식자제 삭제 Query 실행 결과
 	 */

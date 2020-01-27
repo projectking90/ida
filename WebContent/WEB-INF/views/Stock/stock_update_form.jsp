@@ -51,8 +51,9 @@
 										<c:forEach items="${stock_list}" var="stock">
 											<tr class="stock_list_tr">
 												<td align=center>
+												<td align=center>
 													<input type="hidden" name="st_no" value="${stock.st_no}">
-												<td align=center>${stock.ia_name}
+													${stock.ia_name}
 												<td align=center>${stock.ib_name}
 												<td align=center>${stock.io_name}
 												<td align=center>${stock.i_name}

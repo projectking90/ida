@@ -49,8 +49,8 @@
 									<c:forEach items="${order_list}" var="order">
 										<tr class="order_list_tr">
 											<td align=center>
-												<input type="hidden" name="oi_no" value="${order.oi_no}">
 											<td align=center>
+												<input type="hidden" name="oi_no" value="${order.oi_no}">
 												<input type="text" name="c_phone" value="${order.c_phone}">
 											<td align=center>
 												<select name="mi_name">
@@ -85,9 +85,7 @@
 							</table>
 						</div>
 						
-						<div class="card-footer small text-muted">
-							Updated yesterday at 11:59 PM
-						</div>
+						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->

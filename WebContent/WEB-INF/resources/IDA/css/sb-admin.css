@@ -70,6 +70,10 @@ body {
   background-color: #fff;
 }
 
+body[background] {
+	background-size: 100% 100%;
+}
+
 [tabindex="-1"]:focus {
   outline: 0 !important;
 }

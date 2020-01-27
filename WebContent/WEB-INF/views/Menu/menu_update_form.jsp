@@ -48,8 +48,8 @@
 											<c:forEach items="${menu_list}" var="menu">
 											<tr class="menu_list_tr">
 												<td align=center>
-													<input type="hidden" name="mi_no" value="${menu.mi_no}">
 												<td>
+													<input type="hidden" name="mi_no" value="${menu.mi_no}">
 													<select name="ma_code">
 														<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList">
 															<option value="${ma_nameList.ma_name}"
