@@ -16,7 +16,9 @@ public class ChartSearchDTO {
 	private String s_id;
 	private String chart_cnt;
 	private String age;
-	
+	private String week;
+	private String month;
+	private String year;
 	
 	public String getAge() {
 		return age;
@@ -35,6 +37,23 @@ public class ChartSearchDTO {
 	}
 	public void setChart_cnt(String chart_cnt) {
 		this.chart_cnt = chart_cnt;
+	}
+	public String getWeek() {
+		return week;
+	}
+	public void setWeek(String week) {
+		this.week = week;
+	}public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
 	}
 	
 

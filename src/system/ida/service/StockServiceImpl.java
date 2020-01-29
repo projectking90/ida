@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.StockDAO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
 import system.ida.dto.StockInsertDTO;
@@ -152,19 +153,22 @@ public class StockServiceImpl implements StockService {
 		return stock_delete_cnt;
 	}
 
-/*	
- 	@Override
-	public List<Map<String, String>> getStockWeekData(String s_id) {
-		List<Map<String,String>> week_chart = this.stockDAO.getStockWeekData(s_id);
-		return week_chart;
-	}
-*/	
-	
-
-
 	@Override
 	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
 		List<StockDTO> stock_anl_list = this.stockDAO.getStockAnlList(stock_searchDTO);
 		return stock_anl_list;
 	}
+
+	@Override
+	public List<Map<String, String>> getWeekStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_stock_chart = this.stockDAO.getWeekStockData(chart_searchDTO);
+		return week_stock_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_stock_chart = this.stockDAO.getMonthStockData(chart_searchDTO);
+		return month_stock_chart;
+	}
+
 }

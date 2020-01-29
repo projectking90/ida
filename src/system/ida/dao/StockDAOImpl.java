@@ -11,9 +11,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
-import system.ida.dto.StockInsertDTO;
 import system.ida.dto.StockSearchDTO;
 
 /**
@@ -135,16 +135,7 @@ public class StockDAOImpl implements StockDAO {
 		int updated_stock_record=this.sqlSession.insert(sqlSessionPath+"updateStockRecord", trData);
 		return updated_stock_record;
 	}
-/*
-	@Override
-	public List<Map<String, String>> getStockWeekData(String s_id) {
-		List<Map<String,String>> week_chart = this.sqlSession.selectList(
-				sqlSessionPath + "getStockWeekData"
-				,s_id);
-		
-		return week_chart;
-	}
-*/
+
 	@Override
 	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
 		List<StockDTO> stock_anl_list = this.sqlSession.selectList(
@@ -155,4 +146,21 @@ public class StockDAOImpl implements StockDAO {
 		return stock_anl_list;
 	}
 
+	@Override
+	public List<Map<String, String>> getWeekStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_stock_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekStockData"
+				,chart_searchDTO);
+		
+		return week_stock_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_stock_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthStockData"
+				,chart_searchDTO);
+		
+		return month_stock_chart;
+	}
 }

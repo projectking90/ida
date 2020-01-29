@@ -12,10 +12,28 @@
 
 <script>
 	$(document).ready(function(){
-		getChartData("${cr}", $("[name=chart_search]").val());
+		$(".month").hide();
+		$(".year").hide();
+	      
+		getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("[name=month]").val(), $("[name=year]").val());
 		
 		$("[name=chart_search]").change(function(){
-			getChartData("${cr}", $(this).val());
+			getChartData("${cr}", $(this).val(), $("[name=week]:checked").val(), $("[name=month]").val(), $("[name=year]").val());
+		});
+		
+		$("[name=week]").change(function(){
+			//alert($(this).val());
+			getChartData("${cr}", $("[name=chart_search]").val(), $(this).val(), $("[name=month]").val(), $("[name=year]").val());
+		});
+		
+		$("[name=month]").change(function(){
+			//alert($(this).val());
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(),  $(this).val(), $("select[name=year]").val());
+		});
+		
+		$("[name=year]").change(function(){
+			//alert($(this).val());
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("select[name=month]").val(), $(this).val());
 		});
 		
 		$(".s_table").click(function(){

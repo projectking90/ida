@@ -6,6 +6,7 @@ package system.ida.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.ChartDTO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
-import system.ida.dto.StockInsertDTO;
 import system.ida.dto.StockSearchDTO;
 import system.ida.service.StockService;
 
@@ -238,26 +239,61 @@ public class StockController {
 	@RequestMapping(value="/stock_analysis_chart.ida")
 	@ResponseBody
 	public ChartDTO getStockChartData(
-			HttpSession session
-			, @RequestParam(value="chart_search") String chart_search)
+			ChartSearchDTO chart_searchDTO
+			, HttpSession session
+			, @RequestParam(value="chart_search") String chart_search
+			, @RequestParam(value="chart_cnt") String chart_cnt
+			, @RequestParam(value="week") String week
+			, @RequestParam(value="month") String month
+			, @RequestParam(value="year") String year
+	)
 	{
 		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
+			chart_searchDTO.setS_id(s_id);
+			chart_searchDTO.setChart_cnt(chart_cnt);
+			
+			List<String> label = new ArrayList<String>();
+			List<String> data1=new ArrayList<String>();
+			List<String> dataset = new ArrayList<String>();
 			
 			if(chart_search.equals("주")) {
-
+				chart_searchDTO.setWeek(week);
+				List<Map<String, String>> week_stock_chart = this.stockService.getWeekStockData(chart_searchDTO);
+				
+				for(int i=0; i<week_stock_chart.size(); i++) {
+					label.add(week_stock_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<week_stock_chart.size(); i++) {
+					data1.add(week_stock_chart.get(i).get("DATA"));
+				}
+				dataset.add(week_stock_chart.get(0).get("DATASET"));
 				
 			} else if(chart_search.equals("월")) {
-	
+				chart_searchDTO.setMonth(month);
+				chart_searchDTO.setYear(year);
+				List<Map<String, String>> month_stock_chart = this.stockService.getMonthStockData(chart_searchDTO);
 				
+				for(int i=0; i<month_stock_chart.size(); i++) {
+					label.add(month_stock_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<month_stock_chart.size(); i++) {
+					data1.add(month_stock_chart.get(i).get("DATA"));
+				}
+				dataset.add(month_stock_chart.get(0).get("DATASET"));
 			} else if (chart_search.equals("시간")) {
 
 				
 			} else if (chart_search.equals("분기")) {
 
 			}
+
+			chart_data.setDataset(dataset);
+			chart_data.setLabel(label);
+			chart_data.setData1(data1);
+			
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getStockChartData 에러발생>");
 			System.out.println(e.getMessage());

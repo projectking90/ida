@@ -7,9 +7,9 @@ package system.ida.dao;
 import java.util.List;
 import java.util.Map;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.StockDTO;
-import system.ida.dto.StockInsertDTO;
 import system.ida.dto.StockSearchDTO;
 
 /**
@@ -38,6 +38,7 @@ public interface StockDAO {
 	int insertStockRecord(StockDTO stockDTO);	// stock_record에 insert한 것 넣기
 	int getInsertedStockQuantityCnt(Map<String, String> trData);	// 추가된 재고의 수량 가져오기
 	int updateStockRecord(Map<String, String> trData);	// 등록되었지만 재고 수량이 수정될 때 기존값-수정된 값을 insert하기
-	//List<Map<String, String>> getStockWeekData(String s_id); // 주간 데이터 재고 수량 차트 데이터 가져오기
 	List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO); // 차트 재고 테이블 목록 가져오기
+	List<Map<String, String>> getWeekStockData(ChartSearchDTO chart_searchDTO); // 주간 데이터 재고 수량 차트 데이터 가져오기
+	List<Map<String, String>> getMonthStockData(ChartSearchDTO chart_searchDTO); // 월간 데이터 재고 수량 차트 데이터 가져오기
 }
