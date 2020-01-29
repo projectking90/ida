@@ -172,5 +172,11 @@ public class IngredientServiceImpl implements IngredientService {
 		return month_ingredient_chart;
 	}
 
+	@Override
+	public IngredientDTO getIngredientDTO(int i_no) {
+		IngredientDTO ingredientDTO = this.ingredientDAO.getIngedientDTO(i_no);
+		return ingredientDTO;
+	}
+
 	
 }

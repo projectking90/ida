@@ -35,7 +35,7 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form name="IngredientForm" method="post" action="/ida/ingredient.ida">
+							<form name="deleteIngredient" method="post" action="/ida/ingredient_delete.ida">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
@@ -48,12 +48,12 @@
 											<td align=center><b>규격</b></td>
 											<td align=center><b>가격</b></td>
 											<td align=center><b>등록일</b></td>
+											<td align=center><b>선택</b></td>
 										</tr>
 									</thead>
 			<tbody>
 		<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
-				<tr>
-				
+			<tr style="cursor:pointer" class="ingredient_list_tr" onClick="goIngredientDetailForm(${ingredient.i_no});">
 					<td align=center>${loopTagStatus.index+1}
 					<input type="hidden" name="i_no" value="${ingredient.i_no}">
 					<input type="hidden" value="${ingredient.s_no}">
@@ -64,6 +64,8 @@
 					<td align=center>${ingredient.i_size}</td>
 					<td align=center>${ingredient.i_price}</td>
 					<td align=center>${ingredient.reg_date}</td>
+					<input type="hidden" name="is_del" value="${ingredient.is_del}">
+					<td onclick="event.cancelBubble = true;"><input type="checkbox" name="delete_ingredient" value="${ingredient.i_no}">
 				</tr>
 		</c:forEach>
 			</tbody>

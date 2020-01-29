@@ -203,6 +203,15 @@ public class IngredientDAOImpl implements IngredientDAO {
 		);
 	return month_ingredient_chart;
 	}
+
+	@Override
+	public IngredientDTO getIngedientDTO(int i_no) {
+		IngredientDTO ingredientDTO = this.sqlSession.selectOne(
+			sqlSessionPath+"getIngedientDTO"
+			,i_no
+		);
+		return ingredientDTO;
+	}
 	
 	
 

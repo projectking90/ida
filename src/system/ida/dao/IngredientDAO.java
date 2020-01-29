@@ -46,4 +46,6 @@ public interface IngredientDAO {
 	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);		//분석에서 식자재 재고 가져오기
 	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
 	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
+	
+	IngredientDTO getIngedientDTO(int i_no); 		//상세보기
 }

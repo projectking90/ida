@@ -11,6 +11,13 @@
 <script src="${cr}/resources/Ingredient/ingredient.js" type="text/javascript"></script>
 
 <script>
+
+
+function goIngredientDetailForm(i_no){
+		location.replace("${cr}/ingredient_detail_form.ida?i_no="+i_no);
+	}
+
+
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
 		setCardFooter("ingredient", "${cr}");
@@ -24,7 +31,8 @@
 		});
 	
 		$(".delete").click(function(){
-			location.replace("${cr}/ingredient_delete_form.ida");
+			alert("정말 삭제하시겠습니까?")
+			ing_delete_reg("${cr}");
 		});
 	});
 </script>

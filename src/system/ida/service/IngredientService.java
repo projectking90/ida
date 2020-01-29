@@ -41,4 +41,5 @@ public interface IngredientService {
 	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
 	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
 	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
+	IngredientDTO getIngredientDTO(int i_no);
 }

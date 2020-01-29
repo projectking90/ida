@@ -321,4 +321,23 @@
 			and s_no = (select s_no from store where s_id=#{s_id})
 			<include refid="ingredientWhere"/>
 	</select>
+	
+	
+	<select id="getIngedientDTO" parameterType="int" resultType="system.ida.dto.IngredientDTO">
+		select
+			i.i_no as "i_no"
+			,(select a.ia_name from code_ingredient_alpha a where a.ia_code=i.ia_code) as  "ia_name"
+			,(select b.ib_name from code_ingredient_beta b where b.ib_code=i.ib_code) as "ib_name"
+			,(select o.io_name from code_ingredient_origin o where o.io_code=i.io_code) as"io_name"
+			,i.i_name as  "i_name"
+			,i.i_size as  "i_size"
+			,to_char(i.i_price, '9,999,999,999')  as  "i_price"
+			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
+			,i.is_del   as  "is_del"
+			
+		from ingredient i 
+		where i.is_del = 'F'
+			and i_no = #{i_no}
+	
+	</select>
 </mapper>
