@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.Code_IngredientAllergieDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
@@ -36,10 +37,8 @@ public interface IngredientService {
 	int insertIngredient(IngredientDTO ingredientDTO);					//식자재 추가 메소드
 	int updateIngredient(ArrayList<String> ingredient_update);			//식자재 수정 메소드
 	int deleteIngredient(ArrayList<String> ingredient_delete);			//식자재 삭제 메소드
-	List<Map<String,String>> getWeekData(String s_id);
 
-	List<IngredientDTO> getIngAnlList(
-			IngredientSearchDTO ingredient_SearchDTO);/*
-														 * List<Map<String,String>> getMonthData(String s_id);
-														 */
+	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
+	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
+	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
 }

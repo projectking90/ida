@@ -12,14 +12,28 @@
 
 <script>
 	$(document).ready(function(){
-		getChartData("${cr}", $("[name=chart_search]").val());
-		
-		$("[name=chart_search]").change(function(){
-			getChartData("${cr}", $(this).val());
-		});
-		
-		$(".i_table").click(function(){
-			location.replace("${cr}/ingredient_analysis_form.ida");
+		$(document).ready(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("[name=month]").val(), $("[name=year]").val());
+			
+			$("[name='chart_search']").change(function(){
+				getChartData("${cr}", $(this).val(), $("[name=week]:checked").val(), $("[name=month]").val(), $("[name=year]").val());
+			});
+			  $("[name=week]").change(function(){
+			         //alert($(this).val());
+			         getChartData("${cr}", $("[name=chart_search]").val(), $(this).val(), $("[name=month]").val(), $("[name=year]").val());
+			      });
+			
+			$("[name=month]").change(function(){
+				getChartData("${cr}", ("[name=chart_search]").val(), $("[name=week]:checked").val(), $(this).val(), $("[name=year]").val());
+			});
+			
+			$("[name=year]").change(function(){
+				getChartData("${cr}", ("[name=chart_search]").val(), $("[name=week]:checked").val(), $("[name=month]").val(), $(this).val());
+			});
+
+			$(".i_table").click(function(){
+				location.replace("${cr}/ingredient_analysis_form.ida");
+			});
 		});
 	});
 </script>

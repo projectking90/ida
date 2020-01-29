@@ -37,12 +37,12 @@ function insert_ing_reg(cr) {
 		url : cr + "/ingredient_insert.ida"
 		, type : "post"
 		,data : $("[name=insertIngForm]").serialize()
-		,success : function(insert_result){
-			if(insert_result==1){
+		,success : function(ingredient_reg_cnt){
+			if(ingredient_reg_cnt==1){
 				alert("식자재 등록 성공하였습니다.");
 				location.replace(cr + '/ingredient_form.ida');
-			}else{
-				alert("식자재 등록 실패하였습니다. 관리자에게 문의하시기 바랍니다.")
+			}else {
+				alert("식자재가 등록되지 않았습니다. 관리자에게 문의하시기 바랍니다.");
 			}
 		}
 		,error : function(){

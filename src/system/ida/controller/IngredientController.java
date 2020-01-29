@@ -5,7 +5,6 @@
 package system.ida.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.ChartDTO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
 import system.ida.dto.Code_IngredientOriginDTO;
@@ -257,13 +257,16 @@ public class IngredientController {
 	 */
 	@RequestMapping(value="/ingredient_analysis_chart_form.ida")
 	public ModelAndView goIngredientAnalysisChartForm(
-		HttpSession session
+		IngredientSearchDTO ingredient_searchDTO
+		,HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_analysis_chart_form");
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			List<IngredientDTO> ingredient_anl_list = this.ingredientService.getIngAnlList(ingredient_searchDTO);
+			mav.addObject("ingredient_anl_list",ingredient_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientAnalysisChartForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -273,45 +276,66 @@ public class IngredientController {
 	}
 	
 	/**
-	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
-	 * 가상주소 /ingredeint_delete.onm로 접근하면 호출
-	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
-	 * @return delete_result : 식자제 삭제 Query 실행 결과
+	 * 식자재  차트
+	 * 가상주소 /ingredeint_analysis_chart.ida로 접근하면 호출
 	 */
 	@RequestMapping(value="/ingredeint_analysis_chart.ida")
 	@ResponseBody
 	public ChartDTO getIngredientChartData(
-			HttpSession session
-			, @RequestParam(value="chart_search") String chart_search) {
+			ChartSearchDTO chart_searchDTO
+			,HttpSession session
+			, @RequestParam(value="chart_search") String chart_search
+			, @RequestParam(value="chart_cnt") String chart_cnt
+			, @RequestParam(value="week") String week
+			, @RequestParam(value="month") String month
+			, @RequestParam(value="year") String year
+			) {
 		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
+			chart_searchDTO.setS_id(s_id);
+			chart_searchDTO.setChart_cnt(chart_cnt);
+			
 
+			List<String> label = new ArrayList<String>();
+			List<String> data1=new ArrayList<String>();
+			List<String> dataset = new ArrayList<String>();
+			
 			if(chart_search.equals("주")) {
-				List<Map<String,String>> ing_week_chart = this.ingredientService.getWeekData(s_id);
-				List<String> label = new ArrayList<String>();
-				for(int i=0; i<ing_week_chart.size(); i++) {
-					label.add(ing_week_chart.get(i).get("label"));
+				chart_searchDTO.setWeek(week);
+				List<Map<String,String>> week_ingredient_chart = this.ingredientService.getWeekIngredientData(chart_searchDTO);
+				
+				for(int i=0; i<week_ingredient_chart.size(); i++) {
+					label.add(week_ingredient_chart.get(i).get("LABEL"));
 				}
-				List<String> data1 = new ArrayList<String>();
-				for(int i=0; i<ing_week_chart.size(); i++) {
-					data1.add(ing_week_chart.get(i).get("data1"));
+				for(int i=0; i<week_ingredient_chart.size(); i++) {
+					data1.add(week_ingredient_chart.get(i).get("DATA"));
 				}
-				chart_data.setLabel(label);
-				chart_data.setLabel(data1);
-			} /*
-				 * else if(chart_search.equals("월")) { List<Map<String,String>> ing_month_chart
-				 * = this.ingredientService.getMonthData(s_id); List<String> label = new
-				 * ArrayList<String>(); for(int i=0; i<ing_month_chart.size(); i++) {
-				 * label.add(ing_month_chart.get(i).get("label")); }
-				 * 
-				 * List<String> data1 = new ArrayList<String>();
-				 * 
-				 * for(int i=0; i<ing_month_chart.size(); i++) {
-				 * data1.add(ing_month_chart.get(i).get("data1")); } chart_data.setLabel(label);
-				 * chart_data.setData1(data1); }
-				 */
+				dataset.add(week_ingredient_chart.get(0).get("DATASET"));
+
+			}else if(chart_search.equals("월")) {
+				chart_searchDTO.setMonth(month);
+				chart_searchDTO.setYear(year);
+				List<Map<String,String>> month_ingredient_chart = this.ingredientService.getMonthIngredientData(chart_searchDTO);
+				
+				for(int i=0; i<month_ingredient_chart.size(); i++) {
+					label.add(month_ingredient_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<month_ingredient_chart.size(); i++) {
+					data1.add(month_ingredient_chart.get(i).get("DATA"));
+				}
+				dataset.add(month_ingredient_chart.get(0).get("DATASET"));
+			}else if (chart_search.equals("시간")) {
+				
+			}else if(chart_search.equals("분기")) {
+				
+			}
+			chart_data.setDataset(dataset);
+			chart_data.setLabel(label);
+			chart_data.setData1(data1);
+
+
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getIngredientChartData 에러발생>");
 			System.out.println(e.getMessage());

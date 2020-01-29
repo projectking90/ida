@@ -14,6 +14,7 @@ public class ChartDTO {
 	 * 속성변수 선언
 	 */
 	private List<String> label;
+	private List<String> label2;
 	private List<String> data1;
 	private List<String> data2;
 	private List<String> dataset;
@@ -81,4 +82,20 @@ public class ChartDTO {
 	public void setDataset(List<String> dataset) {
 		this.dataset = dataset;
 	}
+	/**
+	 * Label2 접근자
+	 * @return label2
+	 */
+	public List<String> getLabel2() {
+		return label2;
+	}
+	/**
+	 * Label2 설정자
+	 * @param label2 
+	 */
+	public void setLabel2(List<String> label2) {
+		this.label2 = label2;
+	}
+	
+	
 }

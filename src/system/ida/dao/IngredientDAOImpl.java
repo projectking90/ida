@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.Code_IngredientAllergieDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
@@ -122,14 +123,7 @@ public class IngredientDAOImpl implements IngredientDAO {
 		return insert_result;
 	}
 
-	@Override
-	public List<Map<String, String>> getWeekData(String s_id) {
-		List<Map<String,String>> ing_week_chart = this.sqlSession.selectList(
-			sqlSessionPath+"getWeekData"
-			,s_id
-		);
-		return ing_week_chart;
-	}
+
 
 	@Override
 	public List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO) {
@@ -144,49 +138,72 @@ public class IngredientDAOImpl implements IngredientDAO {
 	 * List<Map<String,String>> ing_month_chart = this.sqlSession.selectList(
 	 * sqlSessionPath+"getMonthData" ,s_id ); return ing_month_chart; }
 	 */
-	
-	
-	// ingredient_record에 추가한 것 기록하기
-		
-		@Override public int insertIngRecord(IngredientDTO ingredientDTO) { int
-		ing_record_insert = this.sqlSession.insert( sqlSessionPath+"insertIngRecord"
-		,ingredientDTO ); return ing_record_insert; }
-		
-		// ingredient_record에 수정한 것 기록하기
-		
-		@Override public int updateIngRecord(Map<String, String> trData) { int
-		ing_record_update = this.sqlSession.insert( sqlSessionPath+"updateIngRecord"
-		,trData ); return ing_record_update; }
-		
-		
-	/*
-	 * // 이미 등록되어 있는 식자재 총 개수
-	 * 
-	 * @Override public int getInsertedIngCnt(IngredientDTO ingredientDTO) { int
-	 * inserted_ing_cnt = this.sqlSession.selectOne(
-	 * sqlSessionPath+"getInsertedIngCnt" ,ingredientDTO ); return inserted_ing_cnt;
-	 * }
-	 * 
-	 * 
-	 * 
-	 * 
-	
-	/*
-	 * // 삭제된 식자재의 총 개수 구하기
-	 * 
-	 * @Override public int getDeleteIngIsDelCnt(IngredientDTO ingredientDTO) { int
-	 * delete_ing_cnt = this.sqlSession.selectOne(
-	 * sqlSessionPath+"getDeleteIngIsDelCnt" ,ingredientDTO ); return
-	 * delete_ing_cnt; }
-	 */
-
 
 	
-	/*
-	 * // ingredient_record 에 삭제한 것 기록하기 ( 주의 insert임)
-	 * 
-	 * @Override public int deleteIngRecord(Map<String, String> trData) { int
-	 * ing_record_delete = this.sqlSession.insert( sqlSessionPath+"deleteIngRecord"
-	 * ,trData ); return ing_record_delete; }
-	 */
+	
+	@Override
+	public int getInsertedIngredientCnt(IngredientDTO ingredientDTO) {
+		int inserted_ingredient_cnt = this.sqlSession.selectOne(
+			sqlSessionPath+"getInsertedIngredientCnt"
+			,ingredientDTO
+		);
+		return inserted_ingredient_cnt;
+	}
+
+	@Override
+	public int getInsertedIngredientIsDelCnt(IngredientDTO ingredientDTO) {
+		int inserted_ingredient_cnt = this.sqlSession.selectOne(
+			sqlSessionPath+"getInsertedIngredientIsDelCnt"
+			,ingredientDTO
+		);
+		return inserted_ingredient_cnt;
+	}
+
+	@Override
+	public int getInsertedIngredientIsDelUp(IngredientDTO ingredientDTO) {
+		int inserted_ingredient_is_del_up = this.sqlSession.update(
+			sqlSessionPath+"getInsertedIngredientIsDelUp"
+			,ingredientDTO
+				);
+		return inserted_ingredient_is_del_up;
+	}
+
+	@Override
+	public int insertIngredientRecord(IngredientDTO ingredientDTO) {
+		int ingredient_record_insert = this.sqlSession.insert(
+			sqlSessionPath+"insertIngredientRecord"
+			,ingredientDTO
+		);
+		return ingredient_record_insert;
+	}
+
+	@Override
+	public int updateIngredientRecord(Map<String, String> trData) {
+		int updated_ingredient_record = this.sqlSession.insert(
+			sqlSessionPath+"updateIngredientRecord"
+			,trData
+		);
+		return updated_ingredient_record;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String, String>> week_ingredient_chart = this.sqlSession.selectList(
+			sqlSessionPath+"getWeekIngredientData"
+			,chart_searchDTO
+		);
+		return week_ingredient_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_ingredient_chart = this.sqlSession.selectList(
+			sqlSessionPath+"getMonthIngredientData"
+			,chart_searchDTO
+		);
+	return month_ingredient_chart;
+	}
+	
+	
+
 }

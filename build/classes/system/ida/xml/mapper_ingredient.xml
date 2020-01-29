@@ -86,7 +86,8 @@
 	
 	<!-- 식자재 insert -->
 	<insert id="insertIngredient" parameterType="system.ida.dto.IngredientDTO">
-		insert into ingredient(
+	insert 
+		 into ingredient(
 			i_no
 			,ia_code
 			,ib_code
@@ -126,27 +127,56 @@
 		where i_no = ${i_no}
 	</update>
 	
-	<!-- 추가한 식자재 기록하기 -->
-	<insert id="insertIngRecord" parameterType="system.ida.dto.IngredientDTO">
+	
+	
+	<select id="getInsertedIngredientCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
+		select 
+			count(*)
+		from ingredient 
+		where is_del = 'F'
+	</select>
+	
+	<select id="getInsertedIngredientIsDelCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
+		select 
+			count(*)
+		from ingredient 
+		where is_del = 'T'
+	</select>
+	
+	<update id="getInsertedIngredientIsDelUp" parameterType="system.ida.dto.IngredientDTO">
+		update
+			ingredient
+		set
+			is_del='F'
+			,i_price =${i_price}
+		where
+			is_del='T'
+			and i_no = ${i_no}
+	</update>
+	
+	<insert id="insertIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
 		insert into ingredient_record(
 			i_no
 			,i_price
 		) values (
-			(select i_no from ingredient where i_no=${i_no})
+			(select nvl(max(i_no),0)+1 from ingredient)
 			,to_number(${i_price}, 9999999999)
 		)
 	</insert>
 	
-	<!-- 수정한 식자재 기록하기 -->
-	<insert id="updateIngRecord" parameterType="hashmap">
+	
+	<insert id="updateIngredientRecord" parameterType="hashmap">
 		insert into ingredient_record(
 			i_no
 			,i_price
 		) values (
 			${i_no}
-			to_number(${change_i_price}, 9999999999)
+			,to_number(${change_i_price}, 9999999999)
 		)
+	
 	</insert>
+
+
 	
 <!--  삭제한 식자재 기록하기 
 	<insert id="deleteIngRecord" parameterType="hashmap">
@@ -159,31 +189,120 @@
 		)
 	</insert> -->
 	
-	<select id="getWeekData" parameterType="String" resultType="hashmap">
-	select
-		count(i_name) ||''  "data1"
-		, i_name
-		, to_char(reg_date, 'ww')  "LABEL"
-	from (select
-		s_no as "S_NO", reg_date as "REG_DATE", i_name as "I_NAME"
-	from ingredient )
-		where
-			s_no = (select s_no from store where s_id=#{s_id}) 
-		group by
-			to_char(reg_date, 'ww'), i_name
+	<select id="getWeekIngredientData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+
+               select  
+             sss.dataset  "DATASET",  sss.label "LABEL",  nvl(www.i_price,0)||'' "DATA"
+        from
+        (
+           select         distinct
+               ww.week||'주' "DATASET", ss.i_name "LABEL"
+            from
+            (
+              select         distinct
+                  i.s_no    as "S_NO"
+                  ,  i.i_name    as "I_NAME"
+                  , to_char(to_date(to_char(i.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
+                  , ir.i_price    as "I_PRICE"
+              from
+                  ingredient i, ingredient_record ir
+              where
+                i.i_no = ir.i_no 
+                and i.is_del = 'F' 
+            ) ss   
+            ,(
+              select '1' "WEEK" from dual
+              union select '2' from dual
+              union select '3' from dual
+              union select '4' from dual
+              union select '5' from dual  
+            ) ww    
+        ) sss
+        ,
+        (
+        select         distinct    
+            i.s_no    as "S_NO"
+            ,  i.i_name    as "I_NAME"
+            , to_char(to_date(to_char(i.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
+            , ir.i_price    as "I_PRICE"
+        from
+            ingredient i, ingredient_record ir
+        where
+            i.i_no = ir.i_no 
+            and i.is_del = 'F' 
+        ) www  
+       where  sss.label=www.i_name(+) and sss.dataset=www.reg_date(+)||'주' and sss.dataset=${week}||'주'  
+       order by nvl(www.i_price,0) desc, 1, 2
 	</select>
 	
-	<!-- <select id="getMonthData" parameterType="String" resultType="hashmap"> -->
 	
-<!-- 	select
-		(select s_no from store where s_id=#{s_id})
-		,i_name    "label"
-		,ir.i_price  "data1"
-		,to_char(i.reg_date,'mm') "labels"
-	from ingredient_day
-	order by to_char(i.reg_date,'mm')
+	<select id="getMonthIngredientData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+	select 
+          rownum "RNUM", iiii.label "LABEL", iiii.dataset "DATASET", iiii.data "DATA"
+         from
+         (
+           select
+               iii.label "LABEL", iii.dataset "DATASET", nvl(www.i_price,0)||'' "DATA"
+           from
+           (              
+             select
+               mm.month||'월' "DATASET", ii.i_name "LABEL"
+             from
+               (
+                 select
+                     i.s_no    as "S_NO"
+                     , i.i_name    as "I_NAME"
+                     , to_char(to_date(to_char(ir.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
+                     , ir.i_price    as "I_PRICE"
+                 from
+                     ingredient i, ingredient_record ir
+                 where
+                   i.i_no = ir.i_no
+                   and i.is_del = 'F'  
+               ) ii  
+               ,
+               (
+                 select '1' "MONTH" from dual
+                 union select '2' from dual
+                 union select '3' from dual
+                 union select '4' from dual
+                 union select '5' from dual   
+                 union select '6' from dual
+                 union select '7' from dual
+                 union select '8' from dual
+                 union select '9' from dual 
+                 union select '10' from dual
+                 union select '11' from dual
+                 union select '12' from dual
+               ) mm       
+               where ii.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[ mm.month<=substr(ii.reg_date(+),5,2) ]]>
+             ) iii         
+             ,
+             (
+                 select
+                     i.s_no    as "S_NO"
+                     , i.i_name    as "I_NAME"
+                     , to_char(to_date(to_char(ir.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
+                     , nvl(ir.i_price,0)    as "I_PRICE"
+                 from
+                     ingredient i, ingredient_record ir
+                 where
+                   i.i_no = ir.i_no
+                   and i.is_del = 'F'
+                   and i.s_no=(select s_no from store where s_id=#{s_id})
+             ) www    
+            where  iii.label=www.i_name(+) and iii.dataset=to_number(substr(www.reg_date(+),5,2))||'월' and iii.dataset=#{month}||'월' and substr(www.reg_date(+),1,4)=#{year}
+            group by iii.label,iii.dataset  
+            having <![CDATA[ nvl(www.i_price,0)>=0]]>
+            order by nvl(www.i_price,0) desc, 2, 1              
+          ) iiii     
+        where <![CDATA[ rownum<=${chart_cnt}]]>          
+	
+	
+	
+	
 	</select>
-	 -->
+
 	<select id="getIngAnlList" parameterType="system.ida.dto.IngredientSearchDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i.i_no as "i_no"
