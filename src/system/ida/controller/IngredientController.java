@@ -112,19 +112,38 @@ public class IngredientController {
 	// --------------------------------------------------------
 	// HttpSession 객체를 받아오는 매개변수 선언
 	// --------------------------------------------------------
-			, HttpSession session) {
+			, IngredientSearchDTO ingredient_searchDTO, HttpSession session) {
 		// [ModelAndView 객체] 생성하기
 		// [ModelAndView 객체] 에 [호출 JSP 페이지명] 저장하기
 
 		System.out.println("i_no" + i_no);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_detail_form");
-
+		
 		try {
 			session.setAttribute("uri", "ingredient_detail_form.ida");
 			IngredientDTO ingredientDTO = this.ingredientService.getIngredientDTO(i_no);
-			mav.addObject("ingredientDTO", ingredientDTO);
+			
+			String s_id = (String) session.getAttribute("s_id");
+			ingredient_searchDTO.setS_id(s_id);
+			List<Code_IngredientAlphaDTO> alpha = this.ingredientService.getCodeIngAlpha();
+			List<Code_IngredientBetaDTO> beta = this.ingredientService.getCodeIngBeta();
+			List<Code_IngredientOriginDTO> origin = this.ingredientService.getCodeIngOrigin();
 
+			
+			ingredientDTO.setIa_nameList(alpha);
+			ingredientDTO.setIb_nameList(beta);
+			ingredientDTO.setIo_nameList(origin);
+			
+
+			Code_ingredientDTO code_ingredientDTO = new Code_ingredientDTO();
+			code_ingredientDTO.setIa_nameList(this.ingredientService.getCodeIngAlpha());
+			code_ingredientDTO.setIb_nameList(this.ingredientService.getCodeIngBeta());
+			code_ingredientDTO.setIo_nameList(this.ingredientService.getCodeIngOrigin());
+			code_ingredientDTO.setA_nameList(this.ingredientService.getCodeIngAllergie());
+			
+			mav.addObject("ingredientDTO", ingredientDTO);
+			mav.addObject("code_ingredientDTO",code_ingredientDTO);
 		} catch (Exception e) {
 			System.out.println("<goIngredientDetailForm 메소드> 에서 <에러발생>");
 			System.out.println(e.getMessage());
@@ -133,39 +152,35 @@ public class IngredientController {
 		return mav;
 	}
 
-	/**
-	 * 식자재 수정 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드 가상주소 /ingredient_update_form.ida로
-	 * 접근하면 호출
-	 * 
-	 * @return mav : /ingredient_update_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
-	 */
-	@RequestMapping(value = "/ingredient_update_form.ida")
-	public ModelAndView goIngredientUpdateForm(IngredientSearchDTO ingredient_searchDTO, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "ingredient_update_form");
-
-		try {
-			String s_id = (String) session.getAttribute("s_id");
-			ingredient_searchDTO.setS_id(s_id);
-			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
-			List<Code_IngredientAlphaDTO> alpha = this.ingredientService.getCodeIngAlpha();
-			List<Code_IngredientBetaDTO> beta = this.ingredientService.getCodeIngBeta();
-			List<Code_IngredientOriginDTO> origin = this.ingredientService.getCodeIngOrigin();
-
-			for (IngredientDTO temp : ingredient_list) {
-				temp.setIa_nameList(alpha);
-				temp.setIb_nameList(beta);
-				temp.setIo_nameList(origin);
-			}
-
-			mav.addObject("ingredient_list", ingredient_list);
-		} catch (Exception e) { // try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<goIngredientUpdateForm 에러발생>");
-			System.out.println(e.getMessage());
-		}
-
-		return mav;
-	}
+	/*	*//**
+			 * 식자재 수정 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드 가상주소 /ingredient_update_form.ida로
+			 * 접근하면 호출
+			 * 
+			 * @return mav : /ingredient_update_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
+			 *//*
+				 * @RequestMapping(value="/ingredient_detail_form.ida") public ModelAndView
+				 * goIngredientUpdateForm( IngredientSearchDTO ingredient_searchDTO ,HttpSession
+				 * session) { ModelAndView mav = new ModelAndView(); mav.setViewName(path +
+				 * "ingredient_detail_form");
+				 * 
+				 * try { String s_id =(String)session.getAttribute("s_id");
+				 * ingredient_searchDTO.setS_id(s_id); List<IngredientDTO> ingredient_list =
+				 * this.ingredientService.getIngredientList(ingredient_searchDTO);
+				 * List<Code_IngredientAlphaDTO> alpha =
+				 * this.ingredientService.getCodeIngAlpha(); List<Code_IngredientBetaDTO> beta =
+				 * this.ingredientService.getCodeIngBeta(); List<Code_IngredientOriginDTO>
+				 * origin = this.ingredientService.getCodeIngOrigin();
+				 * 
+				 * for(IngredientDTO temp : ingredient_list) { temp.setIa_nameList(alpha);
+				 * temp.setIb_nameList(beta); temp.setIo_nameList(origin); }
+				 * 
+				 * mav.addObject("ingredient_list",ingredient_list); } catch (Exception e) { //
+				 * try 구문에서 예외가 발생하면 실행할 구문 설정
+				 * System.out.println("<goIngredientUpdateForm 에러발생>");
+				 * System.out.println(e.getMessage()); }
+				 * 
+				 * return mav; }
+				 */
 
 	/**
 	 * 식자재 수정 기능 실행시 보여줄 데이터베이스와 연동처리 할 메소드 가상주소 : ingredient_update_proc.ida 로 접근하면

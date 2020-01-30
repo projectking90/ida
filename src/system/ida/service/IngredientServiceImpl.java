@@ -91,19 +91,19 @@ public class IngredientServiceImpl implements IngredientService {
 		int ingredient_update_cnt = 0;
 
 		for (int i = 0; i < ingredient_update.size(); i++) {
-			if (i % 7 == 0) {
+			if (i % 8 == 0) {
 				trData.put("i_no", ingredient_update.get(i));
-			} else if (i % 7 == 1) {
+			} else if (i % 8 == 1) {
 				trData.put("ia_name", ingredient_update.get(i));
-			} else if (i % 7 == 2) {
+			} else if (i % 8 == 2) {
 				trData.put("ib_name", ingredient_update.get(i));
-			} else if (i % 7 == 3) {
+			} else if (i % 8 == 3) {
 				trData.put("io_name", ingredient_update.get(i));
-			} else if (i % 7 == 4) {
+			} else if (i % 8 == 4) {
 				trData.put("i_name", ingredient_update.get(i));
-			} else if (i % 7 == 5) {
+			} else if (i % 8 == 5) {
 				trData.put("i_size", ingredient_update.get(i));
-			} else if (i % 7 == 6) {
+			} else if (i % 8 == 6) {
 				trData.put("i_price", ingredient_update.get(i));
 				int i_price = Integer.parseInt(ingredient_update.get(i));
 				int change_i_price = i_price;
@@ -111,6 +111,9 @@ public class IngredientServiceImpl implements IngredientService {
 					trData.put("change_i_price", Integer.toString(change_i_price));
 					int updated_ingredient_record = this.ingredientDAO.updateIngredientRecord(trData);
 				}
+			} else if(i % 8== 7 ) {
+				trData.put("a_name", ingredient_update.get(i));
+				
 			}
 		}
 		

@@ -21,7 +21,6 @@
 	
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
 					<!-- Breadcrumbs-->
 					<ol class="breadcrumb"></ol>
 	
@@ -29,84 +28,83 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 수정 
-							<span name=store_insert_form style='float: right'>
+							<span style='float: right'>
 								<button type="button" class="btn btn-primary update" value="수정완료">수정완료 </button>
 							</span>
 						</div>
+						
 						<div class="card-body">
-						
-						
-
-							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							<table class="table" id="dataTable">
 								<thead>
-								<tr>
-									<td align=center><b>식자재 번호</b></td>
-									<td align=center><b>대분류</b></td>
-									<td align=center><b>소분류</b></td>
-									<td align=center><b>원산지</b></td>
-									<td align=center><b>식자재명</b></td>
-									<td align=center><b>규격</b></td>
-									<td align=center><b>매입가격</b></td>
-									<td align=center><b>등록일</b></td>
-								</tr>
+									<tr>
+										<td align=center><b>번호</b></td>
+										<td align=center><b>대분류</b></td>
+										<td align=center><b>소분류</b></td>
+										<td align=center><b>원산지</b></td>
+										<td align=center><b>식자재명</b></td>
+										<td align=center><b>규격</b></td>
+										<td align=center><b>가격(원)</b></td>
+										<td align=center><b>등록일</b></td>
+									</tr>
 								</thead>
 								<tbody>
-							<form:form name="updateIngForm" modelAttribute="ingredient_list">
-								<c:forEach items="${ingredient_list}" var="ingredient" varStatus="loopTagStatus">
-									<tr class="ingredient_list_tr" style="cursor:pointer">
-											<td align=center>${loopTagStatus.index+1}
-												<form:hidden path="" name="i_no" value="${ingredient.i_no}"/>
-											<td align=center>
-												<select name="ia_name">
-													<c:forEach items="${ingredient.ia_nameList}" var="ia_nameList" varStatus="loopTagStatus">
-														<option value="${ia_nameList.ia_name}"
-														${ingredient.ia_name == ia_nameList.ia_name ? 'selected="selected"' : '' }
-														>${ia_nameList.ia_name}</option>
-													</c:forEach>
-												</select>
-												
-											<td align=center>
-												<select name="ib_name">
-													<c:forEach items="${ingredient.ib_nameList}" var="ib_nameList" varStatus="loopTagStatus">
-														<option value="${ib_nameList.ib_name}"
-														${ingredient.ib_name == ib_nameList.ib_name ? 'selected="selected"' : '' }
-														>${ib_nameList.ib_name}</option>
-													</c:forEach>
-												</select>
-												
-											<td align=center>
-												<select name="io_name">
-													<c:forEach items="${ingredient.io_nameList}" var="io_nameList" varStatus="loopTagStatus">
-														<option value="${io_nameList.io_name}"
-														${ingredient.io_name == io_nameList.io_name ? 'selected="selected"' : '' }
-														>${io_nameList.io_name}</option>
-													</c:forEach>
-												</select>
-											<td align=center>
-												<form:input path="" name="i_name" value="${ingredient.i_name}"/>
-											<td align=center>
-												<form:input path="" name="i_size" value="${ingredient.i_size}"/> 
-											<td align=center>
-												<form:input path="" name="i_price" value="${ingredient.i_price}"/> 
-											<td align=center>${ingredient.reg_date} 
-										</tr>
-								</c:forEach>
-							</form:form>
+									<form:form name="updateIngForm" modelAttribute="ingredient_list">
+										<c:forEach items="${ingredient_list}" var="ingredient">
+											<tr class="ingredient_list_tr" style="cursor:pointer">
+												<td align=center>
+												<td>
+													<form:hidden path="" name="i_no" value="${ingredient.i_no}"/>
+													<select name="ia_name">
+														<c:forEach items="${ingredient.ia_nameList}" var="ia_nameList" varStatus="loopTagStatus">
+															<option value="${ia_nameList.ia_name}"
+															${ingredient.ia_name == ia_nameList.ia_name ? 'selected="selected"' : '' }
+															>${ia_nameList.ia_name}</option>
+														</c:forEach>
+													</select>
+													
+												<td>
+													<select name="ib_name">
+														<c:forEach items="${ingredient.ib_nameList}" var="ib_nameList" varStatus="loopTagStatus">
+															<option value="${ib_nameList.ib_name}"
+															${ingredient.ib_name == ib_nameList.ib_name ? 'selected="selected"' : '' }
+															>${ib_nameList.ib_name}</option>
+														</c:forEach>
+													</select>
+													
+												<td>
+													<select name="io_name">
+														<c:forEach items="${ingredient.io_nameList}" var="io_nameList" varStatus="loopTagStatus">
+															<option value="${io_nameList.io_name}"
+															${ingredient.io_name == io_nameList.io_name ? 'selected="selected"' : '' }
+															>${io_nameList.io_name}</option>
+														</c:forEach>
+													</select>
+												<td>
+													<form:input path="" name="i_name" value="${ingredient.i_name}"/>
+												<td>
+													<form:input path="" name="i_size" value="${ingredient.i_size}"/> 
+												<td>
+													<form:input path="" name="i_price" value="${ingredient.i_price}"/> 
+												<td align=center>${ingredient.reg_date} 
+									<td>
+											</tr>
+										</c:forEach>
+									</form:form>
 								</tbody>
 							</table>
-						
 						</div>
+						
 						<div class="card-footer small text-muted"></div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

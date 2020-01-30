@@ -117,6 +117,7 @@
 		,i_name  = #{i_name}
 		,i_size  = #{i_size}
 		,i_price = to_number(${i_price}, 9999999999)
+		,a_code=(select a_code from code_allergie where a_name=#{a_name})
 		where i_no = ${i_no}
 	</update>
 	

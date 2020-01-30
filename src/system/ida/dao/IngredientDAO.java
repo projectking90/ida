@@ -43,9 +43,9 @@ public interface IngredientDAO {
 	List<Code_IngredientOriginDTO> getCodeIngOrigin();									//식자재 원산지
 	List<Code_IngredientAllergieDTO> getCodeIngAllergie();								//식자재 알레르기
 
-	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);		//분석에서 식자재 재고 가져오기
+	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);		//분석에서 식자재 목록 리스트 가져오기
 	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
 	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
 	
-	IngredientDTO getIngedientDTO(int i_no); 		//상세보기
+	IngredientDTO getIngedientDTO(int i_no); 		// 식자재 상세보기
 }

@@ -28,7 +28,6 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 현황
 							<span name=stock_form style='float:right'>
-								<button type="button" class="btn btn-primary update" value="식자재 수정"> 식자재 수정 </button>
 								<button type="button" class="btn btn-danger delete" value="식자재 삭제"> 식자재 삭제 </button>
 							</span>
 

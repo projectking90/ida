@@ -117,7 +117,7 @@
 		,i_name  = #{i_name}
 		,i_size  = #{i_size}
 		,i_price = to_number(${i_price}, 9999999999)
-		where i_no = ${i_no}
+		where i_no = ${i_no}s
 	</update>
 	
 	<!-- 식자재 삭제  -->

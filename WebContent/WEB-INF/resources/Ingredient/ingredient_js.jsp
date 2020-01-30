@@ -14,9 +14,17 @@
 
 
 function goIngredientDetailForm(i_no){
+	alert("상세보기 진입");
 		location.replace("${cr}/ingredient_detail_form.ida?i_no="+i_no);
+		alert("상세보기 진입 성공");
 	}
 
+function return_ingredient_btn(){
+	alert("목록보기 진입");
+	location.replace("${cr}/ingredient_form.ida");
+
+	alert("목록보기 진입 성공");
+}
 
 	$(document).ready(function(){
 		$('#dataTable').DataTable();
@@ -25,9 +33,9 @@ function goIngredientDetailForm(i_no){
 		$(".insert").click(function(){
 			insert_ing_reg("${cr}");
 		});
-		
+
 		$(".update").click(function(){
-			location.replace("${cr}/ingredient_update_form.ida");
+			update_store_reg("${cr}");
 		});
 	
 		$(".delete").click(function(){

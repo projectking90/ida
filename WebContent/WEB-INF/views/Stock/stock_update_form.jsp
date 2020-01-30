@@ -33,47 +33,49 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
+								<form name='update_stock_form'>
+									<table class="table" id="dataTable2">
 										<tr>
-											<td align=center resize=10><b>재고번호</b></td>
-											<td align=center><b>대분류</b></td>
-											<td align=center><b>소분류</b></td>
-											<td align=center><b>원산지</b></td>
-											<td align=center><b>식자재명</b></td>
-											<td align=center><b>규격</b></td>
-											<td align=center><b>재고수량</b></td>
-											<td align=center><b>상태</b></td>
-											<td align=center><b>가격(원)</b></td>
-											<td align=center><b>날짜</b></td>
-										</tr>
-									</thead>
-										<c:forEach items="${stock_list}" var="stock" varStatus="loopTagStatus">
-											<tr class="stock_list_tr" style="cursor:pointer">
-												<td align=center>${loopTagStatus.index+1}
-													<input type="hidden" name="st_no" value="${stock.st_no}">
-												<td align=center>${stock.ia_name}
-												<td align=center>${stock.ib_name}
-												<td align=center>${stock.io_name}
-												<td align=center>${stock.i_name}
-												<td align=center>${stock.i_size}
-												<td align=center><input type="text" name="quantity" size=6 value="${stock.quantity}">
-												<td align=center>
-													<select name="st_state">
-														<option value="${stock.st_state}">${stock.st_state}
-														<c:if test="${stock.st_state=='t'}">
-															<option value="f">f				
-														</c:if>
-														<c:if test="${stock.st_state=='f'}">
-															<option value="t">t
-														</c:if>
-													</select>
-												<td align=center>${stock.i_price}
-												<td align=center>${stock.reg_date}
-											</tr>
-										</c:forEach>
-								</table>
+											<td>대분류
+											<td>
+												<input type="hidden" name="st_no" value="${stockDTO.st_no}">
+												${stockDTO.ia_name}
+										<tr>
+											<td>소분류
+											<td>${stockDTO.ib_name}
+										<tr>	
+											<td>원산지
+											<td>${stockDTO.io_name}
+										<tr> 
+											<td>식자재명
+											<td>${stockDTO.i_name}
+										<tr> 
+											<td>규격
+											<td>${stockDTO.i_size}
+										<tr> 
+											<td>재고수량
+											<td><input type="text" name="quantity" size=6 value="${stockDTO.quantity}">
+										<tr> 
+											<td>상태
+											<td>
+											<select name="st_state">
+												<option value="${stockDTO.st_state}">${stockDTO.st_state}
+													<c:if test="${stockDTO.st_state=='t'}">
+														<option value="f">f				
+													</c:if>
+													<c:if test="${stockDTO.st_state=='f'}">
+														<option value="t">t
+													</c:if>
+												</option>
+											</select>
+										<tr> 
+											<td>가격(원)
+											<td>${stockDTO.i_price}
+										<tr> 
+											<td>등록일
+											<td>${stockDTO.reg_date}
+									</table>
+								</form>
 							</div>
 						</div>
 						<div class="card-footer small text-muted"></div>

@@ -15,21 +15,17 @@ public class Code_ingredientDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private String ia_code;
 	private String ia_name;
 	private List<Code_IngredientAlphaDTO> ia_nameList;		//DB에서 가져온 대분류값
 	
-	private String ib_code;
 	private String ib_name;
 	
 	private List<Code_IngredientBetaDTO> ib_nameList;		//DB에서 가져온 소분류값
 	
-	private String io_code;
 	private String io_name;
 	
 	private List<Code_IngredientOriginDTO> io_nameList;	//DB에서 가져온 원산지값
 	
-	private String a_code;
 	private String[] a_name;
 	private List<Code_IngredientAllergieDTO> a_nameList;	//DB에서 가져온 알레르기 값
 	
@@ -45,17 +41,6 @@ public class Code_ingredientDTO {
 	 * ia_code 접근자
 	 * @return ia_code : 
 	 */
-	public String getIa_code() {
-		return ia_code;
-	}
-
-	/**
-	 * ia_code 설정자
-	 * @param ia_code : 
-	 */
-	public void setIa_code(String ia_code) {
-		this.ia_code = ia_code;
-	}
 
 	/**
 	 * ia_name 접근자
@@ -93,17 +78,7 @@ public class Code_ingredientDTO {
 	 * ib_code 접근자
 	 * @return ib_code : 
 	 */
-	public String getIb_code() {
-		return ib_code;
-	}
-
-	/**
-	 * ib_code 설정자
-	 * @param ib_code : 
-	 */
-	public void setIb_code(String ib_code) {
-		this.ib_code = ib_code;
-	}
+	
 
 	/**
 	 * ib_name 접근자
@@ -141,17 +116,6 @@ public class Code_ingredientDTO {
 	 * io_code 접근자
 	 * @return io_code : 
 	 */
-	public String getIo_code() {
-		return io_code;
-	}
-
-	/**
-	 * io_code 설정자
-	 * @param io_code : 
-	 */
-	public void setIo_code(String io_code) {
-		this.io_code = io_code;
-	}
 
 	/**
 	 * io_name 접근자
@@ -189,18 +153,6 @@ public class Code_ingredientDTO {
 	 * a_code 접근자
 	 * @return a_code : 
 	 */
-	public String getA_code() {
-		return a_code;
-	}
-
-	/**
-	 * a_code 설정자
-	 * @param a_code : 
-	 */
-	public void setA_code(String a_code) {
-		this.a_code = a_code;
-	}
-
 	/**
 	 * a_name 접근자
 	 * @return a_name : 
