@@ -163,4 +163,23 @@ public class StockDAOImpl implements StockDAO {
 		
 		return month_stock_chart;
 	}
+
+	@Override
+	public List<Map<String, String>> getAllQuarterStockData() {
+		List<Map<String,String>> all_quarter_stock_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAllQuarterStockData"
+		);
+		
+		return all_quarter_stock_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_stock_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterStockData"
+				,chart_searchDTO
+		);
+		
+		return quarter_stock_chart;
+	}
 }

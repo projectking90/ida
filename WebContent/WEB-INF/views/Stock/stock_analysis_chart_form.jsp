@@ -53,6 +53,7 @@
 
 						<div class="card-body">
 							<canvas id="myChart1" width="100%" height="30"></canvas>
+							<canvas id="myChart2" width="100%" height="30"></canvas>
 							<button type="button" class="btn btn-outline-info btn-sm top3">TOP 3</button>
 							<button type="button" class="btn btn-outline-info btn-sm top5">TOP 5</button>
 							<button type="button" class="btn btn-outline-info btn-sm top10">TOP 10</button>
@@ -97,6 +98,15 @@
 										<option value="11">11
 										<option value="12">12
 									</select>월
+							</span>
+							
+							<span class="quarter">
+									<select name="quarter">
+										<option value="1">1
+										<option value="2">2
+										<option value="3">3
+										<option value="4">4
+									</select>분기
 							</span>
 						
 					</div>

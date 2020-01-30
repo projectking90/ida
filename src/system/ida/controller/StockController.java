@@ -246,6 +246,7 @@ public class StockController {
 			, @RequestParam(value="week") String week
 			, @RequestParam(value="month") String month
 			, @RequestParam(value="year") String year
+			, @RequestParam(value="quarter") String quarter
 	)
 	{
 		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
@@ -287,7 +288,39 @@ public class StockController {
 
 				
 			} else if (chart_search.equals("분기")) {
+				chart_searchDTO.setQuarter(quarter);
+				
+				// Pie Chart
+				List<Map<String, String>> all_quarter_stock_chart = this.stockService.getAllQuarterStockData();
+				System.out.println(all_quarter_stock_chart);
+				
+				for(int i=0; i<all_quarter_stock_chart.size(); i++) {
+					label.add(all_quarter_stock_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<all_quarter_stock_chart.size(); i++) {
+					data1.add(all_quarter_stock_chart.get(i).get("DATA"));
+				}
+				
 
+				List<String> label2 = new ArrayList<String>();
+				List<String> data2 =new ArrayList<String>();
+				
+
+				// Bar Chart
+				List<Map<String, String>> quarter_stock_chart = this.stockService.getQuarterStockData(chart_searchDTO);
+				System.out.println(quarter_stock_chart);
+				
+				for(int i=0; i<quarter_stock_chart.size(); i++) {
+					label2.add(quarter_stock_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<quarter_stock_chart.size(); i++) {
+					data2.add(quarter_stock_chart.get(i).get("DATA"));
+				}
+				
+				dataset.add(quarter_stock_chart.get(0).get("DATASET"));
+
+				chart_data.setLabel2(label2);
+				chart_data.setData2(data2);
 			}
 
 			chart_data.setDataset(dataset);

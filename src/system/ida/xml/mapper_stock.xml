@@ -230,7 +230,7 @@
 	             union select '11' from dual
 	             union select '12' from dual
 	           ) mm       
-	           where ss.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[ mm.month<=substr(ss.reg_date(+),5,2) ]]>
+	           where ss.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[ mm.month<=to_number(substr(ss.reg_date(+),5,2)) ]]>
 	         ) sss           
 	         ,
 	         (
@@ -254,6 +254,81 @@
 	      ) ssss     
         where <![CDATA[ rownum<=${chart_cnt}]]>                        
    	</select>
+	
+	
+	<select id="getAllQuarterStockData" resultType="hashmap">
+		select 
+		    q.quarter||'분기' "LABEL", 
+		    nvl(sum(sr.quantity),0)||''  "DATA"
+		from 
+		    stock_record sr,
+		    (
+		    select '1' "QUARTER" from dual
+		    union select '2' from dual
+		    union select '3' from dual
+		    union select '4' from dual
+		    )  q                 
+		where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY')-1
+		group by q.quarter
+		order by 1
+	</select>
+	
+	<select id="getQuarterStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select 
+            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+        from
+        (
+          select
+              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(www.quantity),0) "DATA"
+          from
+          (
+             select
+                 q.quarter||'분기' "DATASET", ss.i_name "LABEL"
+              from
+              (
+                select
+                    i.s_no    as "S_NO"
+                    , i.i_name    as "I_NAME"
+                    , to_char(sr.reg_date,'Q')    as "QUARTER"
+                    , sr.quantity    as "QUANTITY"
+                from
+                    ingredient i, stock s, stock_record sr
+                where
+                  i.i_no = s.i_no 
+                  and s.st_no = sr.st_no
+                  and s.is_del = 'F'        
+                  and to_char(sr.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+              ) ss   
+              ,(
+                select '1' "QUARTER" from dual
+                union select '2' from dual
+                union select '3' from dual
+                union select '4' from dual
+              ) q 
+              where ss.s_no=(select s_no from store where s_id=#{s_id})  
+          ) sss
+          ,
+          (
+              select
+                  i.s_no    as "S_NO"
+                  , i.i_name    as "I_NAME"
+                  , to_char(sr.reg_date,'Q')    as "QUARTER"
+                  , sr.quantity    as "QUANTITY"
+              from
+                  ingredient i, stock s, stock_record sr
+              where
+                i.i_no = s.i_no 
+                and s.st_no = sr.st_no
+                and s.is_del = 'F'        
+                and to_char(sr.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+          ) www  
+         where  sss.label=www.i_name(+) and sss.dataset=www.quarter(+)||'분기' and sss.dataset=${quarter}||'분기'    
+         group by sss.label, sss.dataset    
+         having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
+         order by nvl(sum(www.quantity),0) desc, 1, 2  
+        ) ssss             
+        where  <![CDATA[ rownum<=${chart_cnt}]]>
+	</select>
 	
 	<select id="getStockAnlList" resultType="system.ida.dto.StockDTO">
         select 
