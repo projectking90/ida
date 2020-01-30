@@ -5,12 +5,12 @@
 <!-- UTF-8 인코딩 방식은 한글을 포함 전 세계 모든 문자열을 부호화할 수 있는 방법이다.-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- javascript에 관련된 jsp 파일 수입 -->
-<%@ include file="/WEB-INF/resources/Stock/stock_delete_js.jsp"%>
+<%@ include file="/WEB-INF/resources/Stock/stock_js.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>재고삭제</title>
+		<title>재고관리</title>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
@@ -24,46 +24,44 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 재고 현황
+							<i class="fas fa-table"></i> 재고 상세보기
 							<span style='float:right'>
-								<input type="button" class="btn btn-danger delete" value="재고 삭제">
+								<input type="button" class="btn btn-primary update" value="재고 수정" onClick="update_stock_btn(${stockDTO.st_no})">
+								<input type="button" class="btn btn-success back" value="목록 보기">
 							</span>
 						</div>
 						
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table" id="dataTable">
-									<thead>
-										<tr>
-											<td align=center><b>선택</b></td>
-											<td align=center><b>대분류</b></td>
-											<td align=center><b>소분류</b></td>
-											<td align=center><b>원산지</b></td>
-											<td align=center><b>식자재명</b></td>
-											<td align=center><b>규격</b></td>
-											<td align=center><b>재고수량</b></td>
-											<td align=center><b>상태</b></td>
-											<td align=center><b>가격(원)</b></td>
-											<td align=center><b>날짜</b></td>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${stock_list}" var="stock">
-											<tr class="stock_list_tr">
-												<td align=center>
-													<input type="checkbox" name="delete_stock" value='${stock.st_no}'>
-												<td align=center class="ia_name">${stock.ia_name}
-												<td align=center class="ib_name">${stock.ib_name}
-												<td align=center class="io_name">${stock.io_name}
-												<td align=center class="i_name">${stock.i_name}
-												<td align=center class="i_size">${stock.i_size}
-												<td align=center class="quantity">${stock.quantity}
-												<td align=center class="st_state">${stock.st_state}
-												<td align=right class="i_price">${stock.i_price}
-												<td align=center class="reg_date">${stock.reg_date}
-											</tr>
-										</c:forEach>
-									</tbody>
+								<input type="hidden" name="st_no" value="${stockDTO.st_no}">
+								<table class="table" id="dataTable2">
+									<tr>
+										<td>대분류
+										<td>${stockDTO.ia_name}
+									<tr>
+										<td>소분류
+										<td>${stockDTO.ib_name}
+									<tr>	
+										<td>원산지
+										<td>${stockDTO.io_name}
+									<tr> 
+										<td>식자재명
+										<td>${stockDTO.i_name}
+									<tr> 
+										<td>규격
+										<td>${stockDTO.i_size}
+									<tr> 
+										<td>재고수량
+										<td>${stockDTO.quantity}
+									<tr> 
+										<td>상태
+										<td>${stockDTO.st_state}
+									<tr> 
+										<td>가격(원)
+										<td>${stockDTO.i_price}
+									<tr> 
+										<td>등록일
+										<td>${stockDTO.reg_date}
 								</table>
 							</div>
 						</div>
@@ -76,7 +74,7 @@
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
-	
+
 		<!-- Sticky Footer -->
 		<footer class="sticky-footer"></footer>
 	

@@ -62,10 +62,10 @@ public class StockDAOImpl implements StockDAO {
 	}
 
 	@Override
-	public int updateStock(Map<String, String> trData) {
+	public int updateStock(StockDTO stockDTO) {
 		int stock_update_cnt=this.sqlSession.update(
 				sqlSessionPath+"updateStock"
-				, trData);
+				, stockDTO);
 		
 		return stock_update_cnt;
 	}
@@ -125,14 +125,14 @@ public class StockDAOImpl implements StockDAO {
 	}
 	
 	@Override
-	public int getInsertedStockQuantityCnt(Map<String, String> trData) {
-		int stock_inserted_quantity_cnt=this.sqlSession.selectOne(sqlSessionPath+"getInsertedStockQuantityCnt", trData);
+	public int getInsertedStockQuantityCnt(StockDTO stockDTO) {
+		int stock_inserted_quantity_cnt=this.sqlSession.selectOne(sqlSessionPath+"getInsertedStockQuantityCnt", stockDTO);
 		return stock_inserted_quantity_cnt;
 	}
 	
 	@Override
-	public int updateStockRecord(Map<String, String> trData) {
-		int updated_stock_record=this.sqlSession.insert(sqlSessionPath+"updateStockRecord", trData);
+	public int updateStockRecord(StockDTO stockDTO) {
+		int updated_stock_record=this.sqlSession.insert(sqlSessionPath+"updateStockRecord", stockDTO);
 		return updated_stock_record;
 	}
 
@@ -181,5 +181,15 @@ public class StockDAOImpl implements StockDAO {
 		);
 		
 		return quarter_stock_chart;
+	}
+
+	@Override
+	public StockDTO getStockDTO(int st_no) {
+		StockDTO stockDTO = this.sqlSession.selectOne(
+				sqlSessionPath + "getStockDTO"
+				,st_no
+		);
+		
+		return stockDTO;
 	}
 }

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import system.ida.dto.ChartDTO;
 import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.IngredientDTO;
+import system.ida.dto.ShareDTO;
 import system.ida.dto.StockDTO;
 import system.ida.dto.StockSearchDTO;
 import system.ida.service.StockService;
@@ -78,6 +79,28 @@ public class StockController {
 		return mav;
 	}
 	
+	/**
+	 * 재고 관리 화면을 보여줄 jsp와 재고 정보를 보여주는 메소드
+	 * 가상주소 /stock_form.ida로 접근하면 호출
+	 * @return mav : /stock_form.ida에 맵핑되는 jsp 파일과 재고 정보 목록
+	 */
+	@RequestMapping(value="/stock_content_form.ida")
+	public ModelAndView goStockContentForm(
+			@RequestParam(value="st_no") int st_no
+			,HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(path + "stock_content_form");
+		try {
+			session.setAttribute("uri", "stock_content_form.ida");
+			StockDTO stockDTO = this.stockService.getStockDTO(st_no);
+			mav.addObject("stockDTO", stockDTO);
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goStockContentForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
 	@RequestMapping(value="/insert_stock_reg.ida"
 			, method = RequestMethod.POST
 			, produces="application/json;charset=UTF-8")
@@ -104,17 +127,16 @@ public class StockController {
 	 */
 	@RequestMapping(value="/stock_update_form.ida")
 	public ModelAndView goStockUpdateForm(
-			StockSearchDTO stock_searchDTO
-			, HttpSession session) {
+			@RequestParam(value="st_no") int st_no
+			,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "stock_update_form");
 		
 		try {
-			String s_id = (String)session.getAttribute("s_id");
-			stock_searchDTO.setS_id(s_id);
-			List<StockDTO> stock_list = this.stockService.getStockList(stock_searchDTO);
-			mav.addObject("stock_list", stock_list);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			session.setAttribute("uri", "stock_content_form.ida");
+			StockDTO stockDTO = this.stockService.getStockDTO(st_no);
+			mav.addObject("stockDTO", stockDTO);
+		}catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockUpdateForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -125,11 +147,12 @@ public class StockController {
 	@RequestMapping(value="/stock_update_proc.ida")
 	@ResponseBody
 	public int tableUpdateProc(
-			@RequestParam(value="trArr") ArrayList<String> stock_update){
+			StockDTO stockDTO
+	){
 		int stock_update_cnt = 0;
 		
 		try {				 
-			stock_update_cnt = this.stockService.updateStock(stock_update);
+			stock_update_cnt = this.stockService.updateStock(stockDTO);
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return -1;
@@ -143,6 +166,8 @@ public class StockController {
 	 * 가상주소 /stock_delete_form.ida로 접근하면 호출
 	 * @return mav : /stock_delete_form.ida에 맵핑되는 jsp 파일과 재고 정보 목록
 	 */
+	
+	/*
 	@RequestMapping(value="/stock_delete_form.ida")
 	public ModelAndView goStockDeleteForm(
 			StockSearchDTO stock_searchDTO
@@ -162,22 +187,23 @@ public class StockController {
 		
 		return mav;
 	}
+	*/
 	
 	
 	@RequestMapping(value="/stock_delete_proc.ida")
 	@ResponseBody
 	public int stockdeleteProc(
 			@RequestParam(value="trArr") ArrayList<String> stock_delete){
-		int stock_update_cnt = 0;
+		int stock_delete_cnt = 0;
 		
 		try {				 
-			stock_update_cnt = this.stockService.deleteStock(stock_delete);
+			stock_delete_cnt = this.stockService.deleteStock(stock_delete);
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return -1;
 		}
 		
-		return stock_update_cnt;
+		return stock_delete_cnt;
 	}
 	
 	/**

@@ -44,7 +44,7 @@
 		)
 	</insert>
 		
-	<update id="updateStock" parameterType="hashmap">
+	<update id="updateStock" parameterType="system.ida.dto.StockDTO">
 		update
 			stock
 		set
@@ -113,7 +113,7 @@
 		)
 	</insert>
 	
-	<select id="getInsertedStockQuantityCnt" parameterType="hashmap" resultType="int">
+	<select id="getInsertedStockQuantityCnt" parameterType="system.ida.dto.StockDTO" resultType="int">
 		select 
 			quantity
 		from 
@@ -121,13 +121,13 @@
 		where st_no=${st_no}
 	</select>
 	
-	<insert id="updateStockRecord" parameterType="hashmap">
+	<insert id="updateStockRecord" parameterType="system.ida.dto.StockDTO">
 		insert into stock_record(
 			st_no
 			,quantity
 		)values(
 			${st_no}
-			,${change_quantity}
+			,${quantity}
 		)
 	</insert>
 	
@@ -343,5 +343,22 @@
             to_char(i.i_price, '9,999,999,999') "I_PRICE"
         from stock_ingredient si, ingredient i, code_ingredient_alpha ia, code_ingredient_beta ib, code_ingredient_origin io
         where i.i_name=si.i_name and ia.ia_code=i.ia_code and ib.ib_code=i.ib_code and io.io_code=i.io_code and i.s_no=(select s.s_no from store s where s.s_id=#{s_id})
+	</select>
+	
+	<select id="getStockDTO" parameterType="int" resultType="system.ida.dto.StockDTO">
+		select
+    		st.st_no as "st_no"
+    		,(select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=(select i.ia_code from ingredient i where i.i_no=st.i_no)) as "ia_name"
+    		,(select ib.ib_name from code_ingredient_beta ib where ib.ib_code=(select i.ib_code from ingredient i where i.i_no=st.i_no))  as "ib_name"
+    		,(select io.io_name from code_ingredient_origin io where io.io_code=(select i.io_code from ingredient i where i.i_no=st.i_no))  as "io_name"
+			,(select i.i_name from ingredient i where i.i_no=st.i_no) as "i_name"
+			,(select i.i_size from ingredient i where i.i_no=st.i_no) as "i_size"
+			,st.quantity as "quantity"
+			,st.st_state as "st_state"
+            ,to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi') as "reg_date"
+			,to_char((select i.i_price from ingredient i where i.i_no=st.i_no), '9,999,999,999') as "i_price"
+		from stock st
+		where st.is_del='F'
+			and st.st_no=${value}
 	</select>
 </mapper>

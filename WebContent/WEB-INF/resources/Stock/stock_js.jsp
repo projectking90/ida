@@ -18,13 +18,31 @@
 		$(".insert").click(function(){
 			insert_stock_reg("${cr}");
 		});
-		
+		/*
 		$(".update").click(function(){
 			location.replace("${cr}/stock_update_form.ida");
 		});
+		*/
+		/* $(".delete").click(function(){
+			alert("정말 삭제하시겠습니까?")
+			stock_delete_reg("${cr}");
+		}); */
 		
-		$(".delete").click(function(){
-			location.replace("${cr}/stock_delete_form.ida");
+		$(".back").click(function(){
+			location.replace("${cr}/stock_form.ida");
 		});
 	});
+
+
+	function stock_content_tr(st_no){
+		location.replace("${cr}/stock_content_form.ida?st_no="+st_no);
+	}
+
+	function update_stock_btn(st_no){
+		location.replace("${cr}/stock_update_form.ida?st_no="+st_no);
+	}
+	function delete_stock_btn(){
+		alert("정말 삭제하시겠습니까?")
+		stock_delete_reg("${cr}");
+	}
 </script>
