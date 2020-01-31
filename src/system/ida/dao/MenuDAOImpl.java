@@ -13,6 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import system.ida.dto.CodeMenuAlphaDTO;
 import system.ida.dto.CodeMenuBetaDTO;
+import system.ida.dto.Code_IngredientAlphaDTO;
+import system.ida.dto.Code_IngredientBetaDTO;
+import system.ida.dto.Code_ingredientDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuSearchDTO;
@@ -107,12 +110,75 @@ public class MenuDAOImpl implements MenuDAO {
 	}
 	
 	@Override
-	public List<IngredientDTO> getIngredientList(String s_id){
+	public List<IngredientDTO> getIngredientList1(Code_ingredientDTO code_ingredientDTO){
+		List<IngredientDTO> i_nameList1 = this.sqlSession.selectList(
+				sqlSessionPath + "getIngredientList1"
+				,code_ingredientDTO
+		);
+		return i_nameList1;
+	}
+	@Override
+	public List<IngredientDTO> getIngredientList2(Code_ingredientDTO code_ingredientDTO){
+		List<IngredientDTO> i_nameList2 = this.sqlSession.selectList(
+				sqlSessionPath + "getIngredientList2"
+				,code_ingredientDTO
+		);
+		return i_nameList2;
+	}
+	@Override
+	public List<IngredientDTO> getIngredientList3(Code_ingredientDTO code_ingredientDTO){
+		List<IngredientDTO> i_nameList3 = this.sqlSession.selectList(
+				sqlSessionPath + "getIngredientList3"
+				,code_ingredientDTO
+		);
+		return i_nameList3;
+	}
+	@Override
+	public List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO){
+		List<IngredientDTO> i_nameList4 = this.sqlSession.selectList(
+				sqlSessionPath + "getIngredientList4"
+				,code_ingredientDTO
+		);
+		return i_nameList4;
+	}
+	@Override
+	public List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO){
+		List<IngredientDTO> i_nameList5 = this.sqlSession.selectList(
+				sqlSessionPath + "getIngredientList5"
+				,code_ingredientDTO
+		);
+		return i_nameList5;
+	}
+	@Override
+	public List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO){
+		List<IngredientDTO> i_nameList6 = this.sqlSession.selectList(
+				sqlSessionPath + "getIngredientList6"
+				,code_ingredientDTO
+		);
+		return i_nameList6;
+	}
+	
+	@Override
+	public List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO){
 		List<IngredientDTO> i_nameList = this.sqlSession.selectList(
 				sqlSessionPath + "getIngredientList"
-				,s_id
+				,code_ingredientDTO
 		);
 		return i_nameList;
+	}
+	
+	// 식자재 대분류
+	@Override
+	public List<Code_IngredientAlphaDTO> getCodeIngAlpha() {
+		List<Code_IngredientAlphaDTO> ia_nameList = this.sqlSession.selectList(sqlSessionPath + "getCodeIngAlpha");
+		return ia_nameList;
+	}
+
+	// 식자재 소분류
+	@Override
+	public List<Code_IngredientBetaDTO> getCodeIngBeta() {
+		List<Code_IngredientBetaDTO> ib_nameList = this.sqlSession.selectList(sqlSessionPath + "getCodeIngBeta");
+		return ib_nameList;
 	}
 	/**
 	 * 가게 메뉴 수정

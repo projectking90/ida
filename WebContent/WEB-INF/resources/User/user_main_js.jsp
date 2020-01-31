@@ -8,31 +8,11 @@
 <!DOCTYPE html>
 
 <!-- javascript 파일 수입 -->
-<script src="${cr}/resources/Stock/stock.js" type="text/javascript"></script>
+<script src="${cr}/resources/User/user_main.js" type="text/javascript"></script>
 
 <script>
 	$(document).ready(function(){
-		setDataTable('#dataTable');
-		setCardFooter("stock", "${cr}");
-		
-		$(".insert").click(function(){
-			insert_stock_reg("${cr}");
-		});
-		
-		$(".delete").click(function(){
-			delete_stock_reg("${cr}");
-		});
-		
-		$(".back").click(function(){
-			location.replace("${cr}/stock_form.ida");
-		});
+		getChartDataStockMonth("${cr}");
+		getChartDataOrderGender("${cr}");
 	});
-	
-	function stock_content_tr(st_no){
-		location.replace("${cr}/stock_content_form.ida?st_no="+st_no);
-	}
-
-	function update_stock_btn(st_no){
-		location.replace("${cr}/stock_update_form.ida?st_no="+st_no);
-	}
 </script>

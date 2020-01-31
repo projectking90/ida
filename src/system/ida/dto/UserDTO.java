@@ -25,6 +25,7 @@ public class UserDTO {
 	private String gu;	// 구
 	private String dong;	// 동
 	private int addr_code;	// 주소코드
+	private String addr_detail;	// 상세주소
 	
 	/**
 	 * 생성자 선언
@@ -203,5 +204,19 @@ public class UserDTO {
 	 */
 	public void setAddr_code(int addr_code) {
 		this.addr_code = addr_code;
+	}
+	/**
+	 * addr_detail 접근자
+	 * @return addr_detail : 상세주소
+	 */
+	public String getAddr_detail() {
+		return addr_detail;
+	}
+	/**
+	 * addr_detail 설정자
+	 * @param addr_detail : 상세주소
+	 */
+	public void setAddr_detail(String addr_detail) {
+		this.addr_detail = addr_detail;
 	}
 }

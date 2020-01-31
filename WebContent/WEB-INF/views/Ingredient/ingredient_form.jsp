@@ -27,8 +27,8 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 현황
 							<span style='float:right'>
-								<button type="button" class="btn btn-primary update" value="식자재 수정"> 식자재 수정 </button>
-								<button type="button" class="btn btn-danger delete" value="식자재 삭제"> 식자재 삭제 </button>
+								<button type="button" class="btn btn-primary update"> 식자재 수정 </button>
+								<button type="button" class="btn btn-danger delete"> 식자재 삭제 </button>
 							</span>
 						</div>
 						
@@ -46,11 +46,12 @@
 												<td align=center><b>규격</b></td>
 												<td align=center><b>가격(원)</b></td>
 												<td align=center><b>등록일</b></td>
+												<td align=center><b>삭제</b></td>
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach items="${ingredient_list}" var="ingredient">
-												<tr>
+												<tr class="ingredient_list_tr" style="cursor:pointer" onClick="goIngredientDetailForm(${ingredient.i_no});">
 													<td align=center>
 													<td align=center>${ingredient.ia_name}</td>
 													<td align=center>${ingredient.ib_name}</td>
@@ -59,6 +60,8 @@
 													<td align=center>${ingredient.i_size}</td>
 													<td align=right>${ingredient.i_price}</td>
 													<td align=center>${ingredient.reg_date}</td>
+													<td align=center onclick="event.cancelBubble=true;">
+														<input type="checkbox" name="delete_ingredient" value="${ingredient.i_no}">
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -75,7 +78,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 추가
 							<span style='float:right'>
-								<button type="button" class="btn btn-success insert" value="식자재 추가">식자재 추가</button>
+								<button type="button" class="btn btn-success insert">식자재 추가</button>
 							</span>
 						</div>
 						
@@ -110,7 +113,7 @@
 										<th>식자재명
 										<th><input type="text" name="i_name">
 									<tr>
-										<th>식자재수량
+										<th>규격
 										<th><input type="text" name="i_size">
 									<tr>
 										<th>매입가격

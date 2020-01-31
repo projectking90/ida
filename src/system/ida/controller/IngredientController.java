@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.ChartDTO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
 import system.ida.dto.Code_IngredientOriginDTO;
@@ -54,7 +55,7 @@ public class IngredientController {
 	@RequestMapping(value="/ingredient_form.ida")
 	public ModelAndView goIngredientForm(
 		IngredientSearchDTO ingredient_searchDTO
-		,HttpSession session) {
+		, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_form");
 		
@@ -69,9 +70,9 @@ public class IngredientController {
 			code_ingredientDTO.setIo_nameList(this.ingredientService.getCodeIngOrigin());
 			code_ingredientDTO.setA_nameList(this.ingredientService.getCodeIngAllergie());
 			
-			mav.addObject("ingredient_list",ingredient_list);
-			mav.addObject("ingredient_searchDTO",ingredient_searchDTO);
-			mav.addObject("code_ingredientDTO",code_ingredientDTO);
+			mav.addObject("ingredient_list", ingredient_list);
+			mav.addObject("ingredient_searchDTO", ingredient_searchDTO);
+			mav.addObject("code_ingredientDTO", code_ingredientDTO);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -106,6 +107,30 @@ public class IngredientController {
 		}
 		
 		return insert_result;
+	}
+
+	/**
+	 * 식자재 상세보기 화면을 보여줄 jsp와 하나의 식자재 정보를 보여주는 메소드
+	 * 가상주소 /ingredient_detail_form.ida로 접근하면 호출
+	 * @return mav : /ingredient_detail_form.ida에 맵핑 되는 jsp 파일과 가게 식자재 리스트
+	 */
+	@RequestMapping(value = "/ingredient_detail_form.ida") // 접속하는 클라이언트의 URL 주소 설정
+	public ModelAndView goIngredientDetailForm(
+			@RequestParam(value = "i_no") int i_no
+			, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(path + "ingredient_detail_form");
+
+		try {
+			IngredientDTO ingredientDTO = this.ingredientService.getIngredientDTO(i_no);
+			mav.addObject("ingredientDTO", ingredientDTO);
+
+		} catch (Exception e) {
+			System.out.println("<goIngredientDetailForm 메소드> 에서 <에러발생>");
+			System.out.println(e.getMessage());
+
+		}
+		return mav;
 	}
 	
 	/**
@@ -172,6 +197,7 @@ public class IngredientController {
 	 * 가상주소 /ingredient_delete_form.ida로 접근하면 호출
 	 * @return mav : /ingredient_delete_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
 	 */
+	/*
 	@RequestMapping(value="/ingredient_delete_form.ida")
 	public ModelAndView goIngredientDeleteForm(
 		HttpSession session
@@ -192,10 +218,11 @@ public class IngredientController {
 		
 		return mav;
 	}
+	*/
 	
 	/**
 	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
-	 * 가상주소 /ingredeint_delete.ida로 접근하면 호출
+	 * 가상주소 /ingredeint_delete.onm로 접근하면 호출
 	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
 	 * @return delete_result : 식자제 삭제 Query 실행 결과
 	 */
@@ -211,12 +238,9 @@ public class IngredientController {
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			ingredient_searchDTO.setS_id(s_id);
-			for(int i=0; i<ingredient_delete.size(); i++) {
-				System.out.println(ingredient_delete.get(i));
-			}
 			delete_result = this.ingredientService.deleteIngredient(ingredient_delete);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<deleteStoreMenu 에러발생>");
+			System.out.println("<deleteIngredient 에러발생>");
 			System.out.println(e.getMessage());
 			return -1;
 		}
@@ -260,13 +284,16 @@ public class IngredientController {
 	 */
 	@RequestMapping(value="/ingredient_analysis_chart_form.ida")
 	public ModelAndView goIngredientAnalysisChartForm(
-		HttpSession session
+		IngredientSearchDTO ingredient_searchDTO
+		,HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "ingredient_analysis_chart_form");
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			List<IngredientDTO> ingredient_anl_list = this.ingredientService.getIngAnlList(ingredient_searchDTO);
+			mav.addObject("ingredient_anl_list",ingredient_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientAnalysisChartForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -276,45 +303,66 @@ public class IngredientController {
 	}
 	
 	/**
-	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
+	 * 식자재  차트
 	 * 가상주소 /ingredeint_analysis_chart.ida로 접근하면 호출
-	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
-	 * @return delete_result : 식자제 삭제 Query 실행 결과
 	 */
 	@RequestMapping(value="/ingredeint_analysis_chart.ida")
 	@ResponseBody
 	public ChartDTO getIngredientChartData(
-			HttpSession session
-			, @RequestParam(value="chart_search") String chart_search) {
+			ChartSearchDTO chart_searchDTO
+			,HttpSession session
+			, @RequestParam(value="chart_search") String chart_search
+			, @RequestParam(value="chart_cnt") String chart_cnt
+			, @RequestParam(value="week") String week
+			, @RequestParam(value="month") String month
+			, @RequestParam(value="year") String year
+			) {
 		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
+			chart_searchDTO.setS_id(s_id);
+			chart_searchDTO.setChart_cnt(chart_cnt);
+			
 
+			List<String> label = new ArrayList<String>();
+			List<String> data1=new ArrayList<String>();
+			List<String> dataset = new ArrayList<String>();
+			
 			if(chart_search.equals("주")) {
-				List<Map<String,String>> ing_week_chart = this.ingredientService.getWeekData(s_id);
-				List<String> label = new ArrayList<String>();
-				for(int i=0; i<ing_week_chart.size(); i++) {
-					label.add(ing_week_chart.get(i).get("label"));
+				chart_searchDTO.setWeek(week);
+				List<Map<String,String>> week_ingredient_chart = this.ingredientService.getWeekIngredientData(chart_searchDTO);
+				
+				for(int i=0; i<week_ingredient_chart.size(); i++) {
+					label.add(week_ingredient_chart.get(i).get("LABEL"));
 				}
-				List<String> data1 = new ArrayList<String>();
-				for(int i=0; i<ing_week_chart.size(); i++) {
-					data1.add(ing_week_chart.get(i).get("data1"));
+				for(int i=0; i<week_ingredient_chart.size(); i++) {
+					data1.add(week_ingredient_chart.get(i).get("DATA"));
 				}
-				chart_data.setLabel(label);
-				chart_data.setLabel(data1);
-			} /*
-				 * else if(chart_search.equals("월")) { List<Map<String,String>> ing_month_chart
-				 * = this.ingredientService.getMonthData(s_id); List<String> label = new
-				 * ArrayList<String>(); for(int i=0; i<ing_month_chart.size(); i++) {
-				 * label.add(ing_month_chart.get(i).get("label")); }
-				 * 
-				 * List<String> data1 = new ArrayList<String>();
-				 * 
-				 * for(int i=0; i<ing_month_chart.size(); i++) {
-				 * data1.add(ing_month_chart.get(i).get("data1")); } chart_data.setLabel(label);
-				 * chart_data.setData1(data1); }
-				 */
+				dataset.add(week_ingredient_chart.get(0).get("DATASET"));
+
+			}else if(chart_search.equals("월")) {
+				chart_searchDTO.setMonth(month);
+				chart_searchDTO.setYear(year);
+				List<Map<String,String>> month_ingredient_chart = this.ingredientService.getMonthIngredientData(chart_searchDTO);
+				
+				for(int i=0; i<month_ingredient_chart.size(); i++) {
+					label.add(month_ingredient_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<month_ingredient_chart.size(); i++) {
+					data1.add(month_ingredient_chart.get(i).get("DATA"));
+				}
+				dataset.add(month_ingredient_chart.get(0).get("DATASET"));
+			}else if (chart_search.equals("시간")) {
+				
+			}else if(chart_search.equals("분기")) {
+				
+			}
+			chart_data.setDataset(dataset);
+			chart_data.setLabel(label);
+			chart_data.setData1(data1);
+
+
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getIngredientChartData 에러발생>");
 			System.out.println(e.getMessage());

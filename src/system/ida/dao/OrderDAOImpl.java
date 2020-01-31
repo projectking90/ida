@@ -203,6 +203,15 @@ public class OrderDAOImpl implements OrderDAO {
 		return month_chart;
 	}
 	
+	public List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> month_menu_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthMenuData"
+				,chart_search_DTO
+		);
+		
+		return month_menu_chart;
+	}
+	
 	public List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO){
 		List<OrderDTO> order_list = this.sqlSession.selectList(
 				sqlSessionPath + "getOrderList_analy"
@@ -228,6 +237,15 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return quarter_chart;
 	}
+	public List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> quarter_menu_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterMenuData"
+				,chart_search_DTO
+		);
+		
+		return quarter_menu_chart;
+	}
+	
 	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> week_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getWeekData"
@@ -235,5 +253,13 @@ public class OrderDAOImpl implements OrderDAO {
 		);
 		
 		return week_chart;
+	}
+	public List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> week_menu_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekMenuData"
+				,chart_search_DTO
+		);
+		
+		return week_menu_chart;
 	}
 }

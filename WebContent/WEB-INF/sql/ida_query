@@ -71,6 +71,7 @@ create table store(	-- 가게
 	, s_phone	varchar2(15)	not null	-- 핸드폰
 	, email	varchar2(100)	not null	-- 이메일
 	, addr_code	number(10)	not null	-- 주소코드
+	, addr_detail	varchar2(100)	not null	-- 상세주소
 	, reg_date	date	default sysdate	-- 등록일
 	, is_del	varchar2(1)	default 'F' check(is_del in('F', 'T'))	-- 삭제여부
 	, primary key(s_no)
@@ -405,7 +406,7 @@ as
 	(select
 		i.s_no	as "S_NO"
 		, i.i_name	as "I_NAME"
-		, i.reg_date	as "REG_DATE"
+		, sr.reg_date	as "REG_DATE"
 		, sr.quantity	as "QUANTITY"
 	from
 		ingredient i, stock s, stock_record sr

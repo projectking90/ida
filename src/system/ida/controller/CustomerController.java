@@ -45,7 +45,7 @@ public class CustomerController {
 		CustomerSearchDTO customer_SearchDTO) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "customer_form");
-
+		
 		try {
 			List<CustomerDTO> customer_list = this.customerService.getCustomerList(customer_SearchDTO);
 			mav.addObject("customer_list", customer_list);

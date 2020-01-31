@@ -61,26 +61,22 @@ public class OrderServiceImpl implements OrderService {
 	 * @return insert_result : 메뉴 추가 적용 개수
 	 */
 	@Override
-	public int insertStoreOrder(OrderDTO orderDTO) {
-		int insert_result = this.orderDAO.insertStoreOrder(orderDTO);
+	public int insertStoreOrder(OrderDTO orderDTO, ArrayList<String> mi_names, ArrayList<String> quantitys, String s_id) {
 		
-		return insert_result;
-	}
+		int insert_result = this.orderDAO.insertStoreOrder(orderDTO);
 
-	@Override
-	public int insertOrderMenuOne(ArrayList<String> mi_names, ArrayList<String> quantitys, String s_id) {
 		Map<String, String> trData = new HashMap<String, String>();
 		int order_menu_insert = 0;
 		
 		for(int i=0; i<mi_names.size(); i++) {
-				trData.put("mi_name", mi_names.get(i));
-				trData.put("quantity", quantitys.get(i));
-				trData.put("s_id", s_id);
-				order_menu_insert += this.orderDAO.insertOrderMenuOne(trData);
-				System.out.println("order_menu_insert : "+order_menu_insert);
+			trData.put("mi_name", mi_names.get(i));
+			trData.put("quantity", quantitys.get(i));
+			trData.put("s_id", s_id);
+			order_menu_insert += this.orderDAO.insertOrderMenuOne(trData);
+			System.out.println("order_menu_insert : "+order_menu_insert);
 		}
 		
-		return order_menu_insert;
+		return insert_result;
 	}
 	
 	/**
@@ -226,6 +222,12 @@ public class OrderServiceImpl implements OrderService {
 		return month_chart;
 	}
 	
+	public List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> month_menu_chart = this.orderDAO.getMonthMenuData(chart_search_DTO);
+		
+		return month_menu_chart;
+	}
+	
 	public List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO){
 		List<OrderDTO> order_list = this.orderDAO.getOrderList(ordersearchDTO);
 		
@@ -242,9 +244,19 @@ public class OrderServiceImpl implements OrderService {
 		
 		return quarter_chart;
 	}
+	public List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> quarter_menu_chart = this.orderDAO.getQuarterMenuData(chart_search_DTO);
+		
+		return quarter_menu_chart;
+	}
 	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> week_chart = this.orderDAO.getWeekData(chart_search_DTO);
 		
 		return week_chart;
+	}
+	public List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> week_menu_chart = this.orderDAO.getWeekMenuData(chart_search_DTO);
+		
+		return week_menu_chart;
 	}
 }

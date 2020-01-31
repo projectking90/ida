@@ -53,6 +53,7 @@
 			, s_phone
 			, email
 			, addr_code
+			, addr_detail
 		) values(
 			(select nvl(max(s_no), 0) + 1 from store)
 			, #{s_id}
@@ -63,6 +64,7 @@
 			, #{s_phone}
 			, #{email}
 			, ${addr_code}
+			, #{addr_detail}
 		)
 	</insert>
 	
@@ -78,6 +80,7 @@
 			, (select ca.gun from code_addr ca where ca.addr_code=s.addr_code)	"GUN"
 			, (select ca.gu from code_addr ca where ca.addr_code=s.addr_code)	"GU"
 			, (select ca.dong from code_addr ca where ca.addr_code=s.addr_code)	"DONG"
+			, s.addr_detail	as "ADDR_DETAIL"
 		from
 			store s
 		where
@@ -95,6 +98,7 @@
 			, s_phone = #{s_phone}
 			, email = #{email} 
 			, addr_code = #{addr_code}
+			, addr_detail = #{addr_detail}
 			<if test="!newPwd.equals('wLn3W6nd568lPQKBtdZ4tA==')">
 				,pwd = #{newPwd}
 			</if>

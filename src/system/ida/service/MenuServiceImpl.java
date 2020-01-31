@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system.ida.dao.MenuDAO;
 import system.ida.dto.CodeMenuAlphaDTO;
 import system.ida.dto.CodeMenuBetaDTO;
+import system.ida.dto.Code_IngredientAlphaDTO;
+import system.ida.dto.Code_IngredientBetaDTO;
+import system.ida.dto.Code_ingredientDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuSearchDTO;
@@ -37,7 +40,6 @@ public class MenuServiceImpl implements MenuService {
 	/**
 	 * 메소드 선언
 	 */
-
 	/**
 	 * 가게에 등록된 메뉴를 가져옴
 	 * @param menu_searchDTO : 메뉴 검색을 위해 사용하는 DTO
@@ -89,10 +91,72 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<IngredientDTO> getIngredientList(String s_id){
-		List<IngredientDTO> i_nameList = this.menuDAO.getIngredientList(s_id);
+	public List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList = this.menuDAO.getIngredientList(code_ingredientDTO);
 		return i_nameList;
 	}
+	
+	@Override
+	public List<IngredientDTO> getIngredientList1(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList1 = this.menuDAO.getIngredientList1(code_ingredientDTO);
+		return i_nameList1;
+	}
+	@Override
+	public List<IngredientDTO> getIngredientList2(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList2 = this.menuDAO.getIngredientList2(code_ingredientDTO);
+		return i_nameList2;
+	}
+
+	@Override
+	public List<IngredientDTO> getIngredientList3(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList3 = this.menuDAO.getIngredientList3(code_ingredientDTO);
+		return i_nameList3;
+	}
+
+	@Override
+	public List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList4 = this.menuDAO.getIngredientList4(code_ingredientDTO);
+		return i_nameList4;
+	}
+
+	@Override
+	public List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList5 = this.menuDAO.getIngredientList5(code_ingredientDTO);
+		return i_nameList5;
+	}
+
+	@Override
+	public List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO){
+		
+		List<IngredientDTO> i_nameList6 = this.menuDAO.getIngredientList6(code_ingredientDTO);
+		return i_nameList6;
+	}
+	
+	
+	/**
+	 * 식자재 대분류
+	 */
+	@Override
+	public List<Code_IngredientAlphaDTO> getCodeIngAlpha() {
+		List<Code_IngredientAlphaDTO> ia_nameList = this.menuDAO.getCodeIngAlpha();
+		return ia_nameList;
+	}
+
+	/**
+	 * 식자재 소분류
+	 */
+	@Override
+	public List<Code_IngredientBetaDTO> getCodeIngBeta() {
+		List<Code_IngredientBetaDTO> ib_nameList = this.menuDAO.getCodeIngBeta();
+		return ib_nameList;
+	}
+
 
 	/**
 	 * 가게 메뉴 수정

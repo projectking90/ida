@@ -14,11 +14,9 @@
 		<title>식자재 수정</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
-	
 			<div id="content-wrapper">
 				<div class="container-fluid">
 					<!-- Breadcrumbs-->

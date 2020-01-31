@@ -15,19 +15,57 @@
 		$(".gender").hide();
 		getChartData("${cr}", $("[name=chart_search]").val());
 
+
 		
 		$("[name=chart_search]").change(function(){
-			getChartData("${cr}", $(this).val(), $("[name=chart_cnt]").val(), $("[name=age]").val());
+			getChartData("${cr}", $(this).val(), $("[name=chart_cnt]").val(), $("[name=age]").val(), 
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());
 		});
 		
 		$("[name=chart_cnt]").change(function(){
-			getChartData("${cr}", $("[name=chart_search]").val(), $(this).val(), $("[name=age]").val());
+			getChartData("${cr}", $("[name=chart_search]").val(), $(this).val(), $("[name=age]").val(), 
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());
 		});
 		
 		$("[name=age]").change(function(){
-			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(), $(this).val());
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(), $(this).val(), 
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());
 		});
-	
+		
+		$("[name=month]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(),$("[name=age]").val(),
+					$(this).val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());
+		});
+		
+		$("[name=year]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(), $("[name=age]").val(),
+					$("[name=month]").val(), $(this).val(), $("[name=quarter]").val(), $("[name=week]").val());
+		});
+		
+		$("[name=quarter]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(), $("[name=age]").val(),
+					$("[name=month]").val(), $("[name=year]").val(), $(this).val(), $("[name=week]").val());
+		});
+		
+		$("[name=week]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=chart_cnt]").val(), $("[name=age]").val(),
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $(this).val());
+		});
+		
+		$(".top3").click(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), 3, $("[name=age]").val(),
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());			
+		});
+		
+		$(".top5").click(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), 5, $("[name=age]").val(),
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());
+		});
+		
+		$(".top8").click(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), 8, $("[name=age]").val(),
+					$("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val(), $("[name=week]").val());
+		});
 		
 		$(".o_table").click(function(){
 			location.replace("${cr}/order_analysis_form.ida");

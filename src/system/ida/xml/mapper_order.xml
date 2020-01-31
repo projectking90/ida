@@ -286,7 +286,7 @@
 	
 	<select id='getMonthData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time, 'mm')||'월'	"label"
+			count(s_no)||'' "data", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월'	"label"
 		from (select
 					oi.s_no as "S_NO", oi.order_time as "ORDER_TIME"
 					from order_menu om, order_info oi
@@ -295,10 +295,27 @@
 		where
 			s_no = (select s_no from store where s_id=#{s_id})
 		group by
-			to_char(order_time, 'mm')
+			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월'
 		order by
-			to_char(order_time, 'mm')
+			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월' 
 		
+	</select>
+	
+	<select id='getMonthMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select zzz.*, rownum RNUM from
+		(select
+			count(mi_name)||''	"data", mi_name	 "label", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월'	"dataset"
+		from order_day_menu
+			where
+				s_no=(select s_no from store where s_id=#{s_id})
+				and to_char(order_time,'yyyy')=#{year}
+				and to_char(order_time, 'mm')=#{month}
+			group by  to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월', mi_name
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=${chart_cnt}
+			]]>
 	</select>
 	
 	<select id="getOrderList_analy" parameterType="system.ida.dto.OrderSearchDTO" resultType="system.ida.dto.OrderDTO">
@@ -342,28 +359,61 @@
 	
 	<select id='getQuarterData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time, 'q')||'/4분기'	"label"
+			count(s_no)||'' "data", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'	"label"
 		from order_day
 		where
 			s_no = (select s_no from store where s_id=#{s_id})
 		group by
-			to_char(order_time, 'q')
+			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'
 		order by
-			to_char(order_time, 'q')
+			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'
 			
+	</select>
+	
+	<select id='getQuarterMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select zzz.*, rownum RNUM from
+		(select
+			count(mi_name)||''	"data", mi_name	 "label", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'	"dataset"
+		from order_day_menu
+			where
+				s_no=(select s_no from store where s_id=#{s_id})
+				and to_char(order_time,'yyyy')=#{year}
+				and to_char(order_time, 'q')=#{quarter}
+			group by  to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기', mi_name
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=${chart_cnt}
+			]]>
 	</select>
 		
 	<select id='getWeekData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time, 'ww')||'주'	"label"
+			count(s_no)||'' "data", to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'	"label"
 		from order_day
 		where
 			s_no = (select s_no from store where s_id=#{s_id})
 		group by
-			to_char(order_time, 'ww')
+			to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'
 		order by
-			to_char(order_time, 'ww')
+			to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'
 			
 	</select>
-	
+	<select id='getWeekMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select zzz.*, rownum RNUM from
+		(select
+			count(mi_name)||''	"data", mi_name	 "label", to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'	"dataset"
+		from order_day_menu
+			where
+				s_no = (select s_no from store where s_id=#{s_id})
+				and to_char(order_time,'yyyy')=#{year}
+				and to_char(order_time,'mm')=#{month}
+				and to_char(order_time, 'w')=#{week}
+			group by  to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주', mi_name
+			order by  count(mi_name) desc) zzz
+		where
+ 			<![CDATA[
+ 			 rownum<=${chart_cnt}
+			]]>
+	</select>
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.IngredientDAO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.Code_IngredientAllergieDTO;
 import system.ida.dto.Code_IngredientAlphaDTO;
 import system.ida.dto.Code_IngredientBetaDTO;
@@ -104,9 +105,15 @@ public class IngredientServiceImpl implements IngredientService {
 				trData.put("i_size", ingredient_update.get(i));
 			} else if (i % 7 == 6) {
 				trData.put("i_price", ingredient_update.get(i));
-				ingredient_update_cnt += this.ingredientDAO.updateIngredient(trData);
+				int i_price = Integer.parseInt(ingredient_update.get(i));
+				int change_i_price = i_price;
+				if(change_i_price!=0) {
+					trData.put("change_i_price", Integer.toString(change_i_price));
+					int updated_ingredient_record = this.ingredientDAO.updateIngredientRecord(trData);
+				}
 			}
 		}
+		
 
 		return ingredient_update_cnt;
 	}
@@ -130,25 +137,44 @@ public class IngredientServiceImpl implements IngredientService {
 	 */
 	@Override
 	public int insertIngredient(IngredientDTO ingredientDTO) {
-		int insert_result = this.ingredientDAO.insertIngredient(ingredientDTO);
-		return insert_result;
+		int inserted_ingredient_cnt = this.ingredientDAO.getInsertedIngredientCnt(ingredientDTO);
+		
+		if(inserted_ingredient_cnt>0) {
+			int ingredient_reg_cnt = this.ingredientDAO.insertIngredient(ingredientDTO);
+			if(ingredient_reg_cnt>0) {
+				int ingredient_record_insert = this.ingredientDAO.insertIngredientRecord(ingredientDTO);
+				if(ingredient_record_insert>0) {
+					return 1;
+				}
+			}
+		}
+		// error
+		return -1;
 	}
 
-	@Override
-	public List<Map<String, String>> getWeekData(String s_id) {
-		List<Map<String,String>> ing_week_chart = this.ingredientDAO.getWeekData(s_id);
-		return ing_week_chart;
-	}
-
+	
 	@Override
 	public List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO) {
 		List<IngredientDTO> ingredient_anl_list = this.ingredientDAO.getIngAnlList(ingredient_SearchDTO);
 		return ingredient_anl_list;
 	}
 	
-	/*
-	 * @Override public List<Map<String, String>> getMonthData(String s_id) {
-	 * List<Map<String,String>> ing_month_data =
-	 * this.ingredientDAO.getMonthData(s_id); return ing_month_data; }
-	 */
+	
+	@Override
+	public List<Map<String, String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO) {
+		 List<Map<String, String>> week_ingredient_chart = this.ingredientDAO.getWeekIngredientData(chart_searchDTO);
+		return week_ingredient_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_ingredient_chart = this.ingredientDAO.getMonthIngredientData(chart_searchDTO);
+		return month_ingredient_chart;
+	}
+
+	@Override
+	public IngredientDTO getIngredientDTO(int i_no) {
+		IngredientDTO ingredientDTO = this.ingredientDAO.getIngedientDTO(i_no);
+		return ingredientDTO;
+	}
 }

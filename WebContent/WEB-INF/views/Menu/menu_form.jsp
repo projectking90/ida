@@ -79,7 +79,7 @@
 								<table class="table table-bordered" id="insertMenuTable">
 									<tr>
 										<th>대분류
-										<th>
+										<th colspan="2">
 											<select name="ma_code">
 												<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList" varStatus="loopTagStatus">
 													<option value="${ma_nameList.ma_name}">${ma_nameList.ma_name}</option>
@@ -87,28 +87,64 @@
 											</select>
 									<tr>
 										<th>소분류
-										<th>
+										<th colspan="2">
 											<select name="mb_code">
 												<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList" varStatus="loopTagStatus">
 													<option value="${mb_nameList.mb_name}">${mb_nameList.mb_name}</option>
 												</c:forEach>
 											</select>
 									<tr>
-										<th>식자재
+										<th rowspan="6"> 식자재
+										<th>과일/채소
 										<th>
-										<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
-											<form:checkboxes path="i_name" 
-											items="${ingredient_listDTO.i_nameList}" itemLabel="i_name" itemValue="i_name"/>
-										</form:form>
+											<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+												<form:checkboxes path="i_name" 
+												items="${ingredient_listDTO.i_nameList1}" itemLabel="i_name" itemValue="i_name"/>
+											</form:form>
+									<tr>
+										<th>농/수산물
+										<th>
+											<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+												<form:checkboxes path="i_name" 
+												items="${ingredient_listDTO.i_nameList2}" itemLabel="i_name" itemValue="i_name"/>
+											</form:form>
+									<tr>
+										<th>정육
+										<th>
+											<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+												<form:checkboxes path="i_name" 
+												items="${ingredient_listDTO.i_nameList3}" itemLabel="i_name" itemValue="i_name"/>
+											</form:form>
+									<tr>
+										<th>가공식품
+										<th>
+											<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+												<form:checkboxes path="i_name" 
+												items="${ingredient_listDTO.i_nameList4}" itemLabel="i_name" itemValue="i_name"/>
+											</form:form>
+									<tr>
+										<th>공산품
+										<th>
+											<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+												<form:checkboxes path="i_name" 
+												items="${ingredient_listDTO.i_nameList5}" itemLabel="i_name" itemValue="i_name"/>
+											</form:form>
+									<tr>
+										<th>카페/음료
+										<th>
+											<form:form name="ingredientCheckForm" commandName="ingredient_listDTO">
+												<form:checkboxes path="i_name" 
+												items="${ingredient_listDTO.i_nameList6}" itemLabel="i_name" itemValue="i_name"/>
+											</form:form>
 									<tr>
 										<th>메뉴이름
-										<th><input type="text" name="mi_name">
+										<th colspan="2"><input type="text" name="mi_name">
 									<tr>
 										<th>가격
-										<th><input type="text" name="price">
+										<th colspan="2"><input type="text" name="price">
 									<tr>
 										<th>설명
-										<th><input type="text" name="mi_comment">
+										<th colspan="2"><input type="text" name="mi_comment">
 											<input type="hidden" name="s_id" value="${sessionScope.s_id}">
 								</table>
 							</form>

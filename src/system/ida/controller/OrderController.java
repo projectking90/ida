@@ -90,15 +90,12 @@ public class OrderController {
 			, HttpSession session
 			) {
 		int insert_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
-		int order_menu_insert = 0;
 		
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			orderDTO.setS_id(s_id);
 			
-			insert_result = this.orderService.insertStoreOrder(orderDTO);
-			
-			order_menu_insert = this.orderService.insertOrderMenuOne(mi_names,quantitys, s_id);
+			insert_result = this.orderService.insertStoreOrder(orderDTO,mi_names,quantitys, s_id);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<insertOrderMenu 에러발생>");
 			System.out.println(e.getMessage());
@@ -269,9 +266,13 @@ public class OrderController {
 	@ResponseBody
 	public ChartDTO getOrderChartData(
 			HttpSession session
-			, @RequestParam(value="chart_search") String chart_search
-			, @RequestParam(value="chart_cnt") String chart_cnt
-			,@RequestParam(value="age") String age) {
+			,@RequestParam(value="chart_search") String chart_search
+			,@RequestParam(value="chart_cnt") String chart_cnt
+			,@RequestParam(value="age", required=false) String age 
+			,@RequestParam(value="month", required=false) String month
+			,@RequestParam(value="year", required=false) String year
+			,@RequestParam(value="quarter", required=false) String quarter
+			,@RequestParam(value="week", required=false) String week ) {
 		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
 		ChartSearchDTO chart_search_DTO  = new ChartSearchDTO();
 		try {
@@ -279,37 +280,74 @@ public class OrderController {
 			chart_search_DTO.setChart_cnt(chart_cnt);
 			chart_search_DTO.setS_id(s_id);
 			chart_search_DTO.setAge(age);
+			chart_search_DTO.setMonth(month);
+			chart_search_DTO.setYear(year);
+			chart_search_DTO.setQuarter(quarter);
+			chart_search_DTO.setWeek(week);
 			
 			if(chart_search.equals("주")) {
 				List<Map<String,String>> week_chart = this.orderService.getWeekData(chart_search_DTO);
-				List<String> label = new ArrayList<String>();
+				List<Map<String,String>> week_menu_chart = this.orderService.getWeekMenuData(chart_search_DTO);
+				
+				List<String> label1 = new ArrayList<String>();
+				List<String> label2 = new ArrayList<String>();
 				for(int i=0; i<week_chart.size(); i++) {
-					label.add(week_chart.get(i).get("label"));
+					label1.add(week_chart.get(i).get("label"));
+				}
+				for(int i=0; i<week_menu_chart.size(); i++) {
+					label2.add(week_menu_chart.get(i).get("label"));
 				}
 				
 				List<String> data1 = new ArrayList<String>();
+				List<String> data2 = new ArrayList<String>();
 				for(int i=0; i<week_chart.size(); i++) {
 					data1.add(week_chart.get(i).get("data"));
 				}
+				for(int i=0; i<week_menu_chart.size(); i++) {
+					data2.add(week_menu_chart.get(i).get("data"));
+				}
 				
-				chart_data.setLabel(label);
+				List<String> dataset = new ArrayList<String>();
+				dataset.add(week_menu_chart.get(0).get("dataset"));
+
+				chart_data.setDataset(dataset);
+				chart_data.setLabel(label1);
+				chart_data.setLabel2(label2);
 				chart_data.setData1(data1);
+				chart_data.setData2(data2);
+				
 			} else if(chart_search.equals("월")) {
 				List<Map<String,String>> month_chart = this.orderService.getMonthData(s_id);
-				List<String> label = new ArrayList<String>();
+				List<Map<String,String>> month_menu_chart = this.orderService.getMonthMenuData(chart_search_DTO);
+				List<String> label1 = new ArrayList<String>();
+				List<String> label2 = new ArrayList<String>();
 				
 				for(int i=0; i<month_chart.size(); i++) {
-					label.add(month_chart.get(i).get("label"));
+					label1.add(month_chart.get(i).get("label"));
+				}
+				for(int i=0; i<month_menu_chart.size(); i++) {
+					label2.add(month_menu_chart.get(i).get("label"));
 				}
 				
 				List<String> data1 = new ArrayList<String>();
+				List<String> data2 = new ArrayList<String>();
 				
 				for(int i=0; i<month_chart.size(); i++) {
 					data1.add(month_chart.get(i).get("data"));
 				}
+				for(int i=0; i<month_menu_chart.size(); i++) {
+					data2.add(month_menu_chart.get(i).get("data"));
+				}
 				
-				chart_data.setLabel(label);
+				List<String> dataset = new ArrayList<String>();
+				dataset.add(month_menu_chart.get(0).get("dataset"));
+				
+				chart_data.setDataset(dataset);
+				chart_data.setLabel(label1);
+				chart_data.setLabel2(label2);
 				chart_data.setData1(data1);
+				chart_data.setData2(data2);
+				
 			} else if(chart_search.equals("시간")) {
 				List<Map<String,String>> hour_chart = this.orderService.getHourData(s_id);
 				List<String> label = new ArrayList<String>();
@@ -328,20 +366,36 @@ public class OrderController {
 				chart_data.setData1(data1);
 			} else if(chart_search.equals("분기")) {
 				List<Map<String,String>> quarter_chart = this.orderService.getQuarterData(s_id);
-				List<String> label = new ArrayList<String>();
+				List<Map<String,String>> quarter_menu_chart = this.orderService.getQuarterMenuData(chart_search_DTO);
+				List<String> label1 = new ArrayList<String>();
+				List<String> label2 = new ArrayList<String>();
 				
 				for(int i=0; i<quarter_chart.size(); i++) {
-					label.add(quarter_chart.get(i).get("label"));
+					label1.add(quarter_chart.get(i).get("label"));
+				}
+				
+				for(int i=0; i<quarter_menu_chart.size(); i++) {
+					label2.add(quarter_menu_chart.get(i).get("label"));
 				}
 				
 				List<String> data1 = new ArrayList<String>();
+				List<String> data2 = new ArrayList<String>();
 				
 				for(int i=0; i<quarter_chart.size(); i++) {
-						data1.add(quarter_chart.get(i).get("data"));
+					data1.add(quarter_chart.get(i).get("data"));
 				}
 				
-				chart_data.setLabel(label);
+				for(int i=0; i<quarter_menu_chart.size(); i++) {
+					data2.add(quarter_menu_chart.get(i).get("data"));
+				}
+				List<String> dataset = new ArrayList<String>();
+				dataset.add(quarter_menu_chart.get(0).get("dataset"));
+				
+				chart_data.setDataset(dataset);
+				chart_data.setLabel(label1);
+				chart_data.setLabel2(label2);
 				chart_data.setData1(data1);
+				chart_data.setData2(data2);
 				
 			} else if (chart_search.equals("성별")) {
 				List<Map<String,String>> gender_chart_m = this.orderService.getGenderData_M(chart_search_DTO);

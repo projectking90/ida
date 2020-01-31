@@ -155,8 +155,7 @@
 			code_menu_beta
 	</select>
 	
-	<!-- 식자재 목록을 검색하는 select 태그 -->
-	<select id='getIngredientList' parameterType="string" resultType="system.ida.dto.IngredientDTO">
+	<select id='getIngredientList' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
 		from
@@ -164,6 +163,85 @@
 		where
 			is_del = 'F'
 			and s_no=(select s_no from store where s_id=#{s_id})
+	</select>
+	
+	<!-- 식자재 목록을 검색하는 select 태그 -->
+	<select id='getIngredientList1' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+			and ia_code = 1<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+	</select>
+	<select id='getIngredientList2' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+			and ia_code = 2<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+	</select>
+	<select id='getIngredientList3' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+			and ia_code = 3<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+	</select>
+	<select id='getIngredientList4' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+			and ia_code = 4<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+	</select>
+	<select id='getIngredientList5' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+			and ia_code = 5<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+	</select>
+	<select id='getIngredientList6' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+			and ia_code = 6<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+	</select>
+	
+		
+	<!-- 대분류 목록을 검색하는 select 태그 -->
+	<select id='getCodeIngAlpha' resultType="system.ida.dto.Code_IngredientAlphaDTO">
+		select
+			 ia_name as "ia_name"
+		from
+			code_ingredient_alpha
+	</select>
+	
+	<!-- 소분류 목록을 검색하는 select 태그 -->
+	<select id='getCodeIngBeta' resultType="system.ida.dto.Code_IngredientBetaDTO">
+		select
+			 ib_name
+		from
+			code_ingredient_beta
 	</select>
 	
 	<!-- 가게 메뉴를 수정하는 update 태그 -->

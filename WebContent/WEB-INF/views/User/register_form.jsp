@@ -95,6 +95,16 @@
 						
 						<div class="form-group"></div>
 						
+						<div class="form-group">
+							<div class="form-label-group">
+								<input type="text" id="addrDetail" class="form-control"
+									placeholder="text" required="required" name="addr_detail"> <label
+									for="addrDetail">상세주소</label>
+							</div>
+						</div>
+						
+						<div class="form-group"></div>
+						
 						<a class="btn btn-primary btn-block register">회원가입</a>
 						
 						<div class="text-center">

@@ -87,6 +87,15 @@
 							<form:options items="${user_info.dong_list}" itemLabel="dong" itemValue="dong"/>
 						</form:select>
 						
+						<div class="form-group"></div>
+						
+						<div class="form-group">
+							<div class="form-label-group">
+								<form:input path="addr_detail" id="addrDetail" class="form-control" placeholder="text" required="required"/>
+								<form:label path="addr_detail" for="addrDetail">상세주소</form:label>
+							</div>
+						</div>
+						
 						<a class="btn btn-primary btn-block update">회원정보 변경</a>
 						
 						<div class="text-center">

@@ -88,6 +88,7 @@ function registerUser(cr){
 	var gun = form + " [name=gun]";
 	var gu = form + " [name=gu]";
 	var dong = form + " [name=dong]";
+	var addr_detail = form + " [name=addr_detail]";
 	
 	if(is_empty(s_id)){
 		alert("아이디를 입력하세요");
@@ -222,6 +223,13 @@ function registerUser(cr){
 	
 	if(is_empty(gu) && is_empty(dong)){
 		alert("나머지 주소를 선택하세요");
+		
+		return;
+	}
+	
+	if(is_empty(addr_detail)){
+		alert("상세 주소를 입력해주세요");
+		$(addr_detail).focus();
 		
 		return;
 	}

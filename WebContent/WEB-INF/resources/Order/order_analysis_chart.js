@@ -1,37 +1,79 @@
-function getChartData(cr, chart_search, chart_cnt, age){
-	
+function getChartData(cr, chart_search, chart_cnt, age, month, year, quarter, week){
 	if($("[name=chart_search]").val()=="나이대"){
 		$(".chart_cnt").show();
+		$("[name=chart_cnt]").hide();
 		$(".age_select").show();
+		$(".week").hide();
+		$(".month").hide();
+		$(".year").hide();
+		$(".quarter").hide();
+		
 	}else if($("[name=chart_search]").val() == "성별"){
 		$(".chart_cnt").show();
+		$("[name=chart_cnt]").hide();
+		$(".age_select").hide();
+		$(".week").hide();
+		$(".month").hide();
+		$(".year").hide();
+		$(".quarter").hide();
+		
+	}else if($("[name=chart_search]").val() == "월"){
+		$(".chart_cnt").show();
+		$("[name=chart_cnt]").hide();
+		$(".age_select").hide();
+		$(".week").hide();
+		$(".month").show();
+		$(".year").show();
+		$(".quarter").hide();
+		
+	}else if($("[name=chart_search]").val() == "주"){
+		$(".chart_cnt").show();
+		$("[name=chart_cnt]").hide();
+		$(".age_select").hide();
+		$(".quarter").hide();
+		$(".week").show();
+		
+	}else if($("[name=chart_search]").val() == "분기"){
+		$(".chart_cnt").show();
+		$(".quarter").show();
+		$("[name=chart_cnt]").hide();
+		$(".age_select").hide();
+		$(".week").hide();
+		
+	}else if($("[name=chart_search]").val() == "시간"){
+		$(".chart_cnt").show();
+		$("[name=chart_cnt]").hide();
+		$(".age_select").hide();
+		$(".month").show();
+		$(".year").show();
+		$(".week").hide();
+		$(".quarter").hide();
 	}
 	else{
 		$(".chart_cnt").hide();
 		$(".age_select").hide();
+		$(".week").hide();
+		$(".quarter").hide();
+		
 	}
-	
-/*	if($("[name=chart_search]").val() == "성별"){
-		$(".chart_cnt").show();
-		$(".gender").show();
-	}else{
-		$(".chart_cnt").hide();
-		$(".gender").hide();
-	}*/
-	
+		
 	$.ajax({
 		// 접속할 서버 쪽 url 주소 설정
 		url : cr + "/order_analysis_chart.ida"
 		// 전송 방법 설정
 		, type : "post"
 		// 서버로 보낼 파라미터명과 파라미터값을 설정
-		, data : "chart_search=" + chart_search + "&chart_cnt=" + chart_cnt + "&age=" + age
+		, data : "chart_search=" + chart_search + "&chart_cnt=" + chart_cnt + "&age=" + age + "&month=" + month + "&year=" + year + "&quarter=" + quarter + "&week="+ week
 		// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
 		, success : function(chart_data){
-			$("[id^=myChart]").remove();
+			$("[id^=chart_div]").remove();
 			$(".card-body").append(
+					'<div id="chart_div1" style="float:left; width:50%; height:200%;">'+
 					'<canvas id="myChart1" width="100%" height="30"></canvas>'+
-					'<canvas id="myChart2" width="100%" height="30"></canvas>'
+					'</div>'+
+					'<div id="chart_div2" style="float:left; width:50%; height:200%;">'+
+					'<canvas id="myChart2" width="100%" height="30"></canvas>'+
+					'</div>'
 			);
 			
 			if($("[name=chart_search]").val() == '성별'){
@@ -42,12 +84,16 @@ function getChartData(cr, chart_search, chart_cnt, age){
 				drawGenderBarChart(chart_data);
 			}else if($("[name=chart_search]").val() == '주'){
 				drawAreaChart(chart_data);
+				drawGenderBarChart(chart_data);
 			}else if($("[name=chart_search]").val() == '월'){
 				drawAreaChart(chart_data);
+				drawGenderBarChart(chart_data);
 			}else if($("[name=chart_search]").val() == '시간'){
 				drawAreaChart(chart_data);
+				drawGenderBarChart(chart_data);
 			}else if($("[name=chart_search]").val() == '분기'){
 				drawAreaChart(chart_data);
+				drawGenderBarChart(chart_data);
 			}
 		}
 		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
@@ -56,7 +102,6 @@ function getChartData(cr, chart_search, chart_cnt, age){
 		}
 	});
 }
-
 
 function drawAreaChart(data) {
 	// Set new default font family and font color to mimic Bootstrap's default
@@ -100,7 +145,7 @@ function drawAreaChart(data) {
 				yAxes : [ {
 					ticks : {
 						min : 0,
-						max : 600,
+						suggestedmax : 100,
 						maxTicksLimit : 5
 					},
 					gridLines : {
@@ -142,9 +187,9 @@ function drawPieChart(data) {
 			}
 		}
 	});
-	
-	
-}function drawGenderPieChart(data) {
+}
+
+function drawGenderPieChart(data) {
 	// Set new default font family and font color to mimic Bootstrap's default styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	Chart.defaults.global.defaultFontColor = '#292b2c';
@@ -208,7 +253,7 @@ function drawBarChart(data){
 				yAxes : [ {
 					ticks : {
 						min : 0,
-						max : 100,
+						suggestedmax : 20,
 						maxTicksLimit : 10
 					},
 					gridLines : {
@@ -225,8 +270,8 @@ function drawBarChart(data){
 			}
 		}
 	});
-	
 }
+
 function drawGenderBarChart(data){
 	//Set new default font family and font color to mimic Bootstrap's default styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -266,7 +311,7 @@ function drawGenderBarChart(data){
 				yAxes : [ {
 					ticks : {
 						min : 0,
-						max : 100,
+						suggestedmax : 20,
 						maxTicksLimit : 10
 					},
 					gridLines : {
@@ -283,67 +328,62 @@ function drawGenderBarChart(data){
 			}
 		}
 	});
-	
 }
 
-
 function drawdoubleBarChart(data){
-//Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#292b2c';
-
-//Bar Chart Example
-var ctx = document.getElementById("myChart2");
-var myLineChart = new Chart(ctx, {
-	type : 'bar',
-	data : {
-		labels : data.label,
-		datasets : [ {
-			label : data.dataset,
-			backgroundColor : "rgba(2,117,216,1)",
-			borderColor : "rgba(2,117,216,1)",
-			data : data.data1
-		} , {
-			label : data.dataset,
-			backgroundColor : "rgba(100,350,216,1)",
-			borderColor : "rgba(2,117,216,1)",
-			data : data.data2
-		}],
-	},
-	options : {
-		scales : {
-			xAxes : [ {
-				time : {
-					unit : 'month'
-				},
-				gridLines : {
-					display : false
-				},
-				ticks : {
-					maxTicksLimit : 15
-				}
-			} ],
-			yAxes : [ {
-				ticks : {
-					min : 0,
-					max : 30,
-					maxTicksLimit : 10
-				},
-				gridLines : {
-					display : true
-				}
-			} ],
-		},
-		legend : {
-			display : false
-		},			
-		title:{
-			display : true,
-			text : '메뉴 별 주문 횟수'
-		}
-	}
-});
-
+	//Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
 	
-
+	//Bar Chart Example
+	var ctx = document.getElementById("myChart2");
+	var myLineChart = new Chart(ctx, {
+		type : 'bar',
+		data : {
+			labels : data.label,
+			datasets : [ {
+				label : data.dataset,
+				backgroundColor : "rgba(2,117,216,1)",
+				borderColor : "rgba(2,117,216,1)",
+				data : data.data1
+			} , {
+				label : data.dataset,
+				backgroundColor : "rgba(100,350,216,1)",
+				borderColor : "rgba(2,117,216,1)",
+				data : data.data2
+			}],
+		},
+		options : {
+			scales : {
+				xAxes : [ {
+					time : {
+						unit : 'month'
+					},
+					gridLines : {
+						display : false
+					},
+					ticks : {
+						maxTicksLimit : 15
+					}
+				} ],
+				yAxes : [ {
+					ticks : {
+						min : 0,
+						suggestedmax : 5,
+						maxTicksLimit : 10
+					},
+					gridLines : {
+						display : true
+					}
+				} ],
+			},
+			legend : {
+				display : false
+			},			
+			title:{
+				display : true,
+				text : '메뉴 별 주문 횟수'
+			}
+		}
+	});
 }

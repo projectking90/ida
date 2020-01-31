@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.ChartDTO;
 import system.ida.dto.CodeMenuDTO;
+import system.ida.dto.Code_ingredientDTO;
 import system.ida.dto.IngredientListDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuSearchDTO;
@@ -60,6 +61,9 @@ public class MenuController {
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			menu_searchDTO.setS_id(s_id);
+			Code_ingredientDTO code_ingredientDTO = new Code_ingredientDTO();
+			code_ingredientDTO.setS_id(s_id);
+			/* code_ingredientDTO.setIa_code(ia_code); */
 
 			int menu_list_all_cnt=this.menuService.getMenuListAllCnt(menu_searchDTO);
 			
@@ -86,10 +90,20 @@ public class MenuController {
 			CodeMenuDTO codemenuDTO = new CodeMenuDTO();
 			codemenuDTO.setMa_nameList(this.menuService.getCodeMenuAlpha());
 			codemenuDTO.setMb_nameList(this.menuService.getCodeMenuBeta());
-			mav.addObject("codemenuDTO", codemenuDTO); 
+			mav.addObject("codemenuDTO", codemenuDTO);
+			
+			code_ingredientDTO.setIa_nameList(this.menuService.getCodeIngAlpha());
+			code_ingredientDTO.setIb_nameList(this.menuService.getCodeIngBeta());
+			mav.addObject("code_ingredientDTO",code_ingredientDTO);
 			
 			IngredientListDTO ingredient_listDTO = new IngredientListDTO();
-			ingredient_listDTO.setI_nameList(this.menuService.getIngredientList(s_id));
+			ingredient_listDTO.setI_nameList(this.menuService.getIngredientList(code_ingredientDTO));
+			ingredient_listDTO.setI_nameList1(this.menuService.getIngredientList1(code_ingredientDTO));
+			ingredient_listDTO.setI_nameList2(this.menuService.getIngredientList2(code_ingredientDTO));
+			ingredient_listDTO.setI_nameList3(this.menuService.getIngredientList3(code_ingredientDTO));
+			ingredient_listDTO.setI_nameList4(this.menuService.getIngredientList4(code_ingredientDTO));
+			ingredient_listDTO.setI_nameList5(this.menuService.getIngredientList5(code_ingredientDTO));
+			ingredient_listDTO.setI_nameList6(this.menuService.getIngredientList6(code_ingredientDTO));
 			mav.addObject("ingredient_listDTO", ingredient_listDTO);
 		} catch (Exception e) { // try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goMenuForm 에러발생>");

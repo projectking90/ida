@@ -26,7 +26,6 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 재고 현황
 							<span style='float:right'>
-								<input type="button" class="btn btn-primary update" value="재고 수정">
 								<input type="button" class="btn btn-danger delete" value="재고 삭제">
 							</span>
 						</div>
@@ -46,11 +45,12 @@
 											<td align=center><b>상태</b></td>
 											<td align=center><b>가격(원)</b></td>
 											<td align=center><b>날짜</b></td>
+											<td align=center><b>선택</b>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${stock_list}" var="stock">
-											<tr>
+											<tr style="cursor:pointer" onClick="stock_content_tr(${stock.st_no})">
 												<td align=center>
 												<td align=center>${stock.ia_name}
 												<td align=center>${stock.ib_name}
@@ -61,6 +61,8 @@
 												<td align=center>${stock.st_state}
 												<td align=right>${stock.i_price}
 												<td align=center>${stock.reg_date}
+												<td align=center onclick="event.cancelBubble = true;">
+													<input type="checkbox" name="delete_stock" value='${stock.st_no}'>
 											</tr>
 										</c:forEach>
 									</tbody>

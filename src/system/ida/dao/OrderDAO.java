@@ -64,4 +64,10 @@ public interface OrderDAO {
 	List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO);
 
 	List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO);
 }

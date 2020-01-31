@@ -51,7 +51,7 @@ function checkLogin(cr){
 		, data : $(form).serialize()
 		, success : function(loginCnt){
 			if(loginCnt==1){
-				location.replace(cr + "/order_form.ida");
+				location.replace(cr + "/user_main_form.ida");
 			} else{
 				alert("아이디 혹은 비밀번호를 잘못 입력하였습니다");
 			}

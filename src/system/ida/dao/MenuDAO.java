@@ -9,6 +9,9 @@ import java.util.Map;
 
 import system.ida.dto.CodeMenuAlphaDTO;
 import system.ida.dto.CodeMenuBetaDTO;
+import system.ida.dto.Code_IngredientAlphaDTO;
+import system.ida.dto.Code_IngredientBetaDTO;
+import system.ida.dto.Code_ingredientDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.MenuDTO;
 import system.ida.dto.MenuSearchDTO;
@@ -32,10 +35,18 @@ public interface MenuDAO {
 	int insertStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 추가
 	List<CodeMenuAlphaDTO> getCodeMenuAlpha();	// 메뉴대분류의 목록을 가져오는 메소드
 	List<CodeMenuBetaDTO> getCodeMenuBeta();	// 메뉴대분류의 목록을 가져오는 메소드
-	List<IngredientDTO> getIngredientList(String s_id);
+	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);
 	int updateStoreMenu(Map<String, String> trData);	// 가게 메뉴 수정
 	int deleteStoreMenu(Map<String, String> trData);	// 가게 메뉴 삭제
 	int insertMenuIngredient(MenuDTO menuDTO);
 	int deleteMenuIngredient(Map<String, String> trData);	// 메뉴 식자재 삭제
 	List<Map<String, String>> getMenuCostData(String s_id);
+	List<Code_IngredientBetaDTO> getCodeIngBeta();
+	List<Code_IngredientAlphaDTO> getCodeIngAlpha();
+	List<IngredientDTO> getIngredientList1(Code_ingredientDTO code_ingredientDTO);
+	List<IngredientDTO> getIngredientList2(Code_ingredientDTO code_ingredientDTO);
+	List<IngredientDTO> getIngredientList3(Code_ingredientDTO code_ingredientDTO);
+	List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO);
+	List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO);
+	List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO);
 }

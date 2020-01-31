@@ -265,4 +265,25 @@ public class UserController {
 		
 		return mav;
 	}
+	
+	/**
+	 * 로그인 성공 시 메인 화면을 보여줄 jsp를 보여주는 메소드
+	 * 가상주소 /user_main_form.ida로 접근하면 호출
+	 * @param session : HttpSession 객체
+	 * @return mav : /user_main_form.ida에 맵핑되는 jsp 파일
+	 */
+	@RequestMapping(value="/user_main_form.ida")
+	public ModelAndView goMainForm(
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			mav.setViewName(path + "user_main_form");
+		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			System.out.println("<goMainForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
 }

@@ -40,9 +40,7 @@ public interface OrderService {
 
 	int updateStoreOrder(ArrayList<String> order_update);
 
-	int insertStoreOrder(OrderDTO orderDTO);
-
-	int insertOrderMenuOne(ArrayList<String> mi_names, ArrayList<String> quantitys, String s_id);
+	int insertStoreOrder(OrderDTO orderDTO, ArrayList<String> mi_names, ArrayList<String> quantitys, String s_id);
 
 	List<Map<String, String>> getGenderData(String s_id);
 
@@ -63,4 +61,10 @@ public interface OrderService {
 	List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO);
 
 	List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO);
 }

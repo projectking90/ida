@@ -119,7 +119,7 @@ as
 	(select
 		i.s_no	as "S_NO"
 		, i.i_name	as "I_NAME"
-		, i.reg_date	as "REG_DATE"
+		, sr.reg_date	as "REG_DATE"
 		, sr.quantity	as "QUANTITY"
 	from
 		ingredient i, stock s, stock_record sr
