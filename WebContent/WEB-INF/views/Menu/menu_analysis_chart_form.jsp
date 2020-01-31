@@ -19,17 +19,6 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-			
-					<table><tr height=10><td></table>
-
-			
-
-					
-					<table><tr height=10><td></table>	
-					
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">

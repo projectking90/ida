@@ -12,28 +12,22 @@
 		<meta charset="UTF-8">
 		<title>재고 공유 요청 현황</title>
 	</head>
-	<body id="page-top">      
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+	<body id="page-top">
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-					
 					<!-- DataTables Example -->
 					<form name="my_share_request_form">
 						<div class="card mb-3">
 							<div class="card-header">
 								<i class="fas fa-table"></i> 내 매장 재고 공유 요청 현황
-								<span name=stock_form style='float:right'>
-								</span>
+								<span style='float:right'></span>
 							</div>
 							<div class="card-body">
 								<div class="tablXe-responsive">
-									<table class="table" id="dataTable2" width="100%" cellspacing="0">
+									<table class="table" id="dataTable2">
 										<thead>
 											<tr>
 												<td align=center resize=4><b>등록번호</b></td>
@@ -94,12 +88,11 @@
 						<div class="card mb-3">
 							<div class="card-header different_share_table_title_form">
 								<i class="fas fa-table"></i> 타 매장 재고 공유 요청 현황
-								<span name='insert_share_span' style='float:right'>
-								</span>
+								<span style='float:right'></span>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
-									<table class="table" id="dataTable" width="100%" cellspacing="0">
+									<table class="table" id="dataTable">
 										<thead>
 											<tr>
 												<td align=center resize=4><b>등록번호</b></td>
@@ -154,13 +147,13 @@
 					</form>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

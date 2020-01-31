@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", customer_bg_img);
 		$(".c_table").click(function(){
 			location.replace("${cr}/customer_analysis_form.ida");
 		});

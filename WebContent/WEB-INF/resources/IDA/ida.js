@@ -1,5 +1,9 @@
 var login_bg_img = "/ida/resources/IMG/main_img.jpg";
 var ingredient_bg_img = "/ida/resources/IMG/ingredient_img.jpg";
+var stock_bg_img = "/ida/resources/IMG/stock_img.jpg";
+var customer_bg_img = "/ida/resources/IMG/customer_img.jpg";
+var order_bg_img = "/ida/resources/IMG/order_img.jpg";
+var menu_bg_img = "/ida/resources/IMG/menu_img.jpg";
 
 /**
 *	입력양식이 비어 있거나 미체크 시 true 리턴하는 함수 선언

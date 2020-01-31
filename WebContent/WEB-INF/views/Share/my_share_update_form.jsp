@@ -12,33 +12,27 @@
 		<meta charset="UTF-8">
 		<title>공유관리</title>
 	</head>
-	<body id="page-top">      
-	<div id="all_mask"></div>  
-      <div class="window"></div>
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+	<body id="page-top">
+		<div class="window"></div>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-					
 					<!-- DataTables Example -->
 					<form name="my_share_update_form">
 						<div class="card mb-3">
 							<div class="card-header">
 								<i class="fas fa-table"></i> 내 매장 재고 공유 수정하기
-							<span name=share_content_form style='float:right'>
-								<input type='button' class='btn btn-primary update' value='수정하기' onClick='update_my_share_btn();'>
-								<input type='button' class='btn btn-success' value='목록 가기' onClick='return_share_btn();'>
-							</span>
+								<span style='float:right'>
+									<input type='button' class='btn btn-primary update' value='수정하기' onClick='update_my_share_btn();'>
+									<input type='button' class='btn btn-success' value='목록 가기' onClick='return_share_btn();'>
+								</span>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
 									<input type="hidden" name="si_no" value="${shareDTO.si_no}">
-									<table class="table" id="dataTable2" width="100%" cellspacing="0">
+									<table class="table" id="dataTable2">
 										<tr>
 											<td>대분류
 											<td>${shareDTO.ia_name}
@@ -83,13 +77,13 @@
 					</form>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

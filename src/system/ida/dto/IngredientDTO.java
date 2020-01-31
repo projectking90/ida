@@ -26,10 +26,18 @@ public class IngredientDTO {
 	private String i_price;	// 식자재 가격
 	private String reg_date;	// 식자재 등록일
 	private String is_del;	// 삭제여부
-
 	private List<Code_IngredientAlphaDTO> ia_nameList;		//DB에서 가져온 대분류값
 	private List<Code_IngredientBetaDTO> ib_nameList;		//DB에서 가져온 소분류값
 	private List<Code_IngredientOriginDTO> io_nameList;	//DB에서 가져온 원산지값
+
+
+	/**
+	 * 생성자 선언
+	 */
+
+	/**
+	 * 접근자, 설정자 선언
+	 */
 	/**
 	 * i_no 접근자
 	 * @return i_no : 
@@ -226,12 +234,4 @@ public class IngredientDTO {
 	public void setIo_nameList(List<Code_IngredientOriginDTO> io_nameList) {
 		this.io_nameList = io_nameList;
 	}
-
-	/**
-	 * 생성자 선언
-	 */
-
-	/**
-	 * 접근자, 설정자 선언
-	 */
 }

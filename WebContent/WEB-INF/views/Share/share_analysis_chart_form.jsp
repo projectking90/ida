@@ -13,18 +13,11 @@
 		<title>발주 분석 - 차트</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-			
-					<table><tr height=10><td></table>
-					
 					<div class="text-center">
 						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 							<div class="input-group">
@@ -54,7 +47,7 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-fw fa-chart-area"></i>발주 분석 차트
-							<span name='share_analysis_chart_btn' style='float:right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary sh_table">발주 표</button>
 							</span>
 						</div>
@@ -66,13 +59,13 @@
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

@@ -3,6 +3,7 @@
 */
 function titleBars(cr, id){
 	$(".navbar").prepend('<a class="navbar-brand mr-1" href="'+ cr +'/user_main_form.ida"><i class="fas fa-chart-bar"></i> IDA</a>');
+	$(".navbar").append('<ol class="navbar-brand mr-1 breadcrumb"></ol>');
 	$(".navbar").append('<ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0"></ul>');
 	
 	$(".navbar-nav").append('<a class="navbar-brand mr-1" href="#">' + id + '</a>');
@@ -177,21 +178,4 @@ function setLogoutFunc(cr){
 	$(".logout_body").append('정말로 로그아웃 하시겠습니까?<br>로그아웃 하시면 로그인 페이지로 돌아갑니다.');
 
 	$(".logout_footer").append('<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button> <a class="btn btn-primary" href="'+ cr + '/logout_form.ida">로그아웃</a>');
-}
-
-/**
- * DataTable Setting
- */
-function setDataTable(table_id){
-	var dt = $(table_id).DataTable({
-		"columnDefs" : [
-			{"searchable" : false, "orderable" : false, "targets" : 0}
-		]
-	});
-	
-	dt.on( 'order.dt search.dt', function () {
-		dt.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-			cell.innerHTML = i+1;
-		} );
-	} ).draw();
 }

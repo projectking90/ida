@@ -18,12 +18,6 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-			
-					<table><tr height=10><td></table>
-						
 					<div class="text">
 						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 							<div class="input-group">

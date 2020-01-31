@@ -85,36 +85,31 @@ public class IngredientServiceImpl implements IngredientService {
 	 * 식자재 수정
 	 */
 	@Override
-	public int updateIngredient(ArrayList<String> ingredient_update) {
-
-		Map<String, String> trData = new HashMap<String, String>();
-		int ingredient_update_cnt = 0;
-
-		for (int i = 0; i < ingredient_update.size(); i++) {
-			if (i % 7 == 0) {
-				trData.put("i_no", ingredient_update.get(i));
-			} else if (i % 7 == 1) {
-				trData.put("ia_name", ingredient_update.get(i));
-			} else if (i % 7 == 2) {
-				trData.put("ib_name", ingredient_update.get(i));
-			} else if (i % 7 == 3) {
-				trData.put("io_name", ingredient_update.get(i));
-			} else if (i % 7 == 4) {
-				trData.put("i_name", ingredient_update.get(i));
-			} else if (i % 7 == 5) {
-				trData.put("i_size", ingredient_update.get(i));
-			} else if (i % 7 == 6) {
-				trData.put("i_price", ingredient_update.get(i));
-				int i_price = Integer.parseInt(ingredient_update.get(i));
-				int change_i_price = i_price;
-				if(change_i_price!=0) {
-					trData.put("change_i_price", Integer.toString(change_i_price));
-					int updated_ingredient_record = this.ingredientDAO.updateIngredientRecord(trData);
+	public int updateIngredient(IngredientDTO ingredientDTO) {
+		int ingredient_inserted_i_price_cnt = this.ingredientDAO.getInsertedIngredientPriceCnt(ingredientDTO);
+		
+		int ingredient_update_cnt =0;
+		
+		String update_i_pirce= ingredientDTO.getI_price();
+		int change_i_price= Integer.valueOf(update_i_pirce);
+		System.out.println("update_i_pirce " + update_i_pirce);
+		System.out.println("change_i_price " + change_i_price);
+		if(change_i_price != 0) {
+			int getIsDelIngredientCnt = this.ingredientDAO.getInsertedIngredientIsDelCnt(ingredientDTO);
+			if(getIsDelIngredientCnt==0) {
+				ingredient_update_cnt = this.ingredientDAO.updateIngredient(ingredientDTO);
+				ingredientDTO.setI_price(String.valueOf(change_i_price));
+				int ingredient_update_record_cnt = this.ingredientDAO.updateIngredientRecord(ingredientDTO);
+				if(ingredient_update_record_cnt ==1 && ingredient_update_cnt==1 ) {
+					return ingredient_update_cnt;
+				}else {
+					return -1;
 				}
+			}else {
+				return -2;
 			}
 		}
 		
-
 		return ingredient_update_cnt;
 	}
 

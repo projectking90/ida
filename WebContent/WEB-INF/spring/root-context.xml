@@ -43,9 +43,9 @@
 		<!-- 학원에서 작업 시 1번을 주석 해제하고 2번을 주석 처리할 것 -->
 		<!-- 집에서 작업 시 2번을 주석 해제하고 1번을 주석 처리할 것 -->
 		<!-- 1번 -->
-		<property name="url" value="jdbc:oracle:thin:@192.168.1.45:1521:XE"/>
+		<!-- <property name="url" value="jdbc:oracle:thin:@192.168.1.45:1521:XE"/> -->
 		<!-- 2번 -->
-		<!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/> -->
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
 		<property name="username" value="ida" />
 		<property name="password" value="ida0213" />
 	</bean>

@@ -18,14 +18,11 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 메뉴 수정
-							<span style='float: right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary update">메뉴 수정완료</button>
 							</span>
 						</div>

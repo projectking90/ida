@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", customer_bg_img);
 		$('#dataTable').DataTable({
 			"language": {
 				"search": "결과 내 검색 : "

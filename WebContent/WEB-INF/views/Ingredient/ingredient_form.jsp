@@ -13,21 +13,16 @@
 		<title>식자재 관리</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 현황
 							<span style='float:right'>
-								<button type="button" class="btn btn-primary update"> 식자재 수정 </button>
 								<button type="button" class="btn btn-danger delete"> 식자재 삭제 </button>
 							</span>
 						</div>

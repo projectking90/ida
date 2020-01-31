@@ -29,10 +29,14 @@
 					</div>
 					
 					<div id="chart_div2" style="float:left; width:50%">
-						<canvas id="orderManChart" width="100%" height="30"></canvas>
+						<canvas id="orderAgeChart" width="100%" height="30"></canvas>
 					</div>
 					
 					<div id="chart_div3" style="float:left; width:50%">
+						<canvas id="orderManChart" width="100%" height="30"></canvas>
+					</div>
+					
+					<div id="chart_div4" style="float:left; width:50%">
 						<canvas id="orderWomanChart" width="100%" height="30"></canvas>
 					</div>
 				</div>

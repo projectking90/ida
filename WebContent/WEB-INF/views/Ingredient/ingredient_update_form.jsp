@@ -19,9 +19,6 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
@@ -45,7 +42,6 @@
 										<td align=center><b>등록일</b></td>
 									</tr>
 								</thead>
-								<tbody>
 									<form:form name="updateIngForm" modelAttribute="ingredient_list">
 										<c:forEach items="${ingredient_list}" var="ingredient">
 											<tr class="ingredient_list_tr" style="cursor:pointer">
@@ -84,6 +80,7 @@
 												<td>
 													<form:input path="" name="i_price" value="${ingredient.i_price}"/> 
 												<td align=center>${ingredient.reg_date} 
+									<td>
 											</tr>
 										</c:forEach>
 									</form:form>

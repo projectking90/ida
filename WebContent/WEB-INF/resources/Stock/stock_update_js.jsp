@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", stock_bg_img);
 		setDataTable('#dataTable');
 		setCardFooter("stock", "${cr}");
 		

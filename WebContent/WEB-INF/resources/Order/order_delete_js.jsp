@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", order_bg_img);
 		$('#dataTable').DataTable();
 		
 		$(".delete").click(function(){

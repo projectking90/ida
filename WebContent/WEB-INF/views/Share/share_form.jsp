@@ -12,31 +12,23 @@
 		<meta charset="UTF-8">
 		<title>재고관리</title>
 	</head>
-	<body id="page-top">      <div id="all_mask"></div>
-      
-      <div class="window"></div>
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+	<body id="page-top">
+		<div class="window"></div>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-					
 					<!-- DataTables Example -->
 					<form name="different_share_form">
 						<div class="card mb-3">
 							<div class="card-header">
 								<i class="fas fa-table"></i> 타 매장 재고 공유 현황
-								<span name=stock_form style='float:right'>
-								</span>
+								<span style='float:right'></span>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
-									<table class="table" id="dataTable2" width="100%"
-										cellspacing="0">
+									<table class="table" id="dataTable2">
 										<thead>
 											<tr>
 												<td align=center resize=4><b>등록번호</b></td>
@@ -93,13 +85,11 @@
 						<div class="card mb-3">
 							<div class="card-header my_share_table_title_form">
 								<i class="fas fa-table"></i> 내 매장 재고 공유 현황
-								<span name='insert_share_span' style='float:right'>
-								</span>
+								<span style='float:right'></span>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
-									<table class="table" id="dataTable" width="100%"
-										cellspacing="0">
+									<table class="table" id="dataTable">
 										<thead>
 											<tr>
 												<td align=center resize=4><b>등록번호</b></td>
@@ -140,13 +130,13 @@
 						<div class="card mb-3">
 							<div class="card-header">
 								<i class="fas fa-table"></i> 공유 재고 추가 
-								<span name='share_insert_form' style='float: right'> 
+								<span style='float: right'> 
 									<input type='button' class="btn btn-success insert" value='재고 추가' onClick="insert_share_btn();">
 								</span>
 							<br>
 							</div>
 							<div class="card-body">
-								<table class="table" id="dataTable" width="100%" cellspacing="0">
+								<table class="table" id="dataTable">
 									<tr>
 										<th>식자재명
 										<th>
@@ -174,13 +164,13 @@
 					</form>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

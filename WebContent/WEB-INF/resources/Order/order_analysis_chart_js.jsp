@@ -12,10 +12,8 @@
 
 <script>
 	$(document).ready(function(){
-		$(".gender").hide();
-		getChartData("${cr}", $("[name=chart_search]").val());
-
-
+		$("body").attr("background", order_bg_img);
+		setOrderAnalysisChartForm("${cr}");
 		
 		$("[name=chart_search]").change(function(){
 			getChartData("${cr}", $(this).val(), $("[name=chart_cnt]").val(), $("[name=age]").val(), 

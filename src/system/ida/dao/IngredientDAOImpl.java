@@ -93,10 +93,10 @@ public class IngredientDAOImpl implements IngredientDAO {
 
 	//식자재 수정
 	@Override
-	public int updateIngredient(Map<String, String> trData) {
+	public int updateIngredient(IngredientDTO ingredientDTO) {
 		int ingredient_update_cnt = this.sqlSession.update(
 				sqlSessionPath+"updateIngredient"
-				,trData
+				, ingredientDTO
 		);
 		return ingredient_update_cnt;
 	}
@@ -178,10 +178,10 @@ public class IngredientDAOImpl implements IngredientDAO {
 	}
 
 	@Override
-	public int updateIngredientRecord(Map<String, String> trData) {
+	public int updateIngredientRecord(IngredientDTO ingredientDTO) {
 		int updated_ingredient_record = this.sqlSession.insert(
 			sqlSessionPath+"updateIngredientRecord"
-			,trData
+			, ingredientDTO
 		);
 		return updated_ingredient_record;
 	}
@@ -211,5 +211,14 @@ public class IngredientDAOImpl implements IngredientDAO {
 			,i_no
 		);
 		return ingredientDTO;
+	}
+
+	@Override
+	public int getInsertedIngredientPriceCnt(IngredientDTO ingredientDTO) {
+		int ingredient_price_cnt = this.sqlSession.selectOne(
+			sqlSessionPath+"getInsertedIngredientPriceCnt"
+			,ingredientDTO
+		);
+		return ingredient_price_cnt;
 	}
 }

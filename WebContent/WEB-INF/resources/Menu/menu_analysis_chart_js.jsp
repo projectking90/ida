@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", menu_bg_img);
 		getChartData("${cr}", $("[name=chart_search]").val());
 		
 		$("[name=chart_search]").change(function(){

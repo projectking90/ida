@@ -267,7 +267,7 @@ public class OrderController {
 	public ChartDTO getOrderChartData(
 			HttpSession session
 			,@RequestParam(value="chart_search") String chart_search
-			,@RequestParam(value="chart_cnt") String chart_cnt
+			,@RequestParam(value="chart_cnt", required=false) String chart_cnt
 			,@RequestParam(value="age", required=false) String age 
 			,@RequestParam(value="month", required=false) String month
 			,@RequestParam(value="year", required=false) String year

@@ -35,7 +35,7 @@ public interface IngredientService {
 	List<Code_IngredientOriginDTO> getCodeIngOrigin();					//식자재 원산지를 가져오는 메소드
 	List<Code_IngredientAllergieDTO> getCodeIngAllergie();				//식자재 알레르기 가져오는 메소드
 	int insertIngredient(IngredientDTO ingredientDTO);					//식자재 추가 메소드
-	int updateIngredient(ArrayList<String> ingredient_update);			//식자재 수정 메소드
+	int updateIngredient(IngredientDTO ingredientDTO);			//식자재 수정 메소드
 	int deleteIngredient(ArrayList<String> ingredient_delete);			//식자재 삭제 메소드
 
 	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);

@@ -1,3 +1,10 @@
+function setOrderAnalysisChartForm(cr){
+	inputData("[name=chart_search]", "나이대");
+	inputData("[name=chart_cnt]", "5");
+	inputData("[name=age]", "20");
+	getChartData(cr, "나이대", "5", "20", null, null, null, null);
+}
+
 function getChartData(cr, chart_search, chart_cnt, age, month, year, quarter, week){
 	if($("[name=chart_search]").val()=="나이대"){
 		$(".chart_cnt").show();
@@ -54,7 +61,6 @@ function getChartData(cr, chart_search, chart_cnt, age, month, year, quarter, we
 		$(".age_select").hide();
 		$(".week").hide();
 		$(".quarter").hide();
-		
 	}
 		
 	$.ajax({

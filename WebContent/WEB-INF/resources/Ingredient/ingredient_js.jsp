@@ -21,7 +21,7 @@
 		});
 		
 		$(".update").click(function(){
-			location.replace("${cr}/ingredient_update_form.ida");
+			update_store_reg("${cr}");
 		});
 	
 		$(".delete").click(function(){
@@ -33,5 +33,9 @@
 	
 	function goIngredientDetailForm(i_no){
 		location.replace("${cr}/ingredient_detail_form.ida?i_no="+i_no);
+	}
+
+	function return_ingredient_btn(){
+		location.replace("${cr}/ingredient_form.ida");
 	}
 </script>

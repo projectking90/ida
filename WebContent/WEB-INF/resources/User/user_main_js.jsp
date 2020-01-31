@@ -13,6 +13,7 @@
 <script>
 	$(document).ready(function(){
 		getChartDataStockMonth("${cr}");
+		getChartDataOrderAge("${cr}");
 		getChartDataOrderGender("${cr}");
 	});
 </script>

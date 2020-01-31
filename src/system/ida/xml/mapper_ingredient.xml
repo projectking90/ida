@@ -9,7 +9,7 @@
 						upper(i_no) like upper('%${keyword}%')
 						<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
 						or upper(ia_name) like upper('%${keyword}%')
-						or upper(ib_name) like upper('%${keyword}%')
+						or upper(ib_nafme) like upper('%${keyword}%')
 						or upper(io_name) like upper('%${keyword}%')
 						<!-- ============================= -->
 						or upper(i_size) like upper('%${keyword}%')
@@ -109,7 +109,7 @@
 	</insert>
 	
 	<!-- 식자재 update -->
-	<update id="updateIngredient" parameterType="hashmap">
+	<update id="updateIngredient" parameterType="system.ida.dto.IngredientDTO">
 		update ingredient set
 		ia_code=(select ia_code from code_ingredient_alpha where ia_name=#{ia_name})
 		,ib_code=(select ib_code from code_ingredient_beta where ib_name=#{ib_name})
@@ -148,7 +148,7 @@
 			ingredient
 		set
 			is_del='F'
-			,i_price =${i_price}
+			,i_price =to_number(#{i_price}, 9999999999)
 		where
 			is_del='T'
 			and i_no = ${i_no}
@@ -159,11 +159,18 @@
 			i_no
 			,i_price
 		) values (
-			(select nvl(max(i_no),0)+1 from ingredient)
-			,to_number(${i_price}, 9999999999)
+			(select nvl(max(i_no),0) from ingredient)
+			,to_number(#{i_price}, 9999999999)
 		)
 	</insert>
 	
+	<select id="getInsertedIngredientPriceCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
+		select
+			i_price
+		from
+			ingredient
+		where i_no = ${i_no}
+	</select>
 	
 	<insert id="updateIngredientRecord" parameterType="hashmap">
 		insert into ingredient_record(

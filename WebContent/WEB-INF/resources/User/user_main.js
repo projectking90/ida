@@ -35,6 +35,24 @@ function getChartDataOrderGender(cr){
 	});
 }
 
+function getChartDataOrderAge(cr){
+	var chart_search = '나이대';
+	var age = '20';
+	var chart_cnt = '5';
+	var data = "chart_search=" + chart_search + "&age=" + age + "&chart_cnt=" + chart_cnt;
+		
+	$.ajax({
+		url : cr + "/order_analysis_chart.ida"
+		, type : "post"
+		, data : data
+		, success : function(chart_data){
+			drawAgePieChart(chart_data);
+		} ,error : function(){
+			alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
+		}
+	});
+}
+
 function drawLineMonthChart5(data) {
 	// Set new default font family and font color to mimic Bootstrap's default
 	// styling
@@ -198,13 +216,13 @@ function drawWomanBarChart(data){
 	});
 }
 
-function drawPieChart(data) {
+function drawAgePieChart(data) {
 	// Set new default font family and font color to mimic Bootstrap's default styling
 	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	Chart.defaults.global.defaultFontColor = '#292b2c';
 
 	// Pie Chart Example
-	var ctx = document.getElementById("myChart1");
+	var ctx = document.getElementById("orderAgeChart");
 	var myPieChart = new Chart(ctx, {
 		type : 'pie',
 		data : {

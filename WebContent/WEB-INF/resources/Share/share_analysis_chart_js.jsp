@@ -12,6 +12,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("body").attr("background", ingredient_bg_img);
 		$(".sh_table").click(function(){
 			location.replace("${cr}/share_analysis_form.ida");
 		});

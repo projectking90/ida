@@ -13,21 +13,25 @@
 		<title>주문 분석</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
 	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
+					<!-- DataTables Example -->
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fas fa-table"></i> 주문 분석
+							<span style='float:right'>
+								<button type="button" class="btn btn-primary o_chart">주문 차트</button>
+							</span>
+						</div>
 			
-					<table><tr height=10><td></table>
-					
+					<div class="text-right">
+						
 					<div class="text-center">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="orderAnalysisForm" 
-						method="post" action="${cr}/order_analysis_form.ida">
+						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="orderAnalysisForm">
 							<div class="input-group">
 								<input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
 								
@@ -35,20 +39,7 @@
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
-					<table><tr height=10><td></table>
-					</div>
-	
-					<!-- DataTables Example -->
-					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fas fa-table"></i> 주문 분석
-							<span name='order_analysis_btn' style='float:right'>
-								<button type="button" class="btn btn-primary o_chart">주문 차트</button>
-							</span>
-						</div>
-			
-					<div class="text-right">
-						
+					
 						<input type="checkbox" value="week" name="search_condition"><b>주</b>&nbsp;
 						<input type="checkbox" value="month" name="search_condition"><b>월</b>&nbsp;
 						<input type="checkbox" value="hour" name="search_condition"><b>시간</b>&nbsp;
@@ -64,13 +55,13 @@
 						<input type="checkbox" value="40" name="search_condition"><b>40대</b>
 						<input type="checkbox" value="50" name="search_condition"><b>50대</b>
 						<input type="checkbox" value="60" name="search_condition"><b>60대</b>
-					</div>
 					</form>
+					</div>
+					</div>
 						
 						<div class="card-body">
 						<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
 											<th>주문번호

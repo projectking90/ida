@@ -5145,7 +5145,8 @@ input[type="button"].btn-block {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
+  background-color: transparent;
   border-radius: 0.25rem;
 }
 
@@ -5169,7 +5170,8 @@ input[type="button"].btn-block {
 }
 
 .breadcrumb-item.active {
-  color: #6c757d;
+  /*color: #6c757d; */
+  color: #FFFFFF;
 }
 
 .pagination {
@@ -10916,4 +10918,11 @@ body.sidebar-toggled footer.sticky-footer {
   body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px);
   }
+}
+
+div {
+	opacity: 0.98;
+	filter: alpha(opacity=98);
+	-moz-opacity: 0.98;
+	-khtml-opacity:0.98;
 }

@@ -13,22 +13,13 @@
 		<title>메뉴 분석</title>
 	</head>
 	<body id="page-top">
-		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-		</nav>
+		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-			
-					<table><tr height=10><td></table>
-					<div class="text-center">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="menuAnalysisForm" 
-						method="post" action="/ida/menu_analysis_form.ida">
-=======
 					<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+					<div class="text-center">
 						<div class="text-center">
 							<div class="input-group">
 								<input type="text" name="keyword" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
@@ -58,7 +49,6 @@
 						<input type="checkbox" value="10000" name="search_condition">10000원 이상&nbsp;
 						
 					</div>
-=======
 						<div class="text-right">
 							<b>대분류 : </b>
 							<input type="checkbox" value="한식" name="search_condition">한식&nbsp;
@@ -83,15 +73,14 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i>메뉴 분석
-							<span name='menu_analysis_btn' style='float:right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary m_chart">메뉴 차트</button>
 							</span>
 						</div>
 						
 						<div class="card-body">
 						<div class="table-responsive">
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
 											<td align=center><b>메뉴 번호</b></td>

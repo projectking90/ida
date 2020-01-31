@@ -10,57 +10,83 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>공유관리</title>
+		<title>식자재 수정</title>
 	</head>
 	<body id="page-top">
-		<div id="all_mask"></div>
-		<div class="window"></div>
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
 	
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
-					
 					<!-- DataTables Example -->
 					<form name="ingredient_detail_form">
 						<div class="card mb-3">
 							<div class="card-header">
 								<i class="fas fa-table"></i> 상세보기
 								<span style='float:right'>
-									<input type="button" class="btn btn-primary update" value="식자재 수정" onClick='request_share_btn();'>
+									<input type="button" class="btn btn-primary update" value="식자재 수정">
 									<input type='button' class='btn btn-success' value='목록 가기' onClick='return_ingredient_btn();'>
-								</span>
+								</span> 
 							</div>
+							
 							<div class="card-body">
 								<div class="table-responsive">
-								<input type=hidden name=i_no value="${ingredientDTO.i_no}">
-									<table class="table" id="dataTable2" width="100%" cellspacing="0">
-										<tr>
-											<td>식자재번호
-											<td>${ingredientDTO.i_no}
+									<input type="hidden" name="s_no" value="${ingredientDTO.s_no}">
+									<input type="hidden" name="i_no" value="${ingredientDTO.i_no}">
+									<table class="table" id="dataTable2">
+										<tr class="ingredient_list_tr" style="cursor:pointer">
 										<tr>
 											<td>대분류
-											<td>${ingredientDTO.ia_name}
+											<td>
+												<select name="ia_name">
+													<c:forEach items="${ingredientDTO.ia_nameList}" var="ia_name_list" varStatus="loopTagStatus">
+														<option value="${ia_name_list.ia_name}"
+														${ingredientDTO.ia_name == ia_name_list.ia_name ? 'selected="selected"' : '' }
+														>${ia_name_list.ia_name}</option>
+													</c:forEach>
+												</select>
 										<tr>
 											<td>소분류
-											<td>${ingredientDTO.ib_name}
+											<td>
+												<select name="ib_name">
+													<c:forEach items="${ingredientDTO.ib_nameList}" var="ib_name_List" varStatus="loopTagStatus">
+														<option value="${ib_name_List.ib_name}"
+														${ingredientDTO.ib_name == ib_name_List.ib_name ? 'selected="selected"' : '' }
+														>${ib_name_List.ib_name}</option>
+													</c:forEach>
+												</select>
 										<tr>	
 											<td>원산지
-											<td>${ingredientDTO.io_name}
+											<td>
+												<select name="io_name">
+													<c:forEach items="${ingredientDTO.io_nameList}" var="io_name_List" varStatus="loopTagStatus">
+														<option value="${io_name_List.io_name}"
+														${ingredientDTO.io_name == io_name_List.io_name ? 'selected="selected"' : '' }
+														>${io_name_List.io_name}</option>
+													</c:forEach>
+												</select>
 										<tr> 
 											<td>식자재명
-											<td>${ingredientDTO.i_name}
+											<td>
+												<input type="text" name="i_name" value="${ingredientDTO.i_name}">
 										<tr> 
-											<td>수량
-											<td>${ingredientDTO.i_size}
+											<td>규격
+											<td>
+												<input type="text" name="i_size"value="${ingredientDTO.i_size}">
 										<tr> 
-											<td>입/출고 여부
-											<td>${ingredientDTO.i_price}
+											<td>가격
+											<td>
+												<input type="text" name="i_price" value="${ingredientDTO.i_price}">
 										<tr> 
 											<td>등록일
 											<td>${ingredientDTO.reg_date}
+										<tr>
+											<td>알레르기코드
+											<td>
+												<form:form name="ingredientCheckForm" commandName="code_ingredientDTO">
+													<form:checkboxes path="a_name" 
+													items="${code_ingredientDTO.a_nameList}" itemLabel="a_name" itemValue="a_name" />
+												</form:form>
 									</table>
 								</div>
 							</div>
