@@ -18,26 +18,24 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-					<div class="text">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search"></i>
-								</button>
-							</div>
-						</form>
-					</div>
-					
-					<table><tr height=10><td></table>
-					
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-table"></i> 식자재 분석
-							<span name='ingredient_analysis_btn' style='float:right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary i_chart">식자재 차트</button>
 							</span>
+						</div>
+
+						<div class="text-center">
+							<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+									<button class="btn btn-primary" type="button">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</form>
 						</div>
 						
 						<div class="card-body">
@@ -48,8 +46,7 @@
 									<input type="checkbox" value="시간"><b>시간</b>&nbsp;
 									<input type="checkbox" value="분기"><b>분기</b>
 								</div>
-								<table class="table" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table" id="dataTable">
 									<thead>
 										<tr>
 											<th>식자재 번호

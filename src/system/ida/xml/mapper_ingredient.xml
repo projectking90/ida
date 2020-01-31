@@ -116,7 +116,7 @@
 		,io_code=(select io_code from code_ingredient_origin where io_name=#{io_name})
 		,i_name  = #{i_name}
 		,i_size  = #{i_size}
-		,i_price = to_number(${i_price}, 9999999999)
+		,i_price = to_number(#{i_price}, 9999999999)
 		where i_no = ${i_no}
 	</update>
 	
@@ -178,7 +178,7 @@
 			,i_price
 		) values (
 			${i_no}
-			,to_number(${change_i_price}, 9999999999)
+			,to_number(#{change_i_price}, 9999999999)
 		)
 	
 	</insert>

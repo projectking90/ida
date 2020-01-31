@@ -37,16 +37,18 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * 메소드 선언
 	 */
+	@Override
 	public List<OrderUpdateDTO> getOrderList(String s_id){
 		List<OrderUpdateDTO> order_list = this.orderDAO.getOrderList(s_id);
 		
 		return order_list;
 	}
 	
-	public List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id){
-		List<OrderUpdateDTO> order_list = this.orderDAO.getOrderList_sepa_quan(s_id);
+	@Override
+	public List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no){
+		List<OrderUpdateDTO> orderUpdateDTOList = this.orderDAO.getOrderList_sepa_quan(oi_no);
 		
-		return order_list;
+		return orderUpdateDTOList;
 	}
 	
 	@Override
@@ -62,18 +64,38 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public int insertStoreOrder(OrderDTO orderDTO, ArrayList<String> mi_names, ArrayList<String> quantitys, String s_id) {
+		Map<String, String> trData = new HashMap<String, String>();
+		ArrayList<Integer> stock_quantity_cnts = new ArrayList<Integer>();
+		int stock_quantity_cnt=0;
+
+		for(int i=0; i<mi_names.size(); i++) {
+			trData.put("mi_name", mi_names.get(i));
+			trData.put("quantity", quantitys.get(i));
+			trData.put("s_id", s_id);
+
+			stock_quantity_cnt=this.orderDAO.getStockQuantity(trData);
+			stock_quantity_cnts.add(stock_quantity_cnt);
+
+			for(int j=0; j<stock_quantity_cnts.size(); j++) {
+				int check_quantity = stock_quantity_cnts.get(j);
+				if(check_quantity>=1) {
+					return -1;
+				}
+			}
+		}
 		
 		int insert_result = this.orderDAO.insertStoreOrder(orderDTO);
 
-		Map<String, String> trData = new HashMap<String, String>();
 		int order_menu_insert = 0;
+
+		int stock_update_result=0;
 		
 		for(int i=0; i<mi_names.size(); i++) {
 			trData.put("mi_name", mi_names.get(i));
 			trData.put("quantity", quantitys.get(i));
 			trData.put("s_id", s_id);
 			order_menu_insert += this.orderDAO.insertOrderMenuOne(trData);
-			System.out.println("order_menu_insert : "+order_menu_insert);
+			stock_update_result += this.orderDAO.updateStockQuantity(trData);
 		}
 		
 		return insert_result;

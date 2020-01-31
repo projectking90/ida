@@ -49,4 +49,5 @@ public interface MenuDAO {
 	List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO);
 	List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO);
 	List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO);
+	MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO);
 }

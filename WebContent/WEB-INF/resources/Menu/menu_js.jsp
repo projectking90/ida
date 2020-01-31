@@ -25,7 +25,7 @@
 		});
 		
 		$(".delete").click(function(){
-			location.replace("${cr}/menu_delete_form.ida");
+			menu_delete_reg("${cr}");
 		});
 	});
 </script>

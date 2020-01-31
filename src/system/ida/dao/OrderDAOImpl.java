@@ -41,13 +41,15 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return order_list;
 	}
-	public List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id){
-		List<OrderUpdateDTO> order_list = this.sqlSession.selectList(
+	
+	@Override
+	public List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no){
+		List<OrderUpdateDTO> orderUpdateDTOList = this.sqlSession.selectList(
 				"system.ida.dao.OrderDAO.getOrderList_sepa_quan"	// 실행할 SQL 구문의 위치 지정
-				,s_id
+				,oi_no
 				);
 		
-		return order_list;
+		return orderUpdateDTOList;
 	}
 	
 	@Override
@@ -82,6 +84,24 @@ public class OrderDAOImpl implements OrderDAO {
 		);
 		
 		return order_menu_insert;
+	}
+
+	@Override
+	public int updateStockQuantity(Map<String, String> trData) {
+		int stock_update_result = this.sqlSession.update(
+				"system.ida.dao.OrderDAO.updateStockQuantity"
+				,trData
+		);
+
+		return stock_update_result;
+	}
+	
+	public int getStockQuantity(Map<String, String> trData) {
+		int stock_quantity_cnt = this.sqlSession.selectOne(
+				sqlSessionPath+"getStockQuantity"
+				,trData
+		);
+		return stock_quantity_cnt;
 	}
 	
 	/**

@@ -147,7 +147,8 @@ public class MenuController {
 	@RequestMapping(value = "/menu_update_form.ida")
 	public ModelAndView goMenuUpdateForm(
 			MenuSearchDTO menu_searchDTO
-			,HttpSession session) {
+			,HttpSession session
+			,@RequestParam(value="mi_no") String mi_no) {
 		ModelAndView mav = new ModelAndView();
 		
 		try {
@@ -155,9 +156,10 @@ public class MenuController {
 			
 			String s_id = (String)session.getAttribute("s_id");
 			menu_searchDTO.setS_id(s_id);
+			menu_searchDTO.setMi_no(mi_no);
 			
-			List<MenuDTO> menu_list = this.menuService.getMenuList(menu_searchDTO);
-			mav.addObject("menu_list", menu_list);
+			MenuDTO menuDTO = this.menuService.getMenuDTO(menu_searchDTO);
+			mav.addObject("menuDTO", menuDTO);
 			mav.addObject("menu_searchDTO", menu_searchDTO);
 			
 			CodeMenuDTO codemenuDTO = new CodeMenuDTO();

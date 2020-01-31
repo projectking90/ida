@@ -71,7 +71,12 @@
 	<!-- 테이블의 마지막 수정 날짜를 가져오는 select 태그 -->
 	<select id="getLastUpdateTable" parameterType="hashmap" resultType="string">
 		select
-			to_char(nvl(max(reg_date), sysdate), 'YYYY-MM-DD HH24:MI') as "DATE"
+			<if test="table_name.equals('ingredient') or table_name.equals('menu_info') or table_name.equals('stock') or table_name.equals('share_ingredient')">
+				to_char(nvl(max(reg_date), sysdate), 'YYYY-MM-DD HH24:MI') as "DATE"
+			</if>
+			<if test="table_name.equals('order_info')">
+				to_char(nvl(max(order_time), sysdate), 'YYYY-MM-DD HH24:MI') as "DATE"
+			</if>
 		from
 			${table_name}
 		where
@@ -95,6 +100,32 @@
 											store
 										where
 											s_id = #{s_id}))
+			</if>
+			<if test="table_name.equals('order_info')">
+				s_no = (select
+								nvl(s_no, 0)
+							from
+								store
+							where
+								s_id = #{s_id})
+			</if>
+			<if test="table_name.equals('share_ingredient')">
+				st_no in (select
+								st_no
+							from
+								stock
+							where
+								i_no in (select
+												i_no
+											from
+												ingredient
+											where
+												s_no = (select
+															s_no
+														from
+															store
+														where
+															s_id = #{s_id})))
 			</if>
 	</select>
 </mapper>

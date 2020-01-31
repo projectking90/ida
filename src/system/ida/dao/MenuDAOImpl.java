@@ -51,6 +51,16 @@ public class MenuDAOImpl implements MenuDAO {
 		return menu_list;
 	}
 
+	@Override
+	public MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO) {
+		MenuDTO menuDTO = this.sqlSession.selectOne(
+				sqlSessionPath + "getMenuDTO"
+				,menu_searchDTO
+				);
+
+		return menuDTO;
+	}
+	
 	/**
 	 * 가게에 등록된 메뉴 총 개수를 가져옴
 	 * @param menu_searchDTO : 메뉴 검색을 위해 사용하는 DTO

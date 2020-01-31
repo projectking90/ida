@@ -6,7 +6,6 @@ function order_delete_reg(cr) {
 			if(trArr[index]==""){
 				trArr[index].splice(index, 1);
 			}
-			alert($(this).find("[name='delete_order']").val());
 		}
 	});
 

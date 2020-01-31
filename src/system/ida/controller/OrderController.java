@@ -113,7 +113,7 @@ public class OrderController {
 	@RequestMapping(value = "/order_update_form.ida")
 	public ModelAndView goOrderUpdateForm(
 			HttpSession session
-			,OrderDTO orderDTO) {
+			, @RequestParam(value="oi_no") String oi_no) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "order_update_form");
 
@@ -125,8 +125,9 @@ public class OrderController {
 			menu_listDTO.setMi_nameList(menu_list);
 			mav.addObject("menu_listDTO", menu_listDTO);
 			
-			List<OrderUpdateDTO> order_list = this.orderService.getOrderList_sepa_quan(s_id);
-			mav.addObject("order_list", order_list);
+			List<OrderUpdateDTO> orderUpdateDTOList = this.orderService.getOrderList_sepa_quan(oi_no);
+
+			mav.addObject("orderUpdateDTOList", orderUpdateDTOList);
 		} catch (Exception e) { // try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goOrderUpdateForm 에러발생>");
 			System.out.println(e.getMessage());

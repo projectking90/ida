@@ -28,52 +28,44 @@
 						</div>
 						
 						<div class="card-body">
-							<form name="updateMenuForm" method="post" action="${cr}/menu_update.ida">
+							<form:form name="updateMenuForm" method="post" action="${cr}/menu_update.ida" commandName="menuDTO">
 								<table class="table" id="dataTable">
-										<thead>
-											<tr>
-												<td align=center><b>번호</b></td>
-												<td align=center><b>대분류</b></td>
-												<td align=center><b>소분류</b></td>
-												<td align=center><b>메뉴이름</b></td>
-												<td align=center><b>가격(원)</b></td>
-												<td align=center><b>설명</b></td>
-												<td align=center><b>등록일</b></td>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach items="${menu_list}" var="menu">
-											<tr class="menu_list_tr">
-												<td align=center>
-												<td>
-													<input type="hidden" name="mi_no" value="${menu.mi_no}">
-													<select name="ma_code">
-														<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList">
-															<option value="${ma_nameList.ma_name}"
-															${menu.ma_code == ma_nameList.ma_name ? 'selected="selected"' : '' }
-															>${ma_nameList.ma_name}</option>
-														</c:forEach>
-													</select>
-												<td>
-													<select name="mb_code">
-														<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList">
-															<option value="${mb_nameList.mb_name}" 
-															${menu.mb_code == mb_nameList.mb_name ? 'selected="selected"' : '' }
-															>${mb_nameList.mb_name}</option>
-														</c:forEach>
-													</select>
-												<td>
-													<input type="text" name="mi_name" value="${menu.mi_name}">
-												<td>
-													<input type="text" name="price" value="${menu.price}">
-												<td>
-													<input type="text" name="mi_comment" value="${menu.mi_comment}">
-												<td align=center>${menu.reg_date}
-													<input type="hidden" name="s_id" value="${sessionScope.s_id}">
-											</c:forEach>
-										</tbody>
+									<tr>
+										<td>대분류
+										<td>
+											<form:hidden name="mi_no" path="mi_no" className="mi_no"/>
+											<select name="ma_code">
+												<c:forEach items="${codemenuDTO.ma_nameList}" var="ma_nameList">
+													<option value="${ma_nameList.ma_name}"
+													${menuDTO.ma_code == ma_nameList.ma_name ? 'selected="selected"' : '' }
+													>${ma_nameList.ma_name}</option>
+												</c:forEach>
+											</select>
+									<tr>
+										<td>소분류
+										<td>
+											<select name="mb_code">
+												<c:forEach items="${codemenuDTO.mb_nameList}" var="mb_nameList">
+													<option value="${mb_nameList.mb_name}" 
+													${menuDTO.mb_code == mb_nameList.mb_name ? 'selected="selected"' : '' }
+													>${mb_nameList.mb_name}</option>
+												</c:forEach>
+											</select>
+									<tr>	
+										<td>메뉴이름
+										<td><form:input path="mi_name" className="mi_name"/>
+									<tr> 
+										<td>가격(원)
+										<td><form:input path="price" className="price"/>
+									<tr> 
+										<td>설명
+										<td><form:input path="mi_comment" className="mi_comment"/>
+									<tr> 
+										<td>등록일
+										<td>${menuDTO.reg_date}
+												<input type="hidden" name="s_id" value="${sessionScope.s_id}">
 								</table>
-							</form>
+							</form:form>
 						</div>
 						
 						<div class="card-footer small text-muted"></div>

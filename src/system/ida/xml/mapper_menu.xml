@@ -91,6 +91,26 @@
 				<include refid="menuWhere"/>) zzz
 	</select>
 	
+	<select id="getMenuDTO" parameterType="system.ida.dto.MenuSearchDTO" resultType="system.ida.dto.MenuDTO">
+				select 	
+					m.mi_no "mi_no"
+					,(select a.ma_name from code_menu_alpha a where a.ma_code=m.ma_code)   "ma_code"
+					,(select b.mb_name from code_menu_beta b where b.mb_code=m.mb_code)   "mb_code"
+					,m.mi_name "mi_name"
+					,to_char(m.price, '9,999,999,999') "price"
+					,m.mi_comment "mi_comment"
+					,to_char(m.reg_date, 'YYYY-MM-DD(dy)') "reg_date"	
+				from menu_info m
+				where m.is_del='F'
+					and s_no = (select
+									s_no
+								from
+									store
+								where
+									s_id=#{s_id})
+					and mi_no=#{mi_no}
+	</select>
+	
 	<!-- 가게에 등록된 메뉴의 총 개수를 가져오는 select 태그 -->
 	<select id="getMenuListAllCnt" parameterType="system.ida.dto.MenuSearchDTO" resultType="int">
 		select 

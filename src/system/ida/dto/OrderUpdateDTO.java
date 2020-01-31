@@ -15,7 +15,7 @@ public class OrderUpdateDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private int oi_no;
+	private String oi_no;
 	private int s_no;
 	private String s_id;
 	private String c_phone;
@@ -47,10 +47,10 @@ public class OrderUpdateDTO {
 	 * 접근자, 설정자 선언
 	 */
 
-	public int getOi_no() {
+	public String getOi_no() {
 		return oi_no;
 	}
-	public void setOi_no(int oi_no) {
+	public void setOi_no(String oi_no) {
 		this.oi_no = oi_no;
 	}
 	public int getS_no() {

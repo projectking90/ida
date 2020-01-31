@@ -14,17 +14,14 @@
 	$(document).ready(function(){
 		$("body").attr("background", order_bg_img);
 		setDataTable('#dataTable');
+		setCardFooter("order_info", "${cr}");
 		
 		$(".insert").click(function(){
 			insert_order_reg("${cr}");
 		});
-		
-		$(".update").click(function(){
-			location.replace("${cr}/order_update_form.ida");
-		});
 	
 		$(".delete").click(function(){
-			location.replace("${cr}/order_delete_form.ida");
+			order_delete_reg("${cr}");
 		});
 		
 		$("[name=insertOrderForm] [name=c_phone]").keyup(function(){
@@ -33,6 +30,10 @@
 			$(this).val(str);
 		});
 	});
+	
+	function order_content_tr(oi_no){
+		location.replace("${cr}/order_update_form.ida?oi_no="+oi_no);
+	}
 	
 	function append_menu_tr_btn(){
 		var tableObj = $("#insertOrderTable");

@@ -42,7 +42,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${order_list}" var="order">
+									<c:forEach items="${orderUpdateDTOList}" var="order">
 										<tr class="order_list_tr">
 											<td align=center>
 											<td align=center>

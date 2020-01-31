@@ -92,8 +92,7 @@ public class IngredientServiceImpl implements IngredientService {
 		
 		String update_i_pirce= ingredientDTO.getI_price();
 		int change_i_price= Integer.valueOf(update_i_pirce);
-		System.out.println("update_i_pirce " + update_i_pirce);
-		System.out.println("change_i_price " + change_i_price);
+
 		if(change_i_price != 0) {
 			int getIsDelIngredientCnt = this.ingredientDAO.getInsertedIngredientIsDelCnt(ingredientDTO);
 			if(getIsDelIngredientCnt==0) {

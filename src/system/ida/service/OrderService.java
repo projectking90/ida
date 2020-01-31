@@ -32,7 +32,7 @@ public interface OrderService {
 	 */
 	List<OrderUpdateDTO> getOrderList(String s_id);
 
-	List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id);
+	List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no);
 
 	List<MenuDTO> getMenuList(String s_id);
 

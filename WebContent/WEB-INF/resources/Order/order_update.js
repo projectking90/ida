@@ -9,7 +9,7 @@ function update_order_reg(cr) {
 		
 		trArr[index] = new Array();
 		trArr[index].push($(this).find(oi_no).val());
-		
+		/*
 		if(is_empty(c_phone)){
 			alert("핸드폰 번호를 입력해주시기 바랍니다.");
 			$(c_phone).focus();
@@ -22,17 +22,17 @@ function update_order_reg(cr) {
 			
 			return;
 		}
-		
+		*/
 		trArr[index].push($(this).find(c_phone).val());
-
+		/*
 		if(is_empty(mi_name)){
 			alert("메뉴를 선택해 주시기 바랍니다.");
 			
 			return;
 		}
-		
+		*/
 		trArr[index].push($(this).find(mi_name).val());
-		
+		/*
 		if(is_empty(quantity)){
 			alert("수량을 입력해 주시기 바랍니다.");
 			$(quantity).focus();
@@ -46,7 +46,7 @@ function update_order_reg(cr) {
 			
 			return;
 		}
-		
+		*/
 		trArr[index].push($(this).find(quantity).val());
 		trArr[index].push($(this).find("[name='gender']").val());
 		trArr[index].push($(this).find("[name='age']").val());

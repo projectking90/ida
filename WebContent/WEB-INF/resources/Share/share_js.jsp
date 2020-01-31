@@ -16,6 +16,7 @@
    $(document).ready(function(){
        $('#dataTable').DataTable();
        $('#dataTable2').DataTable();
+		setCardFooter("share_ingredient", "${cr}");
    });
    
    function return_share_btn(){

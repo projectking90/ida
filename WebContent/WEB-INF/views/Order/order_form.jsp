@@ -11,6 +11,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>주문관리</title>
+		<script>
+			function order_content_tr(oi_no){
+				location.replace("${cr}/order_update_form.ida?oi_no="+oi_no);
+			}
+		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
@@ -23,7 +28,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 주문 현황
 							<span style='float:right'>
-								<button type="button" class="btn btn-primary update" value="주문 수정"> 주문 수정 </button>
+								<!-- <button type="button" class="btn btn-primary update" value="주문 수정"> 주문 수정 </button> -->
 								<button type="button" class="btn btn-danger delete" value="주문 삭제"> 주문 삭제 </button>
 							</span>
 						</div>
@@ -40,11 +45,12 @@
 											<td align=center><b>나이대</b></td>
 											<td align=center><b>주문시간</b></td>
 											<td align=center><b>픽업시간</b></td>
+											<td align=center><b>선택</b>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${order_list}" var="order" varStatus="loopTagStatus">
-											<tr>
+											<tr class="order_list_tr" style="cursor:pointer" onClick="order_content_tr(${order.oi_no});">
 												<td align=center>
 												<td align=center>${order.c_phone}
 												<td align=center>${order.order_menus}
@@ -52,6 +58,8 @@
 												<td align=center>${order.age}대
 												<td align=center>${order.order_time}
 												<td align=center>${order.pickup_time}
+												<td align=center onclick="event.cancelBubble=true;">
+													<input type="checkbox" name="delete_order" value="${order.oi_no}">
 										</c:forEach>
 									</tbody>
 								</table>

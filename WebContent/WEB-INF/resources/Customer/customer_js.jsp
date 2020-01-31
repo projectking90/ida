@@ -14,5 +14,6 @@
 	$(document).ready(function(){
 		$("body").attr("background", customer_bg_img);
 		setDataTable('#dataTable');
+		setCardFooter("order_info", "${cr}");
 	});
 </script>

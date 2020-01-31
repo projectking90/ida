@@ -11,6 +11,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>메뉴 관리</title>
+		<script>
+			function menu_content_tr(mi_no){
+				location.replace("${cr}/menu_update_form.ida?mi_no="+mi_no);
+			}
+		</script>
 	</head>
 	<body id="page-top">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top"></nav>
@@ -23,7 +28,7 @@
 						<div class="card-header">
 							<i class="fas fa-table"></i> 메뉴 현황
 							<span style='float:right'>
-								<button type="button" class="btn btn-primary update"> 메뉴 수정 </button>
+								<!-- <button type="button" class="btn btn-primary update"> 메뉴 수정 </button> -->
 								<button type="button" class="btn btn-danger delete"> 메뉴 삭제 </button>
 							</span>
 						</div>
@@ -40,12 +45,12 @@
 											<td align=center><b>가격(원)</b></td>
 											<td align=center><b>설명</b></td>
 											<td align=center><b>등록일</b></td>
-											
+											<td align=center><b>선택</b>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${menu_list}" var="menu">
-											<tr>
+											<tr class="menu_list_tr" style="cursor:pointer" onClick="menu_content_tr(${menu.mi_no});">
 												<td align=center>
 												<td align=center>${menu.ma_code}
 												<td align=center>${menu.mb_code}
@@ -53,6 +58,8 @@
 												<td align=right>${menu.price}
 												<td align=center>${menu.mi_comment}
 												<td align=center>${menu.reg_date}
+												<td align=center>
+													<input type="checkbox" name="delete_menu" value="${menu.mi_no}">
 										</c:forEach>
 									</tbody>
 								</table>

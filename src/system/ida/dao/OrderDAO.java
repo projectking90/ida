@@ -29,7 +29,7 @@ public interface OrderDAO {
 	 */
 	List<OrderUpdateDTO> getOrderList(String s_id);
 
-	List<OrderUpdateDTO> getOrderList_sepa_quan(String s_id);
+	List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no);
 
 	List<MenuDTO> getMenuList(String s_id);
 
@@ -70,4 +70,8 @@ public interface OrderDAO {
 	List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO);
 
 	List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO);
+
+	int updateStockQuantity(Map<String, String> trData);
+
+	int getStockQuantity(Map<String, String> trData);
 }
