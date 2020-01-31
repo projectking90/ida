@@ -109,7 +109,7 @@
 	</insert>
 	
 	<!-- 식자재 update -->
-	<update id="updateIngredient" parameterType="hashmap">
+	<update id="updateIngredient" parameterType="system.ida.dto.IngredientDTO">
 		update ingredient set
 		ia_code=(select ia_code from code_ingredient_alpha where ia_name=#{ia_name})
 		,ib_code=(select ib_code from code_ingredient_beta where ib_name=#{ib_name})
@@ -117,7 +117,6 @@
 		,i_name  = #{i_name}
 		,i_size  = #{i_size}
 		,i_price = to_number(${i_price}, 9999999999)
-		,a_code=(select a_code from code_allergie where a_name=#{a_name})
 		where i_no = ${i_no}
 	</update>
 	
@@ -166,7 +165,7 @@
 	</insert>
 	
 	
-	<insert id="updateIngredientRecord" parameterType="hashmap">
+	<insert id="updateIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
 		insert into ingredient_record(
 			i_no
 			,i_price

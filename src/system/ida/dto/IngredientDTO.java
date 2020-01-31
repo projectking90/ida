@@ -23,7 +23,7 @@ public class IngredientDTO {
 	private String io_name;	// 식자재 원산지
 	private String i_name;	// 식자재 이름
 	private String i_size;	// 식자재 규격
-	private String i_price;	// 식자재 가격
+	private int i_price;	// 식자재 가격
 	private String reg_date;	// 식자재 등록일
 	private String is_del;	// 삭제여부
 
@@ -146,14 +146,14 @@ public class IngredientDTO {
 	 * i_price 접근자
 	 * @return i_price : 
 	 */
-	public String getI_price() {
+	public int getI_price() {
 		return i_price;
 	}
 	/**
 	 * i_price 설정자
 	 * @param i_price : 
 	 */
-	public void setI_price(String i_price) {
+	public void setI_price(int i_price) {
 		this.i_price = i_price;
 	}
 	/**

@@ -91,15 +91,7 @@ public class IngredientDAOImpl implements IngredientDAO {
 		return a_nameList;
 	}
 
-	//식자재 수정
-	@Override
-	public int updateIngredient(Map<String, String> trData) {
-		int ingredient_update_cnt = this.sqlSession.update(
-				sqlSessionPath+"updateIngredient"
-				,trData
-		);
-		return ingredient_update_cnt;
-	}
+
 
 	//식자재 삭제
 	@Override
@@ -177,14 +169,7 @@ public class IngredientDAOImpl implements IngredientDAO {
 		return ingredient_record_insert;
 	}
 
-	@Override
-	public int updateIngredientRecord(Map<String, String> trData) {
-		int updated_ingredient_record = this.sqlSession.insert(
-			sqlSessionPath+"updateIngredientRecord"
-			,trData
-		);
-		return updated_ingredient_record;
-	}
+
 
 	@Override
 	public List<Map<String, String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO) {
@@ -211,6 +196,33 @@ public class IngredientDAOImpl implements IngredientDAO {
 			,i_no
 		);
 		return ingredientDTO;
+	}
+
+	@Override
+	public int updateIngredient(IngredientDTO ingredientDTO) {
+		int ingredient_update_cnt = this.sqlSession.update(
+			sqlSessionPath+"updateIngredient"
+			,ingredientDTO
+		);
+		return ingredient_update_cnt;
+	}
+
+	@Override
+	public int updateIngredientRecord(IngredientDTO ingredientDTO) {
+		int update_ingredient_record  = this.sqlSession.update(
+			sqlSessionPath+"updateIngredientRecord"
+			,ingredientDTO
+		);
+		return update_ingredient_record;
+	}
+
+	@Override
+	public int getInsertedIngredientPriceCnt(IngredientDTO ingredientDTO) {
+		int ingredient_price_cnt = this.sqlSession.selectOne(
+			sqlSessionPath+"getInsertedIngredientPriceCnt"
+			,ingredientDTO
+		);
+		return ingredient_price_cnt;
 	}
 	
 	
