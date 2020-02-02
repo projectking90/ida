@@ -50,7 +50,7 @@ public class MenuDAOImpl implements MenuDAO {
 		
 		return menu_list;
 	}
-
+	
 	@Override
 	public MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO) {
 		MenuDTO menuDTO = this.sqlSession.selectOne(
@@ -196,14 +196,26 @@ public class MenuDAOImpl implements MenuDAO {
 	 * @return update_result : 메뉴 수정 적용 개수
 	 */
 	@Override
-	public int updateStoreMenu(Map<String, String> trData) {
+	public int updateStoreMenu(MenuDTO menuDTO) {
 		int update_result = 0;
 		update_result = this.sqlSession.update(
 				sqlSessionPath + "updateStoreMenu"
-				,trData
+				,menuDTO
 		);
 		
 		return update_result;
+	}
+	
+
+	@Override
+	public int getMenuCnt(MenuDTO menuDTO) {
+		int menu_cnt = 0;
+		menu_cnt = this.sqlSession.selectOne(
+				sqlSessionPath + "getMenuCnt"
+				,menuDTO
+		);
+		
+		return menu_cnt;
 	}
 	
 	/**

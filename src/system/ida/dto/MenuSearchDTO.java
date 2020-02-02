@@ -20,6 +20,8 @@ public class MenuSearchDTO {
 	private String mi_no;
 	private String[] search_condition;
 
+
+
 	/**
 	 * 생성자 선언
 	 */
@@ -138,4 +140,6 @@ public class MenuSearchDTO {
 	public void setSearch_condition(String[] search_condition) {
 		this.search_condition = search_condition;
 	}
+	
+	
 }

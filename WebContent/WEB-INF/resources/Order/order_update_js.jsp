@@ -13,11 +13,13 @@
 <script>
 	$(document).ready(function(){
 		$("body").attr("background", order_bg_img);
-		setDataTable('#dataTable');
+		/* setDataTable('#dataTable'); */
 		
 		$(".update").click(function(){
 			update_order_reg("${cr}");
 		});
+
+		alert("rse");
 		
 		$("[name=c_phone]").keyup(function(){
 			var str = new String($(this).val());

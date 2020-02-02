@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.AddrDTO;
 import system.ida.dto.ChartDTO;
 import system.ida.dto.CodeMenuDTO;
 import system.ida.dto.Code_ingredientDTO;
@@ -185,12 +186,11 @@ public class MenuController {
 					, produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public int updateStoreMenu(
-			@RequestParam(value="trArr") ArrayList<String> menu_update
-	) {
+			MenuDTO menuDTO) {
 		int update_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
 
 		try {
-			 update_result = this.menuService.updateStoreMenu(menu_update); 
+			 update_result = this.menuService.updateStoreMenu(menuDTO); 
 			
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<updateStoreMenu 에러발생>");

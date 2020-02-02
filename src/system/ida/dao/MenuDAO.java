@@ -36,7 +36,7 @@ public interface MenuDAO {
 	List<CodeMenuAlphaDTO> getCodeMenuAlpha();	// 메뉴대분류의 목록을 가져오는 메소드
 	List<CodeMenuBetaDTO> getCodeMenuBeta();	// 메뉴대분류의 목록을 가져오는 메소드
 	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);
-	int updateStoreMenu(Map<String, String> trData);	// 가게 메뉴 수정
+	int updateStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 수정
 	int deleteStoreMenu(Map<String, String> trData);	// 가게 메뉴 삭제
 	int insertMenuIngredient(MenuDTO menuDTO);
 	int deleteMenuIngredient(Map<String, String> trData);	// 메뉴 식자재 삭제
@@ -50,4 +50,5 @@ public interface MenuDAO {
 	List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO);
 	List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO);
 	MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO);
+	int getMenuCnt(MenuDTO menuDTO);
 }

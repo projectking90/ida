@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		return order_list;
 	}
-	
+
 	@Override
 	public List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no){
 		List<OrderUpdateDTO> orderUpdateDTOList = this.orderDAO.getOrderList_sepa_quan(oi_no);

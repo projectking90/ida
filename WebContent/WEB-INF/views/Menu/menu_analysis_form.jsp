@@ -26,7 +26,7 @@
 								<button type="button" class="btn btn-primary m_chart">메뉴 차트</button>
 							</span>
 						</div>
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="menuAnalysisForm">
 							<div class="text-center">
 								<div class="text-center">
 									<div class="input-group">
@@ -57,23 +57,6 @@
 								<input type="checkbox" value="10000" name="search_condition">10000원 이상&nbsp;
 							</div>
 						
-							<div class="text-right">
-								<b>대분류 : </b>
-								<input type="checkbox" value="한식" name="search_condition">한식&nbsp;
-								<input type="checkbox" value="중식" name="search_condition">중식&nbsp;
-								<input type="checkbox" value="일식" name="search_condition">일식&nbsp;
-								<input type="checkbox" value="양식" name="search_condition">양식&nbsp;
-								<input type="checkbox" value="분식" name="search_condition">분식&nbsp;
-								<input type="checkbox" value="패스트푸드" name="search_condition">패스트푸드&nbsp;
-								<input type="checkbox" value="카페" name="search_condition">카페&nbsp;
-								<b>소분류 : </b>
-								<input type="checkbox" value="일반" name="search_condition">일반&nbsp;
-								<input type="checkbox" value="베지테리언" name="search_condition">베지테리언&nbsp;
-								<input type="checkbox" value="알레르기" name="search_condition">알레르기&nbsp;
-								<b>가격 : </b>
-								<input type="checkbox" value="5000" name="search_condition">5000원 이상&nbsp;
-								<input type="checkbox" value="10000" name="search_condition">10000원 이상&nbsp;
-							</div>
 						</form>
 						
 						<div class="card-body">

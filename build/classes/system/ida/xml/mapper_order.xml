@@ -30,7 +30,7 @@
 			<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
 			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">					
 				<if test="xxx.equals('week')">
-					to_char(sysdate,'ww') = to_char(order_time,'ww')
+					to_char(sysdate,'YYYYW') = to_char(order_time,'YYYYW')
 				</if>
 				<if test="xxx.equals('month')">
 					to_char(sysdate,'YYYYMM') = to_char(order_time,'YYYYMM')
@@ -39,7 +39,7 @@
 					to_char(sysdate,'YYYYMMDDHH') = to_char(order_time,'YYYYMMDDHH')
 				</if>					
 				<if test="xxx.equals('quarter')">
-					to_char(sysdate,'q') = to_char(order_time,'q')
+					to_char(sysdate,'yyyyq') = to_char(order_time,'yyyyq')
 				</if>						
 				<if test="xxx.equals('남자')">
 					gender = '1'
@@ -168,7 +168,6 @@
 		)
 	</insert>
 	
-	
 	<!-- 식자재 재고를 수정하는 update 태그 -->
 	<update id="updateStockQuantity" parameterType="hashmap">
 		update stock
@@ -220,6 +219,7 @@
 			,pickup_time=to_date(#{pickup_time},'YYYY-MM-DD(DY) HH:MI:SS')
 		where oi_no=${oi_no}
 	</update>
+
 	
 	<!-- 가게 주문을 수정하는 delete 태그 -->
 	<delete id="deleteOrderMenu" parameterType="hashmap">
@@ -458,4 +458,5 @@
  			 rownum<=${chart_cnt}
 			]]>
 	</select>
+	
 </mapper>

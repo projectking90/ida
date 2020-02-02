@@ -13,7 +13,7 @@
 <script>
 	$(document).ready(function(){
 		$("body").attr("background", menu_bg_img);
-		setDataTable('#dataTable');
+		/* setDataTable('#dataTable'); */
 		setCardFooter("menu_info", "${cr}");
 		
 		$(".update").click(function(){

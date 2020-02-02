@@ -58,7 +58,7 @@
 												<td align=right>${menu.price}
 												<td align=center>${menu.mi_comment}
 												<td align=center>${menu.reg_date}
-												<td align=center>
+												<td align=center onclick="event.cancelBubble=true;">
 													<input type="checkbox" name="delete_menu" value="${menu.mi_no}">
 										</c:forEach>
 									</tbody>

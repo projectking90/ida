@@ -171,30 +171,16 @@ public class MenuServiceImpl implements MenuService {
 	 * @return update_result : 메뉴 수정 적용 개수
 	 */
 	@Override
-	public int updateStoreMenu(ArrayList<String> menu_update) {
+	public int updateStoreMenu(MenuDTO menuDTO) {
 		Map<String, String> trData = new HashMap<String, String>();
 		int update_result = 0;
+		int menu_cnt = this.menuDAO.getMenuCnt(menuDTO);
 		
-		for(int i=0; i<menu_update.size(); i++) {
-			if(i%7==0) {
-				trData.put("mi_no", menu_update.get(i));
-			}else if(i%7==1) {
-				trData.put("ma_code", menu_update.get(i));
-			}else if(i%7==2) {
-				trData.put("mb_code", menu_update.get(i));
-			}else if(i%7==3) {
-				trData.put("mi_name", menu_update.get(i));
-			}else if(i%7==4) {
-				trData.put("price", menu_update.get(i));
-			}else if(i%7==5) {
-				trData.put("mi_comment", menu_update.get(i));
-			}else if(i%7==6) {
-				trData.put("s_id", menu_update.get(i));
-				update_result += this.menuDAO.updateStoreMenu(trData);
-				//System.out.println("stock_update_cnt : "+stock_update_cnt);
-			}
+		if(menu_cnt<=0) {
+			return 2;
+		}else {
+			update_result = this.menuDAO.updateStoreMenu(menuDTO);
 		}
-
 		return update_result;
 	}
 

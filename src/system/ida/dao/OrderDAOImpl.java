@@ -92,10 +92,9 @@ public class OrderDAOImpl implements OrderDAO {
 				"system.ida.dao.OrderDAO.updateStockQuantity"
 				,trData
 		);
-
+		
 		return stock_update_result;
 	}
-	
 	public int getStockQuantity(Map<String, String> trData) {
 		int stock_quantity_cnt = this.sqlSession.selectOne(
 				sqlSessionPath+"getStockQuantity"
@@ -265,7 +264,6 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return quarter_menu_chart;
 	}
-	
 	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> week_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getWeekData"

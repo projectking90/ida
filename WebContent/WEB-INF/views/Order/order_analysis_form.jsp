@@ -40,8 +40,8 @@
 								</button>
 							</div>
 					
-						<input type="checkbox" value="week" name="search_condition"><b>주</b>&nbsp;
-						<input type="checkbox" value="month" name="search_condition"><b>월</b>&nbsp;
+						<input type="checkbox" value="week" name="search_condition"><b>이번주</b>&nbsp;
+						<input type="checkbox" value="month" name="search_condition"><b>이번달</b>&nbsp;
 						<input type="checkbox" value="hour" name="search_condition"><b>시간</b>&nbsp;
 						
 						<input type="checkbox" value="quarter" name="search_condition"><b>분기</b>&nbsp;

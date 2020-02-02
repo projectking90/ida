@@ -21,9 +21,9 @@
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fas fa-table"></i> 주문 수정
+							<i class="fas fa-table"></i> 주문 수정 
 							<span style='float: right'>
-								<button type="button" class="btn btn-primary update">주문 수정완료</button>
+								<button type="button" class="btn btn-primary update" value="수정완료">수정완료 </button>
 							</span>
 						</div>
 						
@@ -85,13 +85,13 @@
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+	
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

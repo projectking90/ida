@@ -36,7 +36,7 @@ public interface MenuService {
 	List<CodeMenuAlphaDTO> getCodeMenuAlpha();	// 메뉴대분류의 목록을 가져오는 메소드
 	List<CodeMenuBetaDTO> getCodeMenuBeta();	// 메뉴대분류의 목록을 가져오는 메소드
 	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);
-	int updateStoreMenu(ArrayList<String> menu_update);	// 가게 메뉴 수정
+	int updateStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 수정
 	int deleteStoreMenu(ArrayList<String> menu_delete);	// 가게 메뉴 삭제
 	List<Map<String, String>> getMenuCostData(String s_id);
 	List<Code_IngredientAlphaDTO> getCodeIngAlpha();

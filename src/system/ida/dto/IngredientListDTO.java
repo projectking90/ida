@@ -43,6 +43,7 @@ public class IngredientListDTO {
 	public void setI_nameList(List<IngredientDTO> i_nameList) {
 		this.i_nameList = i_nameList;
 	}
+
 	/**
 	 * i_nameList1 접근자
 	 * @return i_nameList1 : 
