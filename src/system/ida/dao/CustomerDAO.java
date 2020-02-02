@@ -19,10 +19,10 @@ public interface CustomerDAO {
 	/**
 	 * 속성변수 선언
 	 */
-	String sqlSessionPath = "system.ida.dao.CustomerDAO.";
+	String sqlSessionPath = "system.ida.dao.CustomerDAO.";	// mapper의 namespace
 
 	/**
 	 * 메소드 선언
 	 */
-	List<CustomerDTO> getCustomerList(CustomerSearchDTO customer_SearchDTO);
+	List<CustomerDTO> getCustomerList(CustomerSearchDTO customer_searchDTO);	// 고객 정보를 가져옴
 }

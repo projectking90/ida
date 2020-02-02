@@ -38,7 +38,7 @@
 							<div class="text-right">
 								<select name="chart_search">
 									<option value='주'>주
-									<option value='월'>월
+									<option value='월' selected>월
 									<option value='시간'>시간
 									<option value='분기'>분기
 								</select>
@@ -58,13 +58,13 @@
 									<option value="2017">2017
 									<option value="2018">2018
 									<option value="2019">2019
-									<option value="2020">2020
+									<option value="2020" selected>2020
 								</select>년&nbsp;
 							</span>
 							
 							<span class="month">
 								<select name="month">
-									<option value="1">01
+									<option value="1" selected>01
 									<option value="2">02
 									<option value="3">03
 									<option value="4">04

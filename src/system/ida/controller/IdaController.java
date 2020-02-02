@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.AddrDTO;
 import system.ida.service.IdaService;
@@ -32,7 +31,6 @@ public class IdaController {
 	/**
 	 * 속성변수 선언
 	 */
-	private final String path = "IDA/";	// jsp 경로
 	@Autowired
 	private IdaService idaService;	// IdaService 인터페이스를 구현받은 객체를 생성해서 저장
 	
@@ -53,7 +51,7 @@ public class IdaController {
 		
 		try {
 			gun_list = this.idaService.getGunList(addrDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<getGunList 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -75,7 +73,7 @@ public class IdaController {
 		
 		try {
 			gu_list = this.idaService.getGuList(addrDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<getGuList 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -103,7 +101,7 @@ public class IdaController {
 				addrDTO.setGun("");
 			}
 			dong_list = this.idaService.getDongList(addrDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<getDongList 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -113,6 +111,7 @@ public class IdaController {
 	
 	/**
 	 * 메뉴 트래킹 정보를 가져올 메소드
+	 * 가상주소 /get_path.ida로 접근하면 호출
 	 * @param path : 경로
 	 * @param user_flag : 유저 구분
 	 * @return menu_tracking_list : 메뉴 트래킹 정보
@@ -124,11 +123,11 @@ public class IdaController {
 			, @RequestParam(value="user_flag") String user_flag) {
 		List<MenuTrackingDTO> menu_tracking_list = null;
 		
-		Map<String, String> path_user_flag = new HashMap<String, String>();
-		path_user_flag.put("path", path);
-		path_user_flag.put("user_flag", user_flag);
-		
 		try {
+			Map<String, String> path_user_flag = new HashMap<String, String>();
+			path_user_flag.put("path", path);
+			path_user_flag.put("user_flag", user_flag);
+			
 			menu_tracking_list = this.idaService.getMenuTracking(path_user_flag);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getMenuTracking 에러발생>");
@@ -140,6 +139,7 @@ public class IdaController {
 	
 	/**
 	 * 테이블의 마지막 수정 날짜 정보를 가져올 메소드
+	 * 가상주소 /get_last_update_data.ida로 접근하면 호출
 	 * @param table_name : 테이블명
 	 * @param session : HttpSession 객체
 	 * @return date : 테이블의 마지막 수정 날짜
@@ -154,9 +154,9 @@ public class IdaController {
 		try {
 			Map<String, String> table_name_s_id = new HashMap<String, String>();
 			String s_id = (String) session.getAttribute("s_id");
+			
 			table_name_s_id.put("s_id", s_id);
 			table_name_s_id.put("table_name", table_name);
-			
 			date = this.idaService.getLastUpdateTable(table_name_s_id);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<getLastUpdateTable 에러발생>");

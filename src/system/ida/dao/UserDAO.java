@@ -16,7 +16,7 @@ public interface UserDAO {
 	/**
 	 * 속성변수 선언
 	 */
-	String sqlSessionPath = "system.ida.dao.UserDAO.";
+	String sqlSessionPath = "system.ida.dao.UserDAO.";	// mapper의 namespace
 
 	/**
 	 * 메소드 선언

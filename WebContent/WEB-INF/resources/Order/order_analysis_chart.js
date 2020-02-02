@@ -5,6 +5,13 @@ function setOrderAnalysisChartForm(cr){
 	getChartData(cr, "나이대", "5", "20", null, null, null, null);
 }
 
+function setGenderOrderAnalysisChartForm(cr){
+	inputData("[name=chart_search]", "성별");
+	inputData("[name=chart_cnt]", "5");
+	inputData("[name=gender]", "m");
+	getChartData(cr, "성별", "5", null, null, null, null, null);
+}
+
 function getChartData(cr, chart_search, chart_cnt, age, month, year, quarter, week){
 	if($("[name=chart_search]").val()=="나이대"){
 		$(".chart_cnt").show();

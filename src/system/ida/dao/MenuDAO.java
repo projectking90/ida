@@ -25,29 +25,30 @@ public interface MenuDAO {
 	/**
 	 * 속성변수 선언
 	 */
-	String sqlSessionPath = "system.ida.dao.MenuDAO.";
+	String sqlSessionPath = "system.ida.dao.MenuDAO.";	// mapper의 namespace
 
 	/**
 	 * 메소드 선언
 	 */
 	List<MenuDTO> getMenuList(MenuSearchDTO menu_searchDTO);	// 가게에 등록된 메뉴를 가져옴
 	int getMenuListAllCnt(MenuSearchDTO menu_searchDTO); // 가게에 등록된 메뉴 총 개수를 가져옴
-	int insertStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 추가
-	List<CodeMenuAlphaDTO> getCodeMenuAlpha();	// 메뉴대분류의 목록을 가져오는 메소드
-	List<CodeMenuBetaDTO> getCodeMenuBeta();	// 메뉴대분류의 목록을 가져오는 메소드
-	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);
-	int updateStoreMenu(Map<String, String> trData);	// 가게 메뉴 수정
-	int deleteStoreMenu(Map<String, String> trData);	// 가게 메뉴 삭제
-	int insertMenuIngredient(MenuDTO menuDTO);
-	int deleteMenuIngredient(Map<String, String> trData);	// 메뉴 식자재 삭제
-	List<Map<String, String>> getMenuCostData(String s_id);
-	List<Code_IngredientBetaDTO> getCodeIngBeta();
-	List<Code_IngredientAlphaDTO> getCodeIngAlpha();
-	List<IngredientDTO> getIngredientList1(Code_ingredientDTO code_ingredientDTO);
-	List<IngredientDTO> getIngredientList2(Code_ingredientDTO code_ingredientDTO);
-	List<IngredientDTO> getIngredientList3(Code_ingredientDTO code_ingredientDTO);
-	List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO);
-	List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO);
-	List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO);
-	MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO);
+	int insertStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 추가 처리
+	List<CodeMenuAlphaDTO> getCodeMenuAlpha();	// 메뉴 대분류의 이름을 가져옴
+	List<CodeMenuBetaDTO> getCodeMenuBeta();	// 메뉴 소분류의 이름을 가져옴
+	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);	// 식자재 리스트를 가져옴
+	int updateStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 수정 처리
+	int deleteStoreMenu(Map<String, String> trData);	// 가게 메뉴 삭제 처리
+	int insertMenuIngredient(MenuDTO menuDTO);	// 메뉴 식자재 추가 처리
+	int deleteMenuIngredient(Map<String, String> trData);	// 메뉴 식자재 삭제 처리
+	List<Map<String, String>> getMenuCostData(String s_id);	// 메뉴의 코스트를 가져옴
+	List<Code_IngredientBetaDTO> getCodeIngBeta();	// 식자재 소분류의 이름 가져옴
+	List<Code_IngredientAlphaDTO> getCodeIngAlpha();	// 식자재 대분류의 이름을 가져옴
+	List<IngredientDTO> getIngredientList1(Code_ingredientDTO code_ingredientDTO);	// 식자재 대분류 첫번째 식자재들을 가져옴
+	List<IngredientDTO> getIngredientList2(Code_ingredientDTO code_ingredientDTO);	// 식자재 대분류 두번째 식자재들을 가져옴
+	List<IngredientDTO> getIngredientList3(Code_ingredientDTO code_ingredientDTO);	// 식자재 대분류 세번째 식자재들을 가져옴
+	List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO);	// 식자재 대분류 네번째 식자재들을 가져옴
+	List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO);	// 식자재 대분류 다섯번째 식자재들을 가져옴
+	List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO);	// 식자재 대분류 여섯번째 식자재들을 가져옴
+	MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO);	// 가게 메뉴 정보를 가져옴
+	int getMenuCnt(MenuDTO menuDTO);	// 가게에 등록된 메뉴의 개수를 가져옴
 }

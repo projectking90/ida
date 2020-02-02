@@ -265,7 +265,7 @@
 	</select>
 	
 	<!-- 가게 메뉴를 수정하는 update 태그 -->
-	<update id="updateStoreMenu" parameterType="hashmap">
+	<update id="updateStoreMenu" parameterType="system.ida.dto.MenuDTO">
 			update menu_info 
 			set 
 				ma_code=(select ma_code from code_menu_alpha a where ma_name=#{ma_code})
@@ -274,7 +274,16 @@
 				,price=to_number(#{price}, 9999999999)
 				,mi_comment=#{mi_comment}
 			where mi_no=#{mi_no}
+				and s_no=(select s_no from store where s_id=#{s_id})
 	</update>
+	
+	<select id="getMenuCnt" parameterType="system.ida.dto.MenuDTO" resultType="int">
+		select
+			count(mi_no)
+		from menu_info
+		where mi_no=#{mi_no}
+			and s_no=(select s_no from store where s_id=#{s_id})
+	</select>
 	
 	<!-- 가게 메뉴를 삭제하는 update 태그 -->
 	<update id="deleteStoreMenu" parameterType="hashmap">

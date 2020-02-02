@@ -18,36 +18,35 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
-	
-					<!-- Breadcrumbs-->
-					<ol class="breadcrumb"></ol>
 					
 					<table><tr height=10><td></table>
 
-					<div id="chart_div1" style="float:left; width:50%">
+					<div id="chart_div1" style="float:left;cursor:pointer;width:50%">
 						<canvas id="stockMonthChart" width="100%" height="30"></canvas>
 					</div>
 					
-					<div id="chart_div2" style="float:left; width:50%">
+					<div id="chart_div2" style="float:left;cursor:pointer;width:50%">
 						<canvas id="orderAgeChart" width="100%" height="30"></canvas>
 					</div>
 					
-					<div id="chart_div3" style="float:left; width:50%">
+					<table><tr height=10><td></table>
+					
+					<div id="chart_div3" style="float:left;cursor:pointer;width:50%">
 						<canvas id="orderManChart" width="100%" height="30"></canvas>
 					</div>
 					
-					<div id="chart_div4" style="float:left; width:50%">
+					<div id="chart_div4" style="float:left;cursor:pointer;width:50%">
 						<canvas id="orderWomanChart" width="100%" height="30"></canvas>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
 		</div>
 		<!-- /#wrapper -->
+		
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

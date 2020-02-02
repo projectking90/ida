@@ -5,7 +5,6 @@
 package system.ida.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +49,8 @@ public class IngredientController {
 	/**
 	 * 식자재 관리 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드
 	 * 가상주소 /ingredient_form.ida로 접근하면 호출
+	 * @param ingredient_searchDTO : 식자재 검색 DTO
+	 * @param session : HttpStssion 객체
 	 * @return mav : /ingredient_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
 	 */
 	@RequestMapping(value="/ingredient_form.ida")
@@ -57,11 +58,11 @@ public class IngredientController {
 		IngredientSearchDTO ingredient_searchDTO
 		, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "ingredient_form");
 		
 		try {
 			String s_id =(String)session.getAttribute("s_id");
 			ingredient_searchDTO.setS_id(s_id);
+			
 			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
 			
 			Code_ingredientDTO code_ingredientDTO = new Code_ingredientDTO();
@@ -69,11 +70,12 @@ public class IngredientController {
 			code_ingredientDTO.setIb_nameList(this.ingredientService.getCodeIngBeta());
 			code_ingredientDTO.setIo_nameList(this.ingredientService.getCodeIngOrigin());
 			code_ingredientDTO.setA_nameList(this.ingredientService.getCodeIngAllergie());
-			
+
+			mav.setViewName(path + "ingredient_form");
 			mav.addObject("ingredient_list", ingredient_list);
 			mav.addObject("ingredient_searchDTO", ingredient_searchDTO);
 			mav.addObject("code_ingredientDTO", code_ingredientDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<goIngredientForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -82,9 +84,10 @@ public class IngredientController {
 	}
 
 	/**
-	 * 식자재 추가 기능 실행시 데이터베이스와 연동 처리할 메소드
+	 * 식자재 추가 기능을 처리할 메소드
 	 * 가상주소 /ingredient_insert.ida로 접근하면 호출
-	 * @param IngredientDTO : 식자재 추가를 위해 사용하는 DTO
+	 * @param ingredientDTO : 식자재 DTO
+	 * @param session : HttpSession 객체
 	 * @return insert_result : 식자재 추가 Query 실행 결과
 	 */
 	@RequestMapping(value="/ingredient_insert.ida"
@@ -93,17 +96,17 @@ public class IngredientController {
 	@ResponseBody
 	public int insertIngredient(
 		IngredientDTO ingredientDTO
-		,HttpSession session) {
-		int insert_result =0; 		//데이터베이스 실행 후 결과를 저장
+		, HttpSession session) {
+		int insert_result = -1;
 		
 		try {
 			String s_id =(String)session.getAttribute("s_id");
 			ingredientDTO.setS_id(s_id);
+			
 			insert_result = this.ingredientService.insertIngredient(ingredientDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<goIngredientInsertForm 에러발생>");
+		} catch(Exception e) {
+			System.out.println("<insertIngredient 에러발생>");
 			System.out.println(e.getMessage());
-			return -1;
 		}
 		
 		return insert_result;
@@ -112,9 +115,12 @@ public class IngredientController {
 	/**
 	 * 식자재 상세보기 화면을 보여줄 jsp와 하나의 식자재 정보를 보여주는 메소드
 	 * 가상주소 /ingredient_detail_form.ida로 접근하면 호출
+	 * @param i_no : 식자재 번호
+	 * @param ingredient_searchDTO : 식자재 검색 DTO
+	 * @param session : HttpSessio  객체
 	 * @return mav : /ingredient_detail_form.ida에 맵핑 되는 jsp 파일과 가게 식자재 리스트
 	 */
-	@RequestMapping(value = "/ingredient_detail_form.ida") // 접속하는 클라이언트의 URL 주소 설정
+	@RequestMapping(value = "/ingredient_detail_form.ida")
 	public ModelAndView goIngredientDetailForm(
 			@RequestParam(value = "i_no") int i_no
 			, IngredientSearchDTO ingredient_searchDTO
@@ -126,6 +132,7 @@ public class IngredientController {
 			
 			String s_id = (String) session.getAttribute("s_id");
 			ingredient_searchDTO.setS_id(s_id);
+			
 			List<Code_IngredientAlphaDTO> alpha = this.ingredientService.getCodeIngAlpha();
 			List<Code_IngredientBetaDTO> beta = this.ingredientService.getCodeIngBeta();
 			List<Code_IngredientOriginDTO> origin = this.ingredientService.getCodeIngOrigin();
@@ -146,132 +153,62 @@ public class IngredientController {
 		} catch (Exception e) {
 			System.out.println("<goIngredientDetailForm 에러발생>");
 			System.out.println(e.getMessage());
-
-		}
-		return mav;
-	}
-	
-	/**
-	 * 식자재 수정 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드
-	 * 가상주소 /ingredient_update_form.ida로 접근하면 호출
-	 * @return mav : /ingredient_update_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
-	 */
-	/*
-	@RequestMapping(value="/ingredient_update_form.ida")
-	public ModelAndView goIngredientUpdateForm(
-			IngredientSearchDTO ingredient_searchDTO
-			,HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "ingredient_update_form");
-		
-		try {
-			String s_id =(String)session.getAttribute("s_id");
-			ingredient_searchDTO.setS_id(s_id);
-			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
-			List<Code_IngredientAlphaDTO> alpha = this.ingredientService.getCodeIngAlpha();
-			List<Code_IngredientBetaDTO> beta = this.ingredientService.getCodeIngBeta();
-			List<Code_IngredientOriginDTO> origin = this.ingredientService.getCodeIngOrigin();
-			
-			for(IngredientDTO temp : ingredient_list) {
-				temp.setIa_nameList(alpha);
-				temp.setIb_nameList(beta);
-				temp.setIo_nameList(origin);
-			}
-			
-			mav.addObject("ingredient_list",ingredient_list);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<goIngredientUpdateForm 에러발생>");
-			System.out.println(e.getMessage());
 		}
 		
 		return mav;
 	}
-	*/
 	
 	/**
-	 * 식자재 수정 기능 실행시 보여줄 데이터베이스와 연동처리 할 메소드
-	 * 가상주소 : ingredient_update_proc.ida 로 접근하면 호출
-	 * @param ingredient_update
-	 * @return
+	 * 식자재 수정 기능을 처리 할 메소드
+	 * 가상주소  /ingredient_update_proc.ida로 접근하면 호출
+	 * @param ingredientDTO : 식자재 DTO
+	 * @return ingredient_update_cnt : 식자재 수정 Query 실행 결과
 	 */
 	@RequestMapping(value="/ingredient_update_proc.ida"
 			, method = RequestMethod.POST
 			, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public int tableUpdateProc(
+	public int ingredientUpdateProc(
 			IngredientDTO ingredientDTO) {
-		int ingredient_update_cnt = 0;
+		int ingredient_update_cnt = -1;
 
 		try {
 			ingredient_update_cnt = this.ingredientService.updateIngredient(ingredientDTO);
 		} catch (Exception e) {
-			System.out.println("<tableUpdateProc 에러발생>");
+			System.out.println("<ingredientUpdateProc 에러발생>");
 			System.out.println(e.getMessage());
-			return -1;
 		}
 
 		return ingredient_update_cnt;
 	}
 	
 	/**
-	 * 식자재 삭제 화면을 보여줄 jsp와 가게에 등록된 식자재를 보여주는 메소드
-	 * 가상주소 /ingredient_delete_form.ida로 접근하면 호출
-	 * @return mav : /ingredient_delete_form.ida에 맵핑되는 jsp 파일과 가게 식자재 리스트
-	 */
-	/*
-	@RequestMapping(value="/ingredient_delete_form.ida")
-	public ModelAndView goIngredientDeleteForm(
-		HttpSession session
-		,IngredientSearchDTO ingredient_searchDTO) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "ingredient_delete_form");
-		 
-		try {
-			String s_id =(String)session.getAttribute("s_id");
-			ingredient_searchDTO.setS_id(s_id);
-			List<IngredientDTO> ingredient_list = this.ingredientService.getIngredientList(ingredient_searchDTO);
-			mav.addObject("ingredient_list",ingredient_list);
-			mav.addObject("ingredient_searchDTO",ingredient_searchDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
-			System.out.println("<goIngredientDeleteForm 에러발생>");
-			System.out.println(e.getMessage());
-		}
-		
-		return mav;
-	}
-	*/
-	
-	/**
-	 * 식자재  삭제 기능 실행 시 데이터베이스와 연동 처리할 메소드
-	 * 가상주소 /ingredient_delete.onm로 접근하면 호출
-	 * @param IngredientDTO : 식자재 삭제를 위해 사용하는 DTO
+	 * 식자재  삭제 기능을 처리할 메소드
+	 * 가상주소 /ingredient_delete.ida로 접근하면 호출
+	 * @param ingredient_delete : 삭제하려는 식자재의 번호들
 	 * @return delete_result : 식자제 삭제 Query 실행 결과
 	 */
 	@RequestMapping(value="/ingredient_delete.ida")
 	@ResponseBody
 	public int deleteIngredient(
-			IngredientDTO ingredientDTO
-			,IngredientSearchDTO ingredient_searchDTO
-			,HttpSession session
-			,@RequestParam(value="trArr") ArrayList<String> ingredient_delete) {
-		int delete_result = 0;	// 데이터베이스에 Query 실행 후 결과를 저장
+			@RequestParam(value="trArr") ArrayList<String> ingredient_delete) {
+		int delete_result = -1;
 
 		try {
-			String s_id = (String)session.getAttribute("s_id");
-			ingredient_searchDTO.setS_id(s_id);
 			delete_result = this.ingredientService.deleteIngredient(ingredient_delete);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<deleteIngredient 에러발생>");
 			System.out.println(e.getMessage());
-			return -1;
 		}
 		
 		return delete_result;
 	}
 	
 	/**
-	 * 식자재 분석 화면을 보여줄 jsp와 가게에 등록된 식자재를 검색 조건에 따라 보여주는 메소드
+	 * 식자재 분석 - 표 화면을 보여줄 jsp와 가게에 등록된 식자재를 검색 조건에 따라 보여주는 메소드
 	 * 가상주소 /ingredient_analysis_form.ida로 접근하면 호출
+	 * @param ingredient_searchDTO : 식자재 검색 DTO
+	 * @param session : HttpSession 객체
 	 * @return mav : /ingredient_analysis_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 식자재 리스트
 	 */
 	@RequestMapping(value="/ingredient_analysis_form.ida")
@@ -283,7 +220,6 @@ public class IngredientController {
 		
 		try {
 			String s_id =(String)session.getAttribute("s_id");
-			
 			ingredient_searchDTO.setS_id(s_id);
 			
 			List<IngredientDTO> ingredient_anl_list = this.ingredientService.getIngAnlList(ingredient_searchDTO);
@@ -301,19 +237,18 @@ public class IngredientController {
 	/**
 	 * 식자재 분석 - 차트화면을 보여줄 jsp와 가게에 등록된 식자재를 검색 조건에 따라 차트로 보여주는 메소드
 	 * 가상주소 /ingredient_analysis_chart_form.ida로 접근하면 호출
+	 * @param ingredient_searchDTO : 식자재 검색 DTO
 	 * @return mav : /ingredient_analysis_chart_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 식자재 차트
 	 */
 	@RequestMapping(value="/ingredient_analysis_chart_form.ida")
 	public ModelAndView goIngredientAnalysisChartForm(
-		IngredientSearchDTO ingredient_searchDTO
-		,HttpSession session
-		) {
+		IngredientSearchDTO ingredient_searchDTO) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "ingredient_analysis_chart_form");
 		 
 		try {
-			String s_id =(String)session.getAttribute("s_id");
 			List<IngredientDTO> ingredient_anl_list = this.ingredientService.getIngAnlList(ingredient_searchDTO);
+
+			mav.setViewName(path + "ingredient_analysis_chart_form");
 			mav.addObject("ingredient_anl_list",ingredient_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientAnalysisChartForm 에러발생>");
@@ -324,27 +259,33 @@ public class IngredientController {
 	}
 	
 	/**
-	 * 식자재  차트
+	 * 식자재  차트 데이터를 가져올 메소드
 	 * 가상주소 /ingredeint_analysis_chart.ida로 접근하면 호출
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @param session : HttpSession 객체
+	 * @param chart_search : 검색 종류
+	 * @param chart_cnt : 검색 갯수
+	 * @param week : 주
+	 * @param month : 월
+	 * @param year : 년
+	 * @return chart_data : 차트 데이터
 	 */
 	@RequestMapping(value="/ingredeint_analysis_chart.ida")
 	@ResponseBody
 	public ChartDTO getIngredientChartData(
 			ChartSearchDTO chart_searchDTO
-			,HttpSession session
+			, HttpSession session
 			, @RequestParam(value="chart_search") String chart_search
 			, @RequestParam(value="chart_cnt") String chart_cnt
 			, @RequestParam(value="week") String week
 			, @RequestParam(value="month") String month
-			, @RequestParam(value="year") String year
-			) {
-		ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
+			, @RequestParam(value="year") String year) {
+		ChartDTO chart_data = new ChartDTO();
 
 		try {
 			String s_id = (String)session.getAttribute("s_id");
 			chart_searchDTO.setS_id(s_id);
 			chart_searchDTO.setChart_cnt(chart_cnt);
-			
 
 			List<String> label = new ArrayList<String>();
 			List<String> data1=new ArrayList<String>();
@@ -352,6 +293,7 @@ public class IngredientController {
 			
 			if(chart_search.equals("주")) {
 				chart_searchDTO.setWeek(week);
+				
 				List<Map<String,String>> week_ingredient_chart = this.ingredientService.getWeekIngredientData(chart_searchDTO);
 				
 				for(int i=0; i<week_ingredient_chart.size(); i++) {
@@ -360,11 +302,12 @@ public class IngredientController {
 				for(int i=0; i<week_ingredient_chart.size(); i++) {
 					data1.add(week_ingredient_chart.get(i).get("DATA"));
 				}
+				
 				dataset.add(week_ingredient_chart.get(0).get("DATASET"));
-
-			}else if(chart_search.equals("월")) {
+			} else if(chart_search.equals("월")) {
 				chart_searchDTO.setMonth(month);
 				chart_searchDTO.setYear(year);
+				
 				List<Map<String,String>> month_ingredient_chart = this.ingredientService.getMonthIngredientData(chart_searchDTO);
 				
 				for(int i=0; i<month_ingredient_chart.size(); i++) {
@@ -373,18 +316,18 @@ public class IngredientController {
 				for(int i=0; i<month_ingredient_chart.size(); i++) {
 					data1.add(month_ingredient_chart.get(i).get("DATA"));
 				}
-				dataset.add(month_ingredient_chart.get(0).get("DATASET"));
-			}else if (chart_search.equals("시간")) {
 				
-			}else if(chart_search.equals("분기")) {
+				dataset.add(month_ingredient_chart.get(0).get("DATASET"));
+			} else if (chart_search.equals("시간")) {
+				
+			} else if(chart_search.equals("분기")) {
 				
 			}
+			
 			chart_data.setDataset(dataset);
 			chart_data.setLabel(label);
 			chart_data.setData1(data1);
-
-
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<getIngredientChartData 에러발생>");
 			System.out.println(e.getMessage());
 		}

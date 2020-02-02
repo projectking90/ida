@@ -46,8 +46,6 @@
 				
 				<div class="text-center">
 					<a class="d-done small mt-3 register">[회원가입]</a>
-					&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-					<a class="d-done small mt-3 manager">[관리자모드]</a>
 				</div>
 				
 				<div class="form-group"></div>

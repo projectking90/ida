@@ -15,5 +15,21 @@
 		getChartDataStockMonth("${cr}");
 		getChartDataOrderAge("${cr}");
 		getChartDataOrderGender("${cr}");
+		
+		$("#chart_div1").click(function(){
+			location.replace("${cr}/stock_analysis_chart_form.ida");
+		});
+		
+		$("#chart_div2").click(function(){
+			location.replace("${cr}/order_analysis_chart_form.ida?flag=age");
+		});
+		
+		$("#chart_div3").click(function(){
+			location.replace("${cr}/order_analysis_chart_form.ida?flag=gender");
+		});
+		
+		$("#chart_div4").click(function(){
+			location.replace("${cr}/order_analysis_chart_form.ida?flag=gender");
+		});
 	});
 </script>

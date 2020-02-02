@@ -22,56 +22,33 @@ public interface OrderDAO {
 	/**
 	 * 속성변수 선언
 	 */
-	String sqlSessionPath = "system.ida.dao.OrderDAO.";
+	String sqlSessionPath = "system.ida.dao.OrderDAO.";	// mapper의 namespace
 
 	/**
 	 * 메소드 선언
 	 */
-	List<OrderUpdateDTO> getOrderList(String s_id);
-
-	List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no);
-
-	List<MenuDTO> getMenuList(String s_id);
-
-	int deleteStoreOrder(Map<String, String> trData);
-
-	int deleteOrderMenu(Map<String, String> trData);
-
-	int updateStoreOrder(Map<String, String> trData);
-
-	int insertOrderMenu(Map<String, String> trData);
-	
-	int insertOrderMenuOne(Map<String, String> trData);
-
-	int insertStoreOrder(OrderDTO orderDTO);
-
-	List<Map<String, String>> getGenderData(String s_id);
-
-	List<Map<String, String>> getAgeData(String s_id);
-
-	List<Map<String, String>> getMonthData(String s_id);
-
-	List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO);
-
-	List<Map<String, String>> getHourData(String s_id);
-
-	List<Map<String, String>> getQuarterData(String s_id);
-
-	List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO);
-
-	List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO);
-
-	List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO);
-
-	List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO);
-
-	List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO);
-
-	List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO);
-
-	List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO);
-
-	int updateStockQuantity(Map<String, String> trData);
-
-	int getStockQuantity(Map<String, String> trData);
+	List<OrderUpdateDTO> getOrderList(String s_id);	// 주문 목록을 가져옴
+	List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no);	// 주문 목록 중 수량만 가져옴
+	List<MenuDTO> getMenuList(String s_id);	// 메뉴 목록을 가져옴
+	int deleteStoreOrder(Map<String, String> trData);	// 주문 삭제 처리함
+	int deleteOrderMenu(Map<String, String> trData);	// 주문 메뉴 삭제 처리함
+	int updateStoreOrder(Map<String, String> trData);	// 주문 수정 처리함
+	int insertOrderMenu(Map<String, String> trData);	// 주문 메뉴 추가 처리함
+	int insertOrderMenuOne(Map<String, String> trData);	// 주문 메뉴들 추가 처리함
+	int insertStoreOrder(OrderDTO orderDTO);	// 주문 추가 처리함
+	List<Map<String, String>> getGenderData(String s_id);	// 성별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getAgeData(String s_id);	// 나이별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getMonthData(String s_id);	// 월별 주문 차트 데이터를 가져옴
+	List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO);	// 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getHourData(String s_id);	// 시간별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getQuarterData(String s_id);	// 분기별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO);	// 주별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO);	// 여자별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO);	// 남자별 주문 차트 데이터를 가져옴
+	List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO);	// 나이별 주문 메뉴 차트 데이터를 가져옴
+	List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO);	// 월별  주문 메뉴 차트 데이터를 가져옴
+	List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO);	// 분기별 주문 메뉴 차트 데이터를 가져옴
+	List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO);	// 주별 주문 메뉴 차트 데이터를 가져옴
+	int updateStockQuantity(Map<String, String> trData);	// 주문 관련 재고 변경 처리
+	int getStockQuantity(Map<String, String> trData);	// 주문 관련시 재고 수량을 가져옴
 }

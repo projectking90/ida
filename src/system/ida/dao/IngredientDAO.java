@@ -24,28 +24,27 @@ public interface IngredientDAO {
 	/**
 	 * 속성변수 선언
 	 */
-	String sqlSessionPath = "system.ida.dao.IngredientDAO.";
+	String sqlSessionPath = "system.ida.dao.IngredientDAO.";	// mapper의 namespace
 
 	/**
 	 * 메소드 선언
 	 */
-	List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO);	//식자재 목록 리스트
-	int insertIngredient(IngredientDTO ingredientDTO);									//식자재 추가
-	int updateIngredient(IngredientDTO ingredientDTO);									//식자재 수정
-	int deleteIngredient(Map<String,String> trData);									//식자재 삭제
-	int getInsertedIngredientCnt(IngredientDTO ingredientDTO);
-	int getInsertedIngredientIsDelCnt(IngredientDTO ingredientDTO);		//등록되었지만 삭제된 식자재 개수 구하기
-	int getInsertedIngredientIsDelUp(IngredientDTO ingredientDTO);		//등록되었지만 삭제된 식자재 추가할때 is_del을 'F'로 update하기
-	int insertIngredientRecord(IngredientDTO ingredientDTO);			//ingredient_record에 insert 하기
-	int updateIngredientRecord(IngredientDTO ingredientDTO);				//ingredient_record에 update 하기
-	int getInsertedIngredientPriceCnt(IngredientDTO ingredientDTO);			//추가된 식자재의 가격 가져오기
-	List<Code_IngredientAlphaDTO> getCodeIngAlpha();									//식자재 대분류
-	List<Code_IngredientBetaDTO> getCodeIngBeta();										//식자재 소분류
-	List<Code_IngredientOriginDTO> getCodeIngOrigin();									//식자재 원산지
-	List<Code_IngredientAllergieDTO> getCodeIngAllergie();								//식자재 알레르기
-
-	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);	//분석에서 식자재 목록 리스트 가져오기
-	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
-	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
-	IngredientDTO getIngedientDTO(int i_no);	// 식자재 상세보기
+	List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO);	// 식자재 목록 리스트 가져옴
+	int insertIngredient(IngredientDTO ingredientDTO);	// 식자재 추가 처리
+	int updateIngredient(IngredientDTO ingredientDTO);	// 식자재 수정 처리
+	int deleteIngredient(Map<String,String> trData); // 식자재 삭제 처리
+	int getInsertedIngredientCnt(IngredientDTO ingredientDTO);	// 식자재 총 개수를 가져옴
+	int getInsertedIngredientIsDelCnt(IngredientDTO ingredientDTO);	// 등록되었지만 삭제된 식자재 개수를 가져옴
+	int getInsertedIngredientIsDelUp(IngredientDTO ingredientDTO);	// 등록되었지만 삭제된 식자재 추가할때 is_del을 'F'로 변경
+	int insertIngredientRecord(IngredientDTO ingredientDTO);	// 식자재 기록에 추가 처리
+	int updateIngredientRecord(IngredientDTO ingredientDTO);	// 식자재 기록에 수정 처리
+	int getInsertedIngredientPriceCnt(IngredientDTO ingredientDTO);	// 추가된 식자재의 가격 가져옴
+	List<Code_IngredientAlphaDTO> getCodeIngAlpha();	// 식자재 대분류 이름 가져옴
+	List<Code_IngredientBetaDTO> getCodeIngBeta();	// 식자재 소분류 이름 가져옴
+	List<Code_IngredientOriginDTO> getCodeIngOrigin();	// 식자재 원산지 이름 가져옴
+	List<Code_IngredientAllergieDTO> getCodeIngAllergie();	// 식자재 알레르기 이름 가져옴
+	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);	// 분석 표에서 식자재 목록 리스트 가져옴
+	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);	// 분석 차트에서 식자재 주 데이터 가져옴
+	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);	// 분석 차트에서 식자재 월 데이터 가져옴
+	IngredientDTO getIngedientDTO(int i_no);	// 식자재 상세보기 가져옴
 }

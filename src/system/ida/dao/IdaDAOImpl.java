@@ -93,8 +93,7 @@ public class IdaDAOImpl implements IdaDAO {
 	public MenuTrackingDTO getMenuTracking(Map<String, String> path_user_flag) {
 		MenuTrackingDTO menu_tracking_list = this.sqlSession.selectOne(
 				sqlSessionPath + "getMenuTracking"
-				, path_user_flag
-			);
+				, path_user_flag);
 		
 		return menu_tracking_list;
 	}

@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.javassist.compiler.ast.BinExpr;
+//import org.apache.ibatis.javassist.compiler.ast.BinExpr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+//import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,14 +23,14 @@ import system.ida.dto.AddrDTO;
 import system.ida.dto.UserDTO;
 import system.ida.dto.UserUpdateDTO;
 import system.ida.ida.Aes256;
-import system.ida.ida.LoginValidator;
+//import system.ida.ida.LoginValidator;
 import system.ida.service.IdaService;
 import system.ida.service.UserService;
 
 /**
- * IdaController 클래스
+ * UserController 클래스
  * 컨트롤러 클래스
- * 프로젝트 시작 시 접근 할 경로, 공동으로 접근할 경로를 설정
+ * 사용자에 관련 가상 경로를 설정
  * @author Jo
  */
 @Controller
@@ -43,18 +43,14 @@ public class UserController {
 	private UserService userService;	// UserService 인터페이스를 구현받은 객체를 생성해서 저장
 	@Autowired
 	private IdaService idaService;	// IdaService 인터페이스를 구현받은 객체를 생성해서 저장
-
-	/**
-	 * 생성자 선언
-	 */
-
+	
 	/**
 	 * 메소드 선언
 	 */
 	/**
 	 * 로그인 화면을 보여줄 jsp를 보여주는 메소드
-	 * 가상주소 /login.ida로 접근하면 호출
-	 * @return mav : /login.ida에 맵핑되는 jsp 파일
+	 * 가상주소 /login_form.ida로 접근하면 호출
+	 * @return mav : /login_form.ida에 맵핑되는 jsp 파일
 	 */
 	@RequestMapping(value="/login_form.ida")
 	public ModelAndView goLoginForm() {
@@ -62,7 +58,7 @@ public class UserController {
 		
 		try {
 			mav.setViewName(path + "login_form");
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<goLoginForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -71,11 +67,11 @@ public class UserController {
 	}
 	
 	/**
-	 * 로그인 화면을 보여줄 jsp를 보여주는 메소드
+	 * 로그인 기능을 처리할 메소드
 	 * 가상주소 /login_proc.ida로 접근하면 호출
 	 * @param userDTO : 사용자 정보 DTO
 	 * @param session : HttpSession 객체
-	 * @return mav : /login.ida에 맵핑되는 jsp 파일
+	 * @return loginCnt : 로그인 Query 실행 결과
 	 */
 	@RequestMapping(value="/login_proc.ida")
 	@ResponseBody
@@ -85,8 +81,7 @@ public class UserController {
 			//, BindingResult bindingResult
 			) {
 		//new LoginValidator().validate(userDTO, bindingResult);
-		
-		int loginCnt = 0;
+		int loginCnt = -1;
 		
 		//if(bindingResult.hasErrors()) {
 		//	loginCnt = -1;
@@ -111,7 +106,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 회원가입 버튼을 누르면 보여줄 jsp를 보여주는 메소드
+	 * 회원가입 화면 보여줄 jsp를 보여주는 메소드
 	 * 가상주소 /register_form.ida로 접근하면 호출
 	 * @return mav : /register_form.ida에 맵핑되는 jsp 파일
 	 */
@@ -120,12 +115,11 @@ public class UserController {
 		ModelAndView mav = new ModelAndView();
 		
 		try {
-			mav.setViewName(path + "register_form");
-			
 			List<AddrDTO> city_list = this.idaService.getCityList();
-			
 			mav.addObject("city_list", city_list);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			
+			mav.setViewName(path + "register_form");
+		} catch(Exception e) {
 			System.out.println("<goRegForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -136,22 +130,24 @@ public class UserController {
 	/**
 	 * 회원가입을 처리할 메소드
 	 * 가상주소 /register_user_proc.ida로 접근하면 호출
+	 * @param userDTO : 사용자 DTO
 	 * @return insertCnt : 회원등록 성공 결과
 	 */
 	@RequestMapping(value="/register_user_proc.ida")
 	@ResponseBody
 	public int insertRegUser(
 			UserDTO userDTO) {
-		int insertCnt = 0;
+		int insertCnt = -1;
 		
 		try {
 			int addr_code = this.userService.getAddrCode(userDTO);
 			userDTO.setAddr_code(addr_code);
+			
 			Aes256 aes = new Aes256();
 			userDTO.setPwd(aes.encrypt(userDTO.getPwd()));
 			
 			insertCnt = this.userService.insertRegUser(userDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<insertRegUser 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -160,16 +156,15 @@ public class UserController {
 	}
 	
 	/**
-	 * 회원정보 변경 버튼을 누르면 보여줄 jsp를 보여주는 메소드
+	 * 회원정보 변경 화면을 보여줄 jsp와 회원정보를 보여주는 메소드
 	 * 가상주소 /user_info_update_form.ida로 접근하면 호출
 	 * @param session : HttpSession 객체
-	 * @return mav : /user_info_update_form.ida에 맵핑되는 jsp 파일
+	 * @return mav : /user_info_update_form.ida에 맵핑되는 jsp 파일과 회원정보
 	 */
 	@RequestMapping(value="/user_info_update_form.ida")
 	public ModelAndView goUpdateInfoForm(
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(path + "user_info_update_form");
 		
 		try {
 			String s_id = (String)session.getAttribute("s_id");
@@ -191,7 +186,8 @@ public class UserController {
 			user_updateDTO.setDong_list(dong_list);
 			
 			mav.addObject("user_info", user_updateDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+			mav.setViewName(path + "user_info_update_form");
+		} catch(Exception e) {
 			System.out.println("<goUpdateInfoForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -200,18 +196,18 @@ public class UserController {
 	}
 	
 	/**
-	 * 회원 정보를 변경할 메소드
+	 * 회원정보 변경 기능을 처리할 메소드
 	 * 가상주소 /update_user_proc.ida로 접근하면 호출
-	 * @param user_updateDTO : 변경하려는 회원 정보를 저장한 DTO
+	 * @param user_updateDTO : 회원정보 DTO
 	 * @param session : HttpSession 객체
-	 * @return updateCnt : 회원정보 수정 결과
+	 * @return updateCnt : 회원정보 수정  Query 결과
 	 */
 	@RequestMapping(value="/update_user_proc.ida")
 	@ResponseBody
 	public int updateUserInfo(
 			UserUpdateDTO user_updateDTO
 			, HttpSession session) {
-		int updateCnt = 0;
+		int updateCnt = -1;
 		
 		try {
 			String s_id = (String)session.getAttribute("s_id");
@@ -225,7 +221,7 @@ public class UserController {
 			user_updateDTO.setNewPwd(aes.encrypt(user_updateDTO.getNewPwd()));
 			
 			updateCnt = this.userService.updateUserInfo(user_updateDTO);
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<updateUserInfo 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -237,6 +233,8 @@ public class UserController {
 	 * 로그아웃 화면을 보여줄 jsp를 보여주는 메소드
 	 * 가상주소 /logout_form.ida로 접근하면 호출
 	 * @param session : HttpSession 객체
+	 * @param request : HttpServletRequest 객체
+	 * @param response : HttpServletResponse 객체
 	 * @return mav : /logout_form.ida에 맵핑되는 jsp 파일
 	 */
 	@RequestMapping(value="/logout_form.ida")
@@ -245,10 +243,11 @@ public class UserController {
 			, HttpServletRequest request
 			, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
-		Cookie[] cookies = request.getCookies();
 		
 		try {
 			session.invalidate();	// session 객체의 수명을 0으로 만듬
+
+			Cookie[] cookies = request.getCookies();
 			
 			if(cookies != null) {
 				for(int i=0; i<cookies.length; i++) {
@@ -258,7 +257,7 @@ public class UserController {
 			}
 			
 			mav.setViewName(path + "logout_form");
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<goLoginOutForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
@@ -279,7 +278,7 @@ public class UserController {
 		
 		try {
 			mav.setViewName(path + "user_main_form");
-		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		} catch(Exception e) {
 			System.out.println("<goMainForm 에러발생>");
 			System.out.println(e.getMessage());
 		}

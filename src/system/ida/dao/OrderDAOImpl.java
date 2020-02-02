@@ -33,160 +33,194 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * 메소드 선언
 	 */
+	/**
+	 * 주문 목록을 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return : order_list : 주문 리스트
+	 */
+	@Override
 	public List<OrderUpdateDTO> getOrderList(String s_id){
 		List<OrderUpdateDTO> order_list = this.sqlSession.selectList(
-				"system.ida.dao.OrderDAO.getOrderList"	// 실행할 SQL 구문의 위치 지정
-				,s_id
-				);
+				sqlSessionPath + "getOrderList"
+				, s_id);
 		
 		return order_list;
 	}
 	
+	/**
+	 * 주문 목록 중 수량만 가져옴
+	 * @param oi_no : 주문 번호
+	 * @return orderUpdateDTOList : 주문 목록의 수량 리스트
+	 */
 	@Override
 	public List<OrderUpdateDTO> getOrderList_sepa_quan(String oi_no){
 		List<OrderUpdateDTO> orderUpdateDTOList = this.sqlSession.selectList(
-				"system.ida.dao.OrderDAO.getOrderList_sepa_quan"	// 실행할 SQL 구문의 위치 지정
-				,oi_no
-				);
+				sqlSessionPath + "getOrderList_sepa_quan"
+				, oi_no);
 		
 		return orderUpdateDTOList;
 	}
 	
+	/**
+	 * 메뉴 목록을 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return mi_nameList : 메뉴 리스트
+	 */
 	@Override
 	public List<MenuDTO> getMenuList(String s_id){
 		List<MenuDTO> mi_nameList = this.sqlSession.selectList(
 				sqlSessionPath + "getMenuList"
-				,s_id
-		);
+				, s_id);
+		
 		return mi_nameList;
 	}
 	
 	/**
-	 * 주문 추가
-	 * @param orderDTO : 메뉴 추가를 위해 사용하는 DTO
-	 * @return insert_result : 메뉴 추가 적용 개수
+	 * 주문 추가 처리함
+	 * @param orderDTO : 주문 DTO
+	 * @return insert_result : 메뉴 추가 Query 결과
 	 */
 	@Override
 	public int insertStoreOrder(OrderDTO orderDTO) {
 		int insert_result = sqlSession.insert(
-				"system.ida.dao.OrderDAO.insertStoreOrder",
-				orderDTO
-				);
+				sqlSessionPath + "insertStoreOrder"
+				, orderDTO);
 		
 		return insert_result;
 	}
 	
+	/**
+	 * 주문 메뉴들 추가 처리함
+	 * @param trData : 메뉴 정보들
+	 * @return order_menu_insert : 주문 메뉴 추가 Query 결과
+	 */
 	@Override
 	public int insertOrderMenuOne(Map<String, String> trData) {
 		int order_menu_insert = this.sqlSession.insert(
-				"system.ida.dao.OrderDAO.insertOrderMenuOne"
-				,trData
-		);
+				sqlSessionPath + "insertOrderMenuOne"
+				, trData);
 		
 		return order_menu_insert;
 	}
 
+	/**
+	 * 주문 관련 재고 변경 처리
+	 * @param trData : 메뉴, 수량 정보들
+	 * @return stock_update_result : 주문 관련 재고 변경 Query 결과
+	 */
 	@Override
 	public int updateStockQuantity(Map<String, String> trData) {
 		int stock_update_result = this.sqlSession.update(
-				"system.ida.dao.OrderDAO.updateStockQuantity"
-				,trData
-		);
+				sqlSessionPath + "updateStockQuantity"
+				, trData);
 
 		return stock_update_result;
 	}
 	
+	/**
+	 * 주문 관련시 재고 수량을 가져옴
+	 * @param trData : 메뉴 정보들
+	 * @return stock_quantity_cnt : 재고 수량
+	 */
+	@Override
 	public int getStockQuantity(Map<String, String> trData) {
 		int stock_quantity_cnt = this.sqlSession.selectOne(
-				sqlSessionPath+"getStockQuantity"
-				,trData
-		);
+				sqlSessionPath + "getStockQuantity"
+				, trData);
+		
 		return stock_quantity_cnt;
 	}
 	
 	/**
-	 * 가게 주문 수정
-	 * @param trData : 주문 수정을 위해 사용하는 Map
-	 * @return update_result : 주문 수정 적용 개수
+	 * 주문 수정 처리함
+	 * @param trData : 메뉴 정보들
+	 * @return update_result : 주문 수정 Query 결과
 	 */
 	@Override
 	public int updateStoreOrder(Map<String, String> trData) {
-		int update_result = 0;
-		update_result = this.sqlSession.update(
+		int update_result = this.sqlSession.update(
 				sqlSessionPath + "updateStoreOrder"
-				,trData
-		);
+				, trData);
 		
 		return update_result;
 	}
 	
 	/**
-	 * 주문 수정 추가
-	 * @param trData : 주문 수정을 위해 사용하는 Map
-	 * @return insert_order_menu : 주문 수정 적용 개수
+	 * 주문 메뉴 추가 처리함
+	 * @param trData : 메뉴 정보들
+	 * @return insert_order_menu : 주문 추가 Query 결과
 	 */
 	@Override
 	public int insertOrderMenu(Map<String, String> trData) {
-		int insert_order_menu = 0;
-		insert_order_menu = this.sqlSession.insert(
+		int insert_order_menu = this.sqlSession.insert(
 				sqlSessionPath + "insertOrderMenu"
-				,trData
-		);
+				, trData);
 		
 		return insert_order_menu;
 	}
 	
 	/**
-	 * 가게 주문 삭제
-	 * @param orderDTO : 주문 삭제를 위해 사용하는 DTO
-	 * @return delete_result : 주문 삭제 적용 개수
+	 * 주문 삭제 처리함
+	 * @param trData : 주문 번호들
+	 * @return delete_result : 주문 삭제 Query 결과
 	 */
 	@Override
 	public int deleteStoreOrder(Map<String, String> trData) {
-		int delete_result = 0;
-		delete_result = this.sqlSession.update(
+		int delete_result = this.sqlSession.update(
 				sqlSessionPath + "deleteStoreOrder"
-				,trData
-				
-		);
+				, trData);
 		
 		return delete_result;
 	}
 	
 	/**
-	 * 가게 주문 삭제
-	 * @param orderDTO : 주문 삭제를 위해 사용하는 DTO
-	 * @return delete_result : 주문 삭제 적용 개수
+	 * 주문 메뉴 삭제 처리함
+	 * @param trData : 메뉴 정보들
+	 * @return delete_order_menu : 주문 메뉴 삭제 Query 결과
 	 */
 	@Override
 	public int deleteOrderMenu(Map<String, String> trData) {
-		int delete_order_menu = 0;
-		delete_order_menu = this.sqlSession.delete(
+		int delete_order_menu = this.sqlSession.delete(
 				sqlSessionPath + "deleteOrderMenu"
-				,trData
-		);
+				, trData);
 		
 		return delete_order_menu;
 	}
 	
+	/**
+	 * 성별 주문 차트 데이터를 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return gender_chart : 성별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getGenderData(String s_id) {
 		List<Map<String,String>> gender_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getGenderData"
-				,s_id
-		);
+				, s_id);
 		
 		return gender_chart;
 	}
 	
+	/**
+	 * 남자별 주문 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return gender_chart_m : 남자별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> gender_chart_m = this.sqlSession.selectList(
 				sqlSessionPath + "getGenderData_M"
-				,chart_search_DTO
-		);
+				, chart_search_DTO);
 		
 		return gender_chart_m;
 	}
-	
+
+	/**
+	 * 여자별 주문 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return gender_chart_w : 여자별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> gender_chart_w = this.sqlSession.selectList(
 				sqlSessionPath + "getGenderData_W"
@@ -195,90 +229,143 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return gender_chart_w;
 	}
-	
+
+	/**
+	 * 나이별 주문 차트 데이터를 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return age_chart : 나이별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getAgeData(String s_id) {
 		List<Map<String,String>> age_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getAgeData"
-				,s_id
-		);
+				, s_id);
 		
 		return age_chart;
 	}
-	
+
+	/**
+	 * 나이별 주문 메뉴 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return age_menu_chart : 나이별 주문 메뉴 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getAgeMenuData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> age_menu_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getAgeMenuData"
-				,chart_search_DTO
-		);
+				, chart_search_DTO);
 		
 		return age_menu_chart;
 	}
-	
+
+	/**
+	 * 월별 주문 차트 데이터를 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return month_chart : 월별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getMonthData(String s_id) {
 		List<Map<String,String>> month_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getMonthData"
-				,s_id
-		);
+				, s_id);
 		
 		return month_chart;
 	}
-	
+
+	/**
+	 * 월별  주문 메뉴 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return month_menu_chart : 월별  주문 메뉴 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getMonthMenuData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> month_menu_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getMonthMenuData"
-				,chart_search_DTO
-		);
+				, chart_search_DTO);
 		
 		return month_menu_chart;
 	}
-	
-	public List<OrderDTO> getOrderList(OrderSearchDTO ordersearchDTO){
+
+	/**
+	 * 주문 차트 데이터를 가져옴
+	 * @param order_searchDTO : 주문 검색 DTO
+	 * @return order_list : 주문 리스트
+	 */
+	@Override
+	public List<OrderDTO> getOrderList(OrderSearchDTO order_searchDTO){
 		List<OrderDTO> order_list = this.sqlSession.selectList(
 				sqlSessionPath + "getOrderList_analy"
-				,ordersearchDTO);
+				, order_searchDTO);
 		
 		return order_list;
 	}
-	
+
+	/**
+	 * 시간별 주문 차트 데이터를 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return hour_chart : 시간별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getHourData(String s_id) {
 		List<Map<String,String>> hour_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getHourData"
-				,s_id
-		);
+				, s_id);
 		
 		return hour_chart;
 	}
-	
+
+	/**
+	 * 분기별 주문 차트 데이터를 가져옴
+	 * @param s_id : 사용자 아이디
+	 * @return quarter_chart : 분기별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getQuarterData(String s_id) {
 		List<Map<String,String>> quarter_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getQuarterData"
-				,s_id
-		);
+				, s_id);
 		
 		return quarter_chart;
 	}
+
+	/**
+	 * 분기별 주문 메뉴 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return quarter_menu_chart : 분기별 주문 메뉴 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getQuarterMenuData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> quarter_menu_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getQuarterMenuData"
-				,chart_search_DTO
-		);
+				, chart_search_DTO);
 		
 		return quarter_menu_chart;
 	}
-	
+
+	/**
+	 * 주별 주문 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return week_chart : 주별 주문 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> week_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getWeekData"
-				,chart_search_DTO
-		);
+				, chart_search_DTO);
 		
 		return week_chart;
 	}
+
+	/**
+	 * 주별 주문 메뉴 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return week_menu_chart : 주별 주문 메뉴 차트 데이터
+	 */
+	@Override
 	public List<Map<String, String>> getWeekMenuData(ChartSearchDTO chart_search_DTO) {
 		List<Map<String,String>> week_menu_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getWeekMenuData"
-				,chart_search_DTO
-		);
+				, chart_search_DTO);
 		
 		return week_menu_chart;
 	}

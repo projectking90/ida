@@ -5,7 +5,6 @@
 package system.ida.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,16 @@ public class CustomerDAOImpl implements CustomerDAO {
 	/**
 	 * 메소드 선언
 	 */
-
+	/**
+	 * 고객 정보를 가져옴
+	 * @param customer_SearchDTO : 고객 검색 DTO
+	 * @return customer_list : 고객 정보 리스트
+	 */
 	@Override
-	public List<CustomerDTO> getCustomerList(CustomerSearchDTO customer_SearchDTO) {
+	public List<CustomerDTO> getCustomerList(CustomerSearchDTO customer_searchDTO) {
 		List<CustomerDTO> customer_list = this.sqlSession.selectList(
-			"system.ida.dao.CustomerDAO.getCustomerList"
-			,customer_SearchDTO
-			);
+				sqlSessionPath + "getCustomerList"
+				, customer_searchDTO);
 		
 		return customer_list;
 	}

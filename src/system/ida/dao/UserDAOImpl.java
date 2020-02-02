@@ -29,8 +29,8 @@ public class UserDAOImpl implements UserDAO {
 	 */
 	/**
 	 * 사용자가 입력한 로그인 정보의 존재 개수를 가져옴
-	 * @param userDTO : 사용자 정보를 담은 DTO
-	 * @return login_cnt : 사용자 정보가 데이터베이스에 존재하는 개수
+	 * @param userDTO : 사용자 정보 DTO
+	 * @return login_cnt : 사용자 정보 존재 개수
 	 */
 	@Override
 	public int getLoginCnt(UserDTO userDTO) {
@@ -40,10 +40,11 @@ public class UserDAOImpl implements UserDAO {
 		
 		return login_cnt;
 	}
+	
 	/**
 	 * 사용자가 입력한 로그인 정보의 존재 개수를 가져옴
-	 * @param userDTO : 사용자 정보를 담은 DTO
-	 * @return login_cnt : 사용자 정보가 데이터베이스에 존재하는 개수
+	 * @param user_updateDTO : 변경하려는 사용자 정보 DTO
+	 * @return login_cnt : 사용자 정보 존재 개수
 	 */
 	@Override
 	public int getLoginCnt(UserUpdateDTO user_updateDTO) {
@@ -56,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
 
 	/**
 	 * 아이디 존재 여부를 확인
-	 * @param userDTO : 사용자 정보를 담은 DTO
+	 * @param userDTO : 사용자 정보 DTO
 	 * @return id_cnt : 아이디 존재 개수
 	 */
 	@Override
@@ -70,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 
 	/**
 	 * 주소 코드를 가져옴
-	 * @param userDTO : 사용자 정보를 담은 DTO
+	 * @param userDTO : 사용자 정보 DTO
 	 * @return addr_code : 주소 코드
 	 */
 	@Override
@@ -84,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
 
 	/**
 	 * 주소 코드를 가져옴
-	 * @param user_updateDTO : 변경하려는 사용자 정보를 담은 DTO
+	 * @param user_updateDTO : 변경하려는 사용자 정보 DTO
 	 * @return addr_code : 주소 코드
 	 */
 	@Override
@@ -98,8 +99,8 @@ public class UserDAOImpl implements UserDAO {
 
 	/**
 	 * 사용자 회원가입
-	 * @param userDTO : 사용자 정보를 담은 DTO
-	 * @return insert_cnt : 회원가입 성공 개수
+	 * @param userDTO : 사용자 정보 DTO
+	 * @return insert_cnt : 회원가입 Query 결과
 	 */
 	@Override
 	public int insertRegUser(UserDTO userDTO) {
@@ -113,22 +114,21 @@ public class UserDAOImpl implements UserDAO {
 	/**
 	 * 사용자 정보를 가져옴
 	 * @param s_id : 아이디
-	 * @return user_updateDTO : 회원정보를 수정하려는 사용자 정보
+	 * @return user_updateDTO : 사용자 정보
 	 */
 	@Override
 	public UserUpdateDTO getUserInfo(String s_id) {
 		UserUpdateDTO user_updateDTO = this.sqlSession.selectOne(
 				sqlSessionPath + "getUserInfo"
-				, s_id
-				);
+				, s_id);
 		
 		return user_updateDTO;
 	}
 
 	/**
 	 * 회원정보를 수정
-	 * @param user_updateDTO : 회원정보를 수정하려는 사용자 정보
-	 * @return updateCnt : 회원정보 수정 결과
+	 * @param user_updateDTO : 변경하려는 사용자 정보 DTO
+	 * @return updateCnt : 회원정보 수정 Query 결과
 	 */
 	@Override
 	public int updateUserInfo(UserUpdateDTO user_updateDTO) {
