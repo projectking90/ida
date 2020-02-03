@@ -14,16 +14,6 @@ function getChartData(cr, chart_search){
 			
 			if($("[name=chart_search]").val() == '성별'){
 				drawdoubleBarChart(chart_data);
-			}else if($("[name=chart_search]").val() == '나이대'){
-				drawPieChart(chart_data);
-			}else if($("[name=chart_search]").val() == '주'){
-				drawAreaChart(chart_data);
-			}else if($("[name=chart_search]").val() == '월'){
-				drawAreaChart(chart_data);
-			}else if($("[name=chart_search]").val() == '시간'){
-				drawAreaChart(chart_data);
-			}else if($("[name=chart_search]").val() == '분기'){
-				drawAreaChart(chart_data);
 			}
 		}
 		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정

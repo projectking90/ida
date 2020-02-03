@@ -55,7 +55,7 @@
 			<tr style="cursor:pointer" class="ingredient_list_tr" onClick="goIngredientDetailForm(${ingredient.i_no});">
 					<td align=center>${loopTagStatus.index+1}
 					<input type="hidden" name="i_no" value="${ingredient.i_no}">
-					<input type="hidden" value="${ingredient.s_no}">
+					<input type="hidden" name="s_no" value="${ingredient.s_no}">
 					<td align=center>${ingredient.ia_name}</td>
 					<td align=center>${ingredient.ib_name}</td>
 					<td align=center>${ingredient.io_name}</td>

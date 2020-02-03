@@ -132,33 +132,6 @@ public class IngredientDAOImpl implements IngredientDAO {
 	 */
 
 	
-	
-	@Override
-	public int getInsertedIngredientCnt(IngredientDTO ingredientDTO) {
-		int inserted_ingredient_cnt = this.sqlSession.selectOne(
-			sqlSessionPath+"getInsertedIngredientCnt"
-			,ingredientDTO
-		);
-		return inserted_ingredient_cnt;
-	}
-
-	@Override
-	public int getInsertedIngredientIsDelCnt(IngredientDTO ingredientDTO) {
-		int inserted_ingredient_cnt = this.sqlSession.selectOne(
-			sqlSessionPath+"getInsertedIngredientIsDelCnt"
-			,ingredientDTO
-		);
-		return inserted_ingredient_cnt;
-	}
-
-	@Override
-	public int getInsertedIngredientIsDelUp(IngredientDTO ingredientDTO) {
-		int inserted_ingredient_is_del_up = this.sqlSession.update(
-			sqlSessionPath+"getInsertedIngredientIsDelUp"
-			,ingredientDTO
-				);
-		return inserted_ingredient_is_del_up;
-	}
 
 	@Override
 	public int insertIngredientRecord(IngredientDTO ingredientDTO) {
@@ -209,21 +182,52 @@ public class IngredientDAOImpl implements IngredientDAO {
 
 	@Override
 	public int updateIngredientRecord(IngredientDTO ingredientDTO) {
-		int update_ingredient_record  = this.sqlSession.update(
+		int update_ingredient_record_cnt  = this.sqlSession.update(
 			sqlSessionPath+"updateIngredientRecord"
 			,ingredientDTO
 		);
-		return update_ingredient_record;
+		return update_ingredient_record_cnt;
+	}
+
+
+
+	@Override
+	public int insertIngredientAllergie(IngredientDTO ingredientDTO) {
+		int insert_ingredient_allergie_cnt = this.sqlSession.insert(
+			sqlSessionPath+"insertIngredientAllergie"
+			,ingredientDTO
+		);
+		return insert_ingredient_allergie_cnt;
 	}
 
 	@Override
-	public int getInsertedIngredientPriceCnt(IngredientDTO ingredientDTO) {
-		int ingredient_price_cnt = this.sqlSession.selectOne(
-			sqlSessionPath+"getInsertedIngredientPriceCnt"
+	public int getInsertedIngredientCnt(IngredientDTO ingredientDTO) {
+		int inserted_ingredient_cnt = this.sqlSession.selectOne(
+			sqlSessionPath+"getInsertedIngredientCnt"
 			,ingredientDTO
+			
 		);
-		return ingredient_price_cnt;
+		return inserted_ingredient_cnt;
 	}
+
+	@Override
+	public List<Map<String, String>> getAllQuarterIngredientData() {
+		List<Map<String, String>> all_quarter_ingredient_chart = this.sqlSession.selectList(
+				sqlSessionPath+"getAllQuarterIngredientData"
+		);
+		return all_quarter_ingredient_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterIngredientData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String, String>> quarter_ingredient_chart = this.sqlSession.selectList(
+			sqlSessionPath+"getQuarterIngredientData"
+			,chart_searchDTO
+		);
+		return quarter_ingredient_chart;
+	}
+
+
 	
 	
 

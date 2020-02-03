@@ -30,7 +30,12 @@
 			$("[name=year]").change(function(){
 				getChartData("${cr}", ("[name=chart_search]").val(), $("[name=week]:checked").val(), $("[name=month]").val(), $(this).val());
 			});
+			
+			$("[name=quarter]").change(function(){
+				getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("[name=month]").val(),  $("[name=year]").val(), $(this).val());
+			});
 
+			
 			$(".i_table").click(function(){
 				location.replace("${cr}/ingredient_analysis_form.ida");
 			});

@@ -17,7 +17,8 @@ public class ChartSearchDTO {
 	private String week;
 	private String month;
 	private String year;
-	
+	private String quarter;
+	private String age;
 	
 	public String getS_id() {
 		return s_id;
@@ -49,6 +50,19 @@ public class ChartSearchDTO {
 	public void setYear(String year) {
 		this.year = year;
 	}
+	public String getQuarter() {
+		return quarter;
+	}
+	public void setQuarter(String quarter) {
+		this.quarter = quarter;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
+	}
+
 	
 	
 	

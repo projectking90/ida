@@ -170,6 +170,12 @@ public class IngredientController {
 
 		try {
 			ingredient_update_cnt = this.ingredientService.updateIngredient(ingredientDTO);
+			if(ingredient_update_cnt!=0) {
+
+				int ingredient_record_update_cnt = 0;
+
+				ingredient_record_update_cnt = this.ingredientService.updateIngredientRecord(ingredientDTO);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return -1;
@@ -237,6 +243,7 @@ public class IngredientController {
 	public ModelAndView goIngredientAnalysisForm(IngredientSearchDTO ingredient_searchDTO, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
+		mav.setViewName(path + "ingredient_analysis_form");
 		try {
 			String s_id = (String) session.getAttribute("s_id");
 
@@ -244,8 +251,8 @@ public class IngredientController {
 
 			List<IngredientDTO> ingredient_anl_list = this.ingredientService.getIngAnlList(ingredient_searchDTO);
 
+			mav.addObject("ingredient_searchDTO",ingredient_searchDTO);
 			mav.addObject("ingredient_anl_list", ingredient_anl_list);
-			mav.setViewName(path + "ingredient_analysis_form");
 		} catch (Exception e) { // try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goIngredientAnalysisForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -283,17 +290,26 @@ public class IngredientController {
 	 */
 	@RequestMapping(value = "/ingredeint_analysis_chart.ida")
 	@ResponseBody
-	public ChartDTO getIngredientChartData(ChartSearchDTO chart_searchDTO, HttpSession session,
-			@RequestParam(value = "chart_search") String chart_search,
-			@RequestParam(value = "chart_cnt") String chart_cnt, @RequestParam(value = "week") String week,
-			@RequestParam(value = "month") String month, @RequestParam(value = "year") String year) {
+	public ChartDTO getIngredientChartData(
+			ChartSearchDTO chart_searchDTO
+			,HttpSession session
+			,@RequestParam(value = "chart_search", required=false) String chart_search
+			,@RequestParam(value = "chart_cnt", required=false) String chart_cnt
+			,@RequestParam(value = "week", required=false) String week
+			,@RequestParam(value = "month", required=false) String month
+			,@RequestParam(value = "year", required=false) String year
+			,@RequestParam(value = "quarter", required=false) String quarter
+			) {
 		ChartDTO chart_data = new ChartDTO(); // 데이터베이스에 Query 실행 후 결과를 저장
 
 		try {
 			String s_id = (String) session.getAttribute("s_id");
 			chart_searchDTO.setS_id(s_id);
 			chart_searchDTO.setChart_cnt(chart_cnt);
-
+			
+			
+			
+			
 			List<String> label = new ArrayList<String>();
 			List<String> data1 = new ArrayList<String>();
 			List<String> dataset = new ArrayList<String>();
@@ -327,7 +343,36 @@ public class IngredientController {
 			} else if (chart_search.equals("시간")) {
 
 			} else if (chart_search.equals("분기")) {
-
+				chart_searchDTO.setQuarter(quarter);
+				
+				//pie chart
+				List<Map<String,String>> all_quarter_ingredient_chart = this.ingredientService.getAllQuarterIngredientData();
+				System.out.println(all_quarter_ingredient_chart);
+				
+				for(int i=0; i<all_quarter_ingredient_chart.size(); i++) {
+					label.add(all_quarter_ingredient_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<all_quarter_ingredient_chart.size(); i++) {
+					data1.add(all_quarter_ingredient_chart.get(i).get("DATA"));
+				}
+				
+				List<String> label2 = new ArrayList<String>();
+				List<String> data2 = new ArrayList<String>();
+				
+				// Bar chart
+				List<Map<String,String>> quarter_ingredient_chart = this.ingredientService.getQuarterIngredientData(chart_searchDTO);
+				System.out.println(quarter_ingredient_chart);
+				
+				for(int i=0; i<quarter_ingredient_chart.size(); i++) {
+					label2.add(quarter_ingredient_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<quarter_ingredient_chart.size(); i++) {
+					data2.add(quarter_ingredient_chart.get(i).get("DATA"));
+				}
+				dataset.add(quarter_ingredient_chart.get(0).get("DATASET"));
+				
+				chart_data.setLabel2(label2);
+				chart_data.setData2(data2);
 			}
 			chart_data.setDataset(dataset);
 			chart_data.setLabel(label);

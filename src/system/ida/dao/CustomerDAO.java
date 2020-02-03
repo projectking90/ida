@@ -6,7 +6,9 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.CustomerDTO;
 import system.ida.dto.CustomerSearchDTO;
 
@@ -25,4 +27,20 @@ public interface CustomerDAO {
 	 * 메소드 선언
 	 */
 	List<CustomerDTO> getCustomerList(CustomerSearchDTO customer_SearchDTO);
+
+	List<Map<String, String>> getGenderData(String s_id);
+	
+	List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO);
+	
+	List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO);
+
+	List<Map<String, String>> getAgeData(String s_id);
+
+	List<Map<String, String>> getMonthData(String s_id);
+
+	List<Map<String, String>> getHourData(String s_id);
+
+	List<Map<String, String>> getQuarterData(String s_id);
+
+	List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO);
 }

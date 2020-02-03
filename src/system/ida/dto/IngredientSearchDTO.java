@@ -17,7 +17,9 @@ public class IngredientSearchDTO {
 	private String[] date;
 	private int select_page_no=1;
 	private int rowCntPerPage=10;
+	private int s_no;
 	private String s_id;
+	private String[] search_condition;
 	/**
 	 * 생성자 선언
 	 */
@@ -56,4 +58,19 @@ public class IngredientSearchDTO {
 	public void setS_id(String s_id) {
 		this.s_id = s_id;
 	}
+	public String[] getSearch_condition() {
+		return search_condition;
+	}
+	public void setSearch_condition(String[] search_condition) {
+		this.search_condition = search_condition;
+	}
+	public int getS_no() {
+		return s_no;
+	}
+	public void setS_no(int s_no) {
+		this.s_no = s_no;
+	}
+	
+	
+	
 }

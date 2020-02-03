@@ -7,6 +7,7 @@
 			<if test="keyword!=null and keyword.length()>0">
 					and (
 						upper(i_no) like upper('%${keyword}%')
+						upper(s_no) like upper('%${keyword}%')
 						<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
 						or upper(ia_name) like upper('%${keyword}%')
 						or upper(ib_name) like upper('%${keyword}%')
@@ -16,6 +17,32 @@
 						or upper(i_price) like upper('%${keyword}%')
 						or upper(reg_date) like upper('%${keyword}%')	
 					)
+			</if>
+			<if test="search_condition!=null and search_condition.length>0">
+			and
+			<!-- ================================================ -->
+			<!-- [mybatis foreach 반복문]의 속성 설명 -->
+			<!-- ================================================ -->
+			<!-- collection="배열/List 객체의 속성변수명" -->
+			<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
+			<!-- open="반복문 시작 전에 삽입할 문자" -->
+			<!-- close="반복문 끝난 후에 삽입할 문자" -->
+			<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
+			<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
+			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">
+				<if test="xxx.equals('week')">
+					to_char(sysdate,'ww') = to_char(reg_date,'ww')
+				</if>
+				<if test="xxx.equals('month')">
+					to_char(sysdate,'YYYYMM') = to_char(reg_date,'YYYYMM')
+				</if>					
+				<if test="xxx.equals('hour')">
+					to_char(sysdate,'YYYYMMDDHH') = to_char(reg_date,'YYYYMMDDHH')
+				</if>					
+				<if test="xxx.equals('quarter')">
+					to_char(sysdate,'Q') = to_char(reg_date,'Q')
+				</if>
+			</foreach>
 			</if>
 	</sql>
 	
@@ -30,7 +57,7 @@
 			,i.i_name as  "i_name"
 			,i.i_size as  "i_size"
 			,to_char(i.i_price, '9,999,999,999')  as  "i_price"
-			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
+			,to_char(i.reg_date,'YYYY-MM-DD(dy) HH12:MI:SS') as   "reg_date"
 			,i.is_del   as  "is_del"
 			
 		from ingredient i 
@@ -108,6 +135,29 @@
 		)
 	</insert>
 	
+	
+	<insert id="insertIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
+		insert into ingredient_record(
+			i_no
+			,i_price
+		) values (
+			(select nvl(max(i_no),0)+1 from ingredient_record where i_no=${i_no})
+			,to_number(${i_price}, 9999999999)
+		)
+	</insert>
+	
+	<insert id="insertIngredientAllergie" parameterType="system.ida.dto.IngredientDTO">
+		insert into ingredient_allergie(
+			i_no
+			,a_code
+		) values(
+			(select nvl(max(i_no),0)+1 from ingredient_allergie where i_no=${i_no})
+			,${a_code}
+		
+		)
+		
+	</insert>
+	
 	<!-- 식자재 update -->
 	<update id="updateIngredient" parameterType="system.ida.dto.IngredientDTO">
 		update ingredient set
@@ -119,6 +169,17 @@
 		,i_price = to_number(${i_price}, 9999999999)
 		where i_no = ${i_no}
 	</update>
+	
+	<insert id="updateIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
+		insert into ingredient_record(
+			i_no
+			,i_price
+		) values (
+			${i_no}
+			,to_number(${i_price}, 9999999999)
+		)
+	
+	</insert>
 	
 	<!-- 식자재 삭제  -->
 	<update id="deleteIngredient" parameterType="hashmap">
@@ -136,53 +197,7 @@
 		where is_del = 'F'
 	</select>
 	
-	<select id="getInsertedIngredientIsDelCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
-		select 
-			count(*)
-		from ingredient 
-		where is_del = 'T'
-	</select>
 	
-	<update id="getInsertedIngredientIsDelUp" parameterType="system.ida.dto.IngredientDTO">
-		update
-			ingredient
-		set
-			is_del='F'
-			,i_price =${i_price}
-		where
-			is_del='T'
-			and i_no = ${i_no}
-	</update>
-	
-	<insert id="insertIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
-		insert into ingredient_record(
-			i_no
-			,i_price
-		) values (
-			(select nvl(max(i_no),0)+1 from ingredient)
-			,to_number(${i_price}, 9999999999)
-		)
-	</insert>
-	
-	<select id="getInsertedIngredientPriceCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
-	select
-		i_price
-	from
-		ingredient
-	where i_no = ${i_no}
-	</select>
-	
-	
-	<insert id="updateIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
-		insert into ingredient_record(
-			i_no
-			,i_price
-		) values (
-			${i_no}
-			,to_number(${change_i_price}, 9999999999)
-		)
-	
-	</insert>
 
 
 	
@@ -305,9 +320,25 @@
             order by nvl(www.i_price,0) desc, 2, 1              
           ) iiii     
         where <![CDATA[ rownum<=${chart_cnt}]]>          
+	</select>
 	
 	
 	
+	<select id="getAllQuarterIngredientData" resultType="hashmap">
+		select 
+		    q.quarter||'분기' "LABEL", 
+		    nvl(sum(ir.i_price),0)||''  "DATA"
+		from 
+		    ingredient_record ir,
+		    (
+		    select '1' "QUARTER" from dual
+		    union select '2' from dual
+		    union select '3' from dual
+		    union select '4' from dual
+		    )  q                 
+		where q.quarter=to_char(ir.reg_date(+),'Q') and to_char(ir.reg_date(+),'YYYY')=to_char(sysdate,'YYYY')-1
+		group by q.quarter
+		order by 1
 	
 	</select>
 
@@ -321,7 +352,7 @@
 			,i.i_name as  "i_name"
 			,i.i_size as  "i_size"
 			,to_char(i.i_price, '9,999,999,999')  as  "i_price"
-			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
+			,to_char(i.reg_date,'YYYY-MM-DD(dy) hh12:mi:ss') as   "reg_date"
 			,i.is_del   as  "is_del"
 			
 		from ingredient i 

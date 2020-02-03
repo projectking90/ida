@@ -24,19 +24,19 @@
 					<ol class="breadcrumb"></ol>
 			
 					<table><tr height=10><td></table>
-						
-					<div class="text">
-						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+				<div class="text-center">
+						<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="ingredientAnalysisForm" 
+						method="post" action="${cr}/ingredient_analysis_form.ida">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-								<button class="btn btn-primary" type="button">
+								<input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+								
+								<button class="btn btn-primary list" type="button">
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
-						</form>
+					<table><tr height=10><td></table>
 					</div>
 					
-					<table><tr height=10><td></table>
 					
 					<!-- DataTables Example -->
 					<div class="card mb-3">
@@ -46,15 +46,16 @@
 								<button type="button" class="btn btn-primary i_chart">식자재 차트</button>
 							</span>
 						</div>
+								<div class="text-right">
+									<input type="checkbox" value="week" name="search_condition"><b>주</b>&nbsp;
+									<input type="checkbox" value="month" name="search_condition"><b>월</b>&nbsp;
+									<input type="checkbox" value="hour" name="search_condition"><b>시간</b>&nbsp;
+									<input type="checkbox" value="quarter" name="search_condition"><b>분기</b>
+								</div>
+							</form>
 						
 						<div class="card-body">
 							<div class="table-responsive">
-								<div class="text-right">
-									<input type="checkbox" value="주"><b>주</b>&nbsp;
-									<input type="checkbox" value="월"><b>월</b>&nbsp;
-									<input type="checkbox" value="시간"><b>시간</b>&nbsp;
-									<input type="checkbox" value="분기"><b>분기</b>
-								</div>
 								<table class="table" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
@@ -75,7 +76,7 @@
 											<tr>
 												<td align=center>${loopTagStatus.index+1}
 												<input type="hidden" name="i_no" value="${ingredient_anl_list.i_no}">
-												<input type="hidden" value="${ingredient_anl_list.s_no}">
+												<input type="hidden" name="s_no" value="${ingredient_anl_list.s_no}">
 												<td align=center>${ingredient_anl_list.ia_name}</td>
 												<td align=center>${ingredient_anl_list.ib_name}</td>
 												<td align=center>${ingredient_anl_list.io_name}</td>

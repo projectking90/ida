@@ -145,31 +145,33 @@ public class IngredientServiceImpl implements IngredientService {
 
 	@Override
 	public int updateIngredient(IngredientDTO ingredientDTO) {
-		int ingredient_inserted_i_price_cnt = this.ingredientDAO.getInsertedIngredientPriceCnt(ingredientDTO);
-		
-		int ingredient_update_cnt =0;
-		
-		int update_i_pirce= ingredientDTO.getI_price();
-		int change_i_price= update_i_pirce;
-		if(change_i_price!=0) {
-			int getIsDelIngredientCnt = this.ingredientDAO.getInsertedIngredientIsDelCnt(ingredientDTO);
-			if(getIsDelIngredientCnt==0) {
-				ingredient_update_cnt = this.ingredientDAO.updateIngredient(ingredientDTO);
-				
-				ingredientDTO.setI_price(change_i_price);
-				int ingredient_update_record_cnt = this.ingredientDAO.updateIngredientRecord(ingredientDTO);
-				if(ingredient_update_record_cnt ==1 && ingredient_update_cnt==1 ) {
-					return ingredient_update_cnt;
-				}else {
-					return -1;
-				}
-			}else {
-				return -2;
-			}
-		}
-		
+		int ingredient_update_cnt = this.ingredientDAO.updateIngredient(ingredientDTO);
 		return ingredient_update_cnt;
 	}
-		
+
+	@Override
+	public int updateIngredientRecord(IngredientDTO ingredientDTO) {
+		int ingredient_update_cnt = this.ingredientDAO.updateIngredientRecord(ingredientDTO);
+		return ingredient_update_cnt;
+	}
+
+	@Override
+	public int insertIngredientAllergie(IngredientDTO ingredientDTO) {
+		int ingredient_allergie_insert_cnt = this.ingredientDAO.insertIngredientAllergie(ingredientDTO);
+		return ingredient_allergie_insert_cnt;
+	}
+
+
+	@Override
+	public List<Map<String, String>> getAllQuarterIngredientData() {
+		List<Map<String, String>> all_quarter_ingredient_chart = this.ingredientDAO.getAllQuarterIngredientData();
+		return all_quarter_ingredient_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterIngredientData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String, String>>  quarter_ingredient_chart = this.ingredientDAO.getQuarterIngredientData(chart_searchDTO);
+		return quarter_ingredient_chart;
+	}
 	
 }

@@ -30,6 +30,11 @@ function insert_ing_reg(cr) {
 		$("[name=i_price]").focus();
 		return;
 	}
+	if(is_empty("[name=insertIngForm] [name=a_code]")){
+		alert("알레르기를 체크해주시기 바랍니다.");
+		$("[name=a_code]").focus();
+		return;
+	}
 	
 	$("[name=insertIngForm] [name='i_price']").val(withoutComma($("[name=insertIngForm] [name='i_price']").val()));
 	

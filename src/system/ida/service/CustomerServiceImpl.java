@@ -5,12 +5,14 @@
 package system.ida.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.CustomerDAO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.CustomerDTO;
 import system.ida.dto.CustomerSearchDTO;
 
@@ -35,5 +37,53 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerDTO> getCustomerList(CustomerSearchDTO Customer_SearchDTO) {
 		List<CustomerDTO> customer_list = this.customerDAO.getCustomerList(Customer_SearchDTO);
 		return customer_list;
+	}
+
+	@Override
+	public List<Map<String, String>> getGenderData(String s_id) {
+		List<Map<String, String>> customer_gender_chart = this.customerDAO.getGenderData(s_id);
+		return customer_gender_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getAgeData(String s_id) {
+		List<Map<String, String>> customer_age_chart = this.customerDAO.getAgeData(s_id);
+		return customer_age_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthData(String s_id) {
+		List<Map<String, String>> customer_month_chart = this.customerDAO.getMonthData(s_id);
+		return customer_month_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getHourData(String s_id) {
+		 List<Map<String, String>> customer_hour_chart = this.customerDAO.getHourData(s_id);
+		return customer_hour_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterData(String s_id) {
+		List<Map<String, String>> customer_quarter_chart = this.customerDAO.getQuarterData(s_id);
+		return customer_quarter_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String, String>> customer_week_chart = this.customerDAO.getWeekData(chart_search_DTO);
+		return customer_week_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO) {
+		List<Map<String, String>> customer_gender_chart_m = this.customerDAO.getGenderData_M(chart_search_DTO);
+		return customer_gender_chart_m;
+	}
+
+	@Override
+	public List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO) {
+		List<Map<String, String>> customer_gender_chart_w = this.customerDAO.getGenderData_W(chart_search_DTO);
+		return customer_gender_chart_w;
 	}
 }

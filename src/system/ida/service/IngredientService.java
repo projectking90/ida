@@ -34,12 +34,17 @@ public interface IngredientService {
 	List<Code_IngredientBetaDTO> getCodeIngBeta();						//식자재 소분류를 가져오는 메소드
 	List<Code_IngredientOriginDTO> getCodeIngOrigin();					//식자재 원산지를 가져오는 메소드
 	List<Code_IngredientAllergieDTO> getCodeIngAllergie();				//식자재 알레르기 가져오는 메소드
+	
 	int insertIngredient(IngredientDTO ingredientDTO);					//식자재 추가 메소드
+	int insertIngredientAllergie(IngredientDTO ingredientDTO);
 	int updateIngredient(IngredientDTO ingredientDTO);			//식자재 수정 메소드
 	int deleteIngredient(ArrayList<String> ingredient_delete);			//식자재 삭제 메소드
+	int updateIngredientRecord(IngredientDTO ingredientDTO);
 
 	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
 	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
 	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
+	List<Map<String,String>> getAllQuarterIngredientData();
+	List<Map<String,String>> getQuarterIngredientData(ChartSearchDTO chart_searchDTO);
 	IngredientDTO getIngredientDTO(int i_no);
 }

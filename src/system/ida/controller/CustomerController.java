@@ -4,15 +4,21 @@
  */
 package system.ida.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import system.ida.dto.ChartDTO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.CustomerDTO;
 import system.ida.dto.CustomerSearchDTO;
 import system.ida.service.CustomerService;
@@ -100,4 +106,55 @@ public class CustomerController {
 		
 		return mav;
 	}
+
+@RequestMapping(value="/customer_analysis_chart.ida")
+@ResponseBody
+public ChartDTO getCustomerChartData(
+		HttpSession session
+		, @RequestParam(value="chart_search") String chart_search
+		, @RequestParam(value="chart_cnt") String chart_cnt
+		,@RequestParam(value="age") String age) {
+	ChartDTO chart_data = new ChartDTO();	// 데이터베이스에 Query 실행 후 결과를 저장
+	ChartSearchDTO chart_search_DTO  = new ChartSearchDTO();
+	try {
+		String s_id = (String)session.getAttribute("s_id");
+		chart_search_DTO.setChart_cnt(chart_cnt);
+		chart_search_DTO.setS_id(s_id);
+		chart_search_DTO.setAge(age);
+		
+
+			
+		if (chart_search.equals("성별")) {
+			List<Map<String,String>> gender_chart = this.customerService.getGenderData(s_id);
+			List<String> label1 = new ArrayList<String>();
+			for(int i=0; i<gender_chart.size(); i++) {
+				label1.add(gender_chart.get(i).get("label"));
+			}
+			List<String> data1 = new ArrayList<String>();
+			for(int i=0; i<gender_chart.size(); i++) {
+				data1.add(gender_chart.get(i).get("data"));
+			}
+			chart_data.setLabel(label1);
+			chart_data.setData1(data1);
+		} else if(chart_search.equals("나이대")) {
+			List<Map<String,String>> age_chart = this.customerService.getAgeData(s_id);
+			List<String> label1 = new ArrayList<String>();
+			
+			for(int i=0; i<age_chart.size(); i++){
+				label1.add(age_chart.get(i).get("label"));
+			}
+			List<String> data1 = new ArrayList<String>();
+			for(int i=0; i<age_chart.size(); i++) {
+				data1.add(age_chart.get(i).get("data"));
+			}
+			chart_data.setLabel(label1);
+			chart_data.setData1(data1);
+		}
+	} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
+		System.out.println("<getCustomerChartData 에러발생>");
+		System.out.println(e.getMessage());
+	}
+	
+	return chart_data;
+}
 }
