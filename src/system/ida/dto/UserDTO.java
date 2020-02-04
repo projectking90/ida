@@ -6,7 +6,7 @@ package system.ida.dto;
 
 /**
  * UserDTO 클래스
- * 사용자 정보를 저장할 DTO
+ * 사용자 정보를 담을 DTO
  * @author Jo
  */
 public class UserDTO {

@@ -3,7 +3,7 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.UserDAO">
-	<!-- 사용자 존재 여부를 가져오는 select 태그 -->
+	<!-- 사용자가 입력한 로그인 정보의 존재 개수를 가져오는 select 태그 -->
 	<select id="getLoginCnt" parameterType="system.ida.dto.UserDTO" resultType="int">
 		select
 			count(s_no)
@@ -24,7 +24,7 @@
 			s_id = #{s_id}
 	</select>
 	
-	<!-- 주소코드를 가져오는 select 태그 -->
+	<!-- 주소 코드를 가져오는 select 태그 -->
 	<select id="getAddrCode" parameterType="system.ida.dto.AddrDTO" resultType="int">
 		select
 			addr_code	as "ADDR_CODE"
@@ -55,7 +55,10 @@
 			, addr_code
 			, addr_detail
 		) values(
-			(select nvl(max(s_no), 0) + 1 from store)
+			(select
+					nvl(max(s_no), 0) + 1
+				from
+					store)
 			, #{s_id}
 			, #{pwd}
 			, #{com_name}
@@ -76,10 +79,30 @@
 			, s.s_reg_num	as "S_REG_NUM"
 			, s.s_phone	as "S_PHONE"
 			, s.email	as "EMAIL"
-			, (select ca.city from code_addr ca where ca.addr_code=s.addr_code)	"CITY"
-			, (select ca.gun from code_addr ca where ca.addr_code=s.addr_code)	"GUN"
-			, (select ca.gu from code_addr ca where ca.addr_code=s.addr_code)	"GU"
-			, (select ca.dong from code_addr ca where ca.addr_code=s.addr_code)	"DONG"
+			, (select
+					ca.city
+				from
+					code_addr ca
+				where
+					ca.addr_code = s.addr_code)	"CITY"
+			, (select
+					ca.gun
+				from
+					code_addr ca
+				where
+					ca.addr_code = s.addr_code)	"GUN"
+			, (select
+					ca.gu
+				from
+					code_addr ca
+				where
+					ca.addr_code = s.addr_code)	"GU"
+			, (select
+					ca.dong
+				from
+					code_addr ca
+				where
+					ca.addr_code = s.addr_code)	"DONG"
 			, s.addr_detail	as "ADDR_DETAIL"
 		from
 			store s
@@ -87,7 +110,7 @@
 			s.s_id = #{s_id}
 	</select>
 	
-	<!-- 회원정보를 수정하는 update 태그 -->
+	<!-- 회원정보를 수정할 update 태그 -->
 	<update id="updateUserInfo" parameterType="system.ida.dto.UserUpdateDTO">
 		update
 			store
@@ -100,7 +123,7 @@
 			, addr_code = #{addr_code}
 			, addr_detail = #{addr_detail}
 			<if test="!newPwd.equals('wLn3W6nd568lPQKBtdZ4tA==')">
-				,pwd = #{newPwd}
+				, pwd = #{newPwd}
 			</if>
 		where
 			s_id = #{s_id}

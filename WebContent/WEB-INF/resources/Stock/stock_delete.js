@@ -1,3 +1,4 @@
+// ******************************** 삭제 *************************
 function stock_delete(cr){
 	var trArr = new Array();
 	$(".stock_list_tr").each(function(index){

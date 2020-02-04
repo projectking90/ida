@@ -3,340 +3,486 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.IngredientDAO">
+	<!-- 검색 조건에 의해서 검색될 sql 태그 -->
 	<sql id="ingredientWhere">
-			<if test="keyword!=null and keyword.length()>0">
-					and (
-						upper(i_no) like upper('%${keyword}%')
-						<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
-						or upper(ia_name) like upper('%${keyword}%')
-						or upper(ib_nafme) like upper('%${keyword}%')
-						or upper(io_name) like upper('%${keyword}%')
-						<!-- ============================= -->
-						or upper(i_size) like upper('%${keyword}%')
-						or upper(i_price) like upper('%${keyword}%')
-						or upper(reg_date) like upper('%${keyword}%')	
-					)
-			</if>
+		<if test="keyword!=null and keyword.length()>0">
+			and (upper(i_no) like upper('%${keyword}%')
+				or upper(ia_name) like upper('%${keyword}%')
+				or upper(ib_nafme) like upper('%${keyword}%')
+				or upper(io_name) like upper('%${keyword}%')
+				or upper(i_size) like upper('%${keyword}%')
+				or upper(i_price) like upper('%${keyword}%')
+				or upper(reg_date) like upper('%${keyword}%'))
+		</if>
+		<if test="search_condition!=null and search_condition.length>0">
+			and
+			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">
+				<if test="xxx.equals('week')">
+					to_char(sysdate,'ww') = to_char(reg_date,'ww')
+				</if>
+				<if test="xxx.equals('month')">
+					to_char(sysdate,'YYYYMM') = to_char(reg_date,'YYYYMM')
+				</if>					
+				<if test="xxx.equals('hour')">
+					to_char(sysdate,'YYYYMMDDHH') = to_char(reg_date,'YYYYMMDDHH')
+				</if>					
+				<if test="xxx.equals('quarter')">
+					to_char(sysdate,'Q') = to_char(reg_date,'Q')
+				</if>
+			</foreach>
+		</if>
 	</sql>
 	
-	<!-- 가게에 등록된 식자재 목록을 가져오는 select 태그 -->
+	<!-- 식자재 목록 리스트 가져오는 select 태그 -->
 	<select id="getIngredientList" parameterType="system.ida.dto.IngredientSearchDTO" resultType="system.ida.dto.IngredientDTO">
 		select
-			i.i_no as "i_no"
-			<!-- ,i.ia_code as "ia_code" -->
-			,(select a.ia_name from code_ingredient_alpha a where a.ia_code=i.ia_code) as  "ia_name"
-			,(select b.ib_name from code_ingredient_beta b where b.ib_code=i.ib_code) as "ib_name"
-			,(select o.io_name from code_ingredient_origin o where o.io_code=i.io_code) as"io_name"
-			,i.i_name as  "i_name"
-			,i.i_size as  "i_size"
-			,to_char(i.i_price, '9,999,999,999')  as  "i_price"
-			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
-			,i.is_del   as  "is_del"
-			
-		from ingredient i 
-		where i.is_del = 'F'
-			and s_no = (select s_no from store where s_id=#{s_id})
+			i.i_no	as "i_no"
+			, (select
+					a.ia_name
+				from
+					code_ingredient_alpha a
+				where
+					a.ia_code = i.ia_code)	as "ia_name"
+			, (select
+					b.ib_name
+				from
+					code_ingredient_beta b
+				where
+					b.ib_code = i.ib_code)	as "ib_name"
+			, (select
+					o.io_name
+				from
+					code_ingredient_origin o
+				where
+					o.io_code = i.io_code)	as"io_name"
+			, i.i_name	as "i_name"
+			, i.i_size	as "i_size"
+			, to_char(i.i_price, '9,999,999,999')	as "i_price"
+			, to_char(i.reg_date, 'YYYY-MM-DD(dy) HH12:MI:SS')	as "reg_date"
+			, i.is_del	as "is_del"
+		from
+			ingredient i
+		where
+			i.is_del = 'F'
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id=#{s_id})
 			<include refid="ingredientWhere"/>
 	</select>
 	
-	<!-- 등록된 식자재의 총 개수를 구하는 select 태그 -->
-	<select id="getIngredientListAllCnt" parameterType="system.ida.dto.IngredientSearchDTO" resultType="int">
-		select
-			count(*)
-		from
-		ingredient
-		where is_del='F'
-		and s_no = (select s_no from store where s_id = #{s_id})
-		<include refid="ingredientWhere"/>
-	</select>
-	
-	
-	<!-- 대분류 목록을 검색하는 select 태그 -->
+	<!-- 식자재 대분류 이름을 검색하는 select 태그 -->
 	<select id='getCodeIngAlpha' resultType="system.ida.dto.Code_IngredientAlphaDTO">
 		select
-			 ia_name as "ia_name"
+			ia_name	as "ia_name"
 		from
 			code_ingredient_alpha
 	</select>
 	
-	<!-- 소분류 목록을 검색하는 select 태그 -->
+	<!-- 식자재 소분류 이름을 검색하는 select 태그 -->
 	<select id='getCodeIngBeta' resultType="system.ida.dto.Code_IngredientBetaDTO">
 		select
-			 ib_name
+			ib_name
 		from
 			code_ingredient_beta
 	</select>
-	
 
-	<!-- 원산지 목록을 검색하는 select 태그 -->
+	<!-- 식자재 원산지 이름을 검색하는 select 태그 -->
 	<select id='getCodeIngOrigin' resultType="system.ida.dto.Code_IngredientOriginDTO">
 		select
-			 io_name
+			io_name
 		from
 			code_ingredient_origin
 	</select>
 	
-	<!-- 알레르기 목록을 검색하는 select 태그 -->
+	<!-- 식자재 알레르기 이름을 검색하는 select 태그 -->
 	<select id='getCodeIngAllergie' resultType="system.ida.dto.Code_IngredientAllergieDTO">
 		select
-			 a_name
+			a_name
 		from
 			code_allergie
 	</select>
 	
-	<!-- 식자재 insert -->
+	<!-- 식자재 추가 처리 할 insert 태그 -->
 	<insert id="insertIngredient" parameterType="system.ida.dto.IngredientDTO">
-	insert 
-		 into ingredient(
+		insert
+			into ingredient(
+				i_no
+				, ia_code
+				, ib_code
+				, io_code
+				, i_name
+				, i_size
+				, i_price
+				, s_no
+			)values(
+				(select
+						nvl(max(i_no), 0) + 1
+					from
+						ingredient)
+				, (select
+						ia_code
+					from
+						code_ingredient_alpha
+					where
+						ia_name = #{ia_name})
+				, (select
+						ib_code
+					from
+						code_ingredient_beta
+					where
+						ib_name = #{ib_name})
+				, (select
+						io_code
+					from
+						code_ingredient_origin
+					where
+						io_name = #{io_name})
+				, #{i_name}
+				, #{i_size}
+				, to_number(#{i_price}, 9999999999)
+				, (select
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
+			)
+	</insert>
+	
+	<!-- 식자재 기록에 추가 처리할 insert 태그 -->
+	<insert id="insertIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
+		insert into ingredient_record (
 			i_no
-			,ia_code
-			,ib_code
-			,io_code
-			,i_name
-			,i_size
-			,i_price
-			,s_no
-		)values(
-			(select nvl(max(i_no),0)+1 from ingredient)
-			,(select ia_code from code_ingredient_alpha where ia_name=#{ia_name})
-			,(select ib_code from code_ingredient_beta where ib_name=#{ib_name})
-			,(select io_code from code_ingredient_origin where io_name=#{io_name})
-			,#{i_name}
-			,#{i_size}
-			,to_number(#{i_price}, 9999999999)
-			,(select s_no from store where s_id=#{s_id})
+			, i_price
+		) values (
+			(select
+					nvl(max(i_no), 0) + 1
+				from
+					ingredient_record
+				where
+					i_no = ${i_no})
+			, to_number(${i_price}, 9999999999)
+		)
+	</insert>
+
+	<!-- 식자재 알레르기 추가 처리할 insert 태그 -->
+	<insert id="insertIngredientAllergie" parameterType="system.ida.dto.IngredientDTO">
+		insert into ingredient_allergie (
+			i_no
+			, a_code
+		) values (
+			(select
+					nvl(max(i_no), 0) + 1
+				from
+					ingredient_allergie
+				where
+					i_no = ${i_no})
+			,${a_code}
 		)
 	</insert>
 	
-	<!-- 식자재 update -->
+	<!-- 식자재 수정 처리할 update 태그 -->
 	<update id="updateIngredient" parameterType="system.ida.dto.IngredientDTO">
-		update ingredient set
-		ia_code=(select ia_code from code_ingredient_alpha where ia_name=#{ia_name})
-		,ib_code=(select ib_code from code_ingredient_beta where ib_name=#{ib_name})
-		,io_code=(select io_code from code_ingredient_origin where io_name=#{io_name})
-		,i_name  = #{i_name}
-		,i_size  = #{i_size}
-		,i_price = to_number(#{i_price}, 9999999999)
+		update
+			ingredient
+		set
+			ia_code = (select
+							ia_code
+						from
+							code_ingredient_alpha
+						where
+							ia_name = #{ia_name})
+			, ib_code = (select
+							ib_code
+						from
+							code_ingredient_beta
+						where
+							ib_name = #{ib_name})
+			, io_code = (select
+							io_code
+						from
+							code_ingredient_origin
+						where
+							io_name=#{io_name})
+			, i_name = #{i_name}
+			, i_size = #{i_size}
+			, i_price = to_number(#{i_price}, 9999999999)
 		where i_no = ${i_no}
 	</update>
 	
-	<!-- 식자재 삭제  -->
+	<!-- 식자재 기록에 수정 처리 insert 태그 -->
+	<insert id="updateIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
+		insert into ingredient_record (
+			i_no
+			, i_price
+		) values (
+			${i_no}
+			, to_number(${i_price}, 9999999999)
+		)
+	</insert>
+	
+	<!-- 식자재 삭제 처리할 update 태그 -->
 	<update id="deleteIngredient" parameterType="hashmap">
-		update ingredient set
-		is_del = 'T'
-		where i_no = ${i_no}
+		update
+			ingredient
+		set
+			is_del = 'T'
+		where
+			i_no = ${i_no}
 	</update>
 	
-	
-	
+	<!-- 식자재 총 개수를 가져올 select 태그 -->
 	<select id="getInsertedIngredientCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
-		select 
+		select
 			count(*)
-		from ingredient 
-		where is_del = 'F'
+		from
+			ingredient 
+		where
+			is_del = 'F'
 	</select>
 	
-	<select id="getInsertedIngredientIsDelCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
-		select 
-			count(*)
-		from ingredient 
-		where is_del = 'T'
-	</select>
-	
+	<!-- 등록되었지만 삭제된 식자재 추가할때 is_del을 'F'로 변경할 update 태그 -->
 	<update id="getInsertedIngredientIsDelUp" parameterType="system.ida.dto.IngredientDTO">
 		update
 			ingredient
 		set
 			is_del='F'
-			,i_price =to_number(#{i_price}, 9999999999)
+			, i_price = to_number(#{i_price}, 9999999999)
 		where
 			is_del='T'
 			and i_no = ${i_no}
 	</update>
 	
-	<insert id="insertIngredientRecord" parameterType="system.ida.dto.IngredientDTO">
-		insert into ingredient_record(
-			i_no
-			,i_price
-		) values (
-			(select nvl(max(i_no),0) from ingredient)
-			,to_number(#{i_price}, 9999999999)
-		)
-	</insert>
-	
+	<!-- 추가된 식자재의 가격 가져올 select 태그 -->
 	<select id="getInsertedIngredientPriceCnt" parameterType="system.ida.dto.IngredientDTO" resultType="int">
 		select
 			i_price
 		from
 			ingredient
-		where i_no = ${i_no}
+		where
+			i_no = ${i_no}
 	</select>
 	
-	<insert id="updateIngredientRecord" parameterType="hashmap">
-		insert into ingredient_record(
-			i_no
-			,i_price
-		) values (
-			${i_no}
-			,to_number(#{change_i_price}, 9999999999)
-		)
-	
-	</insert>
-
-
-	
-<!--  삭제한 식자재 기록하기 
-	<insert id="deleteIngRecord" parameterType="hashmap">
-		insert into ingredient_record(
-			i_no
-			,i_price
-		) values (
-			(select i_no from ingredient where i_no=${i_no} and is_del='T')
-			,to_number(${i_price}, 9999999999)
-		)
-	</insert> -->
-	
+	<!-- 주별 식자재 차트 데이터 가져올 select 태그 -->
 	<select id="getWeekIngredientData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-               select  
-             sss.dataset  "DATASET",  sss.label "LABEL",  nvl(www.i_price,0)||'' "DATA"
-        from
-        (
-           select         distinct
-               ww.week||'주' "DATASET", ss.i_name "LABEL"
-            from
-            (
-              select         distinct
-                  i.s_no    as "S_NO"
-                  ,  i.i_name    as "I_NAME"
-                  , to_char(to_date(to_char(i.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
-                  , ir.i_price    as "I_PRICE"
-              from
-                  ingredient i, ingredient_record ir
-              where
-                i.i_no = ir.i_no 
-                and i.is_del = 'F' 
-            ) ss   
-            ,(
-              select '1' "WEEK" from dual
-              union select '2' from dual
-              union select '3' from dual
-              union select '4' from dual
-              union select '5' from dual  
-            ) ww    
-        ) sss
-        ,
-        (
-        select         distinct    
-            i.s_no    as "S_NO"
-            ,  i.i_name    as "I_NAME"
-            , to_char(to_date(to_char(i.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
-            , ir.i_price    as "I_PRICE"
-        from
-            ingredient i, ingredient_record ir
-        where
-            i.i_no = ir.i_no 
-            and i.is_del = 'F' 
-        ) www  
-       where  sss.label=www.i_name(+) and sss.dataset=www.reg_date(+)||'주' and sss.dataset=${week}||'주'  
-       order by nvl(www.i_price,0) desc, 1, 2
+		select
+			sss.dataset	"DATASET"
+			, sss.label	"LABEL"
+			, nvl(www.i_price, 0) || ''	"DATA"
+		from
+			(select
+					distinct
+						ww.week || '주'	"DATASET"
+						, ss.i_name	"LABEL"
+				from
+					(select
+						distinct
+							i.s_no	as "S_NO"
+							, i.i_name	as "I_NAME"
+							, to_char(to_date(to_char(i.reg_date, 'yyyymmdd'), 'yyyymmdd'), 'w')	as "REG_DATE"
+							, ir.i_price	as "I_PRICE"
+					from
+						ingredient i, ingredient_record ir
+					where
+						i.i_no = ir.i_no
+						and i.is_del = 'F') ss
+					, (select '1'	"WEEK"	from dual
+						union select '2' from dual
+						union select '3' from dual
+						union select '4' from dual
+						union select '5' from dual) ww
+				) sss
+			, (select
+					distinct
+						i.s_no	as "S_NO"
+						, i.i_name	as "I_NAME"
+						, to_char(to_date(to_char(i.reg_date, 'yyyymmdd'), 'yyyymmdd'), 'w')	as "REG_DATE"
+						, ir.i_price	as "I_PRICE"
+				from
+					ingredient i, ingredient_record ir
+				where
+					i.i_no = ir.i_no
+					and i.is_del = 'F'
+			) www
+		where
+			sss.label = www.i_name(+)
+			and sss.dataset = www.reg_date(+) || '주'
+			and sss.dataset = ${week} || '주'
+		order by
+			nvl(www.i_price, 0) desc, 1, 2
 	</select>
 	
-	
+	<!-- 월별 식자재 차트 데이터 가져올 select 태그 -->
 	<select id="getMonthIngredientData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-	select 
-          rownum "RNUM", iiii.label "LABEL", iiii.dataset "DATASET", iiii.data "DATA"
-         from
-         (
-           select
-               iii.label "LABEL", iii.dataset "DATASET", nvl(www.i_price,0)||'' "DATA"
-           from
-           (              
-             select
-               mm.month||'월' "DATASET", ii.i_name "LABEL"
-             from
-               (
-                 select
-                     i.s_no    as "S_NO"
-                     , i.i_name    as "I_NAME"
-                     , to_char(to_date(to_char(ir.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
-                     , ir.i_price    as "I_PRICE"
-                 from
-                     ingredient i, ingredient_record ir
-                 where
-                   i.i_no = ir.i_no
-                   and i.is_del = 'F'  
-               ) ii  
-               ,
-               (
-                 select '1' "MONTH" from dual
-                 union select '2' from dual
-                 union select '3' from dual
-                 union select '4' from dual
-                 union select '5' from dual   
-                 union select '6' from dual
-                 union select '7' from dual
-                 union select '8' from dual
-                 union select '9' from dual 
-                 union select '10' from dual
-                 union select '11' from dual
-                 union select '12' from dual
-               ) mm       
-               where ii.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[ mm.month<=substr(ii.reg_date(+),5,2) ]]>
-             ) iii         
-             ,
-             (
-                 select
-                     i.s_no    as "S_NO"
-                     , i.i_name    as "I_NAME"
-                     , to_char(to_date(to_char(ir.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
-                     , nvl(ir.i_price,0)    as "I_PRICE"
-                 from
-                     ingredient i, ingredient_record ir
-                 where
-                   i.i_no = ir.i_no
-                   and i.is_del = 'F'
-                   and i.s_no=(select s_no from store where s_id=#{s_id})
-             ) www    
-            where  iii.label=www.i_name(+) and iii.dataset=to_number(substr(www.reg_date(+),5,2))||'월' and iii.dataset=#{month}||'월' and substr(www.reg_date(+),1,4)=#{year}
-            group by iii.label,iii.dataset  
-            having <![CDATA[ nvl(www.i_price,0)>=0]]>
-            order by nvl(www.i_price,0) desc, 2, 1              
-          ) iiii     
-        where <![CDATA[ rownum<=${chart_cnt}]]>          
+		select
+			rownum	"RNUM"
+			, iiii.label	"LABEL"
+			, iiii.dataset	"DATASET"
+			, iiii.data	"DATA"
+		from
+			(select
+					iii.label	"LABEL"
+					, iii.dataset	"DATASET"
+					, nvl(www.i_price, 0) || ''	"DATA"
+				from
+					(select
+							mm.month || '월'	"DATASET"
+							, ii.i_name	"LABEL"
+						from
+							(select
+									i.s_no	as "S_NO"
+									, i.i_name	as "I_NAME"
+									, to_char(to_date(to_char(ir.reg_date, 'yyyymmdd'), 'yyyymmdd'), 'yyyymm')	as "REG_DATE"
+									, ir.i_price	as "I_PRICE"
+								from
+									ingredient i, ingredient_record ir
+								where
+									i.i_no = ir.i_no
+									and i.is_del = 'F') ii
+							, (select '1'	"MONTH"	from dual
+								union select '2'	from dual
+								union select '3'	from dual
+								union select '4'	from dual
+								union select '5'	from dual
+								union select '6'	from dual
+								union select '7'	from dual
+								union select '8'	from dual
+								union select '9'	from dual
+								union select '10'	from dual
+								union select '11'	from dual
+								union select '12'	from dual
+								) mm
+						where
+							ii.s_no = (select
+											s_no
+										from
+											store
+										where
+											s_id = #{s_id})
+							and <![CDATA[ mm.month <= substr(ii.reg_date(+), 5, 2) ]]>) iii
+					, (select
+							i.s_no	as "S_NO"
+							, i.i_name	as "I_NAME"
+							, to_char(to_date(to_char(ir.reg_date, 'yyyymmdd'), 'yyyymmdd'), 'yyyymm')	as "REG_DATE"
+							, nvl(ir.i_price,0)	as "I_PRICE"
+						from
+							ingredient i, ingredient_record ir
+						where
+							i.i_no = ir.i_no
+							and i.is_del = 'F'
+							and i.s_no = (select
+												s_no
+											from
+												store
+											where
+												s_id = #{s_id})) www
+				where
+					iii.label = www.i_name(+)
+					and iii.dataset = to_number(substr(www.reg_date(+), 5, 2)) || '월'
+					and iii.dataset = #{month} || '월'
+					and substr(www.reg_date(+), 1, 4) = #{year}
+				group by
+					iii.label, iii.dataset
+				having
+					<![CDATA[ nvl(www.i_price, 0) >= 0 ]]>
+				order by
+					nvl(www.i_price, 0) desc, 2, 1) iiii
+		where
+			<![CDATA[ rownum<=${chart_cnt} ]]>
+	</select>
+	
+	<!-- 모든 분기 식자재 차트 데이터 가져올 select 태그 -->
+	<select id="getAllQuarterIngredientData" resultType="hashmap">
+		select
+			q.quarter || '분기'	"LABEL", 
+			nvl(sum(ir.i_price), 0) || ''	"DATA"
+		from 
+			ingredient_record ir
+			, (select '1' "QUARTER" from dual
+				union select '2' from dual
+				union select '3' from dual
+				union select '4' from dual) q
+		where
+			q.quarter = to_char(ir.reg_date(+), 'Q')
+			and to_char(ir.reg_date(+), 'YYYY') = to_char(sysdate, 'YYYY') - 1
+		group by q.quarter
+		order by 1
 	</select>
 
+	<!-- 분석 표에서 식자재 목록 리스트 가져올 select 태그 -->
 	<select id="getIngAnlList" parameterType="system.ida.dto.IngredientSearchDTO" resultType="system.ida.dto.IngredientDTO">
 		select
-			i.i_no as "i_no"
-			<!-- ,i.ia_code as "ia_code" -->
-			,(select a.ia_name from code_ingredient_alpha a where a.ia_code=i.ia_code) as  "ia_name"
-			,(select b.ib_name from code_ingredient_beta b where b.ib_code=i.ib_code) as "ib_name"
-			,(select o.io_name from code_ingredient_origin o where o.io_code=i.io_code) as"io_name"
-			,i.i_name as  "i_name"
-			,i.i_size as  "i_size"
-			,to_char(i.i_price, '9,999,999,999')  as  "i_price"
-			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
-			,i.is_del   as  "is_del"
-			
-		from ingredient i 
-		where i.is_del = 'F'
-			and s_no = (select s_no from store where s_id=#{s_id})
+			i.i_no	as "i_no"
+			, (select
+					a.ia_name
+				from
+					code_ingredient_alpha a
+				where
+					a.ia_code = i.ia_code)	as "ia_name"
+			, (select
+					b.ib_name
+				from
+					code_ingredient_beta b
+				where
+					b.ib_code = i.ib_code)	as "ib_name"
+			, (select
+					o.io_name
+				from
+					code_ingredient_origin o
+				where
+					o.io_code = i.io_code)	as"io_name"
+			, i.i_name	as "i_name"
+			, i.i_size	as "i_size"
+			, to_char(i.i_price, '9,999,999,999')	as "i_price"
+			, to_char(i.reg_date, 'YYYY-MM-DD(dy) hh12:mi:ss')	as "reg_date"
+			, i.is_del	as "is_del"
+		from
+			ingredient i
+		where
+			i.is_del = 'F'
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
 			<include refid="ingredientWhere"/>
 	</select>
 	
+	<!-- 식자재 상세보기 가져올 select 태그 -->
 	<select id="getIngedientDTO" parameterType="int" resultType="system.ida.dto.IngredientDTO">
 		select
-			i.i_no as "i_no"
-			,(select a.ia_name from code_ingredient_alpha a where a.ia_code=i.ia_code) as  "ia_name"
-			,(select b.ib_name from code_ingredient_beta b where b.ib_code=i.ib_code) as "ib_name"
-			,(select o.io_name from code_ingredient_origin o where o.io_code=i.io_code) as"io_name"
-			,i.i_name as  "i_name"
-			,i.i_size as  "i_size"
-			,to_char(i.i_price, '9,999,999,999')  as  "i_price"
-			,to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi') as   "reg_date"
-			,i.is_del   as  "is_del"
-		from ingredient i 
-		where i.is_del = 'F'
+			i.i_no	as "i_no"
+			, (select
+					a.ia_name
+				from
+					code_ingredient_alpha a
+				where
+					a.ia_code = i.ia_code)	as "ia_name"
+			, (select
+					b.ib_name
+				from
+					code_ingredient_beta b
+				where
+					b.ib_code = i.ib_code)	as "ib_name"
+			, (select
+					o.io_name
+				from
+					code_ingredient_origin o
+				where
+					o.io_code = i.io_code)	as"io_name"
+			, i.i_name	as "i_name"
+			, i.i_size	as "i_size"
+			, to_char(i.i_price, '9,999,999,999')	as "i_price"
+			, to_char(i.reg_date,'yyyy-mm-dd(dy) hh:mi')	as "reg_date"
+			, i.is_del	as "is_del"
+		from
+			ingredient i
+		where
+			i.is_del = 'F'
 			and i_no = #{i_no}
 	</select>
 </mapper>

@@ -23,23 +23,22 @@ import system.ida.dto.IngredientSearchDTO;
  */
 public interface IngredientService {
 	/**
-	 * 속성변수 선언
-	 */
-
-	/**
 	 * 메소드 선언
 	 */
-	List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO);	// 식자재리스트를 가져옴
-	List<Code_IngredientAlphaDTO> getCodeIngAlpha();					//식자재 대분류를 가져오는 메소드
-	List<Code_IngredientBetaDTO> getCodeIngBeta();						//식자재 소분류를 가져오는 메소드
-	List<Code_IngredientOriginDTO> getCodeIngOrigin();					//식자재 원산지를 가져오는 메소드
-	List<Code_IngredientAllergieDTO> getCodeIngAllergie();				//식자재 알레르기 가져오는 메소드
-	int insertIngredient(IngredientDTO ingredientDTO);					//식자재 추가 메소드
-	int updateIngredient(IngredientDTO ingredientDTO);			//식자재 수정 메소드
-	int deleteIngredient(ArrayList<String> ingredient_delete);			//식자재 삭제 메소드
-
-	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);
-	List<Map<String,String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);
-	List<Map<String,String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);
-	IngredientDTO getIngredientDTO(int i_no);
+	List<IngredientDTO> getIngredientList(IngredientSearchDTO ingredient_SearchDTO);	// 식자재 목록 리스트 가져옴
+	List<Code_IngredientAlphaDTO> getCodeIngAlpha();	// 식자재 대분류 이름 가져옴
+	List<Code_IngredientBetaDTO> getCodeIngBeta();	// 식자재 소분류 이름 가져옴
+	List<Code_IngredientOriginDTO> getCodeIngOrigin();	// 식자재 원산지 이름 가져옴
+	List<Code_IngredientAllergieDTO> getCodeIngAllergie();	// 식자재 알레르기 이름 가져옴
+	int insertIngredient(IngredientDTO ingredientDTO);	// 식자재 추가 처리
+	int insertIngredientAllergie(IngredientDTO ingredientDTO);	// 식자재 알레르기 추가 처리
+	int updateIngredient(IngredientDTO ingredientDTO);	// 식자재 수정 처리
+	int deleteIngredient(ArrayList<String> ingredient_delete);	// 식자재 삭제 처리
+	int updateIngredientRecord(IngredientDTO ingredientDTO);	// 식자재 기록 수정 처리
+	List<IngredientDTO> getIngAnlList(IngredientSearchDTO ingredient_SearchDTO);	// 분석 표에서 식자재 목록 리스트 가져옴
+	List<Map<String, String>> getWeekIngredientData(ChartSearchDTO chart_searchDTO);	// 주별 식자재 차트 데이터 가져옴
+	List<Map<String, String>> getMonthIngredientData(ChartSearchDTO chart_searchDTO);	// 월별 식자재 차트 데이터 가져옴
+	List<Map<String,String>> getAllQuarterIngredientData();	// 모든 분기 식자재 차트 데이터 가져옴
+	List<Map<String,String>> getQuarterIngredientData(ChartSearchDTO chart_searchDTO);	// 분기별 식자재 차트 데이터 가져옴
+	IngredientDTO getIngredientDTO(int i_no);	// 식자재 상세보기 가져옴
 }

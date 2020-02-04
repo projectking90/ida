@@ -10,6 +10,8 @@ import org.springframework.validation.Validator;
 import system.ida.dto.UserDTO;
 
 /**
+ * LoginValidator 클래스
+ * 로그인 기능의 유효성을 체크
  * @author Jo
  */
 public class LoginValidator implements Validator{

@@ -5,29 +5,31 @@
 package system.ida.dto;
 
 /**
- * MenuDTO 클래스
- * 메뉴를 추가, 수정, 삭제할 때 사용할 DTO
+ * CodeMenuAlphaDTO 클래스
+ * 메뉴 대분류 DTO
  * @author Jo
  */
 public class CodeMenuAlphaDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private String ma_name;
-	
-	public String getMa_name() {
-		return ma_name;
-	}
-	public void setMa_name(String ma_name) {
-		this.ma_name = ma_name;
-	}
-	
-	/**
-	 * 생성자 선언
-	 */
+	private String ma_name;	// 메뉴 대분류 이름
+
 	/**
 	 * 접근자, 설정자 선언
 	 */
-
-	
+	/**
+	 * ma_name 접근자
+	 * @return ma_name : 메뉴 대분류 이름
+	 */
+	public String getMa_name() {
+		return ma_name;
+	}
+	/**
+	 * ma_name 설정자
+	 * @param ma_name : 메뉴 대분류 이름
+	 */
+	public void setMa_name(String ma_name) {
+		this.ma_name = ma_name;
+	}
 }

@@ -3,65 +3,53 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.OrderDAO">
+	<!-- 검색 조건에 의해서 검색될 sql 태그 -->
 	<sql id="orderWhere">
-			<if test="keyword!=null and keyword.length()>0">
-				and (
-					upper(oi_no) like upper('%${keyword}%')
-					<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
-					or upper(s_no) like upper('%${keyword}%')
-					or upper(c_phone) like upper('%${keyword}%')
-					or upper(gender) like upper('%${keyword}%')
-					<!-- ============================= -->
-					or upper(age) like upper('%${keyword}%')
-					or upper(order_time) like upper('%${keyword}%')
-					or upper(pickup_time) like upper('%${keyword}%')
-				)
-			</if>
-			<if test="search_condition!=null and search_condition.length>0">
+		<if test="keyword!=null and keyword.length()>0">
+			and (upper(oi_no) like upper('%${keyword}%')
+				or upper(s_no) like upper('%${keyword}%')
+				or upper(c_phone) like upper('%${keyword}%')
+				or upper(gender) like upper('%${keyword}%')
+				or upper(age) like upper('%${keyword}%')
+				or upper(order_time) like upper('%${keyword}%')
+				or upper(pickup_time) like upper('%${keyword}%'))
+		</if>
+		<if test="search_condition!=null and search_condition.length>0">
 			and
-			<!-- ================================================ -->
-			<!-- [mybatis foreach 반복문]의 속성 설명 -->
-			<!-- ================================================ -->
-			<!-- collection="배열/List 객체의 속성변수명" -->
-			<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
-			<!-- open="반복문 시작 전에 삽입할 문자" -->
-			<!-- close="반복문 끝난 후에 삽입할 문자" -->
-			<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
-			<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
 			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">					
 				<if test="xxx.equals('week')">
 					to_char(sysdate,'YYYYW') = to_char(order_time,'YYYYW')
 				</if>
 				<if test="xxx.equals('month')">
 					to_char(sysdate,'YYYYMM') = to_char(order_time,'YYYYMM')
-				</if>					
+				</if>
 				<if test="xxx.equals('hour')">
 					to_char(sysdate,'YYYYMMDDHH') = to_char(order_time,'YYYYMMDDHH')
-				</if>					
+				</if>
 				<if test="xxx.equals('quarter')">
 					to_char(sysdate,'yyyyq') = to_char(order_time,'yyyyq')
-				</if>						
+				</if>
 				<if test="xxx.equals('남자')">
 					gender = '1'
-				</if>					
+				</if>
 				<if test="xxx.equals('여자')">
 					gender = '2'
-				</if>										
+				</if>
 				<if test="xxx.equals('10')">
 					age = '10'
-				</if>										
+				</if>
 				<if test="xxx.equals('20')">
 					age = '20'
-				</if>										
+				</if>
 				<if test="xxx.equals('30')">
 					age = '30'
-				</if>										
+				</if>
 				<if test="xxx.equals('40')">
 					age = '40'
-				</if>										
+				</if>
 				<if test="xxx.equals('50')">
 					age = '50'
-				</if>										
+				</if>
 				<if test="xxx.equals('60')">
 					age = '60'
 				</if>
@@ -69,54 +57,82 @@
 		</if>
 	</sql>
 		
-	<!-- 가게에 등록된 주문을 가져오는 select 태그 -->
+	<!-- 주문 목록을 가져오는 select 태그 -->
 	<select id="getOrderList" parameterType="string" resultType="system.ida.dto.OrderDTO">
-		select zzz.*, rownum RNUM from(
-			select 	
-				 o.oi_no	"oi_no"
-				,o.s_no   "s_no"
-				,o.c_phone "c_phone"
-				,(select 
-				substr(xmlagg(xmlelement(x,', ',
-				(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
-				'('||(c.quantity)||')')).extract('//text()'),2) 
-				from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
-				,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-				,o.age "age"
-				,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-				,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-				,o.is_del	"is_del"	
-			from order_info o
-			where o.is_del='F'
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+				o.oi_no	"oi_no"
+				, o.s_no   "s_no"
+				, o.c_phone "c_phone"
+				, (select 
+						substr(xmlagg(xmlelement(x,', ',
+							(select
+									m.mi_name
+								from
+									menu_info m
+								where
+									m.mi_no = c.mi_no) ||
+							' (' || (c.quantity) || ')')).extract('//text()'), 2)
+					from
+						order_menu c
+					where
+						c.oi_no = o.oi_no)	as "order_menus"
+				, case o.gender
+						when '1' then '남'
+						when '3' then '남'
+						else '여'
+					end	"gender"
+				, o.age	"age"
+				, to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS')	"order_time"
+				, to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS')	"pickup_time"
+				, o.is_del	"is_del"
+			from
+				order_info o
+			where
+				o.is_del='F'
 				and s_no = (select
 								s_no
 							from
 								store
 							where
-								s_id=#{s_id})
-			) zzz
+								s_id = #{s_id})) zzz
 	</select>
 	
-	<!-- 가게에 등록된 주문 중 수량을 분리해 가져오는 select 태그 -->
+	<!-- 주문 목록 중 수량만 가져오는 select 태그 -->
 	<select id="getOrderList_sepa_quan" parameterType="string" resultType="system.ida.dto.OrderUpdateDTO">
-		select 	
-			 o1.oi_no	"oi_no"
-			,o1.s_no	"s_no"
-			,o1.c_phone "c_phone"
-			,(select m.mi_name from menu_info m where m.mi_no=o2.mi_no and o1.oi_no=o2.oi_no) as "mi_name"
-			,o2.quantity as "quantity"
-			,case o1.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-			,o1.age "age"
-			,to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-			,to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-			,o1.is_del	"is_del"	
-		from order_info o1 right outer join order_menu o2 
+		select
+			o1.oi_no	"oi_no"
+			, o1.s_no	"s_no"
+			, o1.c_phone	"c_phone"
+			, (select
+					m.mi_name
+				from
+					menu_info m
+				where
+					m.mi_no = o2.mi_no
+					and o1.oi_no = o2.oi_no)	as "mi_name"
+			, o2.quantity	as "quantity"
+			, case o1.gender
+					when '1' then '남'
+					when '3' then '남'
+					else '여'
+				end	"gender"
+			, o1.age	"age"
+			, to_char(o1.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS')	"order_time"
+			, to_char(o1.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS')	"pickup_time"
+			, o1.is_del	"is_del"
+		from
+			order_info o1 right outer join order_menu o2
 			on o1.oi_no = o2.oi_no
-		where o1.is_del = 'F'
+		where
+			o1.is_del = 'F'
 			and o1.oi_no = #{oi_no}
 	</select>
 		
-	<!-- 메뉴 목록을 검색하는 select 태그 -->
+	<!-- 메뉴 목록을 가져오는 select 태그 -->
 	<select id='getMenuList' parameterType="string" resultType="system.ida.dto.MenuDTO">
 		select
 			mi_name	"mi_name"
@@ -124,338 +140,544 @@
 			menu_info
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
 	</select>
 	
-	<!-- 가게 주문을 추가하는 insert 태그 -->
+	<!-- 주문 추가 처리할 insert 태그 -->
 	<insert id='insertStoreOrder' parameterType="system.ida.dto.OrderDTO">
 		insert into order_info(
 			oi_no
-			,s_no
-			,c_phone
-			,gender
-			,age
-			,pickup_time
-		)values(
-			(select nvl(max(oi_no),0)+1 from order_info)
-			,(select s_no from store where s_id=#{s_id})
-			,#{c_phone}
-			,#{gender}
-			,#{age}
+			, s_no
+			, c_phone
+			, gender
+			, age
+			, pickup_time
+		) values(
+			(select
+					nvl(max(oi_no), 0) + 1
+				from
+					order_info)
+			, (select
+					s_no
+				from
+					store
+				where
+					s_id = #{s_id})
+			, #{c_phone}
+			, #{gender}
+			, #{age}
 			, sysdate + ${pickup_time}
-			<!-- , to_date(
-				to_char(sysdate, 'yyyy')|| '-' || to_char(sysdate, 'mm')
-				|| '-' || to_char(sysdate, 'dd')|| ' ' || to_char(sysdate, 'hh')|| ':' ||
-					to_char((case
-								when (to_number(to_char(sysdate, 'mi')) + ${pickup_time})>59
-								then (60-(to_number(to_char(sysdate, 'mi')) + ${pickup_time}))
-								else (to_number(to_char(sysdate, 'mi')) + ${pickup_time})
-							end))
-				|| ':' || to_char(sysdate, 'ss'),'YYYY-MM-DD HH:MI:SS'
-			) -->
 		)
 	</insert>
-	<!-- 가게 주문을 수정하는 insert 태그 -->
+	
+	<!-- 주문 메뉴들 추가 처리할 insert 태그 -->
 	<insert id='insertOrderMenuOne' parameterType="hashmap">
 		insert into order_menu(
 			oi_no
-			,mi_no
-			,quantity
-		)values(
-			(select nvl(max(oi_no),0) from order_info)
-			,(select mi_no from menu_info where mi_name=#{mi_name} and is_del='F' and s_no = (select s_no from store where s_id=#{s_id}))
-			,${quantity}
+			, mi_no
+			, quantity
+		) values(
+			(select
+					nvl(max(oi_no), 0)
+				from
+					order_info)
+			, (select
+					mi_no
+				from
+					menu_info
+				where
+					mi_name = #{mi_name}
+					and is_del = 'F'
+					and s_no = (select
+									s_no
+								from
+									store
+								where
+									s_id = #{s_id}))
+			, ${quantity}
 		)
 	</insert>
 	
-	
-	<!-- 식자재 재고를 수정하는 update 태그 -->
+	<!-- 주문 관련 재고 변경 처리할 update 태그 -->
 	<update id="updateStockQuantity" parameterType="hashmap">
-		update stock
+		update
+			stock
 		set
-		quantity = quantity - ${quantity}
+			quantity = quantity - ${quantity}
 		where
-		st_no in (select st_no from
-			(
-				select
-					s.st_no
-					,s.quantity "quantity"
-					,zzz.*
-				from stock s, (select * from menu_ingredient
+			st_no in (select
+							st_no
+						from
+							(select
+									s.st_no
+									, s.quantity "quantity"
+									, zzz.*
+								from
+									stock s
+									, (select
+											*
+										from
+											menu_ingredient
+										where
+											mi_no in (select
+															mi_no
+														from
+															order_menu
+														where
+															oi_no = (select
+																			max(oi_no)
+																		from
+																			order_info))) zzz
+	
 								where
-									mi_no in
-									(select mi_no from order_menu where oi_no=(select max(oi_no) from order_info)) ) zzz
-
-				where s.i_no=zzz.i_no
-			)
-			where mi_no=
-				(select mi_no from menu_info where mi_name=#{mi_name} and is_del='F' and s_no = (select s_no from store where s_id=#{s_id}))
-			)
-		and quantity >= ${quantity}
+									s.i_no = zzz.i_no)
+						where
+							mi_no = (select
+											mi_no
+										from
+											menu_info
+										where
+											mi_name = #{mi_name}
+											and is_del = 'F'
+											and s_no = (select
+															s_no
+														from
+															store
+														where
+															s_id = #{s_id})))
+							and quantity >= ${quantity}
 	</update>
 
+	<!-- 주문 관련시 재고 수량을 가져올 select 태그 -->
 	<select id="getStockQuantity" parameterType="hashmap" resultType="int">
 		select
 			count(st_no)
-		from stock
+		from
+			stock
 		where
- 			<![CDATA[
-			quantity <=${quantity}
-			]]>
-			and i_no in
-				(select i_no from menu_ingredient 
-					where mi_no =
-						(select mi_no from menu_info where mi_name='설렁탕' and is_del='F' 
-						and s_no = (select s_no from store where s_id='abc123'))
-				)
+ 			<![CDATA[ quantity <=${quantity} ]]>
+			and i_no in (select
+								i_no
+							from
+								menu_ingredient
+							where mi_no = (select
+												mi_no
+											from
+												menu_info
+											where
+												mi_name = #{mi_name}
+												and is_del = 'F'
+												and s_no = (select
+																s_no
+															from
+																store
+															where
+																s_id = #{s_id})))
 	</select>
 	
-	<!-- 가게 주문을 수정하는 update 태그 -->
+	<!-- 주문 수정 처리할 update 태그 -->
 	<update id="updateStoreOrder" parameterType="hashmap">
-		update order_info 
-		set 
-			c_phone=#{c_phone}
-			,gender=#{gender}
-			,age=#{age}
-			,pickup_time=to_date(#{pickup_time},'YYYY-MM-DD(DY) HH:MI:SS')
-		where oi_no=${oi_no}
+		update
+			order_info
+		set
+			c_phone = #{c_phone}
+			, gender = #{gender}
+			, age = #{age}
+			, pickup_time = to_date(#{pickup_time}, 'YYYY-MM-DD(DY) HH:MI:SS')
+		where
+			oi_no = ${oi_no}
 	</update>
 	
-	<!-- 가게 주문을 수정하는 delete 태그 -->
+	<!-- 주문 메뉴 삭제 처리할 delete 태그 -->
 	<delete id="deleteOrderMenu" parameterType="hashmap">
-		delete from order_menu where oi_no=${oi_no}
+		delete from
+			order_menu
+		where
+			oi_no = ${oi_no}
 	</delete>
 		
-	<!-- 가게 주문을 수정하는 insert 태그 -->
+	<!-- 주문 메뉴 추가 처리할 insert 태그 -->
 	<insert id='insertOrderMenu' parameterType="hashmap">
-		insert into order_menu(
+		insert into order_menu (
 			oi_no
-			,mi_no
-			,quantity
-		)values(
+			, mi_no
+			, quantity
+		) values(
 			${oi_no}
-			,(select mi_no from menu_info  where mi_name=#{mi_name} and is_del='F' and is_del='F' and s_no = (select s_no from store where s_id=#{s_id}))
-			,${quantity}
+			, (select
+					mi_no
+				from
+					menu_info
+				where
+					mi_name = #{mi_name}
+					and is_del = 'F'
+					and s_no = (select
+									s_no
+								from
+									store
+								where
+									s_id = #{s_id}))
+			, ${quantity}
 		)
 	</insert>
 	
-	<!-- 가게 주문을 삭제하는 update 태그 -->
+	<!-- 주문 삭제 처리할 update 태그 -->
 	<update id="deleteStoreOrder" parameterType="hashmap">
-		update order_info 
-		set 
-			is_del='T'
-		where oi_no=#{oi_no}
+		update
+			order_info
+		set
+			is_del = 'T'
+		where
+			oi_no = #{oi_no}
 	</update>
 
+	<!-- 성별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getGenderData' parameterType="string" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
-		from order_menu_gender
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	"label"
+					, case gender
+							when '1' then '남자'
+							else '여자'
+						end	"dataset"
+				from
+					order_menu_gender
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+					and gender = 1
+				group by mi_name, gender
+				order by count(mi_name) desc) zzz
 		where
-			s_no=(select s_no from store where s_id=#{s_id})
-			and gender=1
-			group by mi_name, gender
-			order by  count(mi_name) desc) zzz
-		where
- 			<![CDATA[
- 			 rownum<=5
-			]]>
+ 			<![CDATA[ rownum<=5 ]]>
 	</select>
 	
+	<!-- 남자별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getGenderData_M' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
-		from order_menu_gender
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	"label"
+					, case gender
+							when '1' then '남자'
+							else '여자'
+						end	"dataset"
+				from
+					order_menu_gender
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+					and gender = 1
+					group by mi_name, gender
+					order by  count(mi_name) desc) zzz
 		where
-			s_no=(select s_no from store where s_id=#{s_id})
-			and gender=1
-			group by mi_name, gender
-			order by  count(mi_name) desc) zzz
-		where
- 			<![CDATA[
- 			 rownum<=${chart_cnt}
-			]]>
+ 			<![CDATA[ rownum<=${chart_cnt} ]]>
 	</select>
 	
+	<!-- 여자별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getGenderData_W' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", case gender when '1' then '남자' else '여자' end	"dataset"
-		from order_menu_gender
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	"label"
+					, case gender
+							when '1' then '남자'
+							else '여자' end
+						"dataset"
+				from
+					order_menu_gender
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+					and gender = 2
+					group by mi_name, gender
+					order by  count(mi_name) desc) zzz
 		where
-			s_no=(select s_no from store where s_id=#{s_id})
-			and gender=2
-			group by mi_name, gender
-			order by  count(mi_name) desc) zzz
-		where
- 			<![CDATA[
- 			 rownum<=${chart_cnt}
-			]]>
+ 			<![CDATA[ rownum <= ${chart_cnt} ]]>
 	</select>
 	
+	<!-- 나이별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getAgeData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", age||'대' "label"
-		from (select
-					oi.s_no as "S_NO", oi.age as "AGE"
-				from order_menu om, order_info oi
+			count(s_no) || ''	"data"
+			, age || '대'	"label"
+		from
+			(select
+					oi.s_no	as "S_NO"
+					, oi.age	as "AGE"
+				from
+					order_menu om, order_info oi
 				where
 					om.oi_no = oi.oi_no)
 		where
-		s_no = (select s_no from store where s_id=#{s_id})
+			s_no = (select
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
 		group by age
 		order by 2
 	</select>
-		
+	
+	<!-- 나이별 주문 메뉴 차트 데이터를 가져올 select 태그 -->
 	<select id='getAgeMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", age||'대'	"dataset"
-		from order_menu_age
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	 "label"
+					, age || '대'	"dataset"
+				from
+					order_menu_age
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+					and age = #{age}
+				group by mi_name, age
+				order by count(mi_name) desc) zzz
 		where
-			s_no=(select s_no from store where s_id=#{s_id})
-			and age=#{age}
-			group by mi_name, age
-			order by  count(mi_name) desc) zzz
-		where
- 			<![CDATA[
- 			 rownum<=${chart_cnt}
-			]]>
+ 			<![CDATA[ rownum<=${chart_cnt} ]]>
 	</select>
 	
-	
+	<!-- 월별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getMonthData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월'	"label"
-		from (select
-					oi.s_no as "S_NO", oi.order_time as "ORDER_TIME"
-					from order_menu om, order_info oi
-					where
+			count(s_no) || ''	"data"
+			, to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월'	"label"
+		from
+			(select
+					oi.s_no	as "S_NO"
+					, oi.order_time	as "ORDER_TIME"
+				from
+					order_menu om, order_info oi
+				where
 					om.oi_no = oi.oi_no)
 		where
-			s_no = (select s_no from store where s_id=#{s_id})
+			s_no = (select
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
 		group by
-			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월'
+			to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월'
 		order by
-			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월' 
-		
+			to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월'
 	</select>
 	
+	<!-- 월별  주문 메뉴 차트 데이터를 가져올 select 태그 -->
 	<select id='getMonthMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월'	"dataset"
-		from order_day_menu
-			where
-				s_no=(select s_no from store where s_id=#{s_id})
-				and to_char(order_time,'yyyy')=#{year}
-				and to_char(order_time, 'mm')=#{month}
-			group by  to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'mm')||'월', mi_name
-			order by  count(mi_name) desc) zzz
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	 "label"
+					, to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월'	"dataset"
+				from
+					order_day_menu
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where s_id = #{s_id})
+					and to_char(order_time, 'yyyy') = #{year}
+					and to_char(order_time, 'mm') = #{month}
+				group by to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월', mi_name
+				order by count(mi_name) desc) zzz
 		where
- 			<![CDATA[
- 			 rownum<=${chart_cnt}
-			]]>
+ 			<![CDATA[ rownum <= ${chart_cnt} ]]>
 	</select>
 	
+	<!-- 주문 차트 데이터를 가져올 select 태그 -->
 	<select id="getOrderList_analy" parameterType="system.ida.dto.OrderSearchDTO" resultType="system.ida.dto.OrderDTO">
-			select zzz.*, rownum RNUM from(
-				select 	
-					 o.oi_no	"oi_no"
-					,o.s_no   "s_no"
-					,o.c_phone "c_phone"
-					,(select 
-					substr(xmlagg(xmlelement(x,', ',
-					(select m.mi_name from menu_info m where m.mi_no=c.mi_no)||
-					'('||(c.quantity)||')')).extract('//text()'),2) 
-					from order_menu c where c.oi_no=o.oi_no)	 as "order_menus"
-					,case o.gender when '1' then '남' when '3' then '남' else '여'  end "gender"
-					,o.age "age"
-					,to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "order_time"	
-					,to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS') "pickup_time"
-					,o.is_del	"is_del"	
-				from order_info o
-				where o.is_del='F'
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					o.oi_no	"oi_no"
+					, o.s_no	"s_no"
+					, o.c_phone	"c_phone"
+					, (select
+							substr(xmlagg(xmlelement(x,', ',
+							(select
+									m.mi_name
+								from
+									menu_info m
+								where
+									m.mi_no = c.mi_no) ||
+							'(' || (c.quantity) || ')')).extract('//text()'),2)
+						from
+							order_menu c
+						where
+							c.oi_no = o.oi_no)	as "order_menus"
+					, case o.gender
+							when '1' then '남'
+							when '3' then '남'
+							else '여'
+						end	"gender"
+					, o.age	"age"
+					, to_char(o.order_time, 'YYYY-MM-DD(dy) HH12:MI:SS')	"order_time"
+					, to_char(o.pickup_time, 'YYYY-MM-DD(dy) HH12:MI:SS')	"pickup_time"
+					, o.is_del	"is_del"
+				from
+					order_info o
+				where
+					o.is_del = 'F'
 					and s_no = (select
 									s_no
 								from
 									store
 								where
 									s_id=#{s_id})
-							<include refid="orderWhere"/>
-				) zzz
+					<include refid="orderWhere"/>) zzz
 	</select>
 	
+	<!-- 시간별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getHourData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time, 'hh24')	"label"
-		from order_day
+			count(s_no) || ''	"data"
+			, to_char(order_time, 'hh24')	"label"
+		from
+			order_day
 		where
-			s_no = (select s_no from store where s_id=#{s_id})
-		group by
-			to_char(order_time, 'hh24')
+			s_no = (select
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
+		group by to_char(order_time, 'hh24')
 		order by to_char(order_time, 'hh24')
 	</select>
 	
+	<!-- 분기별 주문 차트 데이터를 가져올 select 태그 -->
 	<select id='getQuarterData' parameterType="string" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'	"label"
-		from order_day
+			count(s_no) || ''	"data"
+			, to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'q') || '/4분기'	"label"
+		from
+			order_day
 		where
-			s_no = (select s_no from store where s_id=#{s_id})
-		group by
-			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'
-		order by
-			to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'
-			
+			s_no = (select 
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
+		group by to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'q') || '/4분기'
+		order by to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'q') || '/4분기'
 	</select>
 	
+	<!-- 분기별 주문 메뉴 차트 데이터를 가져올 select 태그 -->
 	<select id='getQuarterMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기'	"dataset"
-		from order_day_menu
-			where
-				s_no=(select s_no from store where s_id=#{s_id})
-				and to_char(order_time,'yyyy')=#{year}
-				and to_char(order_time, 'q')=#{quarter}
-			group by  to_char(order_time,'yyyy')||'년 '||to_char(order_time, 'q')||'/4분기', mi_name
-			order by  count(mi_name) desc) zzz
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	"label"
+					, to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'q') || '/4분기'	"dataset"
+				from
+					order_day_menu
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+					and to_char(order_time, 'yyyy') = #{year}
+					and to_char(order_time, 'q') = #{quarter}
+				group by to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'q') || '/4분기', mi_name
+				order by count(mi_name) desc) zzz
 		where
- 			<![CDATA[
- 			 rownum<=${chart_cnt}
-			]]>
+ 			<![CDATA[ rownum <= ${chart_cnt} ]]>
 	</select>
-		
+	
+	<!-- 주별 주문 차트 데이터를 가져 -->
 	<select id='getWeekData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
 		select
-			count(s_no)||'' "data", to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'	"label"
-		from order_day
+			count(s_no) || ''	"data"
+			, to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월 ' || to_char(order_time, 'w') || '주'	"label"
+		from
+			order_day
 		where
-			s_no = (select s_no from store where s_id=#{s_id})
+			s_no = (select
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
 		group by
-			to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'
+			to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월 ' || to_char(order_time, 'w') || '주'
 		order by
-			to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'
-			
+			to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월 ' || to_char(order_time, 'w') || '주'
 	</select>
+	
+	<!-- 주별 주문 메뉴 차트 데이터를 가져 -->
 	<select id='getWeekMenuData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select zzz.*, rownum RNUM from
-		(select
-			count(mi_name)||''	"data", mi_name	 "label", to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주'	"dataset"
-		from order_day_menu
-			where
-				s_no = (select s_no from store where s_id=#{s_id})
-				and to_char(order_time,'yyyy')=#{year}
-				and to_char(order_time,'mm')=#{month}
-				and to_char(order_time, 'w')=#{week}
-			group by  to_char(order_time,'yyyy')||'년 '||to_char(order_time,'mm')||'월 '||to_char(order_time, 'w')||'주', mi_name
-			order by  count(mi_name) desc) zzz
+		select
+			zzz.*
+			, rownum	RNUM
+		from
+			(select
+					count(mi_name) || ''	"data"
+					, mi_name	"label"
+					, to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월 ' || to_char(order_time, 'w') || '주'	"dataset"
+				from
+					order_day_menu
+				where
+					s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+					and to_char(order_time, 'yyyy') = #{year}
+					and to_char(order_time, 'mm') = #{month}
+					and to_char(order_time, 'w') = #{week}
+				group by to_char(order_time, 'yyyy') || '년 ' || to_char(order_time, 'mm') || '월 ' || to_char(order_time, 'w') || '주', mi_name
+				order by count(mi_name) desc) zzz
 		where
- 			<![CDATA[
- 			 rownum<=${chart_cnt}
-			]]>
+ 			<![CDATA[ rownum <= ${chart_cnt} ]]>
 	</select>
 </mapper>

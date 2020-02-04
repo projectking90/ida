@@ -267,8 +267,6 @@ public class OrderController {
 	 * 주문  차트 데이터를 가져올 메소드
 	 * 가상주소 /order_analysis_chart.ida로 접근하면 호출
 	 * @param session : HttpSession 객체
-	 * @param chart_searchDTO : 차트 검색 DTO
-	 * @param session : HttpSession 객체
 	 * @param chart_search : 검색 종류
 	 * @param chart_cnt : 검색 갯수
 	 * @param age : 나이대
@@ -276,7 +274,7 @@ public class OrderController {
 	 * @param year : 년
 	 * @param quarter : 분기
 	 * @param week : 주
-	 * @return chart_data : 차트 데이터
+	 * @return chart_data : 주문  차트 데이터
 	 */
 	@RequestMapping(value="/order_analysis_chart.ida")
 	@ResponseBody

@@ -4,26 +4,19 @@
  */
 package system.ida.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.ShareDAO;
-import system.ida.dao.StockDAO;
-import system.ida.dto.IngredientDTO;
 import system.ida.dto.ShareDTO;
 import system.ida.dto.ShareSearchDTO;
 import system.ida.dto.StockDTO;
-import system.ida.dto.StockInsertDTO;
-import system.ida.dto.StockSearchDTO;
 
 /**
- * StockServiceImpl 클래스
+ * ShareServiceImpl 클래스
  * 서비스 클래스
  * @author Jo
  */
@@ -34,106 +27,241 @@ public class ShareServiceImpl implements ShareService {
 	 * 속성변수 선언
 	 */
 	@Autowired
-	private ShareDAO shareDAO;	// StockDAO 인터페이스를 구현받은 객체를 생성해서 저장
+	private ShareDAO shareDAO;	// ShareDAO 인터페이스를 구현받은 객체를 생성해서 저장
 
 	/**
 	 * 메소드 선언
 	 */
+	/**
+	 * 타 지점 공유 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return different_share_list : 타 지점 공유 현황 목록
+	 */
 	@Override
 	public List<ShareDTO> getDifferentShareList(ShareSearchDTO share_searchDTO){
 		List<ShareDTO> different_share_list = this.shareDAO.getDifferentShareList(share_searchDTO);
+		
 		return different_share_list;
 	}
 	
+	/**
+	 * 내 지점 공유 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return my_share_list : 내 지점 공유 현황 목록
+	 */
 	@Override
 	public List<ShareDTO> getMyShareList(ShareSearchDTO share_searchDTO){
 		List<ShareDTO> my_share_list = this.shareDAO.getMyShareList(share_searchDTO);
+		
 		return my_share_list;
 	}
 	
+	/**
+	 * 공유 재고 추가할 때 필요한 재고 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return stock_list : 재고 목록
+	 */
 	@Override
 	public List<StockDTO> getStockList(ShareSearchDTO share_searchDTO) {
 		List<StockDTO> stock_list = this.shareDAO.getStockList(share_searchDTO);
-		//System.out.println("service "+share_searchDTO.getS_id());
+
 		return stock_list;
 	}
 	
+	/**
+	 * 공유 재고 추가 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return inserted_share_cnt : 공유 재고 추가 Query 결과
+	 */
 	@Override
 	public int insertShare(ShareDTO shareDTO) {
 		// 이미 등록된 공유 재고 개수 count
-		int inserted_share_cnt=this.shareDAO.getInsertedShareCnt(shareDTO); 
-		// 이미 같은 상태로 등록된 공유 재고의 개수가 0보다 클 때
-		if(inserted_share_cnt>0) {
+		int inserted_share_cnt = this.shareDAO.getInsertedShareCnt(shareDTO);
+		// 같은 공유 재고가 등록되었지만 삭제된 것 count
+		int deleted_share_cnt=this.shareDAO.getDeletedShareCnt(shareDTO);
+		
+		if(inserted_share_cnt>0) {	// 이미 같은 상태로 등록된 공유 재고의 개수가 0보다 클 때
 			return -2;
-		}
-		// 등록된 재고가 없을 때
-		else { 
-			int share_reg_cnt=this.shareDAO.insertShare(shareDTO);
-			// 추가 
-			if(share_reg_cnt>0) {
+		} else if(deleted_share_cnt>0) {	// 등록되었지만 삭제된 재고가 있을 때
+			int share_isDel_update_cnt=this.shareDAO.changeInsertedShareIsDel(shareDTO);
+			if(share_isDel_update_cnt>0) {
 				// 기록 남기기
 				int share_record_insert=this.shareDAO.insertStockRecord(shareDTO);
+				
+				if(share_record_insert>0) {
+					return -3;
+				}
+			}
+		} else {	// 등록된 재고가 없을 때
+			int share_reg_cnt=this.shareDAO.insertShare(shareDTO);	// 추가
+			
+			if(share_reg_cnt>0) {
+				int share_record_insert=this.shareDAO.insertStockRecord(shareDTO);	// 기록 남기기
 				if(share_record_insert>0) {
 					return 1;	
 				}
 			}
 		}
-		return -1;
+		
+		return inserted_share_cnt;
 	}
 
+	/**
+	 * 공유 정보를 가져옴
+	 * @param si_no : 공유 번호
+	 * @return shareDTO : 공유 정보
+	 */
 	@Override
 	public ShareDTO getShareDTO(int si_no) {
 		ShareDTO shareDTO = this.shareDAO.getShareDTO(si_no);
+		
 		return shareDTO;
 	}
 
+	/**
+	 * 내 지점 공유 재고 수정 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return share_update_cnt : 공유 수정 Query 결과
+	 */
 	@Override
 	public int updateShare(ShareDTO shareDTO) {
 		int shareCnt=this.shareDAO.getMyShareCnt(shareDTO);
-		System.out.println("shareCnt "+shareCnt);
-		if(shareCnt==0) {return -2;}
+		
+		if(shareCnt==0) {
+			return -2;
+		}
 		
 		int share_update_cnt=this.shareDAO.updateShare(shareDTO);
 		
 		return share_update_cnt;
 	}
 
+	/**
+	 * 내 지점 공유 재고 삭제 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return shareCnt : 공유 삭제 Query 결과
+	 */
 	@Override
 	public int deleteShare(ShareDTO shareDTO) {
-		int shareCnt=this.shareDAO.getMyShareCnt(shareDTO);
-		if(shareCnt==0) {return -2;}
+		int shareCnt = this.shareDAO.getMyShareCnt(shareDTO);
 		
-		int share_delete_cnt=this.shareDAO.deleteShare(shareDTO);
-		int share_record_delete=this.shareDAO.deleteStockRecord(shareDTO);
+		if(shareCnt==0) {
+			return -2;
+		}
+		
+		int share_delete_cnt = this.shareDAO.deleteShare(shareDTO);
+		int share_record_delete = this.shareDAO.deleteStockRecord(shareDTO);
+		
 		if(share_record_delete==1) {
 			return share_delete_cnt;
 		}
-		return -1;
+		
+		return shareCnt;
 	}
 
+	/**
+	 * 타 지점의 공유 재고 요청 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return share_request_cnt : 타 지점의 공유 재고 요청 Query 결과
+	 */
 	@Override
 	public int requestShare(ShareDTO shareDTO) {
 		int share_request_cnt=0;
-		int share_record_request=0;
 		int share_recorded_request=this.shareDAO.requestStockRecorded(shareDTO);
+		
 		if(share_recorded_request>0) {
 			return -2;
-		}else {
+		} else {
 			share_request_cnt=this.shareDAO.requestShare(shareDTO);
-			share_record_request=this.shareDAO.requestStockRecord(shareDTO);
+			this.shareDAO.requestStockRecord(shareDTO);
+			
 			return share_request_cnt;
 		}
 	}
 
+	/**
+	 * 내 매장 공유 재고 요청 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return my_share_request_list : 내 매장 공유 재고 요청 현황 목록
+	 */
 	@Override
 	public List<ShareDTO> getMyShareRequestList(ShareSearchDTO share_searchDTO) {
 		List<ShareDTO> my_share_request_list = this.shareDAO.getMyShareRequestList(share_searchDTO);
+		
 		return my_share_request_list;
 	}
 
+	/**
+	 * 타 매장 공유 재고 요청 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return different_share_request_list : 타 매장 공유 재고 요청 현황 목록
+	 */
 	@Override
 	public List<ShareDTO> getDifferentShareRequestList(ShareSearchDTO share_searchDTO) {
 		List<ShareDTO> different_share_request_list = this.shareDAO.getDifferentShareRequestList(share_searchDTO);
+		
 		return different_share_request_list;
+	}
+
+	/**
+	 * 내 매장 공유 재고 요청 현황 상세보기를 가져옴
+	 * @param shareDTO : 공유 DTO
+	 * @return shareDTO : 내 매장 공유 재고 요청 현황 상세보기
+	 */
+	@Override
+	public ShareDTO getShareRequestDTO(ShareDTO shareDTO) {
+		shareDTO = this.shareDAO.getShareRequestDTO(shareDTO);
+		
+		return shareDTO;
+	}
+
+	/**
+	 * 요청에 대해 수락 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return share_approve_cnt : 요청에 대해 수락 Query 결과
+	 */
+	@Override
+	public int approveShare(ShareDTO shareDTO) {
+		int share_approve_cnt=0;
+		// 수락한 공유재고 count
+		int share_recorded_approve=this.shareDAO.approveShareCount(shareDTO);
+		int share_delete_cnt=this.shareDAO.shareDeletedCount(shareDTO);
+		
+		if(share_recorded_approve>0) {	// 이미 수락한 공유재고가 있을 경우
+			return -2;
+		} else if(share_delete_cnt>0) {	// 삭제된 공유재고가 있을 경우
+			return -3;
+		} else {	// 수락한 공유재고가 없을 경우
+			// 수락한 것을 share_ingredient table에 update하는 메소드
+			share_approve_cnt=this.shareDAO.approveShare(shareDTO);
+			// 수락한 것을 share_ingredient_record table에 insert하는 메소드
+			this.shareDAO.approveShareRecord(shareDTO);
+
+			return share_approve_cnt;
+		}
+	}
+
+	/**
+	 * 내 매장 공유 재고 승인 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return my_share_approve_list : 내 매장 공유 재고 승인 현황 목록
+	 */
+	@Override
+	public List<ShareDTO> getMyShareApproveList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> my_share_approve_list = this.shareDAO.getMyShareApproveList(share_searchDTO);
+		
+		return my_share_approve_list;
+	}
+
+	/**
+	 * 타 매장 공유 재고 승인 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return different_share_approve_list : 타 매장 공유 재고 승인 현황 목록
+	 */
+	@Override
+	public List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> different_share_approve_list = this.shareDAO.getDifferentShareApproveList(share_searchDTO);
+		
+		return different_share_approve_list;
 	}
 }

@@ -30,32 +30,33 @@
 						
 						
 						<div class="text-center">
-							<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+							<form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" name="ingredientAnalysisForm" 
+								method="post" action="${cr}/ingredient_analysis_form.ida">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
-									
-									<button class="btn btn-primary" type="button">
+									<input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" aria-label="Search" aria-describedby="basic-addon2">
+
+									<button class="btn btn-primary list" type="button">
 										<i class="fas fa-search"></i>
 									</button>
 								</div>
-							</form>
-						</div>
+								
+								<table><tr height=10><td></table>
 				
-						<div class="text-right">
-							<input type="checkbox" value="주"><b>주</b>&nbsp;
-							<input type="checkbox" value="월"><b>월</b>&nbsp;
-							<input type="checkbox" value="시간"><b>시간</b>&nbsp;
-							<input type="checkbox" value="분기"><b>분기</b>&nbsp;
-							<input type="checkbox" value="성별"><b>성별</b>&nbsp;
-							<input type="checkbox" value="나이대"><b>나이대</b>
+								<div class="text-right">
+									<input type="checkbox" value="week" name="search_condition"><b>주</b>&nbsp;
+									<input type="checkbox" value="month" name="search_condition"><b>월</b>&nbsp;
+									<input type="checkbox" value="hour" name="search_condition"><b>시간</b>&nbsp;
+									<input type="checkbox" value="quarter" name="search_condition"><b>분기</b>
+								</div>
+							</form>
 						</div>
 						
 						<div class="card-body">
-						<div class="table-responsive">
+							<div class="table-responsive">
 								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<th>주문번호
+											<th>번호
 											<th>핸드폰
 											<th>주문메뉴
 											<th>성별
@@ -66,22 +67,27 @@
 									</thead>
 									
 									<tbody>
+										<tr>
+											<td align=center>${loopTagStatus.index+1}
+												<input type="hidden" name="i_no" value="${ingredient_anl_list.i_no}">
+												<input type="hidden" name="s_no" value="${ingredient_anl_list.s_no}">
+											<td align=center>${ingredient_anl_list.ia_name}</td>
+											<td align=center>${ingredient_anl_list.ib_name}</td>
+											<td align=center>${ingredient_anl_list.io_name}</td>
 									</tbody>
-									
 								</table>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
-	
-				<!-- Sticky Footer -->
-				<footer class="sticky-footer"></footer>
 			</div>
 			<!-- /.content-wrapper -->
-	
 		</div>
 		<!-- /#wrapper -->
+		
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer"></footer>
 	
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"></a>

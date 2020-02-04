@@ -122,7 +122,6 @@ public class IngredientDAOImpl implements IngredientDAO {
 				sqlSessionPath + "deleteIngredient"
 				, trData);
 		
-		
 		return delete_result ;
 	}
 
@@ -153,48 +152,6 @@ public class IngredientDAOImpl implements IngredientDAO {
 		
 		return ingredient_anl_list;
 	}
-	
-	/**
-	 * 식자재 총 개수를 가져옴
-	 * @param ingredientDTO : 식자재 DTO
-	 * @return inserted_ingredient_cnt : 식자재 총 개수
-	 */
-	@Override
-	public int getInsertedIngredientCnt(IngredientDTO ingredientDTO) {
-		int inserted_ingredient_cnt = this.sqlSession.selectOne(
-				sqlSessionPath + "getInsertedIngredientCnt"
-				, ingredientDTO);
-		
-		return inserted_ingredient_cnt;
-	}
-
-	/**
-	 * 등록되었지만 삭제된 식자재 개수를 가져옴
-	 * @param ingredientDTO : 식자재 DTO
-	 * @return inserted_ingredient_cnt : 등록되었지만 삭제된 식자재 개수
-	 */
-	@Override
-	public int getInsertedIngredientIsDelCnt(IngredientDTO ingredientDTO) {
-		int inserted_ingredient_cnt = this.sqlSession.selectOne(
-				sqlSessionPath + "getInsertedIngredientIsDelCnt"
-				, ingredientDTO);
-		
-		return inserted_ingredient_cnt;
-	}
-
-	/**
-	 * 등록되었지만 삭제된 식자재 추가할때 is_del을 'F'로 변경
-	 * @param ingredientDTO : 식자재 DTO
-	 * @return inserted_ingredient_is_del_up : 식자재 수정 Query 결과
-	 */
-	@Override
-	public int getInsertedIngredientIsDelUp(IngredientDTO ingredientDTO) {
-		int inserted_ingredient_is_del_up = this.sqlSession.update(
-				sqlSessionPath + "getInsertedIngredientIsDelUp"
-				, ingredientDTO);
-		
-		return inserted_ingredient_is_del_up;
-	}
 
 	/**
 	 * 식자재 기록에 추가 처리
@@ -213,19 +170,33 @@ public class IngredientDAOImpl implements IngredientDAO {
 	/**
 	 * 식자재 기록에 수정 처리
 	 * @param ingredientDTO : 식자재 DTO
-	 * @return updated_ingredient_record : 식자재 기록 수정 Query 결과
+	 * @return updated_ingredient_record_cnt : 식자재 기록 수정 Query 결과
 	 */
 	@Override
 	public int updateIngredientRecord(IngredientDTO ingredientDTO) {
-		int updated_ingredient_record = this.sqlSession.insert(
+		int updated_ingredient_record_cnt = this.sqlSession.insert(
 				sqlSessionPath + "updateIngredientRecord"
 				, ingredientDTO);
 		
-		return updated_ingredient_record;
+		return updated_ingredient_record_cnt;
+	}
+	
+	/**
+	 * 식자재 알레르기 추가 처리
+	 * @param ingredientDTO : 식자재 DTO
+	 * @return insert_ingredient_allergie_cnt : 식자재 알레르기 추가 Query 결과
+	 */
+	@Override
+	public int insertIngredientAllergie(IngredientDTO ingredientDTO) {
+		int insert_ingredient_allergie_cnt = this.sqlSession.insert(
+				sqlSessionPath + "insertIngredientAllergie"
+				, ingredientDTO);
+		
+		return insert_ingredient_allergie_cnt;
 	}
 
 	/**
-	 * 분석 차트에서 식자재 주 데이터 가져옴
+	 * 주별 식자재 차트 데이터 가져옴
 	 * @param chart_searchDTO : 차트 검색 DTO
 	 * @return week_ingredient_chart : 식자재 주 데이터
 	 */
@@ -239,7 +210,7 @@ public class IngredientDAOImpl implements IngredientDAO {
 	}
 
 	/**
-	 * 분석 차트에서 식자재 월 데이터 가져옴
+	 * 월별 식자재 차트 데이터 가져옴
 	 * @param chart_searchDTO : 차트 검색 DTO
 	 * @return month_ingredient_chart : 식자재 월 데이터
 	 */
@@ -267,16 +238,42 @@ public class IngredientDAOImpl implements IngredientDAO {
 	}
 
 	/**
-	 * 추가된 식자재의 가격 가져옴
+	 * 식자재 존재 개수를 가져옴
 	 * @param ingredientDTO : 식자재 DTO
-	 * @return ingredient_price : 식자재 가격
+	 * @return inserted_ingredient_cnt : 식자재 존재 개수
 	 */
 	@Override
-	public int getInsertedIngredientPriceCnt(IngredientDTO ingredientDTO) {
-		int ingredient_price = this.sqlSession.selectOne(
-				sqlSessionPath + "getInsertedIngredientPriceCnt"
+	public int getInsertedIngredientCnt(IngredientDTO ingredientDTO) {
+		int inserted_ingredient_cnt = this.sqlSession.selectOne(
+				sqlSessionPath + "getInsertedIngredientCnt"
 				, ingredientDTO);
 		
-		return ingredient_price;
+		return inserted_ingredient_cnt;
+	}
+	
+	/**
+	 * 모든 분기 식자재 차트 데이터 가져옴
+	 * @return all_quarter_ingredient_chart : 모든 분기 식자재 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getAllQuarterIngredientData() {
+		List<Map<String, String>> all_quarter_ingredient_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAllQuarterIngredientData");
+		
+		return all_quarter_ingredient_chart;
+	}
+
+	/**
+	 * 분기별 식자재 차트 데이터 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return quarter_ingredient_chart : 분기별 식자재 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getQuarterIngredientData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String, String>> quarter_ingredient_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterIngredientData"
+				, chart_searchDTO);
+		
+		return quarter_ingredient_chart;
 	}
 }

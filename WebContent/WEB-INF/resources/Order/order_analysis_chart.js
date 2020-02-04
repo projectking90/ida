@@ -8,7 +8,6 @@ function setOrderAnalysisChartForm(cr){
 function setGenderOrderAnalysisChartForm(cr){
 	inputData("[name=chart_search]", "성별");
 	inputData("[name=chart_cnt]", "5");
-	inputData("[name=gender]", "m");
 	getChartData(cr, "성별", "5", null, null, null, null, null);
 }
 

@@ -19,6 +19,14 @@
 			}
 		});
 		
+		$(".list").click(function(){
+			ingredient_list();
+		});
+		
+		<c:forEach items="${ingredient_searchDTO.search_condition}" var="search_condition">
+			inputData("[name=search_condition]","${search_condition}");
+		</c:forEach>
+		
 		$(".i_chart").click(function(){
 			location.replace("${cr}/ingredient_analysis_chart_form.ida");
 		});

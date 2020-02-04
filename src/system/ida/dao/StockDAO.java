@@ -42,6 +42,7 @@ public interface StockDAO {
 	List<Map<String, String>> getWeekStockData(ChartSearchDTO chart_searchDTO);	// 주별 재고 차트 데이터 가져옴
 	List<Map<String, String>> getMonthStockData(ChartSearchDTO chart_searchDTO);	// 월별 재고 차트 데이터 가져옴
 	List<Map<String, String>> getAllQuarterStockData();	// 모든 분기 재고 차트 데이터 가져옴
+	List<Map<String, String>> getTimeStockData(ChartSearchDTO chart_searchDTO); // 시간별 재고 차트 데이터 가져옴
 	List<Map<String, String>> getQuarterStockData(ChartSearchDTO chart_searchDTO);	// 분기별 재고 차트 데이터 가져옴
 	StockDTO getStockDTO(int st_no);	// 재고 정보 가져옴
 }

@@ -23,7 +23,7 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-fw fa-chart-area"></i>메뉴 분석 차트
-							<span name='menu_analysis_chart_btn' style='float:right'>
+							<span style='float:right'>
 								<button type="button" class="btn btn-primary m_table">메뉴 표</button>
 							</span>
 						</div>

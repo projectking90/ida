@@ -42,8 +42,8 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	/**
 	 * 가게에 등록된 메뉴를 가져옴
-	 * @param menu_searchDTO : 메뉴 검색을 위해 사용하는 DTO
-	 * @return menu_list : 검색된 메뉴 정보
+	 * @param menu_searchDTO : 메뉴 검색 DTO
+	 * @return menu_list : 메뉴 목록
 	 */
 	@Override
 	public List<MenuDTO> getMenuList(MenuSearchDTO menu_searchDTO) {
@@ -52,6 +52,11 @@ public class MenuServiceImpl implements MenuService {
 		return menu_list;
 	}
 	
+	/**
+	 * 가게 메뉴 정보를 가져옴
+	 * @param menu_searchDTO : 메뉴 검색 DTO
+	 * @return menuDTO : 메뉴 정보
+	 */
 	@Override
 	public MenuDTO getMenuDTO(MenuSearchDTO menu_searchDTO) {
 		MenuDTO menuDTO = this.menuDAO.getMenuDTO(menu_searchDTO);
@@ -61,7 +66,7 @@ public class MenuServiceImpl implements MenuService {
 	
 	/**
 	 * 가게에 등록된 메뉴 총 개수를 가져옴
-	 * @param menu_searchDTO : 메뉴 검색을 위해 사용하는 DTO
+	 * @param menu_searchDTO : 메뉴 검색 DTO
 	 * @return menu_list_all_cnt : 메뉴 총 개수
 	 */
 	@Override
@@ -70,10 +75,11 @@ public class MenuServiceImpl implements MenuService {
 
 		return menu_list_all_cnt;
 	}
+	
 	/**
-	 * 가게 메뉴 추가
-	 * @param menuDTO : 메뉴 추가를 위해 사용하는 DTO
-	 * @return insert_result : 메뉴 추가 적용 개수
+	 * 가게 메뉴 추가 처리
+	 * @param menuDTO : 메뉴 DTO
+	 * @return insert_result : 메뉴 추가 Query 결과
 	 */
 	@Override
 	public int insertStoreMenu(MenuDTO menuDTO) {
@@ -84,6 +90,10 @@ public class MenuServiceImpl implements MenuService {
 		return insert_result;
 	}
 	
+	/**
+	 * 메뉴 대분류의 이름을 가져옴
+	 * @return ma_nameList : 메뉴 대분류의 이름 목록
+	 */
 	@Override
 	public List<CodeMenuAlphaDTO> getCodeMenuAlpha(){
 		List<CodeMenuAlphaDTO> ma_nameList = this.menuDAO.getCodeMenuAlpha();
@@ -91,84 +101,128 @@ public class MenuServiceImpl implements MenuService {
 		return ma_nameList;
 	}
 
+	/**
+	 * 메뉴 소분류의 이름을 가져옴
+	 * @return mb_nameList : 메뉴 소분류의 이름 목록
+	 */
 	@Override
 	public List<CodeMenuBetaDTO> getCodeMenuBeta(){
 		List<CodeMenuBetaDTO> mb_nameList = this.menuDAO.getCodeMenuBeta();
+		
 		return mb_nameList;
 	}
 
+	/**
+	 * 식자재 목록을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList : 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList = this.menuDAO.getIngredientList(code_ingredientDTO);
+		
 		return i_nameList;
 	}
 	
+	/**
+	 * 식자재 대분류 첫번째 식자재들을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList1 : 식자재 대분류 첫번째 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList1(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList1 = this.menuDAO.getIngredientList1(code_ingredientDTO);
+		
 		return i_nameList1;
 	}
+	
+	/**
+	 * 식자재 대분류 두번째 식자재들을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList2 : 식자재 대분류 두번째 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList2(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList2 = this.menuDAO.getIngredientList2(code_ingredientDTO);
+		
 		return i_nameList2;
 	}
 
+	/**
+	 * 식자재 대분류 세번째 식자재들을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList3 : 식자재 대분류 세번째 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList3(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList3 = this.menuDAO.getIngredientList3(code_ingredientDTO);
+		
 		return i_nameList3;
 	}
 
+	/**
+	 * 식자재 대분류 네번째 식자재들을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList4 : 식자재 대분류 네번째 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList4(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList4 = this.menuDAO.getIngredientList4(code_ingredientDTO);
+		
 		return i_nameList4;
 	}
 
+	/**
+	 * 식자재 대분류 다섯번째 식자재들을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList5 : 식자재 대분류 다섯번째 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList5(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList5 = this.menuDAO.getIngredientList5(code_ingredientDTO);
+		
 		return i_nameList5;
 	}
 
+	/**
+	 * 식자재 대분류 여섯번째 식자재들을 가져옴
+	 * @param code_ingredientDTO : 식자재 DTO
+	 * @return i_nameList6 : 식자재 대분류 여섯번째 식자재 목록
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList6(Code_ingredientDTO code_ingredientDTO){
-		
 		List<IngredientDTO> i_nameList6 = this.menuDAO.getIngredientList6(code_ingredientDTO);
+		
 		return i_nameList6;
 	}
 	
-	
 	/**
-	 * 식자재 대분류
+	 * 식자재 대분류의 이름을 가져옴
+	 * @return ia_nameList : 식자재 대분류의 이름 목록
 	 */
 	@Override
 	public List<Code_IngredientAlphaDTO> getCodeIngAlpha() {
 		List<Code_IngredientAlphaDTO> ia_nameList = this.menuDAO.getCodeIngAlpha();
+		
 		return ia_nameList;
 	}
-
+	
 	/**
-	 * 식자재 소분류
+	 * 식자재 소분류의 이름 가져옴
+	 * @return ib_nameList : 식자재 소분류의 이름 목록
 	 */
 	@Override
 	public List<Code_IngredientBetaDTO> getCodeIngBeta() {
 		List<Code_IngredientBetaDTO> ib_nameList = this.menuDAO.getCodeIngBeta();
+		
 		return ib_nameList;
 	}
 
 
 	/**
-	 * 가게 메뉴 수정
-	 * @param menuDTO : 메뉴 추가를 위해 사용하는 DTO
-	 * @return update_result : 메뉴 수정 적용 개수
+	 * 가게 메뉴 수정 처리
+	 * @param menuDTO : 메뉴 DTO
+	 * @return update_result : 메뉴 수정 Query 결과
 	 */
 	@Override
 	public int updateStoreMenu(MenuDTO menuDTO) {
@@ -177,7 +231,7 @@ public class MenuServiceImpl implements MenuService {
 		
 		if(menu_cnt<=0) {
 			return 2;
-		}else {
+		} else {
 			update_result = this.menuDAO.updateStoreMenu(menuDTO);
 		}
 
@@ -185,9 +239,9 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	/**
-	 * 가게 메뉴 삭제
-	 * @param menuDTO : 메뉴 추가를 위해 사용하는 DTO
-	 * @return delete_result : 메뉴 삭제 적용 개수
+	 * 가게 메뉴 삭제 처리
+	 * @param menu_delete : 삭제할 메뉴 번호들
+	 * @return delete_result : 메뉴 삭제 Query 결과
 	 */
 	@Override
 	public int deleteStoreMenu(ArrayList<String> menu_delete) {
@@ -203,6 +257,11 @@ public class MenuServiceImpl implements MenuService {
 		return delete_result;
 	}
 	
+	/**
+	 * 메뉴의 코스트를 가져옴
+	 * @param s_id : 아이디
+	 * @return cost_chart : 코스트 데이터
+	 */
 	public List<Map<String, String>> getMenuCostData(String s_id) {
 		List<Map<String,String>> cost_chart = this.menuDAO.getMenuCostData(s_id);
 		

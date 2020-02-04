@@ -35,7 +35,6 @@ public class UserUpdateDTO {
 	private int addr_code;	// 주소코드
 	private String addr_detail;	// 상세주소
 	
-
 	/**
 	 * 생성자 선언
 	 */

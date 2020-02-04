@@ -1,3 +1,4 @@
+// ******************************** 삭제 *************************
 function update_store_reg(cr){
 	var trArr = new Array();
 	

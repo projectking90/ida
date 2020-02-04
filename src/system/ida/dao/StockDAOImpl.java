@@ -253,6 +253,20 @@ public class StockDAOImpl implements StockDAO {
 		
 		return all_quarter_stock_chart;
 	}
+	
+	/**
+	 * 시간별 재고 차트 데이터 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return time_stock_chart : 시간별 재고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getTimeStockData(ChartSearchDTO chart_searchDTO){
+		List<Map<String,String>> time_stock_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getTimeStockData"
+				, chart_searchDTO);
+
+		return time_stock_chart;
+	}
 
 	/**
 	 * 분기별 재고 차트 데이터 가져옴

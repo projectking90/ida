@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/resources/IDA/user_js.jsp" %>
 <!DOCTYPE html>
-
+<!-- ******************************** 삭제 ************************* -->
 <!-- javascript 파일 수입 -->
 <script src="${cr}/resources/Ingredient/ingredient_delete.js" type="text/javascript"></script>
 

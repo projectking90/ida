@@ -7,6 +7,7 @@
 <!-- javascript에 관련된 jsp 파일 수입 -->
 <%@ include file="/WEB-INF/resources/Stock/stock_js.jsp"%>
 <!DOCTYPE html>
+<!-- ******************************** 삭제 ************************* -->
 <html>
 	<head>
 		<meta charset="UTF-8">

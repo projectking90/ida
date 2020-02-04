@@ -13,108 +13,111 @@ public class ChartSearchDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private String s_id;
-	private String chart_cnt;
-	private String age;
-	private String week;
-	private String month;
-	private String year;
-	private String quarter;
+	private String s_id;	// 아이디
+	private String chart_cnt;	// 검색 갯수
+	private String age;	// 나이
+	private String week;	// 주
+	private String month;	// 월
+	private String year;	// 년
+	private String quarter;	// 분기
 	
 	/**
+	 * 메소드 선언
+	 */
+	/**
 	 * s_id 접근자
-	 * @return s_id : 
+	 * @return s_id : 아이디
 	 */
 	public String getS_id() {
 		return s_id;
 	}
 	/**
 	 * s_id 설정자
-	 * @param s_id : 
+	 * @param s_id : 아이디
 	 */
 	public void setS_id(String s_id) {
 		this.s_id = s_id;
 	}
 	/**
 	 * chart_cnt 접근자
-	 * @return chart_cnt : 
+	 * @return chart_cnt : 검색 갯수
 	 */
 	public String getChart_cnt() {
 		return chart_cnt;
 	}
 	/**
 	 * chart_cnt 설정자
-	 * @param chart_cnt : 
+	 * @param chart_cnt : 검색 갯수
 	 */
 	public void setChart_cnt(String chart_cnt) {
 		this.chart_cnt = chart_cnt;
 	}
 	/**
 	 * age 접근자
-	 * @return age : 
+	 * @return age : 나이
 	 */
 	public String getAge() {
 		return age;
 	}
 	/**
 	 * age 설정자
-	 * @param age : 
+	 * @param age : 나이
 	 */
 	public void setAge(String age) {
 		this.age = age;
 	}
 	/**
 	 * week 접근자
-	 * @return week : 
+	 * @return week : 주
 	 */
 	public String getWeek() {
 		return week;
 	}
 	/**
 	 * week 설정자
-	 * @param week : 
+	 * @param week : 주
 	 */
 	public void setWeek(String week) {
 		this.week = week;
 	}
 	/**
 	 * month 접근자
-	 * @return month : 
+	 * @return month : 월
 	 */
 	public String getMonth() {
 		return month;
 	}
 	/**
 	 * month 설정자
-	 * @param month : 
+	 * @param month : 월
 	 */
 	public void setMonth(String month) {
 		this.month = month;
 	}
 	/**
 	 * year 접근자
-	 * @return year : 
+	 * @return year : 년
 	 */
 	public String getYear() {
 		return year;
 	}
 	/**
 	 * year 설정자
-	 * @param year : 
+	 * @param year : 년
 	 */
 	public void setYear(String year) {
 		this.year = year;
 	}
 	/**
 	 * quarter 접근자
-	 * @return quarter : 
+	 * @return quarter : 분기
 	 */
 	public String getQuarter() {
 		return quarter;
 	}
 	/**
 	 * quarter 설정자
-	 * @param quarter : 
+	 * @param quarter : 분기
 	 */
 	public void setQuarter(String quarter) {
 		this.quarter = quarter;

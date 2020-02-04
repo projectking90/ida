@@ -1,3 +1,4 @@
+// ******************************** 삭제 *************************
 function menu_delete_reg(cr) {
 	var trArr = new Array();
 	$(".menu_list_tr").each(function(index){

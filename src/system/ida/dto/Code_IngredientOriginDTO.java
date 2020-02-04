@@ -5,31 +5,31 @@
 package system.ida.dto;
 
 /**
- * IngredientOriginDTO 클래스
- * 식자재 수정 할 때  사용할  원산지 DTO
+ * Code_IngredientOriginDTO 클래스
+ * 식자재 원산지 DTO
  * @author Jo
  */
 public class Code_IngredientOriginDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private String io_name;		//option 태그의 value 값
-	/**
-	 * 생성자 선언
-	 */
-
+	private String io_name;	// 식자재 원산지 이름
 
 	/**
 	 * 접근자, 설정자 선언
 	 */
-	
-
+	/**
+	 * io_name 접근자
+	 * @return io_name : 식자재 원산지 이름
+	 */
 	public String getIo_name() {
 		return io_name;
 	}
-
+	/**
+	 * io_name 설정자
+	 * @param io_name : 식자재 원산지 이름
+	 */
 	public void setIo_name(String io_name) {
 		this.io_name = io_name;
 	}
-
 }

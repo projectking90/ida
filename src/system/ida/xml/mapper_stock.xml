@@ -3,361 +3,544 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.StockDAO">
-	<!--검색 : 재고번호, 대분류 ,소분류, 원산지, 식자재명, 규격, 재고수량, 재고상태, 날짜, 가격-->
+	<!-- 전체 재고 목록을 가져올 select 태그 -->
 	<select id="getStockList" resultType="system.ida.dto.StockDTO">
 		select
-    		st.st_no as "st_no"
-    		,(select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=(select i.ia_code from ingredient i where i.i_no=st.i_no)) as "ia_name"
-    		,(select ib.ib_name from code_ingredient_beta ib where ib.ib_code=(select i.ib_code from ingredient i where i.i_no=st.i_no))  as "ib_name"
-    		,(select io.io_name from code_ingredient_origin io where io.io_code=(select i.io_code from ingredient i where i.i_no=st.i_no))  as "io_name"
-			,(select i.i_name from ingredient i where i.i_no=st.i_no) as "i_name"
-			,(select i.i_size from ingredient i where i.i_no=st.i_no) as "i_size"
-			,st.quantity as "quantity"
-			,st.st_state as "st_state"
-            ,to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi') as "reg_date"
-			,to_char((select i.i_price from ingredient i where i.i_no=st.i_no), '9,999,999,999') as "i_price"
-		from stock st
-		where st.is_del='F'
-			and st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id}))
+    		st.st_no	as "st_no"
+    		, (select
+    				ia.ia_name
+    			from
+    				code_ingredient_alpha ia
+    			where
+    				ia.ia_code = (select
+    									i.ia_code
+    								from
+    									ingredient i
+    								where
+    									i.i_no = st.i_no))	as "ia_name"
+    		, (select
+    				ib.ib_name
+    			from
+    				code_ingredient_beta ib
+    			where
+    				ib.ib_code = (select
+    									i.ib_code
+    								from
+    									ingredient i
+    								where
+    									i.i_no = st.i_no))	as "ib_name"
+    		, (select
+    				io.io_name
+    			from
+    				code_ingredient_origin io
+    			where
+    				io.io_code = (select
+    									i.io_code
+    								from
+    									ingredient i
+    								where
+    									i.i_no = st.i_no))	as "io_name"
+			, (select
+					i.i_name
+				from
+					ingredient i
+				where
+					i.i_no = st.i_no)	as "i_name"
+			, (select
+					i.i_size
+				from
+					ingredient i
+				where
+					i.i_no = st.i_no)	as "i_size"
+			, st.quantity	as "quantity"
+			, st.st_state	as "st_state"
+            , to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi')	as "reg_date"
+			, to_char((select
+							i.i_price
+						from
+							ingredient i
+						where
+							i.i_no = st.i_no), '9,999,999,999')	as "i_price"
+		from
+			stock st
+		where
+			st.is_del = 'F'
+			and st.i_no in (select
+								i.i_no
+							from
+								ingredient i
+							where
+								i.s_no = (select
+												s.s_no
+											from
+												store s
+											where
+												s.s_id = #{s_id}))
 	</select>
 		
+	<!-- 식자재 대분류 목록을 가져올 select 태그 -->
 	<select id="getIngredientList" resultType="system.ida.dto.IngredientDTO">
 		select
-			i_no "i_no"
-			,i_name "i_name"
-		from ingredient i
-		where i.is_del='F'
-			and i.s_no=(select s.s_no from store s where s.s_id=#{s_id})
+			i_no	"i_no"
+			, i_name	"i_name"
+		from
+			ingredient i
+		where
+			i.is_del = 'F'
+			and i.s_no = (select
+								s.s_no
+							from
+								store s
+							where
+								s.s_id = #{s_id})
 	</select>
 	
+	<!-- 재고 추가 처리할 select 태그 -->
 	<insert id="insertStock" parameterType="system.ida.dto.StockDTO">
 		insert into stock(
 			st_no
-			,i_no
-			,quantity
-			,st_state
+			, i_no
+			, quantity
+			, st_state
 		) values (
-			(select nvl(max(st_no),0)+1 from stock)
-			,${i_no}
-			,${quantity}
-			,#{st_state}
+			(select
+					nvl(max(st_no), 0) + 1
+				from
+					stock)
+			, ${i_no}
+			, ${quantity}
+			, #{st_state}
 		)
 	</insert>
-		
+	
+	<!-- 재고 수정 처리할 update 태그 -->
 	<update id="updateStock" parameterType="hashmap">
 		update
 			stock
 		set
 			quantity = ${quantity}
-			,st_state = #{st_state}
+			, st_state = #{st_state}
 		where
 			st_no = ${st_no}
 	</update>
 			
+	<!-- 재고 삭제 처리할 update 태그 -->
 	<update id="deleteStock" parameterType="hashmap">
 		update
 			stock
 		set
-			is_del='T'
-			, quantity=0
+			is_del = 'T'
+			, quantity = 0
 		where
 			st_no = ${st_no}
 	</update>
 	
+	<!-- 등록된 재고 개수를 가져올 select 태그 -->
 	<select id="getInsertedStockCnt" parameterType="system.ida.dto.StockDTO" resultType="int">
 		select
 			count(*)
 		from 
 			stock st
 		where
-			st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id})) and st.i_no=${i_no}
-	</select>	
+			st.i_no in (select
+							i.i_no
+						from
+							ingredient i
+						where i.s_no = (select
+											s.s_no
+										from
+											store s
+										where
+											s.s_id = #{s_id}))
+			and st.i_no = ${i_no}
+	</select>
 	
+	<!-- 등록되었지만 삭제된 재고 개수를 가져올 select 태그 -->
 	<select id="getInsertedStockIsDelCnt" parameterType="system.ida.dto.StockDTO" resultType="int">
 		select
 			count(*)
 		from 
 			stock
-		where is_del='T'
+		where
+			is_del = 'T'
+			and st_no = ${st_no}
 	</select>
 	
+	<!-- 등록되었지만 삭제된 재고를 추가할 때 is_del을 'F'로 처리할 update 태그 -->
 	<update id="getInsertedStockIsDelUp"  parameterType="system.ida.dto.StockDTO">
 		update
 			stock
 		set
-			is_del='F'
-			,st_state = #{st_state}
-			,quantity = ${quantity}
+			is_del = 'F'
+			, st_state = #{st_state}
+			, quantity = ${quantity}
 		where
-			is_del='T'
+			is_del = 'T'
 			and i_no = ${i_no}
 	</update>
 	
+	<!-- 재고 기록에 삭제 기록 처리할 insert 태그 -->
 	<insert id="deleteStockRecord" parameterType="hashmap">
 		insert into stock_record(
 			st_no
-			,quantity
+			, quantity
 		) values (
 			${st_no}
-			,(select sum(quantity)*(-1) from stock_record where st_no=${st_no})
+			, (select
+					sum(quantity) * (-1)
+				from
+					stock_record
+				where
+					st_no = ${st_no})
 		)
 	</insert>
 		
+	<!-- 재고 기록에 추가 기록 처리할 insert 태그 -->
 	<insert id="insertStockRecord" parameterType="system.ida.dto.StockDTO">
-		insert into stock_record(
+		insert into stock_record (
 			st_no
-			,quantity
+			, quantity
 		) values (
-			(select st_no from stock where i_no=${i_no})
-			,${quantity}
+			(select
+					st_no
+				from
+					stock
+				where
+					i_no = ${i_no})
+			, ${quantity}
 		)
 	</insert>
 	
+	<!-- 추가된 재고의 수량 가져올 select 태그 -->
 	<select id="getInsertedStockQuantityCnt" parameterType="system.ida.dto.StockDTO" resultType="int">
-		select 
+		select
 			quantity
-		from 
+		from
 			stock
-		where st_no=${st_no}
+		where
+			st_no = ${st_no}
 	</select>
 	
+	<!-- 재고 수량이 수정될 때 재고 기록에  차이 만큼값을 기록 처리할 insert 태그 -->
 	<insert id="updateStockRecord" parameterType="system.ida.dto.StockDTO">
-		insert into stock_record(
+		insert into stock_record (
 			st_no
-			,quantity
-		)values(
+			, quantity
+		) values (
 			${st_no}
-			,${quantity}
+			, ${quantity}
 		)
 	</insert>
 	
+	<!-- 주별 재고 차트 데이터 가져올 select 태그 -->
 	<select id='getWeekStockData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
- 		select 
-            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
-        from
-        (
-          select
-              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(www.quantity),0) "DATA"
-          from
-          (
-             select
-                 ww.week||'주' "DATASET", ss.i_name "LABEL"
-              from
-              (
-                select
-                    i.s_no    as "S_NO"
-                    , i.i_name    as "I_NAME"
-                    , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
-                    , sr.quantity    as "QUANTITY"
-                from
-                    ingredient i, stock s, stock_record sr
-                where
-                  i.i_no = s.i_no 
-                  and s.st_no = sr.st_no
-                  and s.is_del = 'F' 
-                  and to_char(sr.reg_date,'YYYYMM')=to_char(sysdate,'YYYYMM')
-              ) ss   
-              ,(
-                select '1' "WEEK" from dual
-                union select '2' from dual
-                union select '3' from dual
-                union select '4' from dual
-                union select '5' from dual  
-              ) ww 
-              where ss.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[  to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week ]]>
-          ) sss
-          ,
-          (
-          select
-              i.s_no    as "S_NO"
-              , i.i_name    as "I_NAME"
-              , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
-              , sr.quantity    as "QUANTITY"
-          from
-              ingredient i, stock s, stock_record sr
-          where
-              i.i_no = s.i_no 
-              and s.st_no = sr.st_no
-              and s.is_del = 'F'                              
-              and to_char(sr.reg_date,'MM')=to_char(sysdate,'MM')
-              and i.s_no=(select s_no from store where s_id=#{s_id})
-          ) www  
-         where  sss.label=www.i_name(+) and sss.dataset=www.reg_date(+)||'주' and sss.dataset=${week}||'주'    
-         group by sss.label, sss.dataset    
-         having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
-         order by nvl(sum(www.quantity),0) desc, 1, 2  
-        ) ssss             
-        where <![CDATA[ rownum<=${chart_cnt}]]>
+		<![CDATA[ select
+						rownum	"RNUM"
+						, ssss.dataset	"DATASET"
+						, ssss.label	"LABEL"
+						, nvl(ssss.data || '', '0')	"DATA"
+					from
+						(select
+								sss.dataset	"DATASET"
+								, sss.label	"LABEL"
+								, nvl(sum(si.quantity), 0)	"DATA"
+							from
+								(select
+										ww.week || '주'	"DATASET"
+										, ss.i_name	"LABEL"
+									from
+										stock_ingredient ss
+										, (select '1' "WEEK" from dual
+											union select '2' from dual
+											union select '3' from dual
+											union select '4' from dual
+											union select '5' from dual) ww
+									where
+										ss.s_no = (select
+														s_no
+													from
+														store
+													where
+														s_id = #{s_id})
+										and to_char(last_day(add_months(sysdate, -1)), 'w') >= ww.week) sss
+								, stock_ingredient si
+							where
+								sss.label = si.i_name(+)
+								and sss.dataset = to_char(to_date(to_char(si.reg_date(+), 'yyyymmdd'), 'yyyymmdd'), 'w') || '주'
+								and sss.dataset = ${week} || '주'
+								and to_char(si.reg_date, 'MM') = to_char(add_months(sysdate, -1), 'MM')
+								and si.s_no = (select
+													s_no
+												from
+													store
+												where
+													s_id = #{s_id})
+							group by sss.label, sss.dataset
+							having nvl(sum(si.quantity), 0) >= 0
+							order by nvl(sum(si.quantity), 0) desc, 1, 2) ssss
+					where rownum <= ${chart_cnt} ]]>
 	</select>
 	
+	<!-- 모든 분기 재고 차트 데이터 가져올 select 태그 -->
 	<select id="getAllQuarterStockData" resultType="hashmap">
-		select 
-		    q.quarter||'분기' "LABEL", 
-		    nvl(sum(sr.quantity),0)||''  "DATA"
-		from 
-		    stock_record sr,
-		    (
-		    select '1' "QUARTER" from dual
-		    union select '2' from dual
-		    union select '3' from dual
-		    union select '4' from dual
-		    )  q                 
-		where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY')-1
+		select
+			q.quarter || '분기'	"LABEL"
+			, nvl(sum(sr.quantity), 0) || ''	"DATA"
+		from
+			stock_record sr
+			, (select '1' "QUARTER" from dual
+				union select '2' from dual
+				union select '3' from dual
+				union select '4' from dual) q
+		where
+			q.quarter = to_char(sr.reg_date(+), 'Q')
+			and to_char(sr.reg_date(+), 'YYYY') = to_char(sysdate, 'YYYY') - 1
 		group by q.quarter
 		order by 1
 	</select>
 	
+	<!-- 분기별 재고 차트 데이터 가져올 select 태그 -->
 	<select id="getQuarterStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select 
-            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
-        from
-        (
-          select
-              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(www.quantity),0) "DATA"
-          from
-          (
-             select
-                 q.quarter||'분기' "DATASET", ss.i_name "LABEL"
-              from
-              (
-                select
-                    i.s_no    as "S_NO"
-                    , i.i_name    as "I_NAME"
-                    , to_char(sr.reg_date,'Q')    as "QUARTER"
-                    , sr.quantity    as "QUANTITY"
-                from
-                    ingredient i, stock s, stock_record sr
-                where
-                  i.i_no = s.i_no 
-                  and s.st_no = sr.st_no
-                  and s.is_del = 'F'        
-                  and to_char(sr.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
-              ) ss   
-              ,(
-                select '1' "QUARTER" from dual
-                union select '2' from dual
-                union select '3' from dual
-                union select '4' from dual
-              ) q 
-              where ss.s_no=(select s_no from store where s_id=#{s_id})  
-          ) sss
-          ,
-          (
-              select
-                  i.s_no    as "S_NO"
-                  , i.i_name    as "I_NAME"
-                  , to_char(sr.reg_date,'Q')    as "QUARTER"
-                  , sr.quantity    as "QUANTITY"
-              from
-                  ingredient i, stock s, stock_record sr
-              where
-                i.i_no = s.i_no 
-                and s.st_no = sr.st_no
-                and s.is_del = 'F'        
-                and to_char(sr.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
-          ) www  
-         where  sss.label=www.i_name(+) and sss.dataset=www.quarter(+)||'분기' and sss.dataset=${quarter}||'분기'    
-         group by sss.label, sss.dataset    
-         having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
-         order by nvl(sum(www.quantity),0) desc, 1, 2  
-        ) ssss             
-        where  <![CDATA[ rownum<=${chart_cnt}]]>
+		<![CDATA[select
+						rownum	"RNUM"
+						, ssss.dataset	"DATASET"
+						, ssss.label	"LABEL"
+						, nvl(ssss.data || '', '0')	"DATA"
+					from
+						(select
+								sss.dataset	"DATASET"
+								, sss.label	"LABEL"
+								, nvl(sum(si.quantity), 0)	"DATA"
+							from
+								(select
+										q.quarter || '분기'	"DATASET"
+										, si.i_name	"LABEL"
+									from
+										stock_ingredient si
+										, (select '1' "QUARTER" from dual
+											union select '2' from dual
+											union select '3' from dual
+											union select '4' from dual) q
+									where
+										si.s_no = (select
+														s_no
+													from
+														store
+													where
+														s_id = #{s_id})
+										and to_char(si.reg_date, 'YYYY') = to_char(sysdate, 'YYYY') - 1) sss
+								, stock_ingredient si
+							where
+								sss.label = si.i_name(+)
+								and sss.dataset = to_char(si.reg_date(+), 'Q') || '분기'
+								and sss.dataset = ${quarter} || '분기'
+								and to_char(si.reg_date, 'YYYY') = to_char(sysdate, 'YYYY') - 1
+							group by sss.label, sss.dataset
+							having nvl(sum(si.quantity), 0) >= 0) ssss
+					where
+						rownum <= ${chart_cnt} ]]>
 	</select>
 	
-	 <select id="getMonthStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-	 select 
-	      rownum "RNUM", ssss.label "LABEL", ssss.dataset "DATASET", ssss.data "DATA"
-	     from
-	     (
-	       select
-	           sss.label "LABEL", sss.dataset "DATASET", nvl(sum(www.quantity),0)||'' "DATA"
-	       from
-	       (              
-	         select
-	           mm.month||'월' "DATASET", ss.i_name "LABEL"
-	         from
-	           (
-	             select
-	                 i.s_no    as "S_NO"
-	                 , i.i_name    as "I_NAME"
-	                 , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
-	                 , sr.quantity    as "QUANTITY"
-	             from
-	                 ingredient i, stock s, stock_record sr
-	             where
-	               i.i_no = s.i_no 
-	               and s.st_no = sr.st_no
-	               and s.is_del = 'F'  
-	           ) ss  
-	           ,
-	           (
-	             select '1' "MONTH" from dual
-	             union select '2' from dual
-	             union select '3' from dual
-	             union select '4' from dual
-	             union select '5' from dual   
-	             union select '6' from dual
-	             union select '7' from dual
-	             union select '8' from dual
-	             union select '9' from dual 
-	             union select '10' from dual
-	             union select '11' from dual
-	             union select '12' from dual
-	           ) mm       
-	           where ss.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[ mm.month<=to_number(substr(ss.reg_date(+),5,2)) ]]>
-	         ) sss           
-	         ,
-	         (
-	             select
-	                 i.s_no    as "S_NO"
-	                 , i.i_name    as "I_NAME"
-	                 , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
-	                 , nvl(sr.quantity,0)    as "QUANTITY"
-	             from
-	                 ingredient i, stock s, stock_record sr
-	             where
-	               i.i_no = s.i_no 
-	               and s.st_no = sr.st_no
-	               and s.is_del = 'F'
-	               and i.s_no=(select s_no from store where s_id=#{s_id})
-	         ) www    
-	        where  sss.label=www.i_name(+) and sss.dataset=to_number(substr(www.reg_date(+),5,2))||'월' and sss.dataset=#{month}||'월' and substr(www.reg_date(+),1,4)=#{year}
-	        group by sss.label,sss.dataset  
-	        having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
-	        order by nvl(sum(www.quantity),0) desc, 2, 1              
-	      ) ssss     
-        where <![CDATA[ rownum<=${chart_cnt}]]>                        
-   	</select>
+	<!-- 월별 재고 차트 데이터 가져올 select 태그 -->
+	<select id="getMonthStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ select
+						rownum	"RNUM"
+						, ssss.label	"LABEL"
+						, ssss.dataset	"DATASET"
+						, ssss.data	"DATA"
+					from
+						(select
+								sss.label	"LABEL"
+								, sss.dataset	"DATASET"
+								, nvl(sum(si.quantity), 0) || ''	"DATA"
+							from
+								(select
+										mm.month || '월'	"DATASET"
+										, si.i_name	"LABEL"
+									from
+										stock_ingredient si
+										, (select '1'	"MONTH" from dual
+											union select '2' from dual
+											union select '3' from dual
+											union select '4' from dual
+											union select '5' from dual
+											union select '6' from dual
+											union select '7' from dual
+											union select '8' from dual
+											union select '9' from dual
+											union select '10' from dual
+											union select '11' from dual
+											union select '12' from dual) mm
+									where
+										si.s_no = (select
+														s_no
+													from
+														store
+													where
+														s_id = #{s_id})
+										and mm.month <= to_number(to_char(si.reg_date(+), 'mm'))) sss
+								, stock_ingredient si
+							where
+								si.s_no = (select
+												s_no
+											from
+												store
+											where
+												s_id = #{s_id})
+								and sss.label = si.i_name(+)
+								and sss.dataset = to_number(to_char(si.reg_date(+), 'mm')) || '월'
+								and sss.dataset = ${month} || '월'
+								and to_char(si.reg_date(+), 'yyyy') = ${year}
+							group by sss.label,sss.dataset
+							having nvl(sum(si.quantity), 0) >= 0
+							order by nvl(sum(si.quantity), 0) desc, 2, 1) ssss
+					where
+						rownum <= ${chart_cnt} ]]>
+	</select>
+
+	<!-- 시간별 재고 차트 데이터를 가져올 select 태그 -->
+	<select id="getTimeStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select
+			sss.label || '시'	"LABEL"
+			, sss.data || ''	"DATA"
+		from
+			(select
+					to_number(hh.hour)	"LABEL"
+					, nvl(ss.quantity, 0)	"DATA"
+				from
+					(select
+							si.s_no	"S_NO"
+							, to_char(si.reg_date, 'hh24')	"REG_DATE"
+							, sum(si.quantity)	"QUANTITY"
+						from
+							stock_ingredient si
+						where
+							si.s_no = (select
+											s_no
+										from
+											store
+										where
+											s_id = #{s_id})
+							and to_char(add_months(sysdate, -1), 'YYYYMM') = to_char(si.reg_date, 'YYYYMM')
+						group by si.s_no, to_char(si.reg_date, 'hh24')) ss
+					, (select '0'	"HOUR" from dual
+						union select '1' from dual
+						union select '2' from dual
+						union select '3' from dual
+						union select '4' from dual
+						union select '5' from dual
+						union select '6' from dual
+						union select '7' from dual
+						union select '8' from dual
+						union select '9' from dual
+						union select '10' from dual
+						union select '11' from dual
+						union select '12' from dual
+						union select '13' from dual
+						union select '14' from dual
+						union select '15' from dual
+						union select '16' from dual
+						union select '17' from dual
+						union select '18' from dual
+						union select '19' from dual
+						union select '20' from dual
+						union select '21' from dual
+						union select '22' from dual
+						union select '23' from dual) hh
+				where
+					hh.hour = ss.reg_date(+)
+				order by 1) sss
+	</select>
 	
+	<!-- 차트 재고 테이블 목록 가져올 select 태그 -->
 	<select id="getStockAnlList" resultType="system.ida.dto.StockDTO">
-        select 
-            si.s_no "S_NO",
-            ia.ia_name "IA_NAME", 
-            ib.ib_name "IB_NAME",
-            io.io_name "IO_NAME",
-            si.i_name "I_NAME",
-            i.i_size "I_SIZE",
-            TO_CHAR(si.reg_date, 'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
-            sI.quantity "QUANTITY",
-            to_char(i.i_price, '9,999,999,999') "I_PRICE"
-        from stock_ingredient si, ingredient i, code_ingredient_alpha ia, code_ingredient_beta ib, code_ingredient_origin io
-        where i.i_name=si.i_name and ia.ia_code=i.ia_code and ib.ib_code=i.ib_code and io.io_code=i.io_code and i.s_no=(select s.s_no from store s where s.s_id=#{s_id})
+		select
+			si.s_no	"S_NO"
+			, ia.ia_name	"IA_NAME"
+			, ib.ib_name	"IB_NAME"
+			, io.io_name	"IO_NAME"
+			, si.i_name	"I_NAME"
+			, i.i_size	"I_SIZE"
+			, TO_CHAR(si.reg_date, 'yyyy-mm-dd(dy) hh:mi')	"REG_DATE"
+			, sI.quantity	"QUANTITY"
+			, to_char(i.i_price, '9,999,999,999')	"I_PRICE"
+		from
+			stock_ingredient si, ingredient i, code_ingredient_alpha ia, code_ingredient_beta ib, code_ingredient_origin io
+		where
+			i.i_name = si.i_name
+			and ia.ia_code = i.ia_code
+			and ib.ib_code = i.ib_code
+			and io.io_code = i.io_code
+			and i.s_no = (select
+								s.s_no
+							from
+								store s
+							where
+								s.s_id = #{s_id})
 	</select>
 	
+	<!-- 재고 정보 가져올 select 태그 -->
 	<select id="getStockDTO" parameterType="int" resultType="system.ida.dto.StockDTO">
 		select
-    		st.st_no as "st_no"
-    		,(select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=(select i.ia_code from ingredient i where i.i_no=st.i_no)) as "ia_name"
-    		,(select ib.ib_name from code_ingredient_beta ib where ib.ib_code=(select i.ib_code from ingredient i where i.i_no=st.i_no))  as "ib_name"
-    		,(select io.io_name from code_ingredient_origin io where io.io_code=(select i.io_code from ingredient i where i.i_no=st.i_no))  as "io_name"
-			,(select i.i_name from ingredient i where i.i_no=st.i_no) as "i_name"
-			,(select i.i_size from ingredient i where i.i_no=st.i_no) as "i_size"
-			,st.quantity as "quantity"
-			,st.st_state as "st_state"
-            ,to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi') as "reg_date"
-			,to_char((select i.i_price from ingredient i where i.i_no=st.i_no), '9,999,999,999') as "i_price"
-		from stock st
-		where st.is_del='F'
-			and st.st_no=${value}
+			st.st_no	as "st_no"
+			, (select
+					ia.ia_name
+				from
+					code_ingredient_alpha ia
+				where
+					ia.ia_code = (select
+										i.ia_code
+									from
+										ingredient i
+									where
+										i.i_no = st.i_no))	as "ia_name"
+			, (select
+					ib.ib_name
+				from
+					code_ingredient_beta ib
+				where
+					ib.ib_code = (select
+										i.ib_code
+									from
+										ingredient i
+									where
+										i.i_no = st.i_no))	as "ib_name"
+			, (select
+					io.io_name
+				from
+					code_ingredient_origin io
+				where
+					io.io_code = (select
+										i.io_code
+									from
+										ingredient i
+									where
+										i.i_no = st.i_no))	as "io_name"
+			, (select
+					i.i_name
+				from
+					ingredient i
+				where
+					i.i_no = st.i_no)	as "i_name"
+			, (select
+					i.i_size
+				from
+					ingredient i
+				where
+					i.i_no = st.i_no)	as "i_size"
+			, st.quantity	as "quantity"
+			, st.st_state	as "st_state"
+			, to_char(st.reg_date, 'yyyy-mm-dd(dy) hh:mi')	as "reg_date"
+			, to_char((select
+							i.i_price
+						from
+							ingredient i
+						where
+							i.i_no = st.i_no), '9,999,999,999')	as "i_price"
+		from
+			stock st
+		where
+			st.is_del = 'F'
+			and st.st_no = ${value}
 	</select>
 </mapper>

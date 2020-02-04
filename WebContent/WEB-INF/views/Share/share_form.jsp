@@ -31,7 +31,7 @@
 									<table class="table" id="dataTable2">
 										<thead>
 											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>등록번호</b></td>
 												<td align=center><b>매장명</b></td>
 												<td align=center><b>매장주소</b></td>
 												<td align=center><b>대분류</b></td>
@@ -61,6 +61,9 @@
 														</c:if>
 														<c:if test="${different_share.ri!=''}">
 															&nbsp;${different_share.ri}
+														</c:if>
+														<c:if test="${different_share.addr_detail!=''}">
+															&nbsp;${different_share.addr_detail}
 														</c:if>
 													<td align=center>${different_share.ia_name}
 													<td align=center>${different_share.ib_name}
@@ -92,7 +95,7 @@
 									<table class="table" id="dataTable">
 										<thead>
 											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>등록번호</b></td>
 												<td align=center><b>대분류</b></td>
 												<td align=center><b>소분류</b></td>
 												<td align=center><b>원산지</b></td>

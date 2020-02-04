@@ -26,11 +26,14 @@
 								<span style='float:right'></span>
 							</div>
 							<div class="card-body">
-								<div class="table-responsive">
+								<div class="tableXe-responsive">
 									<table class="table" id="dataTable2">
 										<thead>
 											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>등록번호</b></td>
+												<td align=center><b>요청매장명</b></td>
+												<td align=center><b>요청매장주소</b></td>
+												<td align=center><b>요청매장연락처</b></td>
 												<td align=center><b>대분류</b></td>
 												<td align=center><b>소분류</b></td>
 												<td align=center><b>원산지</b></td>
@@ -43,11 +46,28 @@
 											</tr>
 										</thead>
 										<tbody>
-										<%--
 											<c:forEach items="${my_share_approve_list}" var="my_share_approve" varStatus="loopTagStatus">
-												<tr style="cursor:pointer" onClick="my_share_approve_content(${my_share_approve.si_no})">
+												<tr style="cursor:pointer" onClick="share_request_content(${my_share_approve.si_no})">
 													<td align=center>${loopTagStatus.index+1}
 														<input type="hidden" name="si_no" value="${my_share_approve.si_no}">
+													<td align=center>${my_share_approve.com_name}
+													<td align=center>${my_share_approve.city}
+														<c:if test="${my_share_approve.gun!=''}">
+															&nbsp;${my_share_approve.gun}
+														</c:if>
+														<c:if test="${my_share_approve.gu!=''}">
+															&nbsp;${my_share_approve.gu}
+														</c:if>
+														<c:if test="${my_share_approve.dong!=''}">
+															&nbsp;${my_share_approve.dong}
+														</c:if>
+														<c:if test="${my_share_approve.ri!=''}">
+															&nbsp;${my_share_approve.ri}
+														</c:if>
+														<c:if test="${my_share_approve.addr_detail!=''}">
+															&nbsp;${my_share_approve.addr_detail}
+														</c:if>
+													<td align=center>${my_share_approve.s_phone}
 													<td align=center>${my_share_approve.ia_name}
 													<td align=center>${my_share_approve.ib_name}
 													<td align=center>${my_share_approve.io_name}
@@ -59,7 +79,6 @@
 													<td align=center>${my_share_approve.a_reg_date}
 												</tr>
 											</c:forEach>
-										--%>
 										</tbody>
 									</table>
 								</div>
@@ -72,7 +91,7 @@
 					<!--추가-->
 					<form name="different_share_approve_form">
 						<div class="card mb-3">
-							<div class="card-header my_share_table_title_form">
+							<div class="card-header different_share_table_title_form">
 								<i class="fas fa-table"></i> 타 매장 재고 공유 승인 현황
 								<span style='float:right'></span>
 							</div>
@@ -81,7 +100,7 @@
 									<table class="table" id="dataTable">
 										<thead>
 											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>등록번호</b></td>
 												<td align=center><b>매장명</b></td>
 												<td align=center><b>매장주소</b></td>
 												<td align=center><b>대분류</b></td>
@@ -97,9 +116,9 @@
 										</thead>
 										<tbody>
 											<c:forEach items="${different_share_approve_list}" var="different_share_approve" varStatus="loopTagStatus">
-												<tr style="cursor:pointer" onClick="different_share_approve_content(${different_share_approve.si_no})">
+												<tr style="cursor:pointer">
 													<td align=center>${loopTagStatus.index+1}
-														<input type="hidden" name="si_no" value="${different_share_approve.si_no}">
+														<input type="hidden" name="si_no" value="${my_share.si_no}">
 													<td align=center>${different_share_approve.com_name}
 													<td align=center>${different_share_approve.city}
 														<c:if test="${different_share_approve.gun!=''}">

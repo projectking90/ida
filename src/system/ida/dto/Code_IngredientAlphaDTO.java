@@ -5,30 +5,31 @@
 package system.ida.dto;
 
 /**
- * IngredientAlphaDTO 클래스
- * 식자재 수정할 때  사용할  대분류 DTO
+ * Code_IngredientAlphaDTO 클래스
+ * 식자재  대분류 DTO
  * @author Jo
  */
 public class Code_IngredientAlphaDTO {
 	/**
 	 * 속성변수 선언
 	 */
-	private String ia_name;		//option 태그의 value 값
-	/**
-	 * 생성자 선언
-	 */
+	private String ia_name;	// 식자재 대분류 이름
 
 	/**
 	 * 접근자, 설정자 선언
 	 */
-
+	/**
+	 * ia_name 접근자
+	 * @return ia_name : 식자재 대분류 이름
+	 */
 	public String getIa_name() {
 		return ia_name;
 	}
-
+	/**
+	 * ia_name 설정자
+	 * @param ia_name : 식자재 대분류 이름
+	 */
 	public void setIa_name(String ia_name) {
 		this.ia_name = ia_name;
 	}
-
-	
 }

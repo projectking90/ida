@@ -1,3 +1,4 @@
+// ******************************** 삭제 *************************
 function order_delete_reg(cr) {
 	var trArr = new Array();
 	$(".order_list_tr").each(function(index){

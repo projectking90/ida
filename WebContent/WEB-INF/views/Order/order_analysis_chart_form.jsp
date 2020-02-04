@@ -80,12 +80,7 @@
 									<input type="radio" name="age" value="60">60대
 								</span>
 								
-								<span class="gender">
-									<input type="radio" name="gender" value="m">남
-									<input type="radio" name="gender" value="w">여
-								</span>
-								
-								<span class="chart_cnt">								
+								<span class="chart_cnt">
 									<button type="button" class="btn btn-outline-info btn-sm top3">TOP 3</button>
 									<button type="button" class="btn btn-outline-info btn-sm top5">TOP 5</button>
 									<button type="button" class="btn btn-outline-info btn-sm top8">TOP 8</button>

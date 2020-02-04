@@ -30,7 +30,7 @@
 									<table class="table" id="dataTable2">
 										<thead>
 											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>등록번호</b></td>
 												<td align=center><b>요청매장명</b></td>
 												<td align=center><b>요청매장주소</b></td>
 												<td align=center><b>요청매장연락처</b></td>
@@ -46,7 +46,7 @@
 										</thead>
 										<tbody>
 											<c:forEach items="${my_share_request_list}" var="my_share_request" varStatus="loopTagStatus">
-												<tr style="cursor:pointer" onClick="my_share_request_content_tr(${my_share_request.si_no})">
+												<tr style="cursor:pointer" onClick="share_request_content(${my_share_request.si_no}, '${my_share_request.s_no}')">
 													<td align=center>${loopTagStatus.index+1}
 														<input type="hidden" name="si_no" value="${my_share_request.si_no}">
 													<td align=center>${my_share_request.com_name}
@@ -62,6 +62,9 @@
 														</c:if>
 														<c:if test="${my_share_request.ri!=''}">
 															&nbsp;${my_share_request.ri}
+														</c:if>
+														<c:if test="${my_share_request.addr_detail!=''}">
+															&nbsp;${my_share_request.addr_detail}
 														</c:if>
 													<td align=center>${my_share_request.s_phone}
 													<td align=center>${my_share_request.ia_name}
@@ -95,7 +98,7 @@
 									<table class="table" id="dataTable">
 										<thead>
 											<tr>
-												<td align=center resize=4><b>등록번호</b></td>
+												<td align=center><b>등록번호</b></td>
 												<td align=center><b>매장명</b></td>
 												<td align=center><b>매장주소</b></td>
 												<td align=center><b>대분류</b></td>

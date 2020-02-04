@@ -215,9 +215,9 @@ public class MenuDAOImpl implements MenuDAO {
 	}
 	
 	/**
-	 * 식자재 리스트를 가져옴
+	 * 식자재 목록을 가져옴
 	 * @param code_ingredientDTO : 식자재 DTO
-	 * @return i_nameList : 식자재 리스트
+	 * @return i_nameList : 식자재 목록
 	 */
 	@Override
 	public List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO){
@@ -282,7 +282,7 @@ public class MenuDAOImpl implements MenuDAO {
 	
 	/**
 	 * 가게 메뉴 삭제 처리
-	 * @param menuDTO : 메뉴 DTO
+	 * @param trData : 삭제할 메뉴 번호들
 	 * @return delete_result : 메뉴 삭제 Query 결과
 	 */
 	@Override

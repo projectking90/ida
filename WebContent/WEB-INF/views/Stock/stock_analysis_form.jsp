@@ -51,7 +51,7 @@
 								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<td align=center resize=10><b>재고번호</b></td>
+											<td align=center><b>재고번호</b></td>
 											<td align=center><b>대분류</b></td>
 											<td align=center><b>소분류</b></td>
 											<td align=center><b>원산지</b></td>

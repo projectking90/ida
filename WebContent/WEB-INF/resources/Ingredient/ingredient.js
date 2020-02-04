@@ -6,6 +6,7 @@ function insert_ing_reg(cr) {
 	var i_name = form + " [name=i_name]";
 	var i_size = form + " [name=i_size]";
 	var i_price = form + " [name=i_price]";
+	var allergy = form + " [name=a_code]";
 
 	if(is_empty(ia_name)){
 		alert("대분류명을 선택해주시기 바랍니다.");
@@ -48,6 +49,13 @@ function insert_ing_reg(cr) {
 	if(!is_valid_pattern(i_price, /^[1-9]{1}[\d]{0,7}$/)){
 		alert("가격은 100,000,000 미만의 정수로만 입력 가능합니다.");
 		$(i_price).focus();
+		
+		return;
+	}
+	
+	if(is_empty(allergy)){
+		alert("알레르기를 체크해주시기 바랍니다.");
+		$(allergy).focus();
 		
 		return;
 	}

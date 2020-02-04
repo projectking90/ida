@@ -31,11 +31,11 @@ public interface MenuDAO {
 	 * 메소드 선언
 	 */
 	List<MenuDTO> getMenuList(MenuSearchDTO menu_searchDTO);	// 가게에 등록된 메뉴를 가져옴
-	int getMenuListAllCnt(MenuSearchDTO menu_searchDTO); // 가게에 등록된 메뉴 총 개수를 가져옴
+	int getMenuListAllCnt(MenuSearchDTO menu_searchDTO);	// 가게에 등록된 메뉴 총 개수를 가져옴
 	int insertStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 추가 처리
 	List<CodeMenuAlphaDTO> getCodeMenuAlpha();	// 메뉴 대분류의 이름을 가져옴
 	List<CodeMenuBetaDTO> getCodeMenuBeta();	// 메뉴 소분류의 이름을 가져옴
-	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);	// 식자재 리스트를 가져옴
+	List<IngredientDTO> getIngredientList(Code_ingredientDTO code_ingredientDTO);	// 식자재 목록을 가져옴
 	int updateStoreMenu(MenuDTO menuDTO);	// 가게 메뉴 수정 처리
 	int deleteStoreMenu(Map<String, String> trData);	// 가게 메뉴 삭제 처리
 	int insertMenuIngredient(MenuDTO menuDTO);	// 메뉴 식자재 추가 처리

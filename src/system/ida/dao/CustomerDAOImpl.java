@@ -5,11 +5,13 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.CustomerDTO;
 import system.ida.dto.CustomerSearchDTO;
 
@@ -41,5 +43,117 @@ public class CustomerDAOImpl implements CustomerDAO {
 				, customer_searchDTO);
 		
 		return customer_list;
+	}
+	
+	/**
+	 * 성별 고객 차트 데이터를 가져옴
+	 * @param s_id : 아이디
+	 * @return customer_gender_chart : 성별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getGenderData(String s_id) {
+		List<Map<String, String>> customer_gender_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getGenderData"
+				, s_id);
+		
+		return customer_gender_chart;
+	}
+
+	/**
+	 * 남자별 고객 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return customer_gerder_chart_m : 남자별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getGenderData_M(ChartSearchDTO chart_search_DTO) {
+		List<Map<String, String>> customer_gerder_chart_m = this.sqlSession.selectList(
+				sqlSessionPath + "getGenderData_M"
+				, chart_search_DTO);
+		
+		return customer_gerder_chart_m;
+	}
+
+	/**
+	 * 여자별 고객 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return customer_gerder_chart_w : 여자별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getGenderData_W(ChartSearchDTO chart_search_DTO) {
+		List<Map<String, String>> customer_gerder_chart_w = this.sqlSession.selectList(
+				sqlSessionPath + "getGenderData_W"
+				, chart_search_DTO);
+		
+		return customer_gerder_chart_w;
+	}
+	
+	/**
+	 * 나이별 고객 차트 데이터를 가져옴
+	 * @param s_id : 아이디
+	 * @return customer_age_chart : 나이별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getAgeData(String s_id) {
+		List<Map<String, String>> customer_age_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAgeData"
+				, s_id);
+		
+		return customer_age_chart;
+	}
+
+	/**
+	 * 월별 고객 차트 데이터를 가져옴
+	 * @param s_id : 아이디
+	 * @return customer_month_chart : 월별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getMonthData(String s_id) {
+		List<Map<String, String>> customer_month_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthData"
+				, s_id);
+		
+		return customer_month_chart;
+	}
+
+	/**
+	 * 시간별 고객 차트 데이터를 가져옴
+	 * @param s_id : 아이디
+	 * @return customer_hour_chart : 시간별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getHourData(String s_id) {
+		List<Map<String, String>> customer_hour_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getHourData"
+				, s_id);
+		
+		return customer_hour_chart;
+	}
+
+	/**
+	 * 분기별 고객 차트 데이터를 가져옴
+	 * @param s_id : 아이디
+	 * @return customer_quarter_chart : 분기별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getQuarterData(String s_id) {
+		List<Map<String, String>> customer_quarter_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterData"
+				, s_id);
+		
+		return customer_quarter_chart;
+	}
+
+	/**
+	 * 주별 고객 차트 데이터를 가져옴
+	 * @param chart_search_DTO : 차트 검색 DTO
+	 * @return customer_week_chart : 주별 고객 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getWeekData(ChartSearchDTO chart_search_DTO) {
+		List<Map<String,String>> customer_week_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekData"
+				, chart_search_DTO);
+		
+		return customer_week_chart;
 	}
 }

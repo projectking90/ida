@@ -346,7 +346,17 @@ public class StockController {
 				
 				dataset.add(month_stock_chart.get(0).get("DATASET"));
 			} else if (chart_search.equals("시간")) {
+				List<Map<String, String>> time_stock_chart = this.stockService.getTimeStockData(chart_searchDTO);
 
+				for(int i=0; i<time_stock_chart.size(); i++) {
+					label.add(time_stock_chart.get(i).get("LABEL"));
+				}
+
+				for(int i=0; i<time_stock_chart.size(); i++) {
+					data1.add(time_stock_chart.get(i).get("DATA"));
+				}
+
+				dataset.add("시간별 재고 입/출고 데이터");
 			} else if (chart_search.equals("분기")) {
 				chart_searchDTO.setQuarter(quarter);
 				

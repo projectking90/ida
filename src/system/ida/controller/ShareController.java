@@ -327,11 +327,75 @@ public class ShareController {
 			String s_id = (String)session.getAttribute("s_id");
 			share_searchDTO.setS_id(s_id);
 			
+			List<ShareDTO> my_share_approve_list=this.shareService.getMyShareApproveList(share_searchDTO);
+			List<ShareDTO> different_share_approve_list = this.shareService.getDifferentShareApproveList(share_searchDTO);
+
+			mav.addObject("my_share_approve_list", my_share_approve_list);
+			mav.addObject("different_share_approve_list", different_share_approve_list);
 			mav.setViewName(path + "share_approve_form");
 		}catch(Exception e) {
 			System.out.println("<goShareApproveForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		return mav;
+	}
+	
+	/**
+	 * 내 매장 공유 재고 요청 현황 상세보기 화면을 보여줄 jsp와 내 가게의 재고 요청 현황의 상세보기를 보여주는 메소드
+	 * 가상주소 /share_request_content_form.ida로 접근하면 호출
+	 * @param si_no : 공유 번호
+	 * @param s_no : 사용자 번호
+	 * @param shareDTO : 공유 DTO
+	 * @param session : HttpSession 객체
+	 * @return mav : /share_request_content_form.ida에 맵핑되는 jsp 내 가게의 재고 요청 현황의 상세보기
+	 */
+	@RequestMapping(value="/share_request_content_form.ida")
+	public ModelAndView shareRequestContentForm(
+			@RequestParam(value="si_no") int si_no
+			, @RequestParam(value="s_no") int s_no
+			, ShareDTO shareDTO
+			, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+
+		try {
+			shareDTO.setSi_no(si_no);
+			shareDTO.setS_no(s_no);
+			shareDTO = this.shareService.getShareRequestDTO(shareDTO);
+			
+			mav.addObject("shareDTO", shareDTO);
+			mav.setViewName(path + "share_request_content_form");
+		} catch(Exception e) {
+			System.out.println("<shareRequestContentForm 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
+
+	/**
+	 * 내 매장 공유 재고 요청한 것 수락 기능을 처리할 메소드
+	 * 가상주소 /approve_share_reg.ida로 접근하면 호출
+	 * @param shareDTO : 공유 DTO
+	 * @param session : HttpSession 객체
+	 * @return
+	 */
+	@RequestMapping(value="/approve_share_reg.ida")
+	@ResponseBody
+	public int approveShareReg(
+			ShareDTO shareDTO
+			, HttpSession session) {
+		int share_approve_cnt = -1;
+		
+		try {
+			String s_id = (String)session.getAttribute("s_id");
+			shareDTO.setS_id(s_id);
+
+			share_approve_cnt = this.shareService.approveShare(shareDTO);
+		} catch(Exception e) {
+			System.out.println("<approveShareReg 에러발생>");
+			System.out.println(e.getMessage());
+		}
+
+		return share_approve_cnt;
 	}
 }

@@ -15,7 +15,7 @@ import system.ida.dto.ShareSearchDTO;
 import system.ida.dto.StockDTO;
 
 /**
- * StockDAOImpl 클래스
+ * ShareDAOImpl 클래스
  * DAO 클래스, bean 태그로 자동 등록됨
  * @author Jo
  */
@@ -113,6 +113,34 @@ public class ShareDAOImpl implements ShareDAO {
 		
 		return share_record_insert;
 	}
+	
+	/**
+	 * 이미 등록되었으나 삭제된 공유 재고 개수를 가져옴
+	 * @param shareDTO : 공유 DTO
+	 * @return share_record_insert : 이미 등록되었으나 삭제된 공유 재고 개수
+	 */
+	@Override
+	public int getDeletedShareCnt(ShareDTO shareDTO) {
+		int share_record_insert = this.sqlSession.selectOne(
+				sqlSessionPath + "getDeletedShareCnt"
+				, shareDTO);
+
+		return share_record_insert;
+	}
+
+	/**
+	 * is_del='T'를 'F'로 수정 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return share_record_insert : is_del 수정 Query 결과
+	 */
+	@Override
+	public int changeInsertedShareIsDel(ShareDTO shareDTO) {
+		int share_record_insert = this.sqlSession.update(
+				sqlSessionPath + "changeInsertedShareIsDel"
+				, shareDTO);
+
+		return share_record_insert;
+	};
 
 	/**
 	 * 공유 정보를 가져옴
@@ -252,5 +280,103 @@ public class ShareDAOImpl implements ShareDAO {
 				, share_searchDTO);
 		
 		return different_share_request_list;
+	}
+	
+	/**
+	 * 내 매장 공유 재고 요청 현황 상세보기를 가져옴
+	 * @param shareDTO : 공유 DTO
+	 * @return shareDTO : 내 매장 공유 재고 요청 현황 상세보기
+	 */
+	@Override
+	public ShareDTO getShareRequestDTO(ShareDTO shareDTO) {
+		shareDTO = this.sqlSession.selectOne(
+				sqlSessionPath + "getShareRequestDTO"
+				, shareDTO);
+		
+		return shareDTO;
+	}
+
+	/**
+	 * 요청에 대해 수락 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return share_approve_cnt : 요청에 대한 수락 Query 결과
+	 */
+	@Override
+	public int approveShare(ShareDTO shareDTO) {
+		int share_approve_cnt = this.sqlSession.update(
+				sqlSessionPath + "approveShare"
+				, shareDTO);
+		
+		return share_approve_cnt;
+	}
+
+	/**
+	 * 공유 기록 테이블에 요청 수락 기록 처리함
+	 * @param shareDTO : 공유 DTO
+	 * @return share_record_approve : 공유 기록 테이블에 요청 수락 기록 Query 결과
+	 */
+	@Override
+	public int approveShareRecord(ShareDTO shareDTO) {
+		int share_record_approve = this.sqlSession.insert(
+				sqlSessionPath + "approveShareRecord"
+				, shareDTO);
+
+		return share_record_approve;
+	}
+
+	/**
+	 * 수락한 공유 재고 개수 가져옴
+	 * @param shareDTO : 공유 DTO
+	 * @return share_recorded_approve : 수락한 공유 재고 개수
+	 */
+	@Override
+	public int approveShareCount(ShareDTO shareDTO) {
+		int share_recorded_approve = this.sqlSession.selectOne(
+				sqlSessionPath + "approveShareCount"
+				, shareDTO);
+
+		return share_recorded_approve;
+	}
+
+	/**
+	 * 삭제된 공유 재고 개수 가져옴
+	 * @param shareDTO : 공유 DTO
+	 * @return share_delete_cnt : 삭제된 공유 재고 개수
+	 */
+	@Override
+	public int shareDeletedCount(ShareDTO shareDTO) {
+		int share_delete_cnt = this.sqlSession.selectOne(
+				sqlSessionPath + "shareDeletedCount"
+				, shareDTO);
+
+		return share_delete_cnt;
+	}
+
+	/**
+	 * 내 매장 공유 재고 승인 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return my_share_approve_list : 내 매장 공유 재고 승인 현황 목록
+	 */
+	@Override
+	public List<ShareDTO> getMyShareApproveList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> my_share_approve_list = this.sqlSession.selectList(
+				sqlSessionPath + "getMyShareApproveList"
+				, share_searchDTO);
+		
+		return my_share_approve_list;
+	}
+
+	/**
+	 * 타 매장 공유 재고 승인 현황 목록을 가져옴
+	 * @param share_searchDTO : 공유 검색 DTO
+	 * @return different_share_approve_list : 타 매장 공유 재고 승인 현황 목록
+	 */
+	@Override
+	public List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> different_share_approve_list = this.sqlSession.selectList(
+				sqlSessionPath + "getDifferentShareApproveList"
+				, share_searchDTO);
+		
+		return different_share_approve_list;
 	}
 }

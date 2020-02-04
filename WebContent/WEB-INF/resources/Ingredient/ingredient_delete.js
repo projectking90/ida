@@ -1,3 +1,4 @@
+// ******************************** 삭제 *************************
 function ing_delete_reg(cr) {
 	var trArr = new Array();
 	$(".ingredient_list_tr").each(function(index){

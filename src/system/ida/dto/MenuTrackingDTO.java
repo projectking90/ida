@@ -18,10 +18,6 @@ public class MenuTrackingDTO {
 	private String before_path;	// 이전경로
 
 	/**
-	 * 생성자 선언
-	 */
-
-	/**
 	 * 접근자, 설정자 선언
 	 */
 	/**

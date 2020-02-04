@@ -3,31 +3,19 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.MenuDAO">
+	<!-- 검색 조건에 의해서 검색될 sql 태그 -->
 	<sql id="menuWhere">
-			<if test="keyword!=null and keyword.length()>0">
-				and (
-					upper(oi_no) like upper('%${keyword}%')
-					<!-- 서브쿼리로 인해 띄우는 것들 먹게 하는 방법 -->
-					or upper(s_no) like upper('%${keyword}%')
-					or upper(c_phone) like upper('%${keyword}%')
-					or upper(gender) like upper('%${keyword}%')
-					<!-- ============================= -->
-					or upper(age) like upper('%${keyword}%')
-					or upper(order_time) like upper('%${keyword}%')
-					or upper(pickup_time) like upper('%${keyword}%')
-				)
-			</if>
-			<if test="search_condition!=null and search_condition.length>0">
+		<if test="keyword!=null and keyword.length()>0">
+			and (upper(oi_no) like upper('%${keyword}%')
+				or upper(s_no) like upper('%${keyword}%')
+				or upper(c_phone) like upper('%${keyword}%')
+				or upper(gender) like upper('%${keyword}%')
+				or upper(age) like upper('%${keyword}%')
+				or upper(order_time) like upper('%${keyword}%')
+				or upper(pickup_time) like upper('%${keyword}%'))
+		</if>
+		<if test="search_condition!=null and search_condition.length>0">
 			and
-			<!-- ================================================ -->
-			<!-- [mybatis foreach 반복문]의 속성 설명 -->
-			<!-- ================================================ -->
-			<!-- collection="배열/List 객체의 속성변수명" -->
-			<!-- item="배열 또는 List 객체 안의 데이터를 저장할 지역변수명" -->
-			<!-- open="반복문 시작 전에 삽입할 문자" -->
-			<!-- close="반복문 끝난 후에 삽입할 문자" -->
-			<!-- separator="반복문에 의해 표현되는 쿼리문 사이사이에 삽입될 쿼리일부분" -->
-			<!-- index="반복문 안에서 사용할 인덱스 번호 저장 변수명" -->
 			<foreach collection="search_condition" item="xxx" open="(" separator=" or " close=")">
 				<if test="xxx.equals('한식')">
 					ma_code = 1
@@ -37,31 +25,31 @@
 				</if>
 				<if test="xxx.equals('일식')">
 					ma_code = 3
-				</if>		
+				</if>
 				<if test="xxx.equals('양식')">
 					ma_code = 4
-				</if>			
+				</if>
 				<if test="xxx.equals('분식')">
 					ma_code = 5
-				</if>			
+				</if>
 				<if test="xxx.equals('패스트푸드')">
 					ma_code = 6
-				</if>			
+				</if>
 				<if test="xxx.equals('카페')">
 					ma_code = 7
-				</if>					
+				</if>
 				<if test="xxx.equals('일반')">
 					mb_code = 1
-				</if>					
+				</if>
 				<if test="xxx.equals('베지테리언')">
 					mb_code = 2
-				</if>					
+				</if>
 				<if test="xxx.equals('알레르기')">
 					mb_code = 3
-				</if>							
+				</if>
 				<if test="xxx.equals('5000')">
 					price >= 5000
-				</if>							
+				</if>
 				<if test="xxx.equals('10000')">
 					price >= 10000
 				</if>
@@ -71,95 +59,155 @@
 		
 	<!-- 가게에 등록된 메뉴를 가져오는 select 태그 -->
 	<select id="getMenuList" parameterType="system.ida.dto.MenuSearchDTO" resultType="system.ida.dto.MenuDTO">
-			select zzz.*, rownum RNUM from(
-				select 	
-					m.mi_no "mi_no"
-					,(select a.ma_name from code_menu_alpha a where a.ma_code=m.ma_code)   "ma_code"
-					,(select b.mb_name from code_menu_beta b where b.mb_code=m.mb_code)   "mb_code"
-					,m.mi_name "mi_name"
-					,to_char(m.price, '9,999,999,999') "price"
-					,m.mi_comment "mi_comment"
-					,to_char(m.reg_date, 'YYYY-MM-DD(dy)') "reg_date"	
-				from menu_info m
-				where m.is_del='F'
-					and s_no = (select
-									s_no
-								from
-									store
-								where
-									s_id=#{s_id})
-				<include refid="menuWhere"/>) zzz
+		select
+			zzz.*
+			, rownum	RNUM
+		from (select
+				m.mi_no	"mi_no"
+				, (select
+						a.ma_name
+					from
+						code_menu_alpha a
+					where
+						a.ma_code = m.ma_code)	"ma_code"
+				, (select
+						b.mb_name
+					from
+						code_menu_beta b
+					where
+						b.mb_code = m.mb_code)	"mb_code"
+				, m.mi_name	"mi_name"
+				, to_char(m.price, '9,999,999,999')	"price"
+				, m.mi_comment	"mi_comment"
+				, to_char(m.reg_date, 'YYYY-MM-DD(dy)')	"reg_date"
+			from
+				menu_info m
+			where
+				m.is_del='F'
+				and s_no = (select
+								s_no
+							from
+								store
+							where
+								s_id = #{s_id})
+			<include refid="menuWhere"/>) zzz
 	</select>
 	
+	<!-- 가게 메뉴 정보를 가져올 select 태그 -->
 	<select id="getMenuDTO" parameterType="system.ida.dto.MenuSearchDTO" resultType="system.ida.dto.MenuDTO">
-				select 	
-					m.mi_no "mi_no"
-					,(select a.ma_name from code_menu_alpha a where a.ma_code=m.ma_code)   "ma_code"
-					,(select b.mb_name from code_menu_beta b where b.mb_code=m.mb_code)   "mb_code"
-					,m.mi_name "mi_name"
-					,to_char(m.price, '9,999,999,999') "price"
-					,m.mi_comment "mi_comment"
-					,to_char(m.reg_date, 'YYYY-MM-DD(dy)') "reg_date"	
-				from menu_info m
-				where m.is_del='F'
-					and s_no = (select
-									s_no
-								from
-									store
-								where
-									s_id=#{s_id})
-					and mi_no=#{mi_no}
-	</select>
-	
-	<!-- 가게에 등록된 메뉴의 총 개수를 가져오는 select 태그 -->
-	<select id="getMenuListAllCnt" parameterType="system.ida.dto.MenuSearchDTO" resultType="int">
-		select 
-			count(*) 
-		from menu_info		
-		where is_del='F'
+		select
+			m.mi_no	"mi_no"
+			, (select
+					a.ma_name
+				from
+					code_menu_alpha a
+				where
+					a.ma_code = m.ma_code)	"ma_code"
+			, (select
+					b.mb_name
+				from
+					code_menu_beta b
+				where
+					b.mb_code = m.mb_code)	"mb_code"
+			, m.mi_name	"mi_name"
+			, to_char(m.price, '9,999,999,999')	"price"
+			, m.mi_comment	"mi_comment"
+			, to_char(m.reg_date, 'YYYY-MM-DD(dy)')	"reg_date"
+		from
+			menu_info m
+		where
+			m.is_del = 'F'
 			and s_no = (select
 							s_no
 						from
 							store
 						where
-							s_id=#{s_id})
-		<include refid="menuWhere"/>
+							s_id = #{s_id})
+			and mi_no = #{mi_no}
 	</select>
 	
-	<!-- 가게 메뉴를 추가하는 insert 태그 -->
+	<!-- 가게에 등록된 메뉴 총 개수를 가져오는 select 태그 -->
+	<select id="getMenuListAllCnt" parameterType="system.ida.dto.MenuSearchDTO" resultType="int">
+		select
+			count(*)
+		from
+			menu_info
+		where
+			is_del = 'F'
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			<include refid="menuWhere"/>
+	</select>
+	
+	<!-- 가게 메뉴 추가 처리할 insert 태그 -->
 	<insert id='insertStoreMenu' parameterType="system.ida.dto.MenuDTO">
 		insert into menu_info(
-			mi_no,
-			ma_code,
-			mb_code,
-			s_no,
-			mi_name,
-			price,
-			mi_comment
+			mi_no
+			, ma_code
+			, mb_code
+			, s_no
+			, mi_name
+			, price
+			, mi_comment
 		)values(
-			(select nvl(max(mi_no),0)+1 from menu_info)
-			,(select ma_code from code_menu_alpha  where ma_name=#{ma_code})
-			,(select mb_code from code_menu_beta  where mb_name=#{mb_code})
-			,(select s_no from store where s_id=#{s_id})
-			,#{mi_name}
-			,to_number(#{price}, 9999999999)
-			,#{mi_comment}
+			(select
+					nvl(max(mi_no), 0) + 1
+				from
+					menu_info)
+			, (select
+					ma_code
+				from
+					code_menu_alpha
+				where
+					ma_name = #{ma_code})
+			, (select
+					mb_code
+				from
+					code_menu_beta
+				where
+					mb_name = #{mb_code})
+			, (select
+					s_no
+				from
+					store
+				where
+					s_id = #{s_id})
+			, #{mi_name}
+			, to_number(#{price}, 9999999999)
+			, #{mi_comment}
 		)
 	</insert>
 	
-	<!-- 가게 메뉴의 식자재를 추가하는 insert 태그 -->
+	<!-- 메뉴 식자재 추가 처리하는 insert 태그 -->
 	<insert id='insertMenuIngredient' parameterType="system.ida.dto.MenuDTO">
 		<foreach collection="i_name" item="i_name" open="insert all" close="select * from dual" separator=" ">
-		into menu_ingredient(mi_no,i_no)
-		values
-			(
-			(select max(mi_no) from menu_info)
-			,(select i_no from ingredient where i_name=#{i_name} and is_del='F' and s_no=(select s_no from store where s_id=#{s_id}))
-			)
+			into menu_ingredient(mi_no,i_no)
+			values(
+				(select
+						max(mi_no)
+					from
+						menu_info)
+				, (select
+						i_no
+					from
+						ingredient
+					where
+						i_name = #{i_name}
+						and is_del = 'F'
+						and s_no = (select
+										s_no
+									from
+										store
+									where
+										s_id = #{s_id})))
 		</foreach>
 	</insert>
 	
-	<!-- 메뉴대분류의 목록을 검색하는 select 태그 -->
+	<!-- 메뉴 대분류의 이름을 가져오는 select 태그 -->
 	<select id='getCodeMenuAlpha' resultType="system.ida.dto.CodeMenuAlphaDTO">
 		select
 			ma_name	"ma_name"
@@ -167,7 +215,7 @@
 			code_menu_alpha
 	</select>
 	
-	<!-- 메뉴소분류의 목록을 검색하는 select 태그 -->
+	<!-- 메뉴 소분류의 이름을 가져오는 select 태그 -->
 	<select id='getCodeMenuBeta' resultType="system.ida.dto.CodeMenuBetaDTO">
 		select
 			mb_name	"mb_name"
@@ -175,17 +223,7 @@
 			code_menu_beta
 	</select>
 	
-	<select id='getIngredientList' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
-		select
-			i_name	"i_name"
-		from
-			ingredient
-		where
-			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-	</select>
-	
-	<!-- 식자재 목록을 검색하는 select 태그 -->
+	<!-- 식자재 대분류 첫번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList1' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
@@ -193,9 +231,16 @@
 			ingredient
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-			and ia_code = 1<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			and ia_code = 1
 	</select>
+	
+	<!-- 식자재 대분류 두번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList2' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
@@ -203,9 +248,16 @@
 			ingredient
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-			and ia_code = 2<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			and ia_code = 2
 	</select>
+	
+	<!-- 식자재 대분류 세번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList3' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
@@ -213,9 +265,16 @@
 			ingredient
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-			and ia_code = 3<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			and ia_code = 3
 	</select>
+	
+	<!-- 식자재 대분류 네번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList4' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
@@ -223,9 +282,16 @@
 			ingredient
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-			and ia_code = 4<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			and ia_code = 4
 	</select>
+	
+	<!-- 식자재 대분류 다섯번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList5' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
@@ -233,9 +299,16 @@
 			ingredient
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-			and ia_code = 5<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			and ia_code = 5
 	</select>
+	
+	<!-- 식자재 대분류 여섯번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList6' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select
 			i_name	"i_name"
@@ -243,56 +316,88 @@
 			ingredient
 		where
 			is_del = 'F'
-			and s_no=(select s_no from store where s_id=#{s_id})
-			and ia_code = 6<!-- (select ia_code from code_ingredient_alpha  where ia_name=#{ia_code}) -->
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
+			and ia_code = 6
 	</select>
-	
 		
-	<!-- 대분류 목록을 검색하는 select 태그 -->
+	<!-- 식자재 대분류의 이름을 가져오는 select 태그 -->
 	<select id='getCodeIngAlpha' resultType="system.ida.dto.Code_IngredientAlphaDTO">
 		select
-			 ia_name as "ia_name"
+			ia_name	as "ia_name"
 		from
 			code_ingredient_alpha
 	</select>
 	
-	<!-- 소분류 목록을 검색하는 select 태그 -->
+	<!-- 식자재 소분류의 이름 가져오는 select 태그 -->
 	<select id='getCodeIngBeta' resultType="system.ida.dto.Code_IngredientBetaDTO">
 		select
-			 ib_name
+			ib_name
 		from
 			code_ingredient_beta
 	</select>
 	
-	<!-- 가게 메뉴를 수정하는 update 태그 -->
+	<!-- 가게 메뉴 수정 처리할 update 태그 -->
 	<update id="updateStoreMenu" parameterType="system.ida.dto.MenuDTO">
-			update menu_info 
-			set 
-				ma_code=(select ma_code from code_menu_alpha a where ma_name=#{ma_code})
-				,mb_code=(select mb_code from code_menu_beta b where mb_name=#{mb_code})
-				,mi_name=#{mi_name}
-				,price=to_number(#{price}, 9999999999)
-				,mi_comment=#{mi_comment}
-			where mi_no=#{mi_no}
-				and s_no=(select s_no from store where s_id=#{s_id})
+		update
+			menu_info
+		set
+			ma_code = (select
+							ma_code
+						from
+							code_menu_alpha a
+						where
+							ma_name = #{ma_code})
+			, mb_code = (select
+							mb_code
+						from
+							code_menu_beta b
+						where
+							mb_name = #{mb_code})
+			, mi_name = #{mi_name}
+			, price = to_number(#{price}, 9999999999)
+			, mi_comment = #{mi_comment}
+		where
+			mi_no = #{mi_no}
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
 	</update>
 	
+	<!-- 가게에 등록된 메뉴의 개수를 가져오는 select 태그 -->
 	<select id="getMenuCnt" parameterType="system.ida.dto.MenuDTO" resultType="int">
 		select
 			count(mi_no)
-		from menu_info
-		where mi_no=#{mi_no}
-			and s_no=(select s_no from store where s_id=#{s_id})
+		from
+			menu_info
+		where
+			mi_no = #{mi_no}
+			and s_no = (select
+							s_no
+						from
+							store
+						where
+							s_id = #{s_id})
 	</select>
 	
-	<!-- 가게 메뉴를 삭제하는 update 태그 -->
+	<!-- 가게 메뉴 삭제 처리할 update 태그 -->
 	<update id="deleteStoreMenu" parameterType="hashmap">
-			update menu_info 
-			set 
-				is_del='T'
-			where mi_no=#{mi_no}
+		update
+			menu_info
+		set 
+			is_del='T'
+		where
+			mi_no = #{mi_no}
 	</update>
 	
+	<!-- 메뉴 식자재 삭제 처리할 delete 태그 -->
 	<delete id="deleteMenuIngredient" parameterType="hashmap">
 		delete from
 			menu_ingredient
@@ -300,18 +405,29 @@
 			mi_no=#{mi_no}
 	</delete>
 	
+	<!-- 메뉴의 코스트를 가져올 select 태그 -->
 	<select id='getMenuCostData' parameterType="string" resultType="hashmap">
 		select
-			i_name "label", sum(i_price)||'' "data"
-		from(select
-					i.s_no as "S_NO", mi.i_no as "I_NO", i.i_name as "I_NAME", i.i_price as "I_PRICE"
-					from
+			i_name	"label"
+			, sum(i_price) || ''	"data"
+		from
+			(select
+					i.s_no	as "S_NO"
+					, mi.i_no	as "I_NO"
+					, i.i_name	as "I_NAME"
+					, i.i_price	as "I_PRICE"
+				from
 					menu_ingredient mi, ingredient i
-					where
+				where
 					mi.i_no = i.i_no
 					and i.is_del = 'F')
 		where
-			s_no = (select s_no from store where s_id=#{s_id})
+			s_no = (select
+						s_no
+					from
+						store
+					where
+						s_id = #{s_id})
 		group by
 			i_name
 	</select>

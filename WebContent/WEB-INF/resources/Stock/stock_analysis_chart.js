@@ -5,35 +5,42 @@ function getChartData(cr, chart_search, week, month, year, quarter){
 		$(".year").hide();
 		$(".quarter").hide();
 		$(".week").show();
+		$(".top3").show();
+		$(".top5").show();
+		$(".top10").show();
 	}
 	else if($("[name=chart_search]").val() == "월"){
 		$(".week").hide();
 		$(".quarter").hide();
 		$(".month").show();
 		$(".year").show();
+		$(".top3").show();
+		$(".top5").show();
+		$(".top10").show();
 	}
 	else if($("[name=chart_search]").val() == "분기"){
 		$(".week").hide();
 		$(".month").hide();
 		$(".year").hide();
 		$(".quarter").show();
+		$(".top3").show();
+		$(".top5").show();
+		$(".top10").show();
 	}
 	else{
 		$(".week").hide();
 		$(".month").hide();
 		$(".year").hide();
-		$(".quarter").hide();	
+		$(".quarter").hide();
+		$(".top3").hide();
+		$(".top5").hide();
+		$(".top10").hide();
 	}
 
 	$.ajax({
-		// 접속할 서버 쪽 url 주소 설정
 		url : cr + "/stock_analysis_chart.ida"
-		// 전송 방법 설정
 		, type : "post"
-		// 서버로 보낼 파라미터명과 파라미터값을 설정
 		, data : "chart_search=" + chart_search +"&week=" + week + "&month=" + month + "&year=" + year + "&chart_cnt=" + chart_cnt + "&quarter=" + quarter
-		// 서버의 응답을 성공적으로 받았을 경우 실행할 익명함수 설정
-		// 매개변수 boardRegCnt에는 입력 행의 개수가 들어온다.
 		, success : function(chart_data){
 			$(".card-body").append('<canvas id="myChart1" width="100%" height="30"></canvas>'+
 					'<canvas id="myChart2" width="100%" height="30"></canvas>');
@@ -123,7 +130,6 @@ function getChartData(cr, chart_search, week, month, year, quarter){
 			       });
 			}
 		}
-		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
 		,error : function(){
 			alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
 		}
@@ -420,55 +426,45 @@ function drawLineTimeChart(data) {
 	Chart.defaults.global.defaultFontColor = '#292b2c';
 
 	// Area Chart Example
-	var ctx = document.getElementById("myTimeChart");
-	var myLineChart = new Chart(ctx, {
-		type : 'line',
-		data : {
-			labels : ["1시","2시","3시","4시","5시","6시","7시","8시","9시","10시","11시","12시","13시","14시","15시","16시","17시","18시","19시","20시","21시","22시","23시","24시"],
-			datasets : [ {
-				label : "Sessions",
-				lineTension : 0.3,
-				backgroundColor : "rgba(2,117,216,0.2)",
-				borderColor : "rgba(2,117,216,1)",
-				pointRadius : 5,
-				pointBackgroundColor : "rgba(2,117,216,1)",
-				pointBorderColor : "rgba(255,255,255,0.8)",
-				pointHoverRadius : 5,
-				pointHoverBackgroundColor : "rgba(2,117,216,1)",
-				pointHitRadius : 50,
-				pointBorderWidth : 2,
-				data : [0,0,0,0,0,0,0,0,0,3145,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-			} ],
-		},
-		options : {
-			scales : {
-				xAxes : [ {
-					time : {
-						unit : 'date'
-					},
-					gridLines : {
-						display : false
-					},
-					ticks : {
-						maxTicksLimit : 7
-					}
-				} ],
-				yAxes : [ {
-					ticks : {
-						min : 0,
-						max : 5000,
-						maxTicksLimit : 5
-					},
-					gridLines : {
-						color : "rgba(0, 0, 0, .125)",
-					}
-				} ],
-			},
-			legend : {
-				display : false
-			}
-		}
-	});
+	var ctx = document.getElementById('myChart1').getContext('2d');
+    var data = {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: data.label,
+                datasets: [{
+                    label:  data.dataset,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill:false, // line의 아래쪽을 색칠할 것인가? 
+                    borderColor: 'rgb(255, 99, 132)',
+                    lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+                    data: data.data1
+                }
+                ]
+            },
+            // Configuration options go here
+            options: {
+    			responsive: true,
+    			scales: {
+    				yAxes: [{
+    					ticks: {
+    						min: 0,
+    						suggestedmax: 100,
+    						maxTicksLimit : 5
+    					}
+    				}]
+    			},
+    			hover: {
+    				animationDuration: 0
+    			},
+    			title: {
+    				display: true,
+    				text: '지난 달 기준 시간별 재고 입/출고 총 현황'
+    			},
+            }
+        }
+        var chart = new Chart(ctx, data);
 }
 
 function drawPieQuarterChart(data) {

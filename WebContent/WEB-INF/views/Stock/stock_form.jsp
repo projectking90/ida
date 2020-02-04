@@ -47,7 +47,7 @@
 									</thead>
 									<tbody>
 										<c:forEach items="${stock_list}" var="stock">
-											<tr class="stock_list_tr" style="cursor:pointer" onClick="stock_content_tr(${stock.st_no})">
+											<tr class="stock_list_tr" style="cursor:pointer" onClick="update_stock_btn(${stock.st_no})">
 												<td align=center>
 												<td align=center>${stock.ia_name}
 												<td align=center>${stock.ib_name}
