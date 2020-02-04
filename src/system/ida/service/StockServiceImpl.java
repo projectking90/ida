@@ -174,6 +174,11 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
+	public List<Map<String, String>> getTimeStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_stock_chart = this.stockDAO.getTimeStockData(chart_searchDTO);
+		return time_stock_chart;
+	}
+	@Override
 	public List<Map<String, String>> getAllQuarterStockData() {
 		List<Map<String,String>> all_quarter_stock_chart = this.stockDAO.getAllQuarterStockData();
 		return all_quarter_stock_chart;
@@ -190,4 +195,5 @@ public class StockServiceImpl implements StockService {
 		StockDTO stockDTO = this.stockDAO.getStockDTO(st_no);
 		return stockDTO;
 	}
+
 }

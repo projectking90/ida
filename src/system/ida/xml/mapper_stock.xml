@@ -78,7 +78,7 @@
 			count(*)
 		from 
 			stock
-		where is_del='T'
+		where is_del='T' and st_no=${st_no}
 	</select>
 	
 	<update id="getInsertedStockIsDelUp"  parameterType="system.ida.dto.StockDTO">
@@ -132,62 +132,40 @@
 	</insert>
 	
 	<select id='getWeekStockData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
- 		select 
-            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
-        from
-        (
-          select
-              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(www.quantity),0) "DATA"
-          from
-          (
-             select
-                 ww.week||'주' "DATASET", ss.i_name "LABEL"
-              from
-              (
-                select
-                    i.s_no    as "S_NO"
-                    , i.i_name    as "I_NAME"
-                    , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
-                    , sr.quantity    as "QUANTITY"
-                from
-                    ingredient i, stock s, stock_record sr
-                where
-                  i.i_no = s.i_no 
-                  and s.st_no = sr.st_no
-                  and s.is_del = 'F' 
-                  and to_char(sr.reg_date,'YYYYMM')=to_char(sysdate,'YYYYMM')
-              ) ss   
-              ,(
-                select '1' "WEEK" from dual
-                union select '2' from dual
-                union select '3' from dual
-                union select '4' from dual
-                union select '5' from dual  
-              ) ww 
-              where ss.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[  to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week ]]>
-          ) sss
-          ,
-          (
-          select
-              i.s_no    as "S_NO"
-              , i.i_name    as "I_NAME"
-              , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'w')    as "REG_DATE"
-              , sr.quantity    as "QUANTITY"
-          from
-              ingredient i, stock s, stock_record sr
-          where
-              i.i_no = s.i_no 
-              and s.st_no = sr.st_no
-              and s.is_del = 'F'                              
-              and to_char(sr.reg_date,'MM')=to_char(sysdate,'MM')
-              and i.s_no=(select s_no from store where s_id=#{s_id})
-          ) www  
-         where  sss.label=www.i_name(+) and sss.dataset=www.reg_date(+)||'주' and sss.dataset=${week}||'주'    
-         group by sss.label, sss.dataset    
-         having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
-         order by nvl(sum(www.quantity),0) desc, 1, 2  
-        ) ssss             
-        where <![CDATA[ rownum<=${chart_cnt}]]>
+        <![CDATA[ 
+	        select 
+	            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+	        from
+	        (
+	          select
+	              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.quantity),0) "DATA"
+	          from
+	          (
+	             select
+	                 ww.week||'주' "DATASET", ss.i_name "LABEL"
+	              from
+	              stock_ingredient ss   
+	              ,(
+	                select '1' "WEEK" from dual
+	                union select '2' from dual
+	                union select '3' from dual
+	                union select '4' from dual
+	                union select '5' from dual  
+	              ) ww 
+	              where ss.s_no=(select s_no from store where s_id=#{s_id}) and to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week
+	          ) sss
+	          , stock_ingredient si     
+	        	where  sss.label=si.i_name(+) 
+		         	and sss.dataset=to_char(to_date(to_char(si.reg_date(+),'yyyymmdd'),'yyyymmdd'), 'w')||'주' 
+		         	and sss.dataset=${week}||'주'
+		         	and to_char(si.reg_date,'MM')=to_char(add_months(sysdate,-1),'MM')
+		         	and si.s_no=(select s_no from store where s_id=#{s_id})    
+	         	group by sss.label, sss.dataset    
+	         	having nvl(sum(si.quantity),0)>=0
+	         	order by nvl(sum(si.quantity),0) desc, 1, 2  
+	        ) ssss             
+	        where rownum<=${chart_cnt}
+        ]]>   
 	</select>
 	
 	<select id="getAllQuarterStockData" resultType="hashmap">
@@ -208,125 +186,144 @@
 	</select>
 	
 	<select id="getQuarterStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-		select 
+        <![CDATA[ 
+        select 
             rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
         from
         (
           select
-              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(www.quantity),0) "DATA"
+              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.quantity),0) "DATA"
           from
           (
              select
-                 q.quarter||'분기' "DATASET", ss.i_name "LABEL"
+                 q.quarter||'분기' "DATASET", si.i_name "LABEL"
               from
-              (
-                select
-                    i.s_no    as "S_NO"
-                    , i.i_name    as "I_NAME"
-                    , to_char(sr.reg_date,'Q')    as "QUARTER"
-                    , sr.quantity    as "QUANTITY"
-                from
-                    ingredient i, stock s, stock_record sr
-                where
-                  i.i_no = s.i_no 
-                  and s.st_no = sr.st_no
-                  and s.is_del = 'F'        
-                  and to_char(sr.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
-              ) ss   
+              stock_ingredient si 
               ,(
                 select '1' "QUARTER" from dual
                 union select '2' from dual
                 union select '3' from dual
                 union select '4' from dual
               ) q 
-              where ss.s_no=(select s_no from store where s_id=#{s_id})  
+              where si.s_no=(select s_no from store where s_id=#{s_id})  
+              and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
           ) sss
           ,
-          (
-              select
-                  i.s_no    as "S_NO"
-                  , i.i_name    as "I_NAME"
-                  , to_char(sr.reg_date,'Q')    as "QUARTER"
-                  , sr.quantity    as "QUANTITY"
-              from
-                  ingredient i, stock s, stock_record sr
-              where
-                i.i_no = s.i_no 
-                and s.st_no = sr.st_no
-                and s.is_del = 'F'        
-                and to_char(sr.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
-          ) www  
-         where  sss.label=www.i_name(+) and sss.dataset=www.quarter(+)||'분기' and sss.dataset=${quarter}||'분기'    
+          stock_ingredient si 
+         where  
+         	sss.label=si.i_name(+) 
+         	and sss.dataset=to_char(si.reg_date(+),'Q')||'분기' 
+         	and sss.dataset=${quarter}||'분기'
+            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1    
          group by sss.label, sss.dataset    
-         having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
-         order by nvl(sum(www.quantity),0) desc, 1, 2  
+         having nvl(sum(si.quantity),0)>=0
         ) ssss             
-        where  <![CDATA[ rownum<=${chart_cnt}]]>
+        where rownum<=${chart_cnt}
+        ]]>
 	</select>
 	
 	 <select id="getMonthStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
-	 select 
-	      rownum "RNUM", ssss.label "LABEL", ssss.dataset "DATASET", ssss.data "DATA"
-	     from
-	     (
-	       select
-	           sss.label "LABEL", sss.dataset "DATASET", nvl(sum(www.quantity),0)||'' "DATA"
-	       from
-	       (              
-	         select
-	           mm.month||'월' "DATASET", ss.i_name "LABEL"
-	         from
-	           (
-	             select
-	                 i.s_no    as "S_NO"
-	                 , i.i_name    as "I_NAME"
-	                 , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
-	                 , sr.quantity    as "QUANTITY"
-	             from
-	                 ingredient i, stock s, stock_record sr
-	             where
-	               i.i_no = s.i_no 
-	               and s.st_no = sr.st_no
-	               and s.is_del = 'F'  
-	           ) ss  
-	           ,
-	           (
-	             select '1' "MONTH" from dual
-	             union select '2' from dual
-	             union select '3' from dual
-	             union select '4' from dual
-	             union select '5' from dual   
-	             union select '6' from dual
-	             union select '7' from dual
-	             union select '8' from dual
-	             union select '9' from dual 
-	             union select '10' from dual
-	             union select '11' from dual
-	             union select '12' from dual
-	           ) mm       
-	           where ss.s_no=(select s_no from store where s_id=#{s_id}) and <![CDATA[ mm.month<=to_number(substr(ss.reg_date(+),5,2)) ]]>
-	         ) sss           
-	         ,
-	         (
-	             select
-	                 i.s_no    as "S_NO"
-	                 , i.i_name    as "I_NAME"
-	                 , to_char(to_date(to_char(sr.reg_date,'yyyymmdd'),'yyyymmdd'), 'yyyymm')    as "REG_DATE"
-	                 , nvl(sr.quantity,0)    as "QUANTITY"
-	             from
-	                 ingredient i, stock s, stock_record sr
-	             where
-	               i.i_no = s.i_no 
-	               and s.st_no = sr.st_no
-	               and s.is_del = 'F'
-	               and i.s_no=(select s_no from store where s_id=#{s_id})
-	         ) www    
-	        where  sss.label=www.i_name(+) and sss.dataset=to_number(substr(www.reg_date(+),5,2))||'월' and sss.dataset=#{month}||'월' and substr(www.reg_date(+),1,4)=#{year}
-	        group by sss.label,sss.dataset  
-	        having <![CDATA[ nvl(sum(www.quantity),0)>=0]]>
-	        order by nvl(sum(www.quantity),0) desc, 2, 1              
-	      ) ssss     
-        where <![CDATA[ rownum<=${chart_cnt}]]>                        
+	 	 <![CDATA[ 
+		 	select
+			    rownum "RNUM"
+			    , ssss.label "LABEL"
+			    , ssss.dataset "DATASET"
+			    , ssss.data "DATA"
+			from
+			    (select
+			        sss.label "LABEL"
+			        , sss.dataset "DATASET"
+			        , nvl(sum(si.quantity),0)||'' "DATA"
+			    from
+			        (select
+			            mm.month||'월' "DATASET"
+			            , si.i_name "LABEL"
+			        from
+			            stock_ingredient si
+			            , (select '1' "MONTH" from dual
+			                union select '2' from dual
+			                union select '3' from dual
+			                union select '4' from dual
+			                union select '5' from dual
+			                union select '6' from dual
+			                union select '7' from dual
+			                union select '8' from dual
+			                union select '9' from dual
+			                union select '10' from dual
+			                union select '11' from dual
+			                union select '12' from dual) mm
+			        where
+			            si.s_no = (select
+			                                s_no
+			                            from
+			                                store
+			                            where
+			                                s_id=#{s_id}) 
+			            and mm.month<=to_number(to_char(si.reg_date(+), 'mm'))) sss
+			    , stock_ingredient si
+			  where
+			      si.s_no=(select
+			                          s_no
+			                      from
+			                          store
+			                      where
+			                          s_id=#{s_id})
+			      and sss.label=si.i_name(+)
+			      and sss.dataset=to_number(to_char(si.reg_date(+), 'mm'))||'월'
+			      and sss.dataset=${month}||'월'
+			      and to_char(si.reg_date(+), 'yyyy')=${year}
+			  group by sss.label,sss.dataset
+			  having  nvl(sum(si.quantity),0)>=0
+			  order by nvl(sum(si.quantity),0) desc, 2, 1) ssss
+			where
+			    rownum<=${chart_cnt}
+        ]]>                      
+   	</select>
+   	
+   	<select id="getTimeStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+   	        select 
+   	        	sss.label||'시' "LABEL", sss.data||'' "DATA"
+   	        from
+   	        (
+   	        	select 
+	                to_number(hh.hour) "LABEL", nvl(ss.quantity,0) "DATA"
+	            from             
+	            (
+	              select si.s_no "S_NO", to_char(si.reg_date,'hh24') "REG_DATE", sum(si.quantity) "QUANTITY"
+	              from stock_ingredient si     
+	              where si.s_no=(select s_no from store where s_id=#{s_id})
+	              and to_char(add_months(sysdate,-1),'YYYYMM')=to_char(si.reg_date, 'YYYYMM')  
+	              group by si.s_no, to_char(si.reg_date,'hh24')
+	            ) ss
+	            ,(
+	                select '0' "HOUR" from dual
+	                union select '1' from dual
+	                union select '2' from dual
+	                union select '3' from dual
+	                union select '4' from dual
+	                union select '5' from dual   
+	                union select '6' from dual
+	                union select '7' from dual
+	                union select '8' from dual
+	                union select '9' from dual
+	                union select '10' from dual 
+	                union select '11' from dual
+	                union select '12' from dual
+	                union select '13' from dual
+	                union select '14' from dual
+	                union select '15' from dual 
+	                union select '16' from dual
+	                union select '17' from dual
+	                union select '18' from dual
+	                union select '19' from dual
+	                union select '20' from dual 
+	                union select '21' from dual 
+	                union select '22' from dual
+	                union select '23' from dual  
+	            ) hh
+	            where hh.hour=ss.reg_date(+)
+	            order by 1
+            )sss
    	</select>
 	
 	<select id="getStockAnlList" resultType="system.ida.dto.StockDTO">

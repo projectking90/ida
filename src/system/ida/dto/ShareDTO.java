@@ -3,12 +3,14 @@ package system.ida.dto;
 public class ShareDTO {
 	private int si_no;
 	private int st_no;
+	private int s_no;
 	private String com_name;
 	private String city;
 	private String gun;
 	private String gu;
 	private String dong;
 	private String ri;
+	private String addr_detail;
 	private String ia_name;
 	private String ib_name;
 	private String io_name;
@@ -165,5 +167,17 @@ public class ShareDTO {
 	 */
 	public void setS_phone(String s_phone) {
 		this.s_phone = s_phone;
+	}
+	public String getAddr_detail() {
+		return addr_detail;
+	}
+	public void setAddr_detail(String addr_detail) {
+		this.addr_detail = addr_detail;
+	}
+	public int getS_no() {
+		return s_no;
+	}
+	public void setS_no(int s_no) {
+		this.s_no = s_no;
 	}
 }

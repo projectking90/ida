@@ -33,4 +33,8 @@ public interface ShareService {
 	int requestShare(ShareDTO shareDTO); // 타 지점의 공유 재고 요청하는 메소드
 	List<ShareDTO> getMyShareRequestList(ShareSearchDTO share_searchDTO); // 내 매장 공유 재고 요청 현황 리스트
 	List<ShareDTO> getDifferentShareRequestList(ShareSearchDTO share_searchDTO); // 타 매장 공유 재고 요청 현황 리스트
+	ShareDTO getShareRequestDTO(ShareDTO shareDTO); // 내 매장 공유 재고 요청 현황 상세보기 메소드
+	int approveShare(ShareDTO shareDTO); // 내 매장 공유 재고 요청 수락 메소드
+	List<ShareDTO> getMyShareApproveList(ShareSearchDTO share_searchDTO); // 내 매장 공유 재고 승인 현황 리스트
+	List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO); // 타 매장 공유 재고 승인 현황 리스트
 }

@@ -43,7 +43,7 @@
          ,data:$("[name=insert_share_form]").serialize()
          ,success:function(share_reg_cnt){
             //alert(stock_reg_cnt);
-            if(share_reg_cnt==1){
+            if(share_reg_cnt==1 || share_reg_cnt==-3){
                alert("공유 재고가 등록되었습니다.");
                location.replace("/ida/share_form.ida");
             }else if(share_reg_cnt==-1){
@@ -168,4 +168,39 @@
           }*/
       });
    }
+
+   // 내 매장 공유 재고 요청 현황 상세보기
+   function share_request_content(si_no, s_no){
+      location.replace("${cr}/share_request_content_form.ida?si_no="+si_no+"&s_no="+s_no);
+   }
+
+   function approve_share_btn(){
+	   if(confirm("정말 수락하겠습니까?")==false){
+	         return;
+	      }   
+	      $.ajax({
+	         url: "/ida/approve_share_reg.ida"
+	         ,type : "post"
+	         ,data: $('[name=share_request_content_form]').serialize()
+	         ,success:function(share_approve_cnt){
+	            if(share_approve_cnt==1){
+	               alert("수락 완료하였습니다.");
+	               location.replace("/ida/share_form.ida");
+	            }else if(share_approve_cnt==-1){
+	               alert("공유 재고가 수락되지 않았습니다. 관리자에게 문의해주시기 바랍니다.");
+	            }else if(share_approve_cnt==-2){
+	               alert("이미 수락된 공유 재고입니다.");
+	            }else if(share_approve_cnt==-3){
+	               alert("삭제된 공유 재고입니다.");
+	            }
+	         }
+	         ,error:function(){
+	            alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
+	         }
+	         /*
+	         ,error:function(request,status,error){
+	              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	          }*/
+	      });
+	}
 </script>

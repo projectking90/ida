@@ -295,6 +295,7 @@ public class StockController {
 			} else if(chart_search.equals("월")) {
 				chart_searchDTO.setMonth(month);
 				chart_searchDTO.setYear(year);
+				//System.out.println("chart_searchDTO.getS_id() "+chart_searchDTO.getS_id());
 				List<Map<String, String>> month_stock_chart = this.stockService.getMonthStockData(chart_searchDTO);
 				
 				for(int i=0; i<month_stock_chart.size(); i++) {
@@ -304,7 +305,19 @@ public class StockController {
 					data1.add(month_stock_chart.get(i).get("DATA"));
 				}
 				dataset.add(month_stock_chart.get(0).get("DATASET"));
+				
 			} else if (chart_search.equals("시간")) {
+				List<Map<String, String>> time_stock_chart = this.stockService.getTimeStockData(chart_searchDTO);
+				
+				for(int i=0; i<time_stock_chart.size(); i++) {
+					label.add(time_stock_chart.get(i).get("LABEL"));
+				}
+				
+				for(int i=0; i<time_stock_chart.size(); i++) {
+					data1.add(time_stock_chart.get(i).get("DATA"));
+				}
+				
+				dataset.add("시간별 재고 입/출고 데이터");
 
 				
 			} else if (chart_search.equals("분기")) {

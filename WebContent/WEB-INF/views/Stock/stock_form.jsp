@@ -18,6 +18,9 @@
 		<div id="wrapper">
 			<div id="content-wrapper">
 				<div class="container-fluid">
+					<!-- Breadcrumbs-->
+					<ol class="breadcrumb"></ol>
+	
 					<!-- DataTables Example -->
 					<div class="card mb-3">
 						<div class="card-header">
@@ -47,7 +50,7 @@
 									</thead>
 									<tbody>
 										<c:forEach items="${stock_list}" var="stock">
-											<tr style="cursor:pointer" onClick="stock_content_tr(${stock.st_no})">
+											<tr style="cursor:pointer" class="stock_list_tr" onClick="update_stock_btn(${stock.st_no})">
 												<td align=center>
 												<td align=center>${stock.ia_name}
 												<td align=center>${stock.ib_name}
@@ -104,6 +107,7 @@
 							</div>
 						</div>
 					</form>
+					
 				</div>
 				<!-- /.container-fluid -->
 			</div>

@@ -1,5 +1,6 @@
 package system.ida.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -163,7 +164,6 @@ public class ShareController {
 		return share_delete_cnt;
 	}
 	
-	
 	@RequestMapping(value="/request_share.ida")
 	@ResponseBody
 	public int request_share(
@@ -261,16 +261,63 @@ public class ShareController {
 		String s_id = (String)session.getAttribute("s_id");
 		try {
 			share_searchDTO.setS_id(s_id);
-/*			List<ShareDTO> my_share_list=this.shareService.getMyShareList(share_searchDTO);
-			List<ShareDTO> different_share_list = this.shareService.getDifferentShareList(share_searchDTO);
-			List<StockDTO> stock_list = this.shareService.getStockList(share_searchDTO);
-			mav.addObject("my_share_list", my_share_list);
-			mav.addObject("different_share_list", different_share_list);
-			mav.addObject("stock_list", stock_list);
-*/		}catch(Exception e) {
+			//System.out.println(share_searchDTO.getS_id());
+			List<ShareDTO> my_share_approve_list=this.shareService.getMyShareApproveList(share_searchDTO);
+			List<ShareDTO> different_share_approve_list = this.shareService.getDifferentShareApproveList(share_searchDTO);
+
+			mav.addObject("my_share_approve_list", my_share_approve_list);
+			mav.addObject("different_share_approve_list", different_share_approve_list);
+		}catch(Exception e) {
 			System.out.println("<goShareApproveForm 에러발생>");
 			System.out.println(e.getMessage());
 		}
 		return mav;
 	}
+	
+	// 내 매장 공유 재고 요청 현황 상세보기 
+	@RequestMapping(value="/share_request_content_form.ida")
+	public ModelAndView share_request_content_form(
+			@RequestParam(value="si_no") int si_no
+			,@RequestParam(value="s_no") int s_no
+			,ShareDTO shareDTO
+			,HttpSession session
+	) {
+		ModelAndView mav=new ModelAndView();
+
+		mav.setViewName(path + "share_request_content_form");
+		try {
+			session.setAttribute("uri", "share_request_content_form.ida");
+			shareDTO.setSi_no(si_no);
+			shareDTO.setS_no(s_no);
+			shareDTO = this.shareService.getShareRequestDTO(shareDTO);
+			mav.addObject("shareDTO", shareDTO);
+		}catch(Exception e) {
+			System.out.println("<share_request_content_form 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		return mav;
+	}
+	
+	// 내 매장 공유 재고 요청한 것 수락하기
+	@RequestMapping(value="/approve_share_reg.ida")
+	@ResponseBody
+	public int approve_share_reg(
+			ShareDTO shareDTO
+			,HttpSession session
+	) {
+		int share_approve_cnt = 0;
+		String s_id = (String)session.getAttribute("s_id");
+		try {				 
+			shareDTO.setS_id(s_id);
+			System.out.println("shareDTO.getCom_name() "+shareDTO.getCom_name());
+			share_approve_cnt = this.shareService.approveShare(shareDTO);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		
+		return share_approve_cnt;
+	}
+	
+	//approve_share_reg
 }

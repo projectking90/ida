@@ -75,7 +75,25 @@ public class ShareDAOImpl implements ShareDAO {
 		
 		return share_record_insert;
 	}
-
+	// 이미 등록되었으나 삭제된 공유 재고 개수 count
+	@Override
+	public int getDeletedShareCnt(ShareDTO shareDTO) {
+		int share_record_insert=this.sqlSession.selectOne(
+				sqlSessionPath+"getDeletedShareCnt"
+				, shareDTO);
+		
+		return share_record_insert;
+	} 
+	
+	@Override
+	public int changeInsertedShareIsDel(ShareDTO shareDTO) {
+		int share_record_insert=this.sqlSession.update(
+				sqlSessionPath+"changeInsertedShareIsDel"
+				, shareDTO);
+		
+		return share_record_insert;
+		
+	}; // is_del='T'를 'F'로 변경하는 메소드 
 	@Override
 	public ShareDTO getShareDTO(int si_no) {
 		ShareDTO shareDTO = this.sqlSession.selectOne(
@@ -165,5 +183,68 @@ public class ShareDAOImpl implements ShareDAO {
 				, share_searchDTO)
 		;
 		return different_share_request_list;
+	}
+
+	@Override
+	public ShareDTO getShareRequestDTO(ShareDTO shareDTO) {
+		shareDTO = this.sqlSession.selectOne(
+				sqlSessionPath+"getShareRequestDTO"
+				, shareDTO
+		);
+		return shareDTO;
+	}
+	
+	@Override
+	public int approveShare(ShareDTO shareDTO) {
+		int share_approve_cnt=this.sqlSession.update(
+				sqlSessionPath+"approveShare"
+				,shareDTO
+		);
+		return share_approve_cnt;
+	}
+
+	@Override
+	public int approveShareRecord(ShareDTO shareDTO) {
+		int share_record_approve=this.sqlSession.insert(
+				sqlSessionPath+"approveShareRecord"
+				, shareDTO);
+		
+		return share_record_approve;
+	}
+
+	@Override
+	public int approveShareCount(ShareDTO shareDTO) {
+		int share_recorded_approve=this.sqlSession.selectOne(
+				sqlSessionPath+"approveShareCount"
+				, shareDTO);
+		
+		return share_recorded_approve;
+	}
+
+	@Override
+	public int shareDeletedCount(ShareDTO shareDTO) {
+		int share_delete_cnt=this.sqlSession.selectOne(
+				sqlSessionPath+"shareDeletedCount"
+				, shareDTO);
+		
+		return share_delete_cnt;
+	}
+
+	@Override
+	public List<ShareDTO> getMyShareApproveList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> my_share_approve_list=this.sqlSession.selectList(
+				sqlSessionPath+"getMyShareApproveList"
+				, share_searchDTO
+		);
+		return my_share_approve_list;
+	}
+
+	@Override
+	public List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO) {
+		List<ShareDTO> different_share_approve_list=this.sqlSession.selectList(
+				sqlSessionPath+"getDifferentShareApproveList"
+				, share_searchDTO
+		);
+		return different_share_approve_list;
 	}
 }

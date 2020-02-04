@@ -62,6 +62,9 @@
 														<c:if test="${different_share.ri!=''}">
 															&nbsp;${different_share.ri}
 														</c:if>
+														<c:if test="${different_share.addr_detail!=''}">
+															&nbsp;${different_share.addr_detail}
+														</c:if>
 													<td align=center>${different_share.ia_name}
 													<td align=center>${different_share.ib_name}
 													<td align=center>${different_share.io_name}
