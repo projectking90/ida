@@ -137,6 +137,7 @@ function getChartData(cr, chart_search, week, month, year, quarter){
 		}
 		// 서버의 응답을 못받았을 경우 실행할 익명함수 설정
 		,error : function(){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			alert("서버 접속 실패하였습니다. 다시 시도해주시기 바랍니다.");
 		}
 	});

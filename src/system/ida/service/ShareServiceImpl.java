@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import system.ida.dao.ShareDAO;
 import system.ida.dao.StockDAO;
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.IngredientDTO;
 import system.ida.dto.ShareDTO;
 import system.ida.dto.ShareSearchDTO;
@@ -63,13 +64,14 @@ public class ShareServiceImpl implements ShareService {
 		// 이미 등록된 공유 재고 개수 count
 		int inserted_share_cnt=this.shareDAO.getInsertedShareCnt(shareDTO); 
 		// 같은 공유 재고가 등록되었지만 삭제된 것 count
-		int deleted_share_cnt=this.shareDAO.getDeletedShareCnt(shareDTO);
+		//int deleted_share_cnt=this.shareDAO.getDeletedShareCnt(shareDTO);
 		// 이미 같은 상태로 등록된 공유 재고의 개수가 0보다 클 때
 		if(inserted_share_cnt>0) {
 			return -2;
 		}
 		// 등록되었지만 삭제된 재고가 있을 때 
-		else if(deleted_share_cnt>0) {
+		
+		/*else if(deleted_share_cnt>0) {
 			int share_isDel_update_cnt=this.shareDAO.changeInsertedShareIsDel(shareDTO);
 			if(share_isDel_update_cnt>0) {
 				// 기록 남기기
@@ -78,8 +80,8 @@ public class ShareServiceImpl implements ShareService {
 					return -3;	
 				}
 			}
-		}
-		// 등록된 재고가 없을 때
+		}*/
+		// 재고가 없을 때
 		else { 
 			int share_reg_cnt=this.shareDAO.insertShare(shareDTO);
 			// 추가 
@@ -191,5 +193,41 @@ public class ShareServiceImpl implements ShareService {
 	public List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO) {
 		List<ShareDTO> different_share_approve_list = this.shareDAO.getDifferentShareApproveList(share_searchDTO);
 		return different_share_approve_list;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_share_input_chart = this.shareDAO.getWeekShareInputData(chart_searchDTO);
+		return week_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_share_output_chart = this.shareDAO.getWeekShareOutputData(chart_searchDTO);
+		return week_share_output_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_share_input_chart = this.shareDAO.getMonthShareInputData(chart_searchDTO);
+		return month_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_share_output_chart = this.shareDAO.getMonthShareOutputData(chart_searchDTO);
+		return month_share_output_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getTimeShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_share_input_chart = this.shareDAO.getTimeShareInputData(chart_searchDTO);
+		return time_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getTimeShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_share_output_chart = this.shareDAO.getTimeShareOutputData(chart_searchDTO);
+		return time_share_output_chart;
 	}
 }

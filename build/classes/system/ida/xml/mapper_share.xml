@@ -100,7 +100,7 @@
 		select 
 			count(*) 
 		from share_ingredient si
-		where si.st_no=${st_no} and si.sr_state=#{sr_state} and si.is_del='F'
+		where si.st_no=${st_no} and si.sr_state=#{sr_state} and si.is_del='F' and si.si_state!='y'
 	</select>
 	
 	<select id="getShareDTO" parameterType="int" resultType="system.ida.dto.ShareDTO">
@@ -362,6 +362,278 @@
             and s.addr_code=ca.addr_code    
             and sh.si_no=sir.si_no
             and sir.s_no=(select s_no from store where s_id=#{s_id})
+	</select>
+	
+	
+	<select id='getWeekShareInputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+	<![CDATA[ 
+			select 
+    			rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+            from
+            (
+              select
+                  sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+              from
+              (
+                 select
+                     ww.week||'주' "DATASET", ss.i_name "LABEL"
+                  from
+                  share_chart ss   
+                  ,(
+                    select '1' "WEEK" from dual
+                    union select '2' from dual
+                    union select '3' from dual
+                    union select '4' from dual
+                    union select '5' from dual  
+                  ) ww 
+                  where ss.s_no=(select s_no from store where s_id=#{s_id}) and to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week
+              ) sss
+              , share_chart si     
+                where  sss.label=si.i_name(+)     
+                     and si.sr_state(+)='i'
+                     and sss.dataset=to_char(to_date(to_char(si.reg_date(+),'yyyymmdd'),'yyyymmdd'), 'w')||'주' 
+                     and sss.dataset=${week}||'주'
+                     and to_char(si.reg_date,'MM')=to_char(add_months(sysdate, -1),'MM')
+                     and si.s_no=(select s_no from store where s_id=#{s_id})  
+                 group by sss.label, sss.dataset    
+                 having nvl(sum(si.si_quantity),0)>=0
+                 order by nvl(sum(si.si_quantity),0) desc, 1, 2 
+                 )ssss
+            where rownum<=${chart_cnt} 
+	        ]]>
+	</select>
+	
+	<select id='getWeekShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+			select 
+    			rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+            from
+            (
+              select
+                  sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+              from
+              (
+                 select
+                     ww.week||'주' "DATASET", ss.i_name "LABEL"
+                  from
+                  share_chart ss   
+                  ,(
+                    select '1' "WEEK" from dual
+                    union select '2' from dual
+                    union select '3' from dual
+                    union select '4' from dual
+                    union select '5' from dual  
+                  ) ww 
+                  where ss.s_no=(select s_no from store where s_id=#{s_id}) and to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week
+              ) sss
+              , share_chart si     
+                where  sss.label=si.i_name(+)     
+                     and si.sr_state(+)='o'
+                     and sss.dataset=to_char(to_date(to_char(si.reg_date(+),'yyyymmdd'),'yyyymmdd'), 'w')||'주' 
+                     and sss.dataset=${week}||'주'
+                     and to_char(si.reg_date,'MM')=to_char(add_months(sysdate, -1),'MM')
+                     and si.s_no=(select s_no from store where s_id=#{s_id})  
+                 group by sss.label, sss.dataset    
+                 having nvl(sum(si.si_quantity),0)>=0
+                 order by nvl(sum(si.si_quantity),0) desc, 1, 2 
+                 )ssss
+            where rownum<=${chart_cnt} 
+	        ]]>
+	</select>
+	
+	
+	<select id='getMonthShareInputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+            select
+                rownum "RNUM"
+                , ssss.label "LABEL"
+                , ssss.dataset "DATASET"
+                , nvl(ssss.data||'','0') "DATA"
+            from
+                (select
+                    sss.label "LABEL"
+                    , sss.dataset "DATASET"
+                    , sum(si.si_quantity) "DATA"
+                from
+                    (select
+                        mm.month||'월' "DATASET"
+                        , si.i_name "LABEL"
+                    from
+                        share_chart si
+                        , (select '1' "MONTH" from dual
+                            union select '2' from dual
+                            union select '3' from dual
+                            union select '4' from dual
+                            union select '5' from dual
+                            union select '6' from dual
+                            union select '7' from dual
+                            union select '8' from dual
+                            union select '9' from dual
+                            union select '10' from dual
+                            union select '11' from dual
+                            union select '12' from dual) mm
+                    where
+                        si.s_no = (select s_no from store  where s_id=#{s_id}) 
+                        and mm.month=to_number(to_char(si.reg_date(+), 'mm'))
+                ) sss
+                , share_chart si
+              where
+                  si.s_no=(select s_no from store where s_id=#{s_id})   
+                  and si.sr_state='i'
+                  and sss.label=si.i_name(+)
+                  and sss.dataset=to_number(to_char(si.reg_date(+), 'mm'))||'월'
+                  and sss.dataset=${month}||'월'
+                  and to_char(si.reg_date(+), 'yyyy')=${year}
+              group by sss.label,sss.dataset
+              having  nvl(sum(si.si_quantity),0)>=0
+              order by 3 desc, 2, 1) ssss
+            where
+                rownum<=${chart_cnt}
+          ]]>
+	</select>
+	
+	<select id='getMonthShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+            select
+                rownum "RNUM"
+                , ssss.label "LABEL"
+                , ssss.dataset "DATASET"
+                , nvl(ssss.data||'','0') "DATA"
+            from
+                (select
+                    sss.label "LABEL"
+                    , sss.dataset "DATASET"
+                    , sum(si.si_quantity) "DATA"
+                from
+                    (select
+                        mm.month||'월' "DATASET"
+                        , si.i_name "LABEL"
+                    from
+                        share_chart si
+                        , (select '1' "MONTH" from dual
+                            union select '2' from dual
+                            union select '3' from dual
+                            union select '4' from dual
+                            union select '5' from dual
+                            union select '6' from dual
+                            union select '7' from dual
+                            union select '8' from dual
+                            union select '9' from dual
+                            union select '10' from dual
+                            union select '11' from dual
+                            union select '12' from dual) mm
+                    where
+                        si.s_no = (select s_no from store  where s_id=#{s_id}) 
+                        and mm.month=to_number(to_char(si.reg_date(+), 'mm'))
+                ) sss
+                , share_chart si
+              where
+                  si.s_no=(select s_no from store where s_id=#{s_id})   
+                  and si.sr_state='o'
+                  and sss.label=si.i_name(+)
+                  and sss.dataset=to_number(to_char(si.reg_date(+), 'mm'))||'월'
+                  and sss.dataset=${month}||'월'
+                  and to_char(si.reg_date(+), 'yyyy')=${year}
+              group by sss.label,sss.dataset
+              having  nvl(sum(si.si_quantity),0)>=0
+              order by 3 desc, 2, 1) ssss
+            where
+                rownum<=${chart_cnt}
+          ]]>
+	</select>
+	
+	<select id='getTimeShareInputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select 
+                sss.label||'시' "LABEL", sss.data||'' "DATA"
+        from
+	        (
+	        select
+	        	to_number(hh.hour) "LABEL", nvl(ss.quantity,0) "DATA"
+	        from
+	        (
+	        select si.s_no "S_NO", to_char(si.reg_date,'hh24') "REG_DATE", sum(si.si_quantity) "QUANTITY"
+	        from share_chart si
+	        where si.s_no=(select s_no from store where s_id=#{s_id})
+		        and to_char(add_months(sysdate,-1),'YYYYMM')=to_char(si.reg_date, 'YYYYMM')
+		        and si.sr_state='i'
+		    group by si.s_no, to_char(si.reg_date,'hh24')
+	        ) ss
+	        ,(
+		        select '0' "HOUR" from dual
+		        union select '1' from dual
+		        union select '2' from dual
+		        union select '3' from dual
+		        union select '4' from dual
+		        union select '5' from dual   
+		        union select '6' from dual
+		        union select '7' from dual
+		        union select '8' from dual
+		        union select '9' from dual
+		        union select '10' from dual 
+		        union select '11' from dual
+		        union select '12' from dual
+		        union select '13' from dual
+		        union select '14' from dual
+		        union select '15' from dual 
+		        union select '16' from dual
+		        union select '17' from dual
+		        union select '18' from dual
+		        union select '19' from dual
+		        union select '20' from dual 
+		        union select '21' from dual 
+		        union select '22' from dual
+		        union select '23' from dual  
+	        ) hh
+	        where hh.hour=ss.reg_date(+)
+	        order by 1
+         )sss
+	</select>
+	<select id='getTimeShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select 
+                sss.label||'시' "LABEL", sss.data||'' "DATA"
+        from
+	        (
+	        select
+	        	to_number(hh.hour) "LABEL", nvl(ss.quantity,0) "DATA"
+	        from
+	        (
+	        select si.s_no "S_NO", to_char(si.reg_date,'hh24') "REG_DATE", sum(si.si_quantity) "QUANTITY"
+	        from share_chart si
+	        where si.s_no=(select s_no from store where s_id=#{s_id})
+		        and to_char(add_months(sysdate,-1),'YYYYMM')=to_char(si.reg_date, 'YYYYMM')
+		        and si.sr_state='o'
+		    group by si.s_no, to_char(si.reg_date,'hh24')
+	        ) ss
+	        ,(
+		        select '0' "HOUR" from dual
+		        union select '1' from dual
+		        union select '2' from dual
+		        union select '3' from dual
+		        union select '4' from dual
+		        union select '5' from dual   
+		        union select '6' from dual
+		        union select '7' from dual
+		        union select '8' from dual
+		        union select '9' from dual
+		        union select '10' from dual 
+		        union select '11' from dual
+		        union select '12' from dual
+		        union select '13' from dual
+		        union select '14' from dual
+		        union select '15' from dual 
+		        union select '16' from dual
+		        union select '17' from dual
+		        union select '18' from dual
+		        union select '19' from dual
+		        union select '20' from dual 
+		        union select '21' from dual 
+		        union select '22' from dual
+		        union select '23' from dual  
+	        ) hh
+	        where hh.hour=ss.reg_date(+)
+	        order by 1
+         )sss
+	
 	</select>
 	
 </mapper>

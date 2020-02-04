@@ -5,11 +5,13 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.ShareDTO;
 import system.ida.dto.ShareSearchDTO;
 import system.ida.dto.StockDTO;
@@ -246,5 +248,59 @@ public class ShareDAOImpl implements ShareDAO {
 				, share_searchDTO
 		);
 		return different_share_approve_list;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_stock_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekShareInputData"
+				, chart_searchDTO);
+		
+		return week_stock_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getWeekShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_stock_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekShareOutputData"
+				, chart_searchDTO);
+		
+		return week_stock_output_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_stock_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthShareInputData"
+				, chart_searchDTO);
+		
+		return month_stock_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getMonthShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_stock_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthShareOutputData"
+				, chart_searchDTO);
+		
+		return month_stock_output_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getTimeShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_stock_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getTimeShareInputData"
+				, chart_searchDTO);
+		
+		return time_stock_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getTimeShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_stock_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getTimeShareOutputData"
+				, chart_searchDTO);
+		
+		return time_stock_output_chart;
 	}
 }

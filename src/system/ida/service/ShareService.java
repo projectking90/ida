@@ -5,7 +5,9 @@
 package system.ida.service;
 
 import java.util.List;
+import java.util.Map;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.ShareDTO;
 import system.ida.dto.ShareSearchDTO;
 import system.ida.dto.StockDTO;
@@ -37,4 +39,10 @@ public interface ShareService {
 	int approveShare(ShareDTO shareDTO); // 내 매장 공유 재고 요청 수락 메소드
 	List<ShareDTO> getMyShareApproveList(ShareSearchDTO share_searchDTO); // 내 매장 공유 재고 승인 현황 리스트
 	List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO); // 타 매장 공유 재고 승인 현황 리스트
+	List<Map<String, String>> getWeekShareInputData(ChartSearchDTO chart_searchDTO); // 주별 입고 차트
+	List<Map<String, String>> getWeekShareOutputData(ChartSearchDTO chart_searchDTO); // 주별 출고 차트
+	List<Map<String, String>> getMonthShareInputData(ChartSearchDTO chart_searchDTO); // 월별 입고 차트
+	List<Map<String, String>> getMonthShareOutputData(ChartSearchDTO chart_searchDTO); // 월별 출고 차트
+	List<Map<String, String>> getTimeShareInputData(ChartSearchDTO chart_searchDTO); // 시간별 입고 차트
+	List<Map<String, String>> getTimeShareOutputData(ChartSearchDTO chart_searchDTO); // 시간별 입고 차트
 }
