@@ -208,16 +208,16 @@ public class StockController {
 	 */
 	@RequestMapping(value="/stock_analysis_form.ida")
 	public ModelAndView goStockAnalysisForm(
-			StockSearchDTO stock_searchDTO,
-			HttpSession session
+			ChartSearchDTO chart_searchDTO
+			,HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "stock_analysis_form");
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
-			stock_searchDTO.setS_id(s_id);
-			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(stock_searchDTO);
+			chart_searchDTO.setS_id(s_id);
+			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(chart_searchDTO);
 			mav.addObject("stock_anl_list",stock_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockAnalysisForm 에러발생>");
@@ -235,15 +235,15 @@ public class StockController {
 	 */
 	@RequestMapping(value="/stock_analysis_chart_form.ida")
 	public ModelAndView goStockAnalysisChartForm(
-			StockSearchDTO stock_searchDTO,
+			ChartSearchDTO chart_searchDTO,
 			HttpSession session
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "stock_analysis_chart_form");
 		try {
 			String s_id =(String)session.getAttribute("s_id");
-			stock_searchDTO.setS_id(s_id);
-			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(stock_searchDTO);
+			chart_searchDTO.setS_id(s_id);
+			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(chart_searchDTO);
 			mav.addObject("stock_anl_list",stock_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goStockAnalysisChartForm 에러발생>");
@@ -324,7 +324,7 @@ public class StockController {
 				chart_searchDTO.setQuarter(quarter);
 				
 				// Pie Chart
-				List<Map<String, String>> all_quarter_stock_chart = this.stockService.getAllQuarterStockData();
+				List<Map<String, String>> all_quarter_stock_chart = this.stockService.getAllQuarterStockData(chart_searchDTO);
 				System.out.println(all_quarter_stock_chart);
 				
 				for(int i=0; i<all_quarter_stock_chart.size(); i++) {

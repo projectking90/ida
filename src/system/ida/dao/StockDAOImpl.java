@@ -138,10 +138,10 @@ public class StockDAOImpl implements StockDAO {
 	}
 
 	@Override
-	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
+	public List<StockDTO> getStockAnlList(ChartSearchDTO chart_searchDTO) {
 		List<StockDTO> stock_anl_list = this.sqlSession.selectList(
 				sqlSessionPath+"getStockAnlList"
-				, stock_searchDTO);
+				, chart_searchDTO);
 		
 		
 		return stock_anl_list;
@@ -160,15 +160,17 @@ public class StockDAOImpl implements StockDAO {
 	public List<Map<String, String>> getMonthStockData(ChartSearchDTO chart_searchDTO) {
 		List<Map<String,String>> month_stock_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getMonthStockData"
-				, chart_searchDTO);
+				, chart_searchDTO
+		);
 		
 		return month_stock_chart;
 	}
 
 	@Override
-	public List<Map<String, String>> getAllQuarterStockData() {
+	public List<Map<String, String>> getAllQuarterStockData(ChartSearchDTO chart_searchDTO) {
 		List<Map<String,String>> all_quarter_stock_chart = this.sqlSession.selectList(
 				sqlSessionPath + "getAllQuarterStockData"
+				, chart_searchDTO
 		);
 		
 		return all_quarter_stock_chart;

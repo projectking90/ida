@@ -156,8 +156,8 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
-		List<StockDTO> stock_anl_list = this.stockDAO.getStockAnlList(stock_searchDTO);
+	public List<StockDTO> getStockAnlList(ChartSearchDTO chart_searchDTO) {
+		List<StockDTO> stock_anl_list = this.stockDAO.getStockAnlList(chart_searchDTO);
 		return stock_anl_list;
 	}
 
@@ -179,8 +179,8 @@ public class StockServiceImpl implements StockService {
 		return time_stock_chart;
 	}
 	@Override
-	public List<Map<String, String>> getAllQuarterStockData() {
-		List<Map<String,String>> all_quarter_stock_chart = this.stockDAO.getAllQuarterStockData();
+	public List<Map<String, String>> getAllQuarterStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_stock_chart = this.stockDAO.getAllQuarterStockData(chart_searchDTO);
 		return all_quarter_stock_chart;
 	}
 

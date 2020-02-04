@@ -23,11 +23,13 @@
 						<div class="card-header">
 							<i class="fas fa-fw fa-chart-area"></i> 공유 분석 차트
 							<span style='float:right'>
-								<button type="button" class="btn btn-primary s_table">공유 표</button>
+								<button type="button" class="btn btn-primary sh_table">공유 표</button>
 							</span>
 						</div>
 						
 						<div class="card-body">
+							<canvas id="myChart1" width="100%" height="30"></canvas>
+							<canvas id="myChart2" width="100%" height="30"></canvas>
 							<canvas id="myChart3" width="100%" height="30"></canvas>
 							<canvas id="myChart4" width="100%" height="30"></canvas>
 							

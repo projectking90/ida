@@ -43,4 +43,9 @@ public interface ShareDAO {
 	List<Map<String, String>> getMonthShareOutputData(ChartSearchDTO chart_searchDTO); // 월별 출고 차트
 	List<Map<String, String>> getTimeShareInputData(ChartSearchDTO chart_searchDTO); // 시간별 입고 차트
 	List<Map<String, String>> getTimeShareOutputData(ChartSearchDTO chart_searchDTO); // 시간별 입고 차트
+	List<Map<String, String>> getAllQuarterShareInputData(ChartSearchDTO chart_searchDTO); // 분기별 입고 파이 차트
+	List<Map<String, String>> getAllQuarterShareOutputData(ChartSearchDTO chart_searchDTO); // 분기별 출고 파이 차트
+	List<Map<String, String>> getQuarterShareInputData(ChartSearchDTO chart_searchDTO); // 분기별 입고 차트
+	List<Map<String, String>> getQuarterShareOutputData(ChartSearchDTO chart_searchDTO); // 분기별 출고 차트
+	List<ShareDTO> getShareAnlList(ChartSearchDTO chart_searchDTO); // 분석표
 }

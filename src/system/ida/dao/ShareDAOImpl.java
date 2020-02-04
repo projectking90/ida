@@ -303,4 +303,53 @@ public class ShareDAOImpl implements ShareDAO {
 		
 		return time_stock_output_chart;
 	}
+
+	@Override
+	public List<Map<String, String>> getAllQuarterShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_share_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAllQuarterShareInputData"
+				,chart_searchDTO
+		);
+		
+		return all_quarter_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getAllQuarterShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_share_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAllQuarterShareOutputData"
+				,chart_searchDTO
+		);
+		
+		return all_quarter_share_output_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_share_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterShareInputData"
+				,chart_searchDTO
+		);
+		
+		return quarter_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_share_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterShareOutputData"
+				,chart_searchDTO
+		);
+		
+		return quarter_share_output_chart;
+	}
+
+	@Override
+	public List<ShareDTO> getShareAnlList(ChartSearchDTO chart_searchDTO) {
+		List<ShareDTO> share_anl_list= this.sqlSession.selectList(
+				sqlSessionPath + "getShareAnlList"
+				,chart_searchDTO
+		);
+		return share_anl_list;
+	}
 }

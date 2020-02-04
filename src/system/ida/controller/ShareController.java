@@ -283,13 +283,17 @@ public class ShareController {
 	 */
 	@RequestMapping(value="/share_analysis_form.ida")
 	public ModelAndView goShareAnalysisForm(
-		HttpSession session
+		HttpSession session,
+		ChartSearchDTO chart_searchDTO
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "share_analysis_form");
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			chart_searchDTO.setS_id(s_id);
+			List<ShareDTO> share_anl_list = this.shareService.getShareAnlList(chart_searchDTO);
+			mav.addObject("share_anl_list",share_anl_list);
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goShareAnalysisForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -305,13 +309,17 @@ public class ShareController {
 	 */
 	@RequestMapping(value="/share_analysis_chart_form.ida")
 	public ModelAndView goShareAnalysisChartForm(
-		HttpSession session
+		HttpSession session,
+		ChartSearchDTO chart_searchDTO
 		) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(path + "share_analysis_chart_form");
-		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
+			chart_searchDTO.setS_id(s_id);
+			List<ShareDTO> share_anl_list = this.shareService.getShareAnlList(chart_searchDTO);
+			mav.addObject("share_anl_list",share_anl_list);
+
 		} catch(Exception e) {	// try 구문에서 예외가 발생하면 실행할 구문 설정
 			System.out.println("<goShareAnalysisChartForm 에러발생>");
 			System.out.println(e.getMessage());
@@ -325,11 +333,11 @@ public class ShareController {
 	public ChartDTO goShareAnalysisChartData(
 			ChartSearchDTO chart_searchDTO
 			, HttpSession session
-			, @RequestParam(value="chart_search",  required=false) String chart_search
-			, @RequestParam(value="chart_cnt",  required=false) String chart_cnt
+			, @RequestParam(value="chart_search") String chart_search
+			, @RequestParam(value="chart_cnt") String chart_cnt
 			, @RequestParam(value="week", required=false) String week
-			, @RequestParam(value="month" , required=false) String month
-			, @RequestParam(value="year", required=false) String year
+			, @RequestParam(value="month") String month
+			, @RequestParam(value="year") String year
 			, @RequestParam(value="quarter", required=false) String quarter
 	) 
 	{
@@ -418,6 +426,59 @@ public class ShareController {
 				
 			} else if (chart_search.equals("분기")) {
 				chart_searchDTO.setQuarter(quarter);	
+				// Input Pie Chart
+				List<Map<String, String>> all_quarter_share_input_chart = this.shareService.getAllQuarterShareInputData(chart_searchDTO);
+				
+				for(int i=0; i<all_quarter_share_input_chart.size(); i++) {
+					label.add(all_quarter_share_input_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<all_quarter_share_input_chart.size(); i++) {
+					data1.add(all_quarter_share_input_chart.get(i).get("DATA"));
+				}
+				
+				//Output Pie Chart
+				List<Map<String, String>> all_quarter_share_output_chart = this.shareService.getAllQuarterShareOutputData(chart_searchDTO);
+				
+				for(int i=0; i<all_quarter_share_output_chart.size(); i++) {
+					label2.add(all_quarter_share_output_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<all_quarter_share_output_chart.size(); i++) {
+					data2.add(all_quarter_share_output_chart.get(i).get("DATA"));
+				}
+				
+
+				List<String> label3 = new ArrayList<String>();
+				List<String> data3 =new ArrayList<String>();
+				List<String> label4 = new ArrayList<String>();
+				List<String> data4 =new ArrayList<String>();
+				
+
+				// Bar Chart
+				List<Map<String, String>> quarter_share_input_chart = this.shareService.getQuarterShareInputData(chart_searchDTO);
+				List<Map<String, String>> quarter_share_output_chart = this.shareService.getQuarterShareOutputData(chart_searchDTO);
+				
+				for(int i=0; i<quarter_share_input_chart.size(); i++) {
+					label3.add(quarter_share_input_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<quarter_share_input_chart.size(); i++) {
+					data3.add(quarter_share_input_chart.get(i).get("DATA"));
+				}
+				
+				System.out.println("quarter_share_output_chart "+quarter_share_output_chart);
+				for(int i=0; i<quarter_share_output_chart.size(); i++) {
+					label4.add(quarter_share_output_chart.get(i).get("LABEL"));
+				}
+				for(int i=0; i<quarter_share_output_chart.size(); i++) {
+					data4.add(quarter_share_output_chart.get(i).get("DATA"));
+				}
+				List<String> dataset2 = new ArrayList<String>();
+				dataset2.add(quarter_share_input_chart.get(0).get("DATASET"));
+
+				chart_data.setDataset2(dataset2);
+				chart_data.setLabel3(label3);
+				chart_data.setData3(data3);
+				chart_data.setLabel4(label4);
+				chart_data.setData4(data4);
 			}
 			chart_data.setDataset(dataset);
 			chart_data.setLabel(label);

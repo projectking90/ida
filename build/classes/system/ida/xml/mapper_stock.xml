@@ -168,21 +168,36 @@
         ]]>   
 	</select>
 	
-	<select id="getAllQuarterStockData" resultType="hashmap">
-		select 
-		    q.quarter||'분기' "LABEL", 
-		    nvl(sum(sr.quantity),0)||''  "DATA"
-		from 
-		    stock_record sr,
-		    (
-		    select '1' "QUARTER" from dual
-		    union select '2' from dual
-		    union select '3' from dual
-		    union select '4' from dual
-		    )  q                 
-		where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY')-1
-		group by q.quarter
-		order by 1
+	<select id="getAllQuarterStockData" parameterType="system.ida.dto.ChartSearchDTO"  resultType="hashmap">
+        select
+            qq.quarter||'분기' "LABEL",
+            nvl(ss.data||'','0') "DATA" 
+        from
+        (
+         select 
+            q.quarter "LABEL", 
+            sum(sr.quantity) "DATA"
+        from 
+            stock_record sr,
+            (
+            select '1' "QUARTER" from dual
+            union select '2' from dual
+            union select '3' from dual
+            union select '4' from dual
+            )  q                 
+        where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY')
+        and sr.st_no in (select st_no from stock where i_no in (select i_no from ingredient where s_no=(select s_no from store where s_id=#{s_id})))
+        group by q.quarter                                    
+        ) ss
+        ,
+        (
+        select '1' "QUARTER" from dual
+        union select '2' from dual
+        union select '3' from dual
+        union select '4' from dual
+        )  qq       
+        where ss.label(+)=qq.quarter               
+        order by 1       
 	</select>
 	
 	<select id="getQuarterStockData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
@@ -214,11 +229,12 @@
          	sss.label=si.i_name(+) 
          	and sss.dataset=to_char(si.reg_date(+),'Q')||'분기' 
          	and sss.dataset=${quarter}||'분기'
-            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1    
+            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1   
          group by sss.label, sss.dataset    
-         having nvl(sum(si.quantity),0)>=0
+         having nvl(sum(si.quantity),0)>=0   
+         order by 3 desc
         ) ssss             
-        where rownum<=${chart_cnt}
+        where rownum<=${chart_cnt} 
         ]]>
 	</select>
 	
@@ -326,7 +342,7 @@
             )sss
    	</select>
 	
-	<select id="getStockAnlList" resultType="system.ida.dto.StockDTO">
+	<select id="getStockAnlList" parameterType="system.ida.dto.ChartSearchDTO" resultType="system.ida.dto.StockDTO">
         select 
             si.s_no "S_NO",
             ia.ia_name "IA_NAME", 

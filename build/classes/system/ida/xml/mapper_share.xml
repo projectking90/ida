@@ -588,6 +588,7 @@
 	        order by 1
          )sss
 	</select>
+	
 	<select id='getTimeShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
 		select 
                 sss.label||'시' "LABEL", sss.data||'' "DATA"
@@ -633,7 +634,165 @@
 	        where hh.hour=ss.reg_date(+)
 	        order by 1
          )sss
-	
 	</select>
 	
+	<select id="getAllQuarterShareInputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select
+            qq.quarter||'분기' "LABEL",
+            nvl(ss.data||'','0') "DATA" 
+        from
+        (
+         select 
+            q.quarter "LABEL", 
+            sum(sr.si_quantity) "DATA"
+        from 
+            share_chart sr,
+            (
+            select '1' "QUARTER" from dual
+            union select '2' from dual
+            union select '3' from dual
+            union select '4' from dual
+            )  q                 
+        where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY') 
+        and sr.sr_state='i'
+        and sr.s_no=(select s_no from store where s_id=#{s_id})
+        group by q.quarter                                    
+        ) ss
+        ,
+        (
+        select '1' "QUARTER" from dual
+        union select '2' from dual
+        union select '3' from dual
+        union select '4' from dual
+        )  qq       
+        where ss.label(+)=qq.quarter               
+        order by 1   
+	</select>
+	
+	<select id="getAllQuarterShareOutputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+	    select
+            qq.quarter||'분기' "LABEL",
+            nvl(ss.data||'','0') "DATA" 
+        from
+        (
+         select 
+            q.quarter "LABEL", 
+            sum(sr.si_quantity) "DATA"
+        from 
+            share_chart sr,
+            (
+            select '1' "QUARTER" from dual
+            union select '2' from dual
+            union select '3' from dual
+            union select '4' from dual
+            )  q                 
+        where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY') 
+        and sr.sr_state='o'
+        and sr.s_no=(select s_no from store where s_id=#{s_id})
+        group by q.quarter                                    
+        ) ss
+        ,
+        (
+        select '1' "QUARTER" from dual
+        union select '2' from dual
+        union select '3' from dual
+        union select '4' from dual
+        )  qq       
+        where ss.label(+)=qq.quarter               
+        order by 1    
+	</select>
+	
+	<select id="getQuarterShareInputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+	   	select 
+            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+        from
+        (
+          select
+              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+          from
+          (
+             select
+                 q.quarter||'분기' "DATASET", si.i_name "LABEL"
+              from
+              share_chart si 
+              ,(
+                select '1' "QUARTER" from dual
+                union select '2' from dual
+                union select '3' from dual
+                union select '4' from dual
+              ) q 
+              where si.s_no=(select s_no from store where s_id=#{s_id})  
+              and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+          ) sss
+          ,
+          share_chart si 
+         where                        
+             sss.label=si.i_name(+)  
+             and si.sr_state='i'
+             and sss.dataset=to_char(si.reg_date(+),'Q')||'분기' 
+             and sss.dataset=${quarter}||'분기'
+            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+         group by sss.label, sss.dataset    
+         having nvl(sum(si.si_quantity),0)>=0   
+         order by 3 desc
+        ) ssss             
+        where rownum<=${chart_cnt}
+        ]]>
+	</select>
+	
+	<select id="getQuarterShareOutputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+		select 
+            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+        from
+        (
+          select
+              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+          from
+          (
+             select
+                 q.quarter||'분기' "DATASET", si.i_name "LABEL"
+              from
+              share_chart si 
+              ,(
+                select '1' "QUARTER" from dual
+                union select '2' from dual
+                union select '3' from dual
+                union select '4' from dual
+              ) q 
+              where si.s_no=(select s_no from store where s_id=#{s_id})  
+              and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+          ) sss
+          ,
+          share_chart si 
+         where                        
+             sss.label=si.i_name(+)  
+             and si.sr_state='o'
+             and sss.dataset=to_char(si.reg_date(+),'Q')||'분기' 
+             and sss.dataset=${quarter}||'분기'
+            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+         group by sss.label, sss.dataset    
+         having nvl(sum(si.si_quantity),0)>=0   
+         order by 3 desc
+        ) ssss             
+        where rownum<=${chart_cnt}
+        ]]>
+	</select>
+	    
+	<select id="getShareAnlList" parameterType="system.ida.dto.ChartSearchDTO" resultType="system.ida.dto.ShareDTO">
+		select 
+            si.s_no "S_NO",
+            ia.ia_name "IA_NAME", 
+            ib.ib_name "IB_NAME",
+            io.io_name "IO_NAME",
+            si.i_name "I_NAME",       
+            si.si_quantity "SI_QUANTITY",
+            TO_CHAR(si.reg_date, 'yyyy-mm-dd(dy) hh:mi') "REG_DATE",  
+            DECODE(si.sr_state, 'i','입고','o','출고') "SR_STATE"
+        from share_chart si, ingredient i, code_ingredient_alpha ia, code_ingredient_beta ib, code_ingredient_origin io
+        where i.i_name=si.i_name and ia.ia_code=i.ia_code 
+        and ib.ib_code=i.ib_code and io.io_code=i.io_code 
+        and i.s_no=si.s_no and si.s_no=(select s_no from store s where s.s_id=#{s_id})
+	</select>
 </mapper>

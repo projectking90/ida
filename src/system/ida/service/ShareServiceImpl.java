@@ -230,4 +230,34 @@ public class ShareServiceImpl implements ShareService {
 		List<Map<String,String>> time_share_output_chart = this.shareDAO.getTimeShareOutputData(chart_searchDTO);
 		return time_share_output_chart;
 	}
+
+	@Override
+	public List<Map<String, String>> getAllQuarterShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_share_input_chart = this.shareDAO.getAllQuarterShareInputData(chart_searchDTO);
+		return all_quarter_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getAllQuarterShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_share_output_chart = this.shareDAO.getAllQuarterShareOutputData(chart_searchDTO);
+		return all_quarter_share_output_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_share_input_chart = this.shareDAO.getQuarterShareInputData(chart_searchDTO);
+		return quarter_share_input_chart;
+	}
+
+	@Override
+	public List<Map<String, String>> getQuarterShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_share_output_chart = this.shareDAO.getQuarterShareOutputData(chart_searchDTO);
+		return quarter_share_output_chart;
+	}
+
+	@Override
+	public List<ShareDTO> getShareAnlList(ChartSearchDTO chart_searchDTO) {
+		List<ShareDTO> share_anl_list = this.shareDAO.getShareAnlList(chart_searchDTO);
+		return share_anl_list;
+	}
 }
