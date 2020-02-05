@@ -26,11 +26,11 @@
 								<span style='float:right'></span>
 							</div>
 							<div class="card-body">
-								<div class="tableXe-responsive">
+								<div class="tablXe-responsive">
 									<table class="table" id="dataTable2">
 										<thead>
 											<tr>
-												<td align=center><b>등록번호</b></td>
+												<td align=center resize=4><b>등록번호</b></td>
 												<td align=center><b>요청매장명</b></td>
 												<td align=center><b>요청매장주소</b></td>
 												<td align=center><b>요청매장연락처</b></td>
@@ -100,7 +100,7 @@
 									<table class="table" id="dataTable">
 										<thead>
 											<tr>
-												<td align=center><b>등록번호</b></td>
+												<td align=center resize=4><b>등록번호</b></td>
 												<td align=center><b>매장명</b></td>
 												<td align=center><b>매장주소</b></td>
 												<td align=center><b>대분류</b></td>

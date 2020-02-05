@@ -3,960 +3,796 @@
 
 <!-- mapper 태그 선언 -->
 <mapper namespace="system.ida.dao.ShareDAO">
-	<!-- 타 지점 공유 현황 목록을 가져올 select 태그 -->
 	<select id="getDifferentShareList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.ShareDTO">
 		select
-			sh.si_no	"SI_NO"
-			, s.com_name	"COM_NAME"
-			, (select
-					addr.city
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"CITY"
-			, (select
-					addr.gun
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"GUN"
-			, (select
-					addr.gu
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"GU"
-			, (select
-					addr.dong
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"dong"
-			, (select
-					addr.ri
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"RI"
-			, (select
-					ia.ia_name
-				from
-					code_ingredient_alpha ia
-				where
-					ia.ia_code = i.ia_code)	"IA_NAME"
-			, (select
-					ib.ib_name
-				from
-					code_ingredient_beta ib
-				where
-					ib.ib_code = i.ib_code)	"IB_NAME"
-			, (select
-					io.io_name
-				from
-					code_ingredient_origin io
-				where
-					io.io_code = i.io_code)	"IO_NAME"
-			, i.i_name	"I_NAME"
-			, sh.si_quantity	"SI_QUANTITY"
-			, decode(sh.sr_state, 'i', '입고', 'o', '출고')	"SR_STATE"
-			, to_char(sh.reg_date, 'yyyy-mm-dd(dy) hh:mi')	"REG_DATE"
-		from
-			share_ingredient sh, store s, ingredient i
-		where
-			sh.st_no = (select
-							st.st_no
-						from
-							stock st
-						where
-							st.i_no in i.i_no)
-			and s.com_name = (select
-									com_name
-								from
-									store
-								where
-									s_no = i.s_no)
-			and sh.is_del = 'F'
-			and s.s_id != #{s_id}
+            sh.si_no "SI_NO",
+            s.com_name "COM_NAME",
+            ca.city "CITY",
+            ca.gun "GUN",
+            ca.gu "GU",
+            ca.dong "DONG",
+            ca.ri "RI",
+            s.addr_detail "ADDR_DETAIL",
+            (select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=i.ia_code)  "IA_NAME",
+            (select ib.ib_name from code_ingredient_beta ib where ib.ib_code=i.ib_code)  "IB_NAME",
+            (select io.io_name from code_ingredient_origin io where io.io_code=i.io_code)  "IO_NAME",
+            i.i_name "I_NAME",
+            sh.si_quantity "SI_QUANTITY",
+            decode(sh.sr_state, 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char(sh.reg_date,'yyyy-mm-dd(dy) hh:mi') "REG_DATE"
+        from share_ingredient sh, store s, ingredient i, code_addr ca
+        where sh.st_no=(select st.st_no from stock st where st.i_no in i.i_no) 
+          and s.com_name=(select com_name from store where s_no=i.s_no) 
+          and sh.is_del='F' 
+          and s.s_id!=#{s_id}
+          and sh.si_state!='y'
+          and s.addr_code=ca.addr_code
+          and ca.addr_code=(select addr_code from store where s_id=#{s_id})
 	</select>
 	
-	<!-- 내 지점 공유 현황 목록을 가져올 select 태그 -->
 	<select id="getMyShareList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.ShareDTO">
 		select
-			sh.si_no	"SI_NO"
-			, (select
-					ia.ia_name
-				from
-					code_ingredient_alpha ia
-				where
-					ia.ia_code = i.ia_code)	"IA_NAME"
-			, (select
-					ib.ib_name
-				from
-					code_ingredient_beta ib
-				where
-					ib.ib_code = i.ib_code)	"IB_NAME"
-			, (select
-					io.io_name
-				from
-					code_ingredient_origin io
-				where
-					io.io_code = i.io_code)	"IO_NAME"
-			, i.i_name	"I_NAME"
-			, sh.si_quantity	"SI_QUANTITY"
-			, decode(sh.sr_state, 'i', '입고', 'o', '출고')	"SR_STATE"
-			, to_char(sh.reg_date, 'yyyy-mm-dd(dy) hh:mi')	"REG_DATE"
-		from
-			share_ingredient sh, store s, ingredient i
-		where
-			sh.st_no = (select
-							st.st_no
-						from
-							stock st
-						where
-							st.i_no in i.i_no)
-			and s.com_name = (select
-									com_name
-								from
-									store
-								where
-									s_no = i.s_no)
-			and sh.is_del = 'F'
-			and s.s_id = #{s_id}
+			sh.si_no "SI_NO",
+            (select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=i.ia_code)  "IA_NAME",
+            (select ib.ib_name from code_ingredient_beta ib where ib.ib_code=i.ib_code)  "IB_NAME",
+            (select io.io_name from code_ingredient_origin io where io.io_code=i.io_code)  "IO_NAME",
+            i.i_name "I_NAME",
+            sh.si_quantity "SI_QUANTITY",
+            decode(sh.sr_state, 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char(sh.reg_date,'yyyy-mm-dd(dy) hh:mi') "REG_DATE"
+        from share_ingredient sh, store s, ingredient i 
+        where sh.st_no=(select st.st_no from stock st where st.i_no in i.i_no) 
+	        and s.com_name=(select com_name from store where s_no=i.s_no) 
+	        and sh.is_del='F' 
+	        and sh.si_state!='y'
+	        and s.s_id=#{s_id}   
 	</select>
 	
-	<!-- 공유 재고 추가할 때 필요한 재고 목록을 가져올 select 태그 -->
 	<select id="getStockList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.StockDTO">
 		select
-			s.st_no	"ST_NO"
-			, i.i_name	"I_NAME"
-		from
-			stock s, ingredient i
-		where
-			s.i_no = i.i_no
-			and s.i_no in (select
-								ig.i_no
-							from
-								ingredient ig
-							where
-								ig.s_no = (select
-												sr.s_no
-											from
-												store sr
-											where
-												s_id = #{s_id}))
-			and s.is_del = 'F'
+			s.st_no "ST_NO",
+			i.i_name "I_NAME"
+		from stock s, ingredient i
+		where s.i_no=i.i_no 
+		and s.i_no in (select ig.i_no from ingredient ig where ig.s_no=(select sr.s_no from store sr where s_id=#{s_id})) 
+		and s.is_del='F' 
 	</select>
 	
-	<!-- 공유 재고 추가 처리할 insert 태그 -->
 	<insert id="insertShare" parameterType="system.ida.dto.ShareDTO">
-		insert into share_ingredient (
+		insert into share_ingredient(
 			si_no
-			, st_no
-			, si_quantity
-			, sr_state
-			, deal
+			,st_no
+			,si_quantity
+			,sr_state
+			,deal
 		) values (
-			(select
-					nvl(max(si_no), 0) + 1
-				from
-					share_ingredient)
-			, ${st_no}
-			, ${si_quantity}
-			, #{sr_state}
-			, #{deal}
+			(select nvl(max(si_no),0)+1 from share_ingredient)
+			,${st_no}
+			,${si_quantity}
+			,#{sr_state}
+			,#{deal}
 		)
 	</insert>
 	
-	<!-- 재고 기록 테이블에 추가 기록 처리할 insert 태그 -->
 	<insert id="insertStockRecord" parameterType="system.ida.dto.ShareDTO">
-		insert into share_ingredient_record (
+		insert into share_ingredient_record(
 			si_no
-			, s_no
+			,s_no
 		) values (
-			(select
-					nvl(max(si_no), 0) + 1
-				from
-					share_ingredient_record)
-			, (select
-					s_no
-				from
-					store
-				where
-					s_id = #{s_id})
-		)
+			(select nvl(max(si_no),0)+1 from share_ingredient_record)
+			,(select s_no from store where s_id=#{s_id})
+		)	
 	</insert>
 	
-	<!-- 이미 등록된 공유 재고 개수를 가져올 select 태그 -->
+	<select id="getDeletedShareCnt" parameterType="system.ida.dto.ShareDTO" resultType="int">
+		select 
+			count(*) 
+		from share_ingredient si
+		where si.st_no=${st_no} and si.sr_state=#{sr_state} and si.is_del='T'
+	</select>
+
+	<update id="changeInsertedShareIsDel" parameterType="system.ida.dto.ShareDTO">
+		update share_ingredient set is_del='F' where si_no=${si_no}
+	</update>
+
+	<!-- 등록된 공유 재고 개수 count -->
 	<select id="getInsertedShareCnt" parameterType="system.ida.dto.ShareDTO" resultType="int">
-		select
-			count(*)
-		from
-			share_ingredient si
-		where
-			si.st_no = ${st_no}
-			and si.sr_state = #{sr_state}
-			and si.is_del = 'F'
+		select 
+			count(*) 
+		from share_ingredient si
+		where si.st_no=${st_no} and si.sr_state=#{sr_state} and si.is_del='F' and si.si_state!='y'
 	</select>
 	
-	<!-- 공유 정보를 가져올 select 태그 -->
 	<select id="getShareDTO" parameterType="int" resultType="system.ida.dto.ShareDTO">
-		select
-			sh.si_no	"SI_NO"
-			, s.com_name	"COM_NAME"
-			, (select
-					addr.city
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_no = (select
-															ig.s_no
-														from
-															ingredient ig
-														where
-															ig.i_no = (select
-																			stk.i_no
-																		from
-																			stock stk
-																		where
-																			stk.st_no = (select
-																								sit.st_no
-																							from
-																								share_ingredient sit
-																							where
-																								sit.si_no = sh.si_no)))))	"CITY"
-			, (select
-					addr.gun
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_no = (select
-															ig.s_no
-														from
-															ingredient ig
-														where
-															ig.i_no = (select
-																			stk.i_no
-																		from
-																			stock stk
-																		where
-																			stk.st_no = (select
-																								sit.st_no
-																							from
-																								share_ingredient sit
-																							where
-																								sit.si_no = sh.si_no)))))	"GUN"
-			, (select
-					addr.gu
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_no = (select
-															ig.s_no
-														from
-															ingredient ig
-														where
-															ig.i_no = (select
-																			stk.i_no
-																		from
-																			stock stk
-																		where
-																			stk.st_no = (select
-																								sit.st_no
-																							from
-																								share_ingredient sit
-																							where
-																								sit.si_no = sh.si_no)))))	"GU"
-			, (select
-					addr.dong
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_no = (select
-															ig.s_no
-														from
-															ingredient ig
-														where
-															ig.i_no = (select
-																			stk.i_no
-																		from
-																			stock stk
-																		where
-																			stk.st_no = (select
-																								sit.st_no
-																							from
-																								share_ingredient sit
-																							where
-																								sit.si_no = sh.si_no)))))	"dong"
-			, (select
-					addr.ri
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_no = (select
-															ig.s_no
-														from
-															ingredient ig
-														where
-															ig.i_no = (select
-																			stk.i_no
-																		from
-																			stock stk
-																		where
-																			stk.st_no = (select
-																								sit.st_no
-																							from
-																								share_ingredient sit
-																							where
-																								sit.si_no = sh.si_no)))))	"RI"
-			, (select
-					ia.ia_name
-				from
-					code_ingredient_alpha ia
-				where
-					ia.ia_code = i.ia_code)	"IA_NAME"
-			, (select
-					ib.ib_name
-				from
-					code_ingredient_beta ib
-				where
-					ib.ib_code = i.ib_code)	"IB_NAME"
-			, (select
-					io.io_name
-				from
-					code_ingredient_origin io
-				where
-					io.io_code = i.io_code)	"IO_NAME"
-			, i.i_name	"I_NAME"
-			, sh.si_quantity	"SI_QUANTITY"
-			, decode(sh.sr_state, 'i', '입고', 'o', '출고')	"SR_STATE"
-			, to_char(sh.reg_date, 'yyyy-mm-dd(dy) hh:mi')	"REG_DATE"
-			, sh.deal	"DEAL"
-		from
-			share_ingredient sh, store s, ingredient i
-		where
-			sh.st_no = (select
-							st.st_no
-						from
-							stock st
-						where
-							st.i_no in i.i_no)
-			and s.com_name = (select
-									com_name
-								from
-									store
-								where
-									s_no = i.s_no)
-			and sh.si_no = ${value}
+	    select
+            sh.si_no "SI_NO",
+            s.com_name "COM_NAME",
+            ca.city "CITY",
+            ca.gun "GUN",
+            ca.gu "GU",
+            ca.dong "DONG",
+            ca.ri "RI",
+            s.addr_detail "ADDR_DETAIL", 
+            (select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=i.ia_code)  "IA_NAME",
+            (select ib.ib_name from code_ingredient_beta ib where ib.ib_code=i.ib_code)  "IB_NAME",
+            (select io.io_name from code_ingredient_origin io where io.io_code=i.io_code)  "IO_NAME",
+            i.i_name "I_NAME",
+            sh.si_quantity "SI_QUANTITY",
+            decode(sh.sr_state, 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char(sh.reg_date,'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
+            sh.deal  "DEAL"
+        from share_ingredient sh, store s, ingredient i , code_addr ca
+        where sh.st_no=(select st.st_no from stock st where st.i_no in i.i_no) 
+        and s.s_no=i.s_no 
+        and s.addr_code=ca.addr_code
+        and sh.si_no=${value}
 	</select>
 	
-	<!-- 내 지점 공유 재고 수정 처리할 update 태그 -->
 	<update id="updateShare" parameterType="system.ida.dto.ShareDTO">
 		update
 			share_ingredient
-		set
-			si_quantity = ${si_quantity}
-			, sr_state = #{sr_state}
-			, deal = #{deal}
-		where
-			si_no=${si_no}
+		set 
+			si_quantity=${si_quantity},
+			sr_state=#{sr_state},
+			deal=#{deal}
+		where si_no=${si_no}
 	</update>
 	
-	<!-- 수정할 공유 재고 개수를 가져올 select 태그 -->
 	<select id="getMyShareCnt" parameterType="system.ida.dto.ShareDTO" resultType="int">
-		select
-			count(*)
-		from
-			share_ingredient
-		where
-			si_no = ${si_no}
+		select count(*) from share_ingredient where si_no=${si_no} 
 	</select>
-	
-	<!-- 내 지점 공유 재고 삭제 처리할 update 태그 -->
+		
 	<update id="deleteShare" parameterType="system.ida.dto.ShareDTO">
 		update
 			share_ingredient
-		set
-			is_del = 'T'
-		where
-			si_no = ${si_no}
+		set 
+			is_del='T'
+		where si_no=${si_no}
 	</update>
-	
-	<!-- 타 지점의 공유 재고 요청 처리할 update 태그 -->
+			
 	<update id="requestShare" parameterType="system.ida.dto.ShareDTO">
 		update
 			share_ingredient
-		set
-			si_state = 'r'
-		where
-			si_no = ${si_no}
+		set 
+			si_state='r'
+		where si_no=${si_no}
 	</update>
 	
-	<!-- 재고 기록 테이블에 삭제 기록 처리할 insert 태그 -->
 	<insert id="deleteStockRecord" parameterType="system.ida.dto.ShareDTO">
-		insert into share_ingredient_record (
+		insert into share_ingredient_record(
 			si_no
-			, s_no
-			, is_del
+			,s_no
+			,is_del
 		) values (
 			${si_no}
-			, (select
-					s_no
-				from
-					store
-				where
-					s_id = #{s_id})
-			, 'T'
-		)
+			,(select s_no from store where s_id=#{s_id})
+			,'T'
+		)	
 	</insert>
-	
-	<!-- 재고 기록 테이블에 요청 기록 처리 insert 태그 -->
+		
 	<insert id="requestStockRecord" parameterType="system.ida.dto.ShareDTO">
-		insert into share_ingredient_record (
+		insert into share_ingredient_record(
 			si_no
-			, s_no
-			, sir_state
+			,s_no
+			,sir_state
 		) values (
 			${si_no}
-			, (select
-					s_no
-				from
-					store
-				where
-					s_id = #{s_id})
-			, 'r'
-		)
+			,(select s_no from store where s_id=#{s_id})
+			,'r'
+		)	
 	</insert>
 	
-	<!-- 같은 공유를 요청을 개수를 가져올 select 태그 -->
 	<select id="requestStockRecorded" parameterType="system.ida.dto.ShareDTO" resultType="int">
 		select
 			count(*)
-		from
-			share_ingredient_record
-		where
-			si_no = ${si_no}
-			and s_no = (select
-							s_no
-						from
-							store
-						where
-							s_id = #{s_id})
+		from share_ingredient_record
+		where si_no=${si_no} and s_no=(select s_no from store where s_id=#{s_id})
 	</select>
 	
-	<!-- 타 매장 공유 재고 요청 현황 목록을 가져올 select 태그 -->
+	
 	<select id="getDifferentShareRequestList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.ShareDTO">
 		select
-			sh.si_no	"SI_NO"
-			, s.com_name	"COM_NAME"
-			, (select
-					addr.city
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"CITY"
-			, (select
-					addr.gun
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"GUN"
-			, (select
-					addr.gu
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"GU"
-			, (select
-					addr.dong
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"dong"
-			, (select
-					addr.ri
-				from
-					code_addr addr
-				where
-					addr.addr_code = (select
-											st.addr_code
-										from
-											store st
-										where
-											st.s_id != #{s_id}
-											and st.s_no = (select
-																ig.s_no
-															from
-																ingredient ig
-															where
-																ig.i_no = (select
-																				stk.i_no
-																			from
-																				stock stk
-																			where
-																				stk.st_no = (select
-																									sit.st_no
-																								from
-																									share_ingredient sit
-																								where
-																									sit.si_no = sh.si_no)))))	"RI"
-			, (select
-					st.s_phone
-				from
-					store st
-				where
-					st.s_id != #{s_id}
-					and st.s_no = (select
-										ig.s_no
-									from
-										ingredient ig
-									where
-										ig.i_no = (select
-														stk.i_no
-													from
-														stock stk
-													where
-														stk.st_no = (select
-																			sit.st_no
-																		from
-																			share_ingredient sit
-																		where
-																			sit.si_no = sh.si_no))))	"S_PHONE"
-			, (select
-					ia.ia_name
-				from
-					code_ingredient_alpha ia
-				where
-					ia.ia_code = i.ia_code)	"IA_NAME"
-			, (select
-					ib.ib_name
-				from
-					code_ingredient_beta ib
-				where
-					ib.ib_code = i.ib_code)	"IB_NAME"
-			, (select
-					io.io_name
-				from
-					code_ingredient_origin io
-				where
-					io.io_code = i.io_code)	"IO_NAME"
-			, i.i_name	"I_NAME"
-			, sh.si_quantity	"SI_QUANTITY"
-			, decode(sh.sr_state, 'i', '입고', 'o', '출고')	"SR_STATE"
-			, to_char(sh.reg_date, 'yyyy-mm-dd(dy) hh:mi')	"REG_DATE"
-			, to_char((select
-							max(sir.reg_date)
-						from
-							share_ingredient_record sir
-						where
-							sir.sir_state = 'r'
-							and sh.si_no = sir.si_no) ,'yyyy-mm-dd(dy) hh:mi')	"R_REG_DATE"
-		from
-			share_ingredient sh, store s, ingredient i
-		where
-			sh.st_no = (select
-							st.st_no
-						from
-							stock st
-						where
-							st.i_no in i.i_no)
-			and s.com_name = (select
-									com_name
-								from
-									store
-								where
-									s_no = i.s_no)
-			and sh.is_del = 'F'
-			and sh.si_state = 'r'
-			and s.s_id != #{s_id}
+			sh.si_no "SI_NO",
+            sir.s_no "S_NO",
+			s.com_name "COM_NAME",
+            ca.city "CITY",
+            ca.gun "GUN",
+            ca.gu "GU",
+            ca.dong "DONG",
+            ca.ri "RI",
+            s.addr_detail "ADDR_DETAIL", 
+            s.s_phone  "S_PHONE",
+            (select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=i.ia_code)  "IA_NAME",
+            (select ib.ib_name from code_ingredient_beta ib where ib.ib_code=i.ib_code)  "IB_NAME",
+            (select io.io_name from code_ingredient_origin io where io.io_code=i.io_code)  "IO_NAME",
+            i.i_name "I_NAME",
+            sh.si_quantity "SI_QUANTITY",
+            decode(sh.sr_state, 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char(sh.reg_date,'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
+            to_char(sir.reg_date,'yyyy-mm-dd(dy) hh:mi') "R_REG_DATE"
+        from share_ingredient sh, store s, ingredient i , code_addr ca, share_ingredient_record sir
+        where sh.st_no=(select st.st_no from stock st where st.i_no in i.i_no) 
+	        and s.com_name=(select com_name from store where s_no=i.s_no) 
+	        and sh.is_del='F' 
+	        and sh.si_state=sir.sir_state
+            and sh.si_state='r'   
+            and sh.si_no=sir.si_no
+	        and s.addr_code=ca.addr_code  
+            and sir.s_no=(select s_no from store where s_id=#{s_id})
+	        and s.s_id!=#{s_id}              
 	</select>
 	
-	<!-- 내 매장 공유 재고 요청 현황 목록을 가져올 select 태그 -->
 	<select id="getMyShareRequestList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.ShareDTO">
+	    select
+            sir.si_no "SI_NO",
+            sir.s_no "S_NO",
+            (select com_name from store where s_no=sir.s_no) "COM_NAME",
+            (select city from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "CITY",
+            (select gun from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "GUN",     
+            (select gu from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "GU",     
+            (select dong from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "DONG",    
+            (select ri from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "RI",     
+            (select addr_detail from store where s_no in sir.s_no) "ADDR_DETAIL",     
+            (select s_phone from store where s_no=sir.s_no) "S_PHONE",
+            (select ia_name from code_ingredient_alpha where ia_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IA_NAME",
+            (select ib_name from code_ingredient_beta where ib_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IB_NAME",
+            (select io_name from code_ingredient_origin where io_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IO_NAME",   
+            (select i_name from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no))) "I_NAME" ,
+            (select si_quantity from share_ingredient where sir.si_no=si_no) "SI_QUANTITY",
+            decode((select sr_state from share_ingredient where sir.si_no=si_no), 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char((select reg_date from share_ingredient where sir.si_no=si_no),'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
+            to_char((select max(reg_date) from share_ingredient_record where sir.si_no=si_no and sir.s_no=s_no),'yyyy-mm-dd(dy) hh:mi') "R_REG_DATE"
+        from share_ingredient_record sir, share_ingredient si
+        where sir.si_no=si.si_no and sir.sir_state='r' and sir.sir_state=si.si_state and  sir.is_del='F' and sir.si_no in (select si.si_no from share_ingredient si where si.st_no in (select st.st_no from stock st where st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id='${s_id}'))))
+	</select>
+	
+	
+	<select id="getShareRequestDTO" parameterType="system.ida.dto.ShareDTO" resultType="system.ida.dto.ShareDTO">
+	      select
+              sir.si_no "SI_NO",
+              sir.s_no "S_NO",
+              (select com_name from store where s_no=sir.s_no) "COM_NAME",
+              (select city from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "CITY",
+              (select gun from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "GUN",     
+              (select gu from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "GU",     
+              (select dong from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "DONG",    
+              (select ri from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "RI",
+              (select addr_detail from store where s_no in sir.s_no) "ADDR_DETAIL",     
+              (select s_phone from store where s_no=sir.s_no) "S_PHONE",
+              (select ia_name from code_ingredient_alpha where ia_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IA_NAME",
+              (select ib_name from code_ingredient_beta where ib_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IB_NAME",
+              (select io_name from code_ingredient_origin where io_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IO_NAME",   
+              (select i_name from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no))) "I_NAME" ,
+              (select si_quantity from share_ingredient where sir.si_no=si_no) "SI_QUANTITY",
+              decode((select sr_state from share_ingredient where sir.si_no=si_no), 'i', '입고', 'o', '출고') "SR_STATE",
+              to_char((select reg_date from share_ingredient where sir.si_no=si_no),'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
+              to_char((select max(reg_date) from share_ingredient_record where sir.si_no=si_no and sir.s_no=s_no),'yyyy-mm-dd(dy) hh:mi') "R_REG_DATE"
+          from share_ingredient_record sir
+          where sir.sir_state='r' and  sir.is_del='F' and sir.si_no=${si_no} and s_no=(select s_no from store where s_no=${s_no}) 
+	</select>
+	
+	
+
+<!-- 
+	int approveShare(ShareDTO shareDTO); // 수락할 때 update하는 메소드
+	int approveShareRecord(ShareDTO shareDTO); // 수락할 때 record 테이블에 기록 남기기
+	int approveShareRecorded(ShareDTO shareDTO); // 수락한 공유 재고 count 
+	int shareDeletedCount(ShareDTO shareDTO); // 삭제된 공유 재고 count
+ -->
+ 	<update id="approveShare" parameterType="system.ida.dto.ShareDTO">
+ 		update share_ingredient set si_state='y' where si_no=${si_no} and is_del='F'
+ 	</update>
+ 	
+ 	<insert id="approveShareRecord" parameterType="system.ida.dto.ShareDTO">
+		insert into share_ingredient_record(
+			si_no
+			,s_no
+			,sir_state
+		) values (
+			${si_no}
+			,${s_no}
+			,'y'
+		)	
+ 	</insert>
+ 	
+	<select id="approveShareCount" parameterType="system.ida.dto.ShareDTO" resultType="int">
+		select count(*) from share_ingredient where sr_state='y' and si_no=${si_no}
+	</select>
+	
+	<select id="shareDeletedCount" parameterType="system.ida.dto.ShareDTO" resultType="int">
+		select count(*) from share_ingredient where is_del='T' and si_no=${si_no}
+	</select>
+	
+	<select id="getMyShareApproveList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.ShareDTO">
+	        select
+            sir.si_no "SI_NO",
+            (select com_name from store where s_no=sir.s_no) "COM_NAME",
+            (select city from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "CITY",
+            (select gun from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "GUN",     
+            (select gu from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "GU",     
+            (select dong from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "DONG",    
+            (select ri from code_addr where addr_code in (select addr_code from store where s_no in sir.s_no)) "RI",     
+            (select addr_detail from store where s_no in sir.s_no) "ADDR_DETAIL",     
+            (select s_phone from store where s_no=sir.s_no) "S_PHONE",
+            (select ia_name from code_ingredient_alpha where ia_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IA_NAME",
+            (select ib_name from code_ingredient_beta where ib_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IB_NAME",
+            (select io_name from code_ingredient_origin where io_code=(select ia_code from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no)))) "IO_NAME",   
+            (select i_name from ingredient where i_no=(select i_no from stock where st_no=(select st_no from share_ingredient where si_no=sir.si_no))) "I_NAME" ,
+            (select si_quantity from share_ingredient where sir.si_no=si_no) "SI_QUANTITY",
+            decode((select sr_state from share_ingredient where sir.si_no=si_no), 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char((select reg_date from share_ingredient where sir.si_no=si_no),'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
+            to_char((select max(reg_date) from share_ingredient_record where sir.si_no=si_no and sir_state='r'),'yyyy-mm-dd(dy) hh:mi') "R_REG_DATE",
+            to_char((select max(reg_date) from share_ingredient_record where sir.si_no=si_no and sir.s_no=s_no and sir_state='y'),'yyyy-mm-dd(dy) hh:mi') "A_REG_DATE"
+        from share_ingredient_record sir, share_ingredient si
+        where sir.si_no=si.si_no and sir.sir_state='y' and sir.sir_state=si.si_state and  sir.is_del='F' and sir.si_no in (select si.si_no from share_ingredient si where si.st_no in (select st.st_no from stock st where st.i_no in (select i.i_no from ingredient i where i.s_no=(select s.s_no from store s where s.s_id=#{s_id}))))     
+	</select>
+	
+	<select id="getDifferentShareApproveList" parameterType="system.ida.dto.ShareSearchDTO" resultType="system.ida.dto.ShareDTO">
+        select
+            sh.si_no "SI_NO",
+            s.com_name "COM_NAME",
+            ca.city "CITY",
+            ca.gun "GUN",
+            ca.gu "GU",
+            ca.dong "DONG",
+            ca.ri "RI",
+            s.addr_detail "ADDR_DETAIL", 
+            s.s_phone  "S_PHONE",
+            (select ia.ia_name from code_ingredient_alpha ia where ia.ia_code=i.ia_code)  "IA_NAME",
+            (select ib.ib_name from code_ingredient_beta ib where ib.ib_code=i.ib_code)  "IB_NAME",
+            (select io.io_name from code_ingredient_origin io where io.io_code=i.io_code)  "IO_NAME",
+            i.i_name "I_NAME",
+            sh.si_quantity "SI_QUANTITY",
+            decode(sh.sr_state, 'i', '입고', 'o', '출고') "SR_STATE",
+            to_char(sh.reg_date,'yyyy-mm-dd(dy) hh:mi') "REG_DATE",
+            to_char(
+                   (select max(sir.reg_date) from share_ingredient_record sir where sir.sir_state='r')
+                ,'yyyy-mm-dd(dy) hh:mi'
+            )"R_REG_DATE",          
+            to_char(
+                   (select max(sir.reg_date) from share_ingredient_record sir where sir.sir_state='y')
+                ,'yyyy-mm-dd(dy) hh:mi'
+            )"A_REG_DATE"
+        from share_ingredient sh, store s, ingredient i , code_addr ca, share_ingredient_record sir
+        where sh.st_no=(select st.st_no from stock st where st.i_no in i.i_no) 
+            and s.com_name=(select com_name from store where s_no=i.s_no) 
+            and sh.is_del='F' 
+            and sh.si_state=sir.sir_state
+            and sir.sir_state='y'  
+            and s.addr_code=ca.addr_code    
+            and sh.si_no=sir.si_no
+            and sir.s_no=(select s_no from store where s_id=#{s_id})
+	</select>
+	
+	
+	<select id='getWeekShareInputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+	<![CDATA[ 
+			select 
+    			rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+            from
+            (
+              select
+                  sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+              from
+              (
+                 select
+                     ww.week||'주' "DATASET", ss.i_name "LABEL"
+                  from
+                  share_chart ss   
+                  ,(
+                    select '1' "WEEK" from dual
+                    union select '2' from dual
+                    union select '3' from dual
+                    union select '4' from dual
+                    union select '5' from dual  
+                  ) ww 
+                  where ss.s_no=(select s_no from store where s_id=#{s_id}) and to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week
+              ) sss
+              , share_chart si     
+                where  sss.label=si.i_name(+)     
+                     and si.sr_state(+)='i'
+                     and sss.dataset=to_char(to_date(to_char(si.reg_date(+),'yyyymmdd'),'yyyymmdd'), 'w')||'주' 
+                     and sss.dataset=${week}||'주'
+                     and to_char(si.reg_date,'MM')=to_char(add_months(sysdate, -1),'MM')
+                     and si.s_no=(select s_no from store where s_id=#{s_id})  
+                 group by sss.label, sss.dataset    
+                 having nvl(sum(si.si_quantity),0)>=0
+                 order by nvl(sum(si.si_quantity),0) desc, 1, 2 
+                 )ssss
+            where rownum<=${chart_cnt} 
+	        ]]>
+	</select>
+	
+	<select id='getWeekShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+			select 
+    			rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+            from
+            (
+              select
+                  sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+              from
+              (
+                 select
+                     ww.week||'주' "DATASET", ss.i_name "LABEL"
+                  from
+                  share_chart ss   
+                  ,(
+                    select '1' "WEEK" from dual
+                    union select '2' from dual
+                    union select '3' from dual
+                    union select '4' from dual
+                    union select '5' from dual  
+                  ) ww 
+                  where ss.s_no=(select s_no from store where s_id=#{s_id}) and to_char(last_day(add_months(sysdate,-1)), 'w')>=ww.week
+              ) sss
+              , share_chart si     
+                where  sss.label=si.i_name(+)     
+                     and si.sr_state(+)='o'
+                     and sss.dataset=to_char(to_date(to_char(si.reg_date(+),'yyyymmdd'),'yyyymmdd'), 'w')||'주' 
+                     and sss.dataset=${week}||'주'
+                     and to_char(si.reg_date,'MM')=to_char(add_months(sysdate, -1),'MM')
+                     and si.s_no=(select s_no from store where s_id=#{s_id})  
+                 group by sss.label, sss.dataset    
+                 having nvl(sum(si.si_quantity),0)>=0
+                 order by nvl(sum(si.si_quantity),0) desc, 1, 2 
+                 )ssss
+            where rownum<=${chart_cnt} 
+	        ]]>
+	</select>
+	
+	
+	<select id='getMonthShareInputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+            select
+                rownum "RNUM"
+                , ssss.label "LABEL"
+                , ssss.dataset "DATASET"
+                , nvl(ssss.data||'','0') "DATA"
+            from
+                (select
+                    sss.label "LABEL"
+                    , sss.dataset "DATASET"
+                    , sum(si.si_quantity) "DATA"
+                from
+                    (select
+                        mm.month||'월' "DATASET"
+                        , si.i_name "LABEL"
+                    from
+                        share_chart si
+                        , (select '1' "MONTH" from dual
+                            union select '2' from dual
+                            union select '3' from dual
+                            union select '4' from dual
+                            union select '5' from dual
+                            union select '6' from dual
+                            union select '7' from dual
+                            union select '8' from dual
+                            union select '9' from dual
+                            union select '10' from dual
+                            union select '11' from dual
+                            union select '12' from dual) mm
+                    where
+                        si.s_no = (select s_no from store  where s_id=#{s_id}) 
+                        and mm.month=to_number(to_char(si.reg_date(+), 'mm'))
+                ) sss
+                , share_chart si
+              where
+                  si.s_no=(select s_no from store where s_id=#{s_id})   
+                  and si.sr_state='i'
+                  and sss.label=si.i_name(+)
+                  and sss.dataset=to_number(to_char(si.reg_date(+), 'mm'))||'월'
+                  and sss.dataset=${month}||'월'
+                  and to_char(si.reg_date(+), 'yyyy')=${year}
+              group by sss.label,sss.dataset
+              having  nvl(sum(si.si_quantity),0)>=0
+              order by 3 desc, 2, 1) ssss
+            where
+                rownum<=${chart_cnt}
+          ]]>
+	</select>
+	
+	<select id='getMonthShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+            select
+                rownum "RNUM"
+                , ssss.label "LABEL"
+                , ssss.dataset "DATASET"
+                , nvl(ssss.data||'','0') "DATA"
+            from
+                (select
+                    sss.label "LABEL"
+                    , sss.dataset "DATASET"
+                    , sum(si.si_quantity) "DATA"
+                from
+                    (select
+                        mm.month||'월' "DATASET"
+                        , si.i_name "LABEL"
+                    from
+                        share_chart si
+                        , (select '1' "MONTH" from dual
+                            union select '2' from dual
+                            union select '3' from dual
+                            union select '4' from dual
+                            union select '5' from dual
+                            union select '6' from dual
+                            union select '7' from dual
+                            union select '8' from dual
+                            union select '9' from dual
+                            union select '10' from dual
+                            union select '11' from dual
+                            union select '12' from dual) mm
+                    where
+                        si.s_no = (select s_no from store  where s_id=#{s_id}) 
+                        and mm.month=to_number(to_char(si.reg_date(+), 'mm'))
+                ) sss
+                , share_chart si
+              where
+                  si.s_no=(select s_no from store where s_id=#{s_id})   
+                  and si.sr_state='o'
+                  and sss.label=si.i_name(+)
+                  and sss.dataset=to_number(to_char(si.reg_date(+), 'mm'))||'월'
+                  and sss.dataset=${month}||'월'
+                  and to_char(si.reg_date(+), 'yyyy')=${year}
+              group by sss.label,sss.dataset
+              having  nvl(sum(si.si_quantity),0)>=0
+              order by 3 desc, 2, 1) ssss
+            where
+                rownum<=${chart_cnt}
+          ]]>
+	</select>
+	
+	<select id='getTimeShareInputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select 
+                sss.label||'시' "LABEL", sss.data||'' "DATA"
+        from
+	        (
+	        select
+	        	to_number(hh.hour) "LABEL", nvl(ss.quantity,0) "DATA"
+	        from
+	        (
+	        select si.s_no "S_NO", to_char(si.reg_date,'hh24') "REG_DATE", sum(si.si_quantity) "QUANTITY"
+	        from share_chart si
+	        where si.s_no=(select s_no from store where s_id=#{s_id})
+		        and to_char(add_months(sysdate,-1),'YYYYMM')=to_char(si.reg_date, 'YYYYMM')
+		        and si.sr_state='i'
+		    group by si.s_no, to_char(si.reg_date,'hh24')
+	        ) ss
+	        ,(
+		        select '0' "HOUR" from dual
+		        union select '1' from dual
+		        union select '2' from dual
+		        union select '3' from dual
+		        union select '4' from dual
+		        union select '5' from dual   
+		        union select '6' from dual
+		        union select '7' from dual
+		        union select '8' from dual
+		        union select '9' from dual
+		        union select '10' from dual 
+		        union select '11' from dual
+		        union select '12' from dual
+		        union select '13' from dual
+		        union select '14' from dual
+		        union select '15' from dual 
+		        union select '16' from dual
+		        union select '17' from dual
+		        union select '18' from dual
+		        union select '19' from dual
+		        union select '20' from dual 
+		        union select '21' from dual 
+		        union select '22' from dual
+		        union select '23' from dual  
+	        ) hh
+	        where hh.hour=ss.reg_date(+)
+	        order by 1
+         )sss
+	</select>
+	
+	<select id='getTimeShareOutputData' parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		select 
+                sss.label||'시' "LABEL", sss.data||'' "DATA"
+        from
+	        (
+	        select
+	        	to_number(hh.hour) "LABEL", nvl(ss.quantity,0) "DATA"
+	        from
+	        (
+	        select si.s_no "S_NO", to_char(si.reg_date,'hh24') "REG_DATE", sum(si.si_quantity) "QUANTITY"
+	        from share_chart si
+	        where si.s_no=(select s_no from store where s_id=#{s_id})
+		        and to_char(add_months(sysdate,-1),'YYYYMM')=to_char(si.reg_date, 'YYYYMM')
+		        and si.sr_state='o'
+		    group by si.s_no, to_char(si.reg_date,'hh24')
+	        ) ss
+	        ,(
+		        select '0' "HOUR" from dual
+		        union select '1' from dual
+		        union select '2' from dual
+		        union select '3' from dual
+		        union select '4' from dual
+		        union select '5' from dual   
+		        union select '6' from dual
+		        union select '7' from dual
+		        union select '8' from dual
+		        union select '9' from dual
+		        union select '10' from dual 
+		        union select '11' from dual
+		        union select '12' from dual
+		        union select '13' from dual
+		        union select '14' from dual
+		        union select '15' from dual 
+		        union select '16' from dual
+		        union select '17' from dual
+		        union select '18' from dual
+		        union select '19' from dual
+		        union select '20' from dual 
+		        union select '21' from dual 
+		        union select '22' from dual
+		        union select '23' from dual  
+	        ) hh
+	        where hh.hour=ss.reg_date(+)
+	        order by 1
+         )sss
+	</select>
+	
+	<select id="getAllQuarterShareInputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
 		select
-			sir.si_no	"SI_NO"
-			, (select
-					city
-				from
-					code_addr
-				where
-					addr_code in (select
-										addr_code
-									from
-										store
-									where
-										s_no in sir.s_no))	"CITY"
-			, (select
-					gun
-				from
-					code_addr
-				where
-					addr_code in (select
-										addr_code
-									from
-										store
-									where
-										s_no in sir.s_no))	"GUN"
-			, (select
-					gu
-				from
-					code_addr
-				where
-					addr_code in (select
-										addr_code
-									from
-										store
-									where
-										s_no in sir.s_no))	"GU"
-			, (select
-					dong
-				from
-					code_addr
-				where
-					addr_code in (select
-										addr_code
-									from
-										store
-									where
-										s_no in sir.s_no))	"DONG"
-			, (select
-					ri
-				from
-					code_addr
-				where
-					addr_code in (select
-										addr_code
-									from
-										store
-									where
-										s_no in sir.s_no))	"RI"
-			, (select
-					ia_name
-				from
-					code_ingredient_alpha
-				where
-					ia_code = (select
-									ia_code
-								from
-									ingredient
-								where
-									i_no = (select
-												i_no
-											from
-												stock
-											where
-												st_no = (select
-																st_no
-															from
-																share_ingredient
-															where
-																si_no = sir.si_no))))	"IA_NAME"
-			, (select
-					ib_name
-				from
-					code_ingredient_beta
-				where
-					ib_code = (select
-									ia_code
-								from
-									ingredient
-								where
-									i_no = (select
-												i_no
-											from
-												stock
-											where
-												st_no = (select
-																st_no
-															from
-																share_ingredient
-															where
-																si_no = sir.si_no))))	"IB_NAME"
-			, (select
-					io_name
-				from
-					code_ingredient_origin
-				where
-					io_code = (select
-									ia_code
-								from
-									ingredient
-								where
-									i_no = (select
-												i_no
-											from
-												stock
-											where
-												st_no = (select
-																st_no
-															from
-																share_ingredient
-															where
-																si_no = sir.si_no))))	"IO_NAME"
-			, (select
-					i_name
-				from
-					ingredient
-				where
-					i_no = (select
-									i_no
-								from
-									stock
-								where
-									st_no = (select
-													st_no
-												from
-													share_ingredient
-												where
-													si_no = sir.si_no)))	"I_NAME"
-			, (select
-					si_quantity
-				from
-					share_ingredient
-				where
-					sir.si_no = si_no)	"SI_QUANTITY"
-			, decode((select
-							sr_state
-						from
-							share_ingredient
-						where
-							sir.si_no = si_no), 'i', '입고', 'o', '출고')	"SR_STATE"
-			, to_char((select
-							reg_date
-						from
-							share_ingredient
-						where
-							sir.si_no = si_no), 'yyyy-mm-dd(dy) hh:mi')	"REG_DATE"
-			, to_char((select
-							max(reg_date)
-						from
-							share_ingredient_record
-						where
-							sir.si_no = si_no
-							and sir.s_no = s_no), 'yyyy-mm-dd(dy) hh:mi')	"R_REG_DATE"
-		from
-			share_ingredient_record sir
-		where
-			sir.sir_state = 'r'
-			and sir.is_del = 'F'
-			and sir.s_no = (select
-								s_no
-							from
-								store
-							where
-								s_id = #{s_id})
+            qq.quarter||'분기' "LABEL",
+            nvl(ss.data||'','0') "DATA" 
+        from
+        (
+         select 
+            q.quarter "LABEL", 
+            sum(sr.si_quantity) "DATA"
+        from 
+            share_chart sr,
+            (
+            select '1' "QUARTER" from dual
+            union select '2' from dual
+            union select '3' from dual
+            union select '4' from dual
+            )  q                 
+        where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY') 
+        and sr.sr_state='i'
+        and sr.s_no=(select s_no from store where s_id=#{s_id})
+        group by q.quarter                                    
+        ) ss
+        ,
+        (
+        select '1' "QUARTER" from dual
+        union select '2' from dual
+        union select '3' from dual
+        union select '4' from dual
+        )  qq       
+        where ss.label(+)=qq.quarter               
+        order by 1   
+	</select>
+	
+	<select id="getAllQuarterShareOutputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+	    select
+            qq.quarter||'분기' "LABEL",
+            nvl(ss.data||'','0') "DATA" 
+        from
+        (
+         select 
+            q.quarter "LABEL", 
+            sum(sr.si_quantity) "DATA"
+        from 
+            share_chart sr,
+            (
+            select '1' "QUARTER" from dual
+            union select '2' from dual
+            union select '3' from dual
+            union select '4' from dual
+            )  q                 
+        where q.quarter=to_char(sr.reg_date(+),'Q') and to_char(sr.reg_date(+),'YYYY')=to_char(sysdate,'YYYY') 
+        and sr.sr_state='o'
+        and sr.s_no=(select s_no from store where s_id=#{s_id})
+        group by q.quarter                                    
+        ) ss
+        ,
+        (
+        select '1' "QUARTER" from dual
+        union select '2' from dual
+        union select '3' from dual
+        union select '4' from dual
+        )  qq       
+        where ss.label(+)=qq.quarter               
+        order by 1    
+	</select>
+	
+	<select id="getQuarterShareInputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+	   	select 
+            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+        from
+        (
+          select
+              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+          from
+          (
+             select
+                 q.quarter||'분기' "DATASET", si.i_name "LABEL"
+              from
+              share_chart si 
+              ,(
+                select '1' "QUARTER" from dual
+                union select '2' from dual
+                union select '3' from dual
+                union select '4' from dual
+              ) q 
+              where si.s_no=(select s_no from store where s_id=#{s_id})  
+              and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+          ) sss
+          ,
+          share_chart si 
+         where                        
+             sss.label=si.i_name(+)  
+             and si.sr_state='i'
+             and sss.dataset=to_char(si.reg_date(+),'Q')||'분기' 
+             and sss.dataset=${quarter}||'분기'
+            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+         group by sss.label, sss.dataset    
+         having nvl(sum(si.si_quantity),0)>=0   
+         order by 3 desc
+        ) ssss             
+        where rownum<=${chart_cnt}
+        ]]>
+	</select>
+	
+	<select id="getQuarterShareOutputData" parameterType="system.ida.dto.ChartSearchDTO" resultType="hashmap">
+		<![CDATA[ 
+		select 
+            rownum "RNUM", ssss.dataset "DATASET", ssss.label "LABEL", nvl(ssss.data||'','0') "DATA" 
+        from
+        (
+          select
+              sss.dataset "DATASET", sss.label "LABEL", nvl(sum(si.si_quantity),0) "DATA"
+          from
+          (
+             select
+                 q.quarter||'분기' "DATASET", si.i_name "LABEL"
+              from
+              share_chart si 
+              ,(
+                select '1' "QUARTER" from dual
+                union select '2' from dual
+                union select '3' from dual
+                union select '4' from dual
+              ) q 
+              where si.s_no=(select s_no from store where s_id=#{s_id})  
+              and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+          ) sss
+          ,
+          share_chart si 
+         where                        
+             sss.label=si.i_name(+)  
+             and si.sr_state='o'
+             and sss.dataset=to_char(si.reg_date(+),'Q')||'분기' 
+             and sss.dataset=${quarter}||'분기'
+            and to_char(si.reg_date,'YYYY')=to_char(sysdate,'YYYY')-1
+         group by sss.label, sss.dataset    
+         having nvl(sum(si.si_quantity),0)>=0   
+         order by 3 desc
+        ) ssss             
+        where rownum<=${chart_cnt}
+        ]]>
+	</select>
+	    
+	<select id="getShareAnlList" parameterType="system.ida.dto.ChartSearchDTO" resultType="system.ida.dto.ShareDTO">
+		select 
+            si.s_no "S_NO",
+            ia.ia_name "IA_NAME", 
+            ib.ib_name "IB_NAME",
+            io.io_name "IO_NAME",
+            si.i_name "I_NAME",       
+            si.si_quantity "SI_QUANTITY",
+            TO_CHAR(si.reg_date, 'yyyy-mm-dd(dy) hh:mi') "REG_DATE",  
+            DECODE(si.sr_state, 'i','입고','o','출고') "SR_STATE"
+        from share_chart si, ingredient i, code_ingredient_alpha ia, code_ingredient_beta ib, code_ingredient_origin io
+        where i.i_name=si.i_name and ia.ia_code=i.ia_code 
+        and ib.ib_code=i.ib_code and io.io_code=i.io_code 
+        and i.s_no=si.s_no and si.s_no=(select s_no from store s where s.s_id=#{s_id})
 	</select>
 </mapper>
