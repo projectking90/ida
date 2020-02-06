@@ -169,12 +169,12 @@ public class StockServiceImpl implements StockService {
 
 	/**
 	 * 차트 재고 테이블 목록 가져옴
-	 * @param stock_searchDTO : 재고 검색 DTO
+	 * @param chart_searchDTO : 차트 검색 DTO
 	 * @return stock_anl_list : 재고 목록
 	 */
 	@Override
-	public List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO) {
-		List<StockDTO> stock_anl_list = this.stockDAO.getStockAnlList(stock_searchDTO);
+	public List<StockDTO> getStockAnlList(ChartSearchDTO chart_searchDTO) {
+		List<StockDTO> stock_anl_list = this.stockDAO.getStockAnlList(chart_searchDTO);
 		
 		return stock_anl_list;
 	}
@@ -217,11 +217,12 @@ public class StockServiceImpl implements StockService {
 
 	/**
 	 * 모든 분기 재고 차트 데이터 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
 	 * @return all_quarter_stock_chart : 모든 분기 재고 차트 데이터
 	 */
 	@Override
-	public List<Map<String, String>> getAllQuarterStockData() {
-		List<Map<String,String>> all_quarter_stock_chart = this.stockDAO.getAllQuarterStockData();
+	public List<Map<String, String>> getAllQuarterStockData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_stock_chart = this.stockDAO.getAllQuarterStockData(null);
 		
 		return all_quarter_stock_chart;
 	}

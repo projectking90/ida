@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>재고관리</title>
+		<title>공유관리</title>
 	</head>
 	<body id="page-top">
 		<div class="window"></div>
@@ -155,11 +155,11 @@
 										<th>상태
 										<th>
 											<select name="sr_state" class="sr_state">
-													<option value='i'>입고
+													<option value='i'>입고희망
 													<option value='o'>출고
 											</select>
 									<tr>
-										<th> 조건 
+										<th> 조건
 										<th><textarea style='width:100%;  height:80%; resize:none;' name='deal'></textarea>
 								</table>
 							</div>

@@ -223,6 +223,17 @@
 			code_menu_beta
 	</select>
 	
+	<!-- 식자재 목록을 가져올 select 태그 -->
+	<select id='getIngredientList' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
+		select
+			i_name	"i_name"
+		from
+			ingredient
+		where
+			is_del = 'F'
+			and s_no=(select s_no from store where s_id=#{s_id})
+	</select>
+	
 	<!-- 식자재 대분류 첫번째 식자재들을 가져오는 select 태그 -->
 	<select id='getIngredientList1' parameterType="system.ida.dto.Code_ingredientDTO" resultType="system.ida.dto.IngredientDTO">
 		select

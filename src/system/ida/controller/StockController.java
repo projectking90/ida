@@ -229,21 +229,21 @@ public class StockController {
 	/**
 	 * 재고 분석 - 표 화면을 보여줄 jsp와 가게에 등록된 재고를 검색 조건에 따라 보여주는 메소드
 	 * 가상주소 /stock_analysis_form.ida로 접근하면 호출
-	 * @param stock_searchDTO : 재고 검색 DTO
+	 * @param chart_searchDTO : 차트 검색 DTO
 	 * @param session : HttpSession 객체
 	 * @return mav : /stock_analysis_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 재고 리스트
 	 */
 	@RequestMapping(value="/stock_analysis_form.ida")
 	public ModelAndView goStockAnalysisForm(
-			StockSearchDTO stock_searchDTO
+			ChartSearchDTO chart_searchDTO
 			, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		 
 		try {
 			String s_id =(String)session.getAttribute("s_id");
-			stock_searchDTO.setS_id(s_id);
+			chart_searchDTO.setS_id(s_id);
 			
-			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(stock_searchDTO);
+			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(chart_searchDTO);
 			mav.addObject("stock_anl_list",stock_anl_list);
 			
 			mav.setViewName(path + "stock_analysis_form");
@@ -259,21 +259,21 @@ public class StockController {
 	/**
 	 * 재고 분석 - 차트화면을 보여줄 jsp와 가게에 등록된 재고를 검색 조건에 따라 차트로 보여주는 메소드
 	 * 가상주소 /stock_analysis_chart_form.ida로 접근하면 호출
-	 * @param stock_searchDTO : 재고 검색 DTO
+	 * @param chart_searchDTO : 재고 검색 DTO
 	 * @param session : HttpSession 객체
 	 * @return mav : /stock_analysis_chart_form.ida에 맵핑되는 jsp 파일과 검색 조건에 맞는 가게 재고 차트
 	 */
 	@RequestMapping(value="/stock_analysis_chart_form.ida")
 	public ModelAndView goStockAnalysisChartForm(
-			StockSearchDTO stock_searchDTO
+			ChartSearchDTO chart_searchDTO
 			, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
 		try {
 			String s_id =(String)session.getAttribute("s_id");
-			stock_searchDTO.setS_id(s_id);
+			chart_searchDTO.setS_id(s_id);
 			
-			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(stock_searchDTO);
+			List<StockDTO> stock_anl_list = this.stockService.getStockAnlList(chart_searchDTO);
 			mav.addObject("stock_anl_list",stock_anl_list);
 			
 			mav.setViewName(path + "stock_analysis_chart_form");
@@ -361,7 +361,7 @@ public class StockController {
 				chart_searchDTO.setQuarter(quarter);
 				
 				// Pie Chart
-				List<Map<String, String>> all_quarter_stock_chart = this.stockService.getAllQuarterStockData();
+				List<Map<String, String>> all_quarter_stock_chart = this.stockService.getAllQuarterStockData(chart_searchDTO);
 				
 				for(int i=0; i<all_quarter_stock_chart.size(); i++) {
 					label.add(all_quarter_stock_chart.get(i).get("LABEL"));

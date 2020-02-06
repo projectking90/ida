@@ -2,7 +2,7 @@
 * Titlebar Setting
 */
 function titleBars(cr, id){
-	$(".navbar").prepend('<a class="navbar-brand mr-1" href="'+ cr +'/user_main_form.ida"><i class="fas fa-chart-bar"></i> IDA</a>');
+	$(".navbar").prepend('<a class="navbar-brand mr-1" href="'+ cr +'/user_main_form.ida"><i class="fas fa-chart-area"></i> IDA</a>');
 	$(".navbar").append('<ol class="navbar-brand mr-1 breadcrumb"></ol>');
 	$(".navbar").append('<ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0"></ul>');
 	

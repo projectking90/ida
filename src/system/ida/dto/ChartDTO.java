@@ -17,9 +17,14 @@ public class ChartDTO {
 	 */
 	private List<String> label;	// 라벨1
 	private List<String> label2;	// 라벨2
+	private List<String> label3;	// 라벨3
+	private List<String> label4;	// 라벨4
 	private List<String> data1;	// 데이터1
 	private List<String> data2;	// 데이터2
+	private List<String> data3;	// 데이터3
+	private List<String> data4;	// 데이터4
 	private List<String> dataset;	// 데이터 세트
+	private List<String> dataset2;	// 데이터 세트2
 
 	/**
 	 * 접근자, 설정자 선언
@@ -53,6 +58,34 @@ public class ChartDTO {
 		this.label2 = label2;
 	}
 	/**
+	 * label3 접근자
+	 * @return label3 : 라벨3
+	 */
+	public List<String> getLabel3() {
+		return label3;
+	}
+	/**
+	 * label3 설정자
+	 * @param label3 : 라벨3
+	 */
+	public void setLabel3(List<String> label3) {
+		this.label3 = label3;
+	}
+	/**
+	 * label4 접근자
+	 * @return label4 : 라벨4
+	 */
+	public List<String> getLabel4() {
+		return label4;
+	}
+	/**
+	 * label4 설정자
+	 * @param label4 : 라벨4
+	 */
+	public void setLabel4(List<String> label4) {
+		this.label4 = label4;
+	}
+	/**
 	 * data1 접근자
 	 * @return data1 : 데이터1
 	 */
@@ -81,6 +114,34 @@ public class ChartDTO {
 		this.data2 = data2;
 	}
 	/**
+	 * data3 접근자
+	 * @return data3 : 데이터3
+	 */
+	public List<String> getData3() {
+		return data3;
+	}
+	/**
+	 * data3 설정자
+	 * @param data3 : 데이터3
+	 */
+	public void setData3(List<String> data3) {
+		this.data3 = data3;
+	}
+	/**
+	 * data4 접근자
+	 * @return data4 : 데이터4
+	 */
+	public List<String> getData4() {
+		return data4;
+	}
+	/**
+	 * data4 설정자
+	 * @param data4 : 데이터4
+	 */
+	public void setData4(List<String> data4) {
+		this.data4 = data4;
+	}
+	/**
 	 * dataset 접근자
 	 * @return dataset : 데이터 세트
 	 */
@@ -93,5 +154,19 @@ public class ChartDTO {
 	 */
 	public void setDataset(List<String> dataset) {
 		this.dataset = dataset;
+	}
+	/**
+	 * dataset2 접근자
+	 * @return dataset2 : 데이터 세트2
+	 */
+	public List<String> getDataset2() {
+		return dataset2;
+	}
+	/**
+	 * dataset2 설정자
+	 * @param dataset2 : 데이터 세트2
+	 */
+	public void setDataset2(List<String> dataset2) {
+		this.dataset2 = dataset2;
 	}
 }

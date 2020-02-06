@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>공유관리</title>
+		<title>공유 요청 수정</title>
 	</head>
 	<body id="page-top">
 		<div class="window"></div>

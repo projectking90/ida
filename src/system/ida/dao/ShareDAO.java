@@ -1,7 +1,9 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.ShareDTO;
 import system.ida.dto.ShareSearchDTO;
 import system.ida.dto.StockDTO;
@@ -45,4 +47,15 @@ public interface ShareDAO {
 	int shareDeletedCount(ShareDTO shareDTO);	// 삭제된 공유 재고 개수 가져옴
 	List<ShareDTO> getMyShareApproveList(ShareSearchDTO share_searchDTO);	// 내 매장 공유 재고 승인 현황 목록을 가져옴
 	List<ShareDTO> getDifferentShareApproveList(ShareSearchDTO share_searchDTO);	// 타 매장 공유 재고 승인 현황 목록을 가져옴
+	List<Map<String, String>> getWeekShareInputData(ChartSearchDTO chart_searchDTO);	// 주별 입고 차트 데이터를 가져옴
+	List<Map<String, String>> getWeekShareOutputData(ChartSearchDTO chart_searchDTO);	// 주별 출고 차트 데이터를 가져옴
+	List<Map<String, String>> getMonthShareInputData(ChartSearchDTO chart_searchDTO);	// 월별 입고 차트 데이터를 가져옴
+	List<Map<String, String>> getMonthShareOutputData(ChartSearchDTO chart_searchDTO);	// 월별 출고 차트 데이터를 가져옴
+	List<Map<String, String>> getTimeShareInputData(ChartSearchDTO chart_searchDTO);	// 시간별 입고 차트 데이터를 가져옴
+	List<Map<String, String>> getTimeShareOutputData(ChartSearchDTO chart_searchDTO);	// 시간별 입고 차트 데이터를 가져옴
+	List<Map<String, String>> getAllQuarterShareInputData(ChartSearchDTO chart_searchDTO);	// 모든 분기 입고 차트 데이터를 가져옴
+	List<Map<String, String>> getAllQuarterShareOutputData(ChartSearchDTO chart_searchDTO);	// 모든 분기 출고 차트 데이터를 가져옴
+	List<Map<String, String>> getQuarterShareInputData(ChartSearchDTO chart_searchDTO);	// 분기별 입고 차트 데이터를 가져옴
+	List<Map<String, String>> getQuarterShareOutputData(ChartSearchDTO chart_searchDTO);	// 분기별 출고 차트 데이터를 가져옴
+	List<ShareDTO> getShareAnlList(ChartSearchDTO chart_searchDTO);	// 차트 공유 테이블 목록 가져옴
 }

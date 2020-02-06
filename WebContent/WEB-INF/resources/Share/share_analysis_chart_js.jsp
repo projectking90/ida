@@ -13,6 +13,32 @@
 <script>
 	$(document).ready(function(){
 		$("body").attr("background", ingredient_bg_img);
+		
+		$(".month").hide();
+		$(".year").hide();
+		
+		getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("[name=month]").val(), $("[name=year]").val(), $("[name=quarter]").val());
+		
+		$("[name=chart_search]").change(function(){
+			getChartData("${cr}", $(this).val(), $("[name=week]").val(), $("[name=month]").val(), $("[name=year]").val(),  $("[name=quarter]").val());
+		});
+		
+		$("[name=week]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $(this).val(), $("[name=month]").val(), $("[name=year]").val(),  $("[name=quarter]").val());
+		});
+		
+		$("[name=month]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(),  $(this).val(), $("select[name=year]").val(),  $("[name=quarter]").val());
+		});
+		
+		$("[name=year]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("select[name=month]").val(), $(this).val(),  $("[name=quarter]").val());
+		});
+		
+		$("[name=quarter]").change(function(){
+			getChartData("${cr}", $("[name=chart_search]").val(), $("[name=week]").val(), $("[name=month]").val(),  $("[name=year]").val(), $(this).val());
+		});
+		
 		$(".sh_table").click(function(){
 			location.replace("${cr}/share_analysis_form.ida");
 		});

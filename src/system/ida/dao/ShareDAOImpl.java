@@ -5,11 +5,13 @@
 package system.ida.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import system.ida.dto.ChartSearchDTO;
 import system.ida.dto.ShareDTO;
 import system.ida.dto.ShareSearchDTO;
 import system.ida.dto.StockDTO;
@@ -378,5 +380,159 @@ public class ShareDAOImpl implements ShareDAO {
 				, share_searchDTO);
 		
 		return different_share_approve_list;
+	}
+
+	/**
+	 * 주별 입고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return week_stock_input_chart : 주별 입고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getWeekShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_stock_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekShareInputData"
+				, chart_searchDTO);
+
+		return week_stock_input_chart;
+	}
+
+	/**
+	 * 주별 출고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return week_stock_output_chart : 주별 출고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getWeekShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> week_stock_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getWeekShareOutputData"
+				, chart_searchDTO);
+
+		return week_stock_output_chart;
+	}
+
+	/**
+	 * 월별 입고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return month_stock_input_chart : 월별 입고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getMonthShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_stock_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthShareInputData"
+				, chart_searchDTO);
+
+		return month_stock_input_chart;
+	}
+
+	/**
+	 * 월별 출고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return month_stock_output_chart : 월별 출고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getMonthShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> month_stock_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getMonthShareOutputData"
+				, chart_searchDTO);
+
+		return month_stock_output_chart;
+	}
+
+	/**
+	 * 시간별 입고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return time_stock_input_chart : 시간별 입고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getTimeShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_stock_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getTimeShareInputData"
+				, chart_searchDTO);
+
+		return time_stock_input_chart;
+	}
+
+	/**
+	 * 시간별 입고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return time_stock_output_chart : 시간별 입고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getTimeShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> time_stock_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getTimeShareOutputData"
+				, chart_searchDTO);
+
+		return time_stock_output_chart;
+	}
+
+	/**
+	 * 모든 분기 입고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return all_quarter_share_input_chart : 모든 분기 입고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getAllQuarterShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_share_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAllQuarterShareInputData"
+				, chart_searchDTO);
+
+		return all_quarter_share_input_chart;
+	}
+
+	/**
+	 * 모든 분기 출고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return all_quarter_share_output_chart : 모든 분기 출고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getAllQuarterShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> all_quarter_share_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getAllQuarterShareOutputData"
+				, chart_searchDTO);
+
+		return all_quarter_share_output_chart;
+	}
+
+	/**
+	 * 분기별 입고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return quarter_share_input_chart
+	 */
+	@Override
+	public List<Map<String, String>> getQuarterShareInputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_share_input_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterShareInputData"
+				, chart_searchDTO);
+
+		return quarter_share_input_chart;
+	}
+
+	/**
+	 * 분기별 출고 차트 데이터를 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return quarter_share_output_chart : 분기별 출고 차트 데이터
+	 */
+	@Override
+	public List<Map<String, String>> getQuarterShareOutputData(ChartSearchDTO chart_searchDTO) {
+		List<Map<String,String>> quarter_share_output_chart = this.sqlSession.selectList(
+				sqlSessionPath + "getQuarterShareOutputData"
+				, chart_searchDTO);
+
+		return quarter_share_output_chart;
+	}
+
+	/**
+	 * 차트 공유 테이블 목록 가져옴
+	 * @param chart_searchDTO : 차트 검색 DTO
+	 * @return share_anl_list : 차트 공유 테이블 목록
+	 */
+	@Override
+	public List<ShareDTO> getShareAnlList(ChartSearchDTO chart_searchDTO) {
+		List<ShareDTO> share_anl_list= this.sqlSession.selectList(
+				sqlSessionPath + "getShareAnlList"
+				, chart_searchDTO);
+		
+		return share_anl_list;
 	}
 }

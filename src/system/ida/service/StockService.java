@@ -27,11 +27,11 @@ public interface StockService {
 	int insertStock(StockDTO stockDTO);	// 재고 추가 처리함
 	int updateStock(StockDTO stockDTO);	// 재고 수정 처리함
 	int deleteStock(ArrayList<String> stock_delete);	// 재고 삭제 처리함
-	List<StockDTO> getStockAnlList(StockSearchDTO stock_searchDTO);	// 차트 재고 테이블 목록 가져옴
+	List<StockDTO> getStockAnlList(ChartSearchDTO chart_searchDTO);	// 차트 재고 테이블 목록 가져옴
 	List<Map<String, String>> getWeekStockData(ChartSearchDTO chart_searchDTO);	// 주별 재고 차트 데이터 가져옴
 	List<Map<String, String>> getMonthStockData(ChartSearchDTO chart_searchDTO);	// 월별 재고 차트 데이터 가져옴
 	List<Map<String, String>> getTimeStockData(ChartSearchDTO chart_searchDTO);	// 시간별 재고 차트 데이터 가져옴
-	List<Map<String, String>> getAllQuarterStockData();	// 모든 분기 재고 차트 데이터 가져옴
+	List<Map<String, String>> getAllQuarterStockData(ChartSearchDTO chart_searchDTO);	// 모든 분기 재고 차트 데이터 가져옴
 	List<Map<String, String>> getQuarterStockData(ChartSearchDTO chart_searchDTO);	// 분기별 재고 차트 데이터 가져옴
 	StockDTO getStockDTO(int st_no);	// 재고 정보 가져옴
 }

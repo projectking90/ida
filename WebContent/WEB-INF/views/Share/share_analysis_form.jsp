@@ -43,9 +43,7 @@
 							<input type="checkbox" value="주"><b>주</b>&nbsp;
 							<input type="checkbox" value="월"><b>월</b>&nbsp;
 							<input type="checkbox" value="시간"><b>시간</b>&nbsp;
-							<input type="checkbox" value="분기"><b>분기</b>&nbsp;
-							<input type="checkbox" value="성별"><b>성별</b>&nbsp;
-							<input type="checkbox" value="나이대"><b>나이대</b>
+							<input type="checkbox" value="분기"><b>분기</b>
 						</div>
 						
 						<div class="card-body">
@@ -53,19 +51,33 @@
 								<table class="table" id="dataTable">
 									<thead>
 										<tr>
-											<th>주문번호
-											<th>핸드폰
-											<th>주문메뉴
-											<th>성별
-											<th>나이대
-											<th>주문시간
-											<th>픽업시간
+											<td align=center><b>등록번호</b></td>
+											<td align=center><b>대분류</b></td>
+											<td align=center><b>소분류</b></td>
+											<td align=center><b>원산지</b></td>
+											<td align=center><b>식자재명</b></td>
+											<td align=center><b>수량</b></td>
+											<td align=center><b>입/출고 여부</b></td>
+											<td align=center><b>등록일</b></td>
 										</tr>
 									</thead>
 									
 									<tbody>
+										<c:forEach items="${share_anl_list}" var="share_anl_list" varStatus="loopTagStatus">
+											<tr>
+												<td align=center>
+													<input type="hidden" name="si_no" value="${share_anl_list.si_no}">
+													${loopTagStatus.index+1}
+												<td align=center>${share_anl_list.ia_name}
+												<td align=center>${share_anl_list.ib_name}
+												<td align=center>${share_anl_list.io_name}
+												<td align=center>${share_anl_list.i_name}
+												<td align=center>${share_anl_list.si_quantity}
+												<td align=center>${share_anl_list.sr_state}
+												<td align=center>${share_anl_list.reg_date}
+											</tr>
+										</c:forEach>
 									</tbody>
-									
 								</table>
 							</div>
 						</div>
