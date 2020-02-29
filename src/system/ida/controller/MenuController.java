@@ -27,8 +27,8 @@ import system.ida.dto.MenuSearchDTO;
 import system.ida.service.MenuService;
 
 /**
- * MenuController 클래스 
- * 컨트롤러 클래스 
+ * MenuController 클래스
+ * 컨트롤러 클래스 /
  * 메뉴에 관련 가상 경로를 설정
  * @author Jo
  */

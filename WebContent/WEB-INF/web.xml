@@ -75,6 +75,13 @@
 		<url-pattern>/</url-pattern>    <!--[주의] *.do 로 하면 css, js 파일 에 접근할 수 없다. -->
 	</servlet-mapping>
 	
+	<error-page>
+		<error-code>404</error-code>
+		<location>
+			/error404.ida
+		</location>
+	</error-page>
+	
 	<!-- log4j -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>

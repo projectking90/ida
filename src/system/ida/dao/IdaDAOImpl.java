@@ -16,7 +16,8 @@ import system.ida.dto.MenuTrackingDTO;
 
 /**
  * IdaDAOImpl 클래스
- * DAO 클래스, bean 태그로 자동 등록됨
+ * DAO 클래스, bean 태그로 자동 등록됨 / 
+ * 직접 데이터베이스와 연동해 Query를 수행
  * @author Jo
  */
 @Repository

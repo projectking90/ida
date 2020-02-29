@@ -23,7 +23,7 @@ import system.ida.service.ShareService;
 
 /**
  * ShareController 클래스
- * 컨트롤러 클래스
+ * 컨트롤러 클래스 /
  * 공유에 관련 가상 경로를 설정
  * @author Jo
  */

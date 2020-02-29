@@ -29,7 +29,7 @@ import system.ida.service.OrderService;
 
 /**
  * OrderController 클래스
- * 컨트롤러 클래스
+ * 컨트롤러 클래스 /
  * 주문에 관련 가상 경로를 설정
  * @author Jo
  */

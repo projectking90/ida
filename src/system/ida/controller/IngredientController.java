@@ -30,7 +30,7 @@ import system.ida.service.IngredientService;
 
 /**
  * IngredientController 클래스
- * 컨트롤러 클래스
+ * 컨트롤러 클래스 /
  * 식자재에 관련된 가상 경로를 설정
  * @author Jo
  */

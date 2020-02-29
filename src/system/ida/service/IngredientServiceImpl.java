@@ -24,7 +24,8 @@ import system.ida.dto.IngredientSearchDTO;
 
 /**
  * IngredientServiceImpl 클래스
- * 서비스 클래스
+ * 서비스 클래스 / 
+ * 트랜잭션을 걸어 DAO 클래스에 데이터베이스 연동을 요청
  * @author Jo
  */
 @Service

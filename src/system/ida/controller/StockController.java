@@ -27,7 +27,7 @@ import system.ida.service.StockService;
 
 /**
  * StockController 클래스
- * 컨트롤러 클래스
+ * 컨트롤러 클래스 /
  * 재고에 관련 가상 경로를 설정
  * @author Jo
  */

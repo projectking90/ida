@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import system.ida.dto.AddrDTO;
 import system.ida.service.IdaService;
@@ -22,7 +23,7 @@ import system.ida.dto.MenuTrackingDTO;
 
 /**
  * IdaController 클래스
- * 컨트롤러 클래스
+ * 컨트롤러 클래스 /
  * 프로젝트 시작 시 접근 할 경로, 공동으로 접근할 경로를 설정
  * @author Jo
  */
@@ -31,12 +32,28 @@ public class IdaController {
 	/**
 	 * 속성변수 선언
 	 */
+	private final String path = "IDA/";	// jsp 경로
 	@Autowired
 	private IdaService idaService;	// IdaService 인터페이스를 구현받은 객체를 생성해서 저장
 	
 	/**
 	 * 메소드 선언
 	 */
+	@RequestMapping(value="/error404.ida")
+	public ModelAndView errorNotFoundPage() {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+
+			mav.setViewName(path + "error_404");
+		} catch(Exception e) {
+			System.out.println("<errorNotFoundPage 에러발생>");
+			System.out.println(e.getMessage());
+		}
+		
+		return mav;
+	}
+	
 	/**
 	 * 군 목록을 가져올 메소드
 	 * 가상주소 /get_gun.ida로 접근하면 호출
